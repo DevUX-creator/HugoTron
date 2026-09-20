@@ -315,21 +315,40 @@ get independently written English aimed at export buyers — different buying mo
 ## 7a. One trap worth writing down: replacing an image in place
 
 `next/image` requests look like `/_next/image?url=/products/x/front.png&w=1080&q=75`.
-The URL carries the PATH, a width and a quality — and **no content hash**. So when a
-file is replaced at the same path, every cache in front of it keeps serving the old
-bytes: the browser's, the CDN's, and Next's own on-disk cache.
+The URL carries the PATH, a width and a quality — and **no content hash**. Replace the
+file at that path and every cache in front of it keeps serving the old bytes.
 
-This is not theoretical. During the hero build a product's photography was swapped from
-a square crop to a 4:3 one; the page kept rendering the square for that single slide —
-decoded at 613×613 while its neighbours were 708×531 — and it looked for all the world
-like that one image had been exported wrong. Disk and the optimiser were both correct
-the whole time.
+This cost real time during the hero build. A product's photography was swapped from a
+square crop to a 4:3 one, and that one slide kept rendering hugely zoomed while its
+three neighbours were fine.
 
-**When assets change, change the filename** — `front-2.png`, or a content hash in the
-name. If they must keep the same path, bust the cache deliberately and tell everyone
-holding a stale copy to hard-reload. Diagnose it by comparing an `<img>`'s
-`naturalWidth`/`naturalHeight` against the file on disk: if they disagree, it is a
-cache, not the artwork.
+What made it hard to see:
+
+- **The optimiser caches PER WIDTH.** Only `w=640` and `w=1920` were stale. Spot-checking
+  `w=1080` returned a correct 4:3 image and looked like proof that nothing was wrong.
+- **The dev cache is not where you would look.** It is `.next/dev/cache/images`, not
+  `.next/cache/images`. Deleting the latter does nothing.
+- **Clearing it under a running server does nothing either.** The entries come straight
+  back. Stop the server, delete, restart.
+- The file on disk and the PNG's own chunk structure were correct throughout, so every
+  check that looked at the source came back clean.
+
+**The diagnostic that actually works:** read an `<img>`'s `naturalWidth`/`naturalHeight`
+in the page and compare the ASPECT RATIO against the file on disk. Ratios cannot lie —
+a square decode from a 4:3 source is a cache, never the artwork. Then walk every width
+in the `srcset`, not one:
+
+```bash
+for w in 384 640 750 828 1080 1920; do
+  curl -s "http://localhost:3000/_next/image?url=%2Fproducts%2F<slug>%2Ffront.png&w=$w&q=75" -o /tmp/p
+  python3 -c "from PIL import Image; im=Image.open('/tmp/p'); print($w, im.size)"
+done
+```
+
+**The fix, and the rule for the client's team: when an asset changes, change its
+filename** — `front-2.png`, or a content hash. Same path, new bytes is a cache-poisoning
+pattern, and in production the stale copy sits in a CDN where no one can clear it by
+restarting anything.
 
 ## 8. What we hand over
 
