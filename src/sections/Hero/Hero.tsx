@@ -9,19 +9,21 @@ import Reveal from "@/animations/Reveal";
 import "./hero.css";
 
 /**
- * FOUR, CHOSEN FOR RANGE RATHER THAN FOR COUNT.
+ * FOUR, AND ALL FOUR ARE BUYABLE.
  *
- * One per category the homepage actually sells on — the rice flagship, the
- * premium spice, a nut line, and the 25 kg sack that stands for the wholesale
- * side. The full catalogue belongs on /range; a hero that cycles nine asks the
- * visitor to wait through near-duplicates (two 1121 bags, then the same two
- * again at 1 kg) to learn something the fourth slide already told them.
+ * The two 1121 flagships at 5 kg, the premium spice and the tea. Every one has
+ * a price and a cart button behind it, which matters for a hero whose call to
+ * action is "Our Products": the pistachios and the 25 kg chickpeas are
+ * request-only, so leading with them would send a visitor to a page where the
+ * thing they just saw cannot be bought.
+ *
+ * The full catalogue belongs on /range.
  */
 const PRODUCTS = [
   "pardis-1121-basmati-indien",
+  "aladdin-1121-basmati-pakistan",
   "premium-negin-safran",
-  "pistazien-mit-schale",
-  "kichererbsen-25kg",
+  "vahdam-earl-grey",
 ] as const;
 
 /**
