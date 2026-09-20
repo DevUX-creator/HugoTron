@@ -1,4 +1,4 @@
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
 import GrainPattern from "@/components/ui/GrainPattern";
@@ -40,23 +40,17 @@ export default function Hero() {
   const t = useTranslations("hero");
   const tp = useTranslations("products");
   const tu = useTranslations("units");
-  const locale = useLocale();
 
   /* ONE FRONT VIEW PER PRODUCT. A pack photographed against its own ground
      reads at a glance and survives being shrunk into a thumbnail; a lifestyle
      frame does neither, and the same picture has to serve as both the preview
      and the view. Front only — the other angles belong on a product page.
 
-     Names, prices and units are resolved HERE rather than in the slider:
-     message keys are typed against the catalogue and cannot travel as loose
-     strings, and currency formatting needs the active locale. */
-  const money = new Intl.NumberFormat(locale, { style: "currency", currency: "EUR" });
-
+     Labels are resolved HERE rather than in the slider: message keys are
+     typed against the catalogue and cannot travel as loose strings. */
   const slides: Slide[] = HERO_PRODUCTS.map((product) => ({
     src: `/products/${product.slug}/front.png`,
     alt: tp(product.slug),
-    name: tp(product.slug),
-    priceFrom: money.format(product.priceFrom / 100),
     fromUnit: tu(product.fromUnit),
   }));
 

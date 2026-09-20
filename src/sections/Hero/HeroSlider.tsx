@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import AddToCart from "./AddToCart";
+import { useTranslations } from "next-intl";
 import { useScrollWake } from "@/components/providers/SmoothScroll";
 import "./heroSlider.css";
 
@@ -11,9 +11,7 @@ import "./heroSlider.css";
 export type Slide = {
   src: string;
   alt: string;
-  /** Resolved product name, price and unit for the purchase control. */
-  name: string;
-  priceFrom: string;
+  /** The smallest unit this product is sold in, already resolved. */
   fromUnit: string;
 };
 
@@ -52,6 +50,7 @@ export default function HeroSlider({
   playLabel,
   interval = 6000,
 }: HeroSliderProps) {
+  const t = useTranslations("cart");
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(true);
 
@@ -162,16 +161,10 @@ export default function HeroSlider({
         ))}
       </div>
 
-      {/* Keyed on the index so the stepper resets to 1 when the slide turns —
-          a quantity chosen for one product must not carry to the next. */}
-      <div className="hero-slider__buy">
-        <AddToCart
-          key={index}
-          productName={slides[index]!.name}
-          priceFrom={slides[index]!.priceFrom}
-          fromUnit={slides[index]!.fromUnit}
-        />
-      </div>
+      {/* The one thing a visitor needs before the product page: the smallest
+          quantity they can buy. Top-right, clear of the rail below and of the
+          brand plate that overhangs the top-centre. */}
+      <p className="hero-slider__note">{t("soldFrom", { unit: slides[index]!.fromUnit })}</p>
 
       <div className="hero-slider__rail">
         <ul className="hero-slider__thumbs">

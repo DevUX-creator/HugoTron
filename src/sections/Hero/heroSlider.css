@@ -35,27 +35,37 @@
 }
 
 .hero-slider__img {
-  /* CONTAIN. The frame is wider than the source's 4:3, so `cover` had to crop
-     roughly 6% off the top and bottom of every shot — never into the product,
-     but it ate the studio margin the images were composed with and made each
-     pack read tighter than it was photographed. Measured across the four
-     fronts, the products occupy 69% of frame height (the saffron 80%), and
-     that framing is the point of the set.
+  /* COVER, so the frame is filled edge to edge. `contain` left the source's
+     4:3 letterboxed inside a wider frame, and those two vertical seams read as
+     another image showing through at the sides — the studio backdrop is a
+     gradient, so a flat fill beside it never quite matches.
 
-     The side gaps this leaves are filled by the stage's own ground, which is
-     sampled from the artwork. */
-  object-fit: contain;
+     Cover crops about 6% off the top and bottom instead. That is margin, not
+     product: all four fronts now sit at ~69% of frame height (the saffron was
+     re-framed from 80% to match), so there is room to lose. */
+  object-fit: cover;
   /* The image travels inside its own clip, so it must not be the thing that
      gets clipped by the stage as well. */
   will-change: transform;
 }
 
-/* The purchase control, opposite the rail so the two never collide. */
-.hero-slider__buy {
+/* The availability note. Its own surface, because it sits on a photograph
+   whose brightness we do not control. */
+.hero-slider__note {
   position: absolute;
-  inset-block-end: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
-  inset-inline-start: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
+  inset-block-start: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
+  inset-inline-end: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
   z-index: var(--z-base);
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-full);
+  background-color: var(--color-paper-50);
+  color: var(--color-fg-heading);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  line-height: 1.1;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
 }
 
 /* -- The rail ------------------------------------------------------------- */
