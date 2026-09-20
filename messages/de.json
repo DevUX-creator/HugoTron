@@ -1,11 +1,42 @@
 {
   "nav": {
+    "primary": "Hauptnavigation",
+    "home": "Hugo Tron — zur Startseite",
     "range": "Sortiment",
     "wholesale": "Großhandel",
     "privateLabel": "Private Label",
     "about": "Über uns",
     "contact": "Kontakt",
-    "requestQuote": "Angebot anfragen",
+    "openMenu": "Menü öffnen",
+    "search": "Suchen",
+    "account": "Konto",
     "cart": "Warenkorb"
+  },
+  "announcement": {
+    "eyebrow": "Versandkostenfrei ab 29 €",
+    "message": "Lieferung mehrmals pro Woche europaweit — direkt ab Lager Hamburg",
+    "link": "Lieferkonditionen ansehen"
+  },
+  "hero": {
+    "label": "Einstieg",
+    "eyebrow": "Direktimport ab Ursprung",
+    "title": "Lebensmittel aus dem Ursprungsland. Ohne Zwischenhändler.",
+    "lead": "Basmati-Reis, Hülsenfrüchte, Pistazien und Safran — direkt vom Erzeuger nach Hamburg und europaweit an Gastronomie, Handel und Industrie. Vom 1-kg-Beutel bis zur vollen Palette.",
+    "ctaPrimary": "Großhandelspreise anfragen",
+    "ctaSecondary": "Zum Sortiment",
+    "mediaHint": "Lagerbild folgt",
+    "pause": "Bildwechsel pausieren",
+    "slide1": "Basmati-Reis",
+    "slide2": "Hülsenfrüchte im 25-kg-Gebinde",
+    "slide3": "Safran aus dem Iran"
+  },
+  "categories": {
+    "title": "Unser Sortiment",
+    "rice": { "eyebrow": "1 kg bis Palette", "title": "Basmati-Reis" },
+    "pulses": { "eyebrow": "25-kg-Gebinde", "title": "Hülsenfrüchte" },
+    "nuts": { "eyebrow": "10 bis 50 kg", "title": "Nüsse & Kerne" },
+    "spices": { "eyebrow": "1 g bis 1 kg", "title": "Gewürze" },
+    "grains": { "eyebrow": "Verschiedene Körnungen", "title": "Getreide" },
+    "tea": { "eyebrow": "Schwarztee & Aromatees", "title": "Tee" }
   }
 }

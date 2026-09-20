@@ -1,0 +1,78 @@
+/* ===========================================================================
+   Announcement bar
+   ---------------------------------------------------------------------------
+   Inset from the viewport edges, bottom corners rounded. The header's logo
+   plate uses the same radius so the two read as one piece of chrome.
+   =========================================================================== */
+
+.announce {
+  padding-inline: var(--container-padding);
+  background-color: var(--color-bg-base);
+}
+
+.announce__panel {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: var(--gap-block);
+  max-width: var(--max-width-wide);
+  margin-inline: auto;
+  padding: 0.7rem 1.25rem 0.8rem;
+  border-end-start-radius: var(--radius-lg);
+  border-end-end-radius: var(--radius-lg);
+  background-color: var(--color-ink-900);
+  color: var(--color-cream-50);
+  text-decoration: none;
+  transition: background-color var(--duration-base) var(--ease-standard);
+}
+
+.announce__panel:hover,
+.announce__panel:focus-visible {
+  background-color: var(--color-harbor-900);
+}
+
+.announce__eyebrow {
+  grid-column: 1;
+  color: var(--color-saffron-300);
+}
+
+.announce__message {
+  grid-column: 1;
+  font-size: var(--text-body-xs);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-snug);
+}
+
+.announce__chevron {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  inline-size: 1rem;
+  block-size: 1rem;
+  transition: transform var(--duration-base) var(--ease-quint);
+}
+
+.announce__panel:hover .announce__chevron,
+.announce__panel:focus-visible .announce__chevron {
+  transform: translateX(0.2rem);
+}
+
+/* Centred once the message fits on one line — below this it stays left-aligned
+   so a wrapped German line does not read as two ragged centred fragments. */
+@media (width >= 48rem) {
+  .announce__panel {
+    justify-items: center;
+    padding-inline: 3rem;
+    text-align: center;
+  }
+
+  .announce__eyebrow,
+  .announce__message {
+    grid-column: 1;
+  }
+
+  .announce__chevron {
+    position: absolute;
+    inset-inline-end: 1.5rem;
+  }
+}

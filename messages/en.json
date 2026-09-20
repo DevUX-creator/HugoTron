@@ -1,11 +1,42 @@
 {
   "nav": {
+    "primary": "Primary navigation",
+    "home": "Hugo Tron — go to homepage",
     "range": "Range",
     "wholesale": "Wholesale",
     "privateLabel": "Private Label",
     "about": "About",
     "contact": "Contact",
-    "requestQuote": "Request a quote",
+    "openMenu": "Open menu",
+    "search": "Search",
+    "account": "Account",
     "cart": "Cart"
+  },
+  "announcement": {
+    "eyebrow": "Free shipping over €29",
+    "message": "Delivered across Europe several times a week — ex warehouse Hamburg",
+    "link": "See delivery terms"
+  },
+  "hero": {
+    "label": "Introduction",
+    "eyebrow": "Direct from origin",
+    "title": "Food from the country of origin. No middlemen.",
+    "lead": "Basmati rice, pulses, pistachios and saffron — direct from growers to Hamburg, and across Europe to restaurants, retailers and food producers. From a 1 kg bag to a full pallet.",
+    "ctaPrimary": "Request wholesale pricing",
+    "ctaSecondary": "Browse the range",
+    "mediaHint": "Warehouse image to follow",
+    "pause": "Pause slideshow",
+    "slide1": "Basmati rice",
+    "slide2": "Pulses in 25 kg sacks",
+    "slide3": "Saffron from Iran"
+  },
+  "categories": {
+    "title": "Our range",
+    "rice": { "eyebrow": "1 kg to pallet", "title": "Basmati rice" },
+    "pulses": { "eyebrow": "25 kg sacks", "title": "Pulses" },
+    "nuts": { "eyebrow": "10 to 50 kg", "title": "Nuts & kernels" },
+    "spices": { "eyebrow": "1 g to 1 kg", "title": "Spices" },
+    "grains": { "eyebrow": "Various grinds", "title": "Grains" },
+    "tea": { "eyebrow": "Black & flavoured teas", "title": "Tea" }
   }
 }

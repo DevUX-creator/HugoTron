@@ -1,0 +1,176 @@
+/* ===========================================================================
+   Hero
+   ---------------------------------------------------------------------------
+   Media fills the block; copy and slide rail sit over its lower edge sharing
+   one baseline. The header's brand plate overhangs into the top of this
+   section, so nothing may be positioned in the top-centre.
+   =========================================================================== */
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  /* Short of a full viewport on purpose: the row beneath has to be visible at
+     rest, otherwise the page looks like it ends at the fold. `svh` because
+     `vh` is wrong for the whole time a mobile browser's toolbar is showing. */
+  min-block-size: clamp(30rem, 78svh, 48rem);
+  padding-block: var(--gap-section-header);
+  overflow: hidden;
+  color: var(--color-cream-50);
+  isolation: isolate;
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.hero__placeholder {
+  block-size: 100%;
+}
+
+/* Bottom-weighted, because that is where the type is. Stronger on narrow
+   viewports where the copy covers more of the frame. */
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    to top,
+    var(--color-harbor-900) 0%,
+    color-mix(in srgb, var(--color-harbor-900) 72%, transparent) 38%,
+    transparent 78%
+  );
+}
+
+.hero__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-section-header);
+  inline-size: 100%;
+  max-width: var(--max-width-wide);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+/* -- Copy ----------------------------------------------------------------- */
+
+.hero__copy {
+  max-width: 34rem;
+}
+
+.hero__eyebrow {
+  color: var(--color-saffron-300);
+}
+
+.hero__title {
+  margin-block-start: var(--gap-block);
+  color: var(--color-cream-50);
+}
+
+.hero__lead {
+  max-width: 44ch;
+  margin-block-start: var(--gap-block);
+  color: var(--color-harbor-100);
+  font-size: var(--text-body-lg);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-block-start: var(--gap-block);
+
+  /* The secondary button's tint is nearly invisible on a dark photograph, so
+     the hero fills it solid and inverts its ink — see button.css, where every
+     one of these is a token for exactly this case. */
+  --color-btn-alt: var(--color-cream-50);
+  --color-btn-alt-ink: var(--color-harbor-900);
+  --color-btn-alt-fill: var(--color-saffron-400);
+  --color-btn-alt-hover-ink: var(--color-harbor-900);
+}
+
+/* -- Slide rail ----------------------------------------------------------- */
+
+.hero__rail {
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+  /* Scrolls rather than shrinks on narrow viewports: three thumbs squeezed
+     into a phone width stop being recognisable as pictures. */
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.hero__rail::-webkit-scrollbar {
+  display: none;
+}
+
+.hero__thumbs {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.hero__thumb {
+  display: block;
+  inline-size: clamp(4.5rem, 3rem + 6vw, 7rem);
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  background: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    border-color var(--duration-base) var(--ease-standard),
+    opacity var(--duration-base) var(--ease-standard);
+  opacity: 0.65;
+}
+
+.hero__thumb:hover,
+.hero__thumb:focus-visible {
+  opacity: 1;
+}
+
+.hero__thumb[aria-current="true"] {
+  border-color: var(--color-saffron-400);
+  opacity: 1;
+}
+
+.hero__pause {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  inline-size: clamp(2.5rem, 2rem + 2vw, 3.25rem);
+  border: 0;
+  border-radius: var(--radius-md);
+  background-color: var(--color-ink-900);
+  color: var(--color-cream-50);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.hero__pause:hover,
+.hero__pause:focus-visible {
+  background-color: var(--color-harbor-800);
+}
+
+.hero__pause-icon {
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+
+/* From `md` the copy and the rail share a baseline, copy left, rail right. */
+@media (width >= 48rem) {
+  .hero__inner {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .hero__rail {
+    flex-shrink: 0;
+    overflow-x: visible;
+  }
+}

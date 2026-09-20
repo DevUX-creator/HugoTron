@@ -1,31 +1,34 @@
 /**
  * Typefaces.
  *
- * ⚠ NOT CHOSEN YET — Dmitrij owns the design decision. These are working
- * placeholders so the scale is legible while sections are built.
+ * Geist is the main face — body, UI, numerals AND titles. It carries a full
+ * weight range, so hierarchy comes from weight, size and tracking rather than
+ * from a second family.
  *
- * When the real faces land:
- *  · Keep the two-variable split — `--font-display-src` is TITLES ONLY,
- *    `--font-sans-src` carries body, UI and numerals. theme.css reads both
- *    through an indirection so it never imports from the framework.
- *  · If the display face ships one weight, leave `font-synthesis: none` in
- *    globals.css and drive hierarchy from size, tracking and case instead —
- *    otherwise the browser fakes a bold and it looks it.
- *  · A self-hosted face goes in `src/styles/fonts/` and uses `next/font/local`.
+ * The display/sans split is kept in the tokens even though both currently
+ * resolve to Geist: if a distinct display face is introduced later, only
+ * `display` below changes and no CSS moves. theme.css reads both through the
+ * `-src` indirection so it never imports from the framework.
  */
-import { Inter, Source_Serif_4 } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 
-export const sans = Inter({
+export const sans = Geist({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-sans-src",
 });
 
-export const display = Source_Serif_4({
+/* Same family for now — see the note above. */
+export const display = Geist({
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "600"],
   variable: "--font-display-src",
 });
 
-export const fontVariables = `${sans.variable} ${display.variable}`;
+export const mono = Geist_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono-src",
+});
+
+export const fontVariables = `${sans.variable} ${display.variable} ${mono.variable}`;

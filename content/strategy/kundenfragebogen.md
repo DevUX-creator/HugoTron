@@ -179,6 +179,7 @@ Vom Kunden bei seinem Anwalt zu klären — **nicht von uns zu entscheiden**:
       noch in der Sitemap erreichbar. Inhalt prüfen, Muster-Widerrufsformular ergänzen,
       regulär verlinken. _(Reis und Hülsenfrüchte verderben nicht schnell — die Ausnahme
       nach § 312g Abs. 2 BGB greift also nicht.)_
+
 ### Händlerbund — bestätigt über das Badge im Footer
 
 Hugo Tron ist **Mitglied im Händlerbund**. Der Rechtstexte-Service stellt AGB,
@@ -201,8 +202,8 @@ Wir schreiben keine Rechtstexte, und ein Anwalt muss es auch nicht.
       schwaches Vertrauenssignal; das Siegel wäre ein starkes und hätte einen Platz
       im neuen Footer verdient.
 - [ ] 🟡 Wie werden die Texte ausgeliefert — Copy-Paste aus dem Portal oder per
-      Schnittstelle? *(Bestimmt, ob die Rechtsseiten statisch eingepflegt oder
-      automatisch aktualisiert werden.)*
+      Schnittstelle? _(Bestimmt, ob die Rechtsseiten statisch eingepflegt oder
+      automatisch aktualisiert werden.)_
 - [ ] 🔴 **Mängelrüge-Klausel** auf der Lieferseite: gegenüber Kaufleuten über § 377 HGB
       zulässig, gegenüber Verbrauchern nach § 476 BGB nicht. Muss getrennt formuliert werden.
 - [ ] 🔴 **Gesundheitsbezogene Angaben** bei Safran („fördert die Verdauung", „verbessert

@@ -26,18 +26,22 @@
      Regenerate with scripts/palette.py if an anchor changes.
      ------------------------------------------------------------------------- */
 
-  /* Harbor — the brand navy, sampled from the company logo.
-     Headings, dark surfaces, brand marks. ★ = #00294d, the logo's own colour */
-  --color-harbor-50: #f2f5f9;
-  --color-harbor-100: #e2e9f0;
-  --color-harbor-200: #cbd6e1;
-  --color-harbor-300: #adbccd;
-  --color-harbor-400: #8da1b6;
-  --color-harbor-500: #6e86a0;
-  --color-harbor-600: #506c89;
-  --color-harbor-700: #335272;
-  --color-harbor-800: #00294d;
-  --color-harbor-900: #002041;
+  /* Harbor — the brand navy, sampled from the HUGO TRON logo itself.
+     Headings, dark surfaces, brand marks. ★ = #053c74, 89% of the logo's pixels.
+
+     CORRECTION: this was first anchored on #00294d, taken from the wrong image
+     in the scrape — that file is `hbLogo.png`, the Händlerbund membership badge
+     in the footer, not the company mark. Re-anchored on the real logo. */
+  --color-harbor-50: #f1f6fc;
+  --color-harbor-100: #e0e9f4;
+  --color-harbor-200: #c7d6e9;
+  --color-harbor-300: #a7bdd7;
+  --color-harbor-400: #85a1c3;
+  --color-harbor-500: #6486af;
+  --color-harbor-600: #446b9a;
+  --color-harbor-700: #245185;
+  --color-harbor-800: #053c74;
+  --color-harbor-900: #001d4b;
 
   /* Saffron — the accent, taken from the product that carries the best
      margin in the range. Highlights, primary buttons, active states */
@@ -137,14 +141,18 @@
      next/font (src/styles/fonts.ts) so this file never imports from the
      framework.
 
-     ⚠ THE FACES ARE NOT CHOSEN YET — the fallbacks below are placeholders.
-     Set them in src/styles/fonts.ts. If the display face ships a single
-     weight, keep `font-synthesis: none` and drive hierarchy from size,
-     tracking and case instead.
+     Geist is the main face and currently fills BOTH slots — it has a full
+     weight range, so hierarchy comes from weight, size and tracking rather
+     than from a second family. The split is kept so a distinct display face
+     can be introduced later without moving any CSS.
+
+     `font-synthesis: none` stays on in globals.css: Geist ships real weights,
+     and forbidding synthesis means a missing one fails visibly instead of
+     rendering as a fake bold nobody notices.
      ------------------------------------------------------------------------- */
-  --font-display: var(--font-display-src, Georgia), serif;
+  --font-display: var(--font-display-src, -apple-system), sans-serif;
   --font-sans: var(--font-sans-src, -apple-system), sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-mono: var(--font-mono-src, ui-monospace), monospace;
 
   /* Fluid scale. German compounds run long — "Lebensmittelgroßhandel",
      "Zahlungsmodalitäten" — so the minimums are set low enough that the
