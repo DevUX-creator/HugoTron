@@ -114,9 +114,18 @@ Für Verbraucher fehlen damit passende AGB.
 > **Korrektur (im Checkout geprüft, 2026-09-20):** Eine **Widerrufsbelehrung existiert** —
 > sie ist im Wix-Checkout verlinkt, aber weder im Footer noch in der Sitemap, weshalb sie
 > beim ersten Abzug nicht auftauchte. Im Footer steht zudem das Logo
-> **„Mitglied im Händlerbund"** — der Kunde bezieht seine Rechtstexte also vermutlich von
-> einem Dienstleister. Vor dem Relaunch klären, welche Texte von dort stammen und
-> aktualisiert werden müssen, statt sie neu schreiben zu lassen.
+> **„Mitglied im Händlerbund"** (Badge: `public/badges/haendlerbund.png`). Der
+> Rechtstexte-Service des Händlerbunds liefert AGB, Widerrufsbelehrung, Datenschutz
+> und Impressum, hält sie aktuell und übernimmt die Haftung dafür.
+>
+> Das ändert die Einschätzung zu diesem ganzen Abschnitt: Die fehlenden
+> Verbraucher-AGB sind mit hoher Wahrscheinlichkeit eine **Konfigurationslücke im
+> Händlerbund-Konto** (Shop ist dort als B2B konfiguriert), kein fehlender Rechtsrat.
+> Lösung ist eine Nachkonfiguration im Portal, nicht ein Anwaltsmandat.
+>
+> Ebenso wichtig für den Relaunch: Der Händlerbund liefert die Texte **auch auf
+> Englisch**. Da die englische Version gezielt Kunden im Ausland adressiert, sind
+> englische Rechtstexte dort Pflicht — und dürfen keinesfalls von uns übersetzt werden.
 
 **f) Stellenausschreibung "Buchhalterinnen"** ohne (m/w/d) — AGG-Risiko nach § 11 AGG.
 

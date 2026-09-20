@@ -179,9 +179,30 @@ Vom Kunden bei seinem Anwalt zu klären — **nicht von uns zu entscheiden**:
       noch in der Sitemap erreichbar. Inhalt prüfen, Muster-Widerrufsformular ergänzen,
       regulär verlinken. _(Reis und Hülsenfrüchte verderben nicht schnell — die Ausnahme
       nach § 312g Abs. 2 BGB greift also nicht.)_
-- [ ] 🔴 **Im Footer steht „Mitglied im Händlerbund".** Stammen AGB, Widerrufsbelehrung und
-      Datenschutzerklärung von dort? Falls ja: Beim Relaunch dort aktualisierte Texte
-      anfordern, statt neu schreiben zu lassen — das spart Geld und Haftungsrisiko.
+### Händlerbund — bestätigt über das Badge im Footer
+
+Hugo Tron ist **Mitglied im Händlerbund**. Der Rechtstexte-Service stellt AGB,
+Widerrufsbelehrung, Datenschutzerklärung und Impressum bereit, hält sie bei
+Gesetzesänderungen aktuell und **übernimmt die Haftung** dafür. Daraus folgt:
+Wir schreiben keine Rechtstexte, und ein Anwalt muss es auch nicht.
+
+- [ ] 🔴 **Läuft der Rechtstexte-Service aktiv?** Zugang zum Händlerbund-Portal?
+- [ ] 🔴 **B2C-Texte im Portal nachkonfigurieren.** Die aktuellen AGB sind
+      „für Geschäftskunden" — vermutlich eine Konfigurationslücke im Händlerbund-Konto,
+      nicht ein fehlender Service. Shop als B2C-fähig konfigurieren, dann liefert
+      der Dienst Verbraucher-AGB und Widerrufsbelehrung automatisch mit.
+- [ ] 🔴 **Englische Rechtstexte dort bestellen.** Der Händlerbund liefert AGB,
+      Widerrufsbelehrung, Datenschutz und Impressum auf Englisch.
+      **Das ist Pflicht, nicht Kür:** Wer sich gezielt an Kunden im Ausland richtet —
+      und genau dafür bauen wir die englische Version — muss diese Texte in der
+      jeweiligen Sprache bereitstellen. Eigene Übersetzungen sind keine Option.
+      → Vorlaufzeit beim Kunden, deshalb **früh anstoßen**.
+- [ ] 🟡 Gibt es zusätzlich das **Käufersiegel**? Das plain Mitglieds-Badge ist ein
+      schwaches Vertrauenssignal; das Siegel wäre ein starkes und hätte einen Platz
+      im neuen Footer verdient.
+- [ ] 🟡 Wie werden die Texte ausgeliefert — Copy-Paste aus dem Portal oder per
+      Schnittstelle? *(Bestimmt, ob die Rechtsseiten statisch eingepflegt oder
+      automatisch aktualisiert werden.)*
 - [ ] 🔴 **Mängelrüge-Klausel** auf der Lieferseite: gegenüber Kaufleuten über § 377 HGB
       zulässig, gegenüber Verbrauchern nach § 476 BGB nicht. Muss getrennt formuliert werden.
 - [ ] 🔴 **Gesundheitsbezogene Angaben** bei Safran („fördert die Verdauung", „verbessert
