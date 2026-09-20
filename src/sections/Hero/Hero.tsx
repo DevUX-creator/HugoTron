@@ -45,10 +45,7 @@ export default function Hero() {
           </Copy>
 
           <Reveal eager delay={0.3} className="hero__actions">
-            <Button href="/enquiry">{t("ctaPrimary")}</Button>
-            <Button href="/range" variant="outline">
-              {t("ctaSecondary")}
-            </Button>
+            <Button href="/range">{t("cta")}</Button>
           </Reveal>
         </div>
       </div>
