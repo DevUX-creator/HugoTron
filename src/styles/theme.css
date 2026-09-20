@@ -18,105 +18,99 @@
   /* -------------------------------------------------------------------------
      COLOUR
      Five ramps generated in OKLCH at fixed perceptual lightness steps, each
-     with an EXPLICIT chroma profile rather than a curve — a muted palette needs
-     the saturation shaped by hand, and a formula gave us a candy-bright accent
-     and a heavy saturated panel.
+     with an explicit chroma profile.
 
-     The character is deliberately low-chroma, warm and earthy, benchmarked
-     against public/reference/brigade-desktop.png: its ground sits at C=0.012,
-     its big dark panel at C=0.022, and only its one accent goes loud.
+     The register is BRIGHT and high-contrast, benchmarked against
+     public/reference/colour-birkenstock.png (big saturated brand-blue panels
+     on white) and colour-flashy-green.png (an acid accent doing all the
+     shouting). An earlier muted, earthy version of this file was rejected as
+     too quiet.
 
      Regenerate with `python3 scripts/palette.py` if an anchor changes.
      ------------------------------------------------------------------------- */
 
-  /* Harbor — the brand navy, sampled from the HUGO TRON logo (89% of its
-     pixels). ★ = #053c74, pinned verbatim so the plate matches the artwork.
+  /* Harbor — the brand blue, sampled from the HUGO TRON logo.
+     ★ = #053c74, pinned verbatim so the plate matches the artwork.
 
-     Chroma PEAKS at the pinned step and drops hard at 900. That break is
-     deliberate: 900 is the big-surface step — the hero panel, inverse
-     sections — and a whole dark field at C=0.10 reads heavy and dated. The
-     reference's equivalent panel sits at C=0.022; ours is 0.030 */
-  --color-harbor-50: #f0f4f9;
-  --color-harbor-100: #e0e7f0;
-  --color-harbor-200: #c8d4e3;
-  --color-harbor-300: #aabbd0;
-  --color-harbor-400: #89a1be;
-  --color-harbor-500: #6986ab;
-  --color-harbor-600: #486c99;
-  --color-harbor-700: #275386;
+     Saturated on purpose: the big panels ARE the brand colour, as
+     Birkenstock's are, rather than a neutral tinted toward it */
+  --color-harbor-50: #f3f7fe;
+  --color-harbor-100: #e4eefc;
+  --color-harbor-200: #cbdefb;
+  --color-harbor-300: #a7c6f5;
+  --color-harbor-400: #82aced;
+  --color-harbor-500: #5b8fe1;
+  --color-harbor-600: #316ac1;
+  --color-harbor-700: #1e57ad;
   --color-harbor-800: #053c74;
-  --color-harbor-900: #182230;
+  --color-harbor-900: #0c264e;
 
-  /* Saffron — the accent. Re-anchored from a high-key yellow to the DEEP RED
-     that saffron threads actually are. The old saffron-400 sat at L=0.75,
-     C=0.15: a bright yellow at that lightness on a dark panel is the loudest
-     pairing available, and it read as candy. This ramp peaks at L=0.53, the
-     same register as the reference's brick accent */
-  --color-saffron-50: #fbf1ee;
-  --color-saffron-100: #f6e1dc;
-  --color-saffron-200: #eec9bf;
-  --color-saffron-300: #e2aa9b;
-  --color-saffron-400: #d28976;
-  --color-saffron-500: #c06750;
-  --color-saffron-600: #a84932;
-  --color-saffron-700: #87331e;
-  --color-saffron-800: #672414;
-  --color-saffron-900: #3d1208;
+  /* Lime — the flashy accent. Light and highly chromatic, so it is a
+     SURFACE that carries dark ink — a lime button with near-black type — and
+     never text on white, where it is unreadable at any step above 300 */
+  --color-lime-50: #f4fbdd;
+  --color-lime-100: #e8f4bf;
+  --color-lime-200: #d6e792;
+  --color-lime-300: #bcd155;
+  --color-lime-400: #a2b800;
+  --color-lime-500: #879b00;
+  --color-lime-600: #6e7f00;
+  --color-lime-700: #556300;
+  --color-lime-800: #3f4a00;
+  --color-lime-900: #252c00;
 
-  /* Sand — the muted greige/tan. Chips, quiet fills, the warm counterweight */
-  --color-sand-50: #f5f3ef;
-  --color-sand-100: #e9e6dd;
-  --color-sand-200: #d8d2c4;
-  --color-sand-300: #c1b8a4;
-  --color-sand-400: #a79e85;
-  --color-sand-500: #8d836a;
-  --color-sand-600: #736a53;
-  --color-sand-700: #59513e;
-  --color-sand-800: #423c2d;
-  --color-sand-900: #252118;
+  /* Taupe — the warm neutral counterweight. Chips, quiet fills */
+  --color-taupe-50: #f9f6f2;
+  --color-taupe-100: #f1ece6;
+  --color-taupe-200: #e3dbd1;
+  --color-taupe-300: #cdc2b5;
+  --color-taupe-400: #b5a999;
+  --color-taupe-500: #998d7e;
+  --color-taupe-600: #7d7365;
+  --color-taupe-700: #62594f;
+  --color-taupe-800: #49433a;
+  --color-taupe-900: #2b2722;
 
-  /* Ink — warm near-neutral. Body text, borders, the banner ground */
-  --color-ink-50: #f5f3f1;
-  --color-ink-100: #e8e6e3;
-  --color-ink-200: #d5d2cf;
-  --color-ink-300: #bbb8b5;
-  --color-ink-400: #a19e9a;
-  --color-ink-500: #87837f;
-  --color-ink-600: #6a6662;
-  --color-ink-700: #55514d;
-  --color-ink-800: #3f3c39;
-  --color-ink-900: #24211f;
+  /* Ink — near-neutral, cool-leaning so it sits beside the blue rather
+     than fighting it. Body text, borders, the banner ground */
+  --color-ink-50: #f5f7f9;
+  --color-ink-100: #ebedf0;
+  --color-ink-200: #d9dce2;
+  --color-ink-300: #c0c4cb;
+  --color-ink-400: #a6abb3;
+  --color-ink-500: #8b8f97;
+  --color-ink-600: #676b72;
+  --color-ink-700: #575b62;
+  --color-ink-800: #414449;
+  --color-ink-900: #25282c;
 
-  /* Linen — the page ground. Warm greige, and deliberately NOT near-white:
-     the old ground sat at L=0.97, which reads as an unstyled default rather
-     than as a chosen colour. The reference's ground is L=0.92; base here is
-     linen-100 at the same value, and surfaces LIFT toward white from it */
-  --color-linen-50: #f4f4ef;
-  --color-linen-100: #e7e6df;
-  --color-linen-200: #d4d3c9;
-  --color-linen-300: #bbbaad;
-  --color-linen-400: #a19f91;
-  --color-linen-500: #868477;
-  --color-linen-600: #6c6b5f;
-  --color-linen-700: #535249;
-  --color-linen-800: #3e3d37;
-  --color-linen-900: #22221e;
+  /* Paper — the ground. White-based and clean, as both references are.
+     ★ paper-50 is pure white (#fff) */
+  --color-paper-50: #fff;
+  --color-paper-100: #eeedea;
+  --color-paper-200: #dedcd7;
+  --color-paper-300: #c6c4bd;
+  --color-paper-400: #aeaba2;
+  --color-paper-500: #928f87;
+  --color-paper-600: #77746e;
+  --color-paper-700: #5c5b56;
+  --color-paper-800: #454440;
+  --color-paper-900: #282825;
 
   /* Status */
-  --color-positive: #3f6b4a;
+  --color-positive: #1d7a44;
   --color-negative: #9a3412;
 
   /* ---- Semantic aliases -----------------------------------------------------
      Sections reference THESE, never a raw ramp step. That indirection is what
      lets <Section inverse> swap an entire subtree to the dark palette without
      touching a single child rule. */
-  /* The base IS the warm greige. Surfaces LIFT toward white (a raised card),
-     muted RECEDES below it — the opposite of the usual near-white model, and
-     what makes a warm ground read as chosen rather than as unpainted. */
-  --color-bg-base: var(--color-linen-100);
-  --color-bg-surface: var(--color-linen-50);
-  --color-bg-muted: var(--color-linen-200);
-  --color-bg-inverse: var(--color-harbor-900);
+  --color-bg-base: var(--color-paper-50);
+  --color-bg-surface: var(--color-paper-100);
+  --color-bg-muted: var(--color-paper-200);
+  /* The inverse ground is the BRAND BLUE itself, not a near-black tinted
+     toward it. That is what makes the dark panels read as branding. */
+  --color-bg-inverse: var(--color-harbor-800);
 
   --color-fg-primary: var(--color-ink-900);
   --color-fg-secondary: var(--color-ink-700);
@@ -134,20 +128,22 @@
      tests/tokens.test.ts. */
   --color-fg-tertiary: var(--color-ink-600);
   --color-fg-heading: var(--color-harbor-800);
-  --color-fg-on-inverse: var(--color-linen-50);
+  --color-fg-on-inverse: var(--color-paper-50);
 
-  /* The accent as a SURFACE (buttons, marks). */
-  --color-accent: var(--color-saffron-600);
+  /* The accent as a SURFACE — buttons, marks, highlights. Carries dark ink. */
+  --color-accent: var(--color-lime-300);
   /* The accent as TEXT. saffron-400 measures 1.9:1 on cream and could never be
      read; this is the step that clears 4.5:1 (7.45:1) while staying obviously
      the same colour. Use this and only this for accent-coloured type. */
-  --color-accent-strong: var(--color-saffron-600);
-  --color-accent-warm: var(--color-sand-500);
+  /* The accent as TEXT. Lime is unreadable on white at every usable step, so
+     accent-coloured TYPE uses the blue instead — the accent stays a surface. */
+  --color-accent-strong: var(--color-harbor-600);
+  --color-accent-warm: var(--color-taupe-500);
   /* The quiet fill — chips and tags. */
-  --color-accent-muted: var(--color-sand-300);
+  --color-accent-muted: var(--color-taupe-300);
 
-  --color-border: var(--color-linen-300);
-  --color-border-strong: var(--color-linen-400);
+  --color-border: var(--color-paper-200);
+  --color-border-strong: var(--color-paper-300);
   --color-ring: var(--color-harbor-700);
 
   /* -------------------------------------------------------------------------
@@ -245,8 +241,8 @@
   --radius-full: 9999px;
   /* The shared softness for anything holding a photograph or a fill. */
   --radius-frame: var(--radius-xl);
-  /* Every button's corner, in one place. --radius-full makes them pills. */
-  --radius-button: var(--radius-lg);
+  /* Every button's corner, in one place. */
+  --radius-button: var(--radius-full);
 
   /* ---- THE MORPH CUT -------------------------------------------------------
      The shape language of the references in public/reference/shape-*.png: where

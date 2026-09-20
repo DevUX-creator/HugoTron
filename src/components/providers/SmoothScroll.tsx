@@ -122,6 +122,20 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
         idleFrames = 0;
         return;
       }
+      /* ENTRANCE ANIMATIONS RIDE THIS SAME TICKER, and they are not scrolling.
+         Detaching on idle alone put the loop to sleep about a third of a second
+         after mount — mid-way through the hero's reveal — and left the copy
+         frozen at whatever opacity it had reached. On the home page that was
+         the eyebrow at 11% and the lead paragraph at 0: invisible text, on the
+         page's most important block, with nothing in the console to show for
+         it.
+
+         So idle means nothing is scrolling AND nothing is animating. */
+      if (gsap.globalTimeline.getChildren(false, true, false).length > 0) {
+        idleFrames = 0;
+        return;
+      }
+
       /* A short grace period rather than a single idle frame: Lenis drops
          `isScrolling` the instant its easing lands, and a wheel gesture is a
          burst of events with quiet gaps between them. */

@@ -11,7 +11,9 @@ type CommonProps = {
   className?: string;
   /**
    * `data-*` attributes for the rendered element — the only extra attributes
-   * this takes.
+   * this takes. A scene that clicks a link on the reader's behalf finds it by
+   * one of these (`data-service-route`), and the link has to be a real
+   * `<Button>` so it looks like every other call to action.
    */
   data?: Record<`data-${string}`, string>;
 };
@@ -35,14 +37,10 @@ type ActionProps = CommonProps & {
  * Never a `<div>` with a click handler — keyboard and screen-reader behaviour
  * come free from the correct element.
  *
- * THE SHAPE is the morph cut from public/reference/shape-notch-card.png: the
- * label and the arrow are two fully-rounded surfaces separated by a hairline
- * gap, so they read as one form cut in two rather than as two controls. The
- * whole thing is a single focusable element — the gap is decoration.
- *
- * The arrow disc carries the accent. The accent used to fill the entire
- * button, which put a large muddy red field next to everything; as a disc it
- * lands as a small deliberate note instead.
+ * The inner structure is what makes the hover wipe work: `__fill` is the layer
+ * that slides up, and the label and arrow sit above it. `__fill` is
+ * `aria-hidden` because it is purely decorative, and the label is wrapped so
+ * its colour can flip in step with the wipe without touching the arrow.
  */
 export default function Button(props: LinkProps | ActionProps) {
   const { children, variant = "primary", showArrow = true, className, data } = props;
@@ -51,20 +49,20 @@ export default function Button(props: LinkProps | ActionProps) {
 
   const content = (
     <>
+      <span className="btn__fill" aria-hidden="true" />
       <span className="btn__label">{children}</span>
       {showArrow ? (
-        <span className="btn__disc" aria-hidden="true">
-          <svg
-            className="btn__arrow"
-            viewBox="0 0 16 16"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.75"
-            focusable="false"
-          >
-            <path d="M2 8h11M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </span>
+        <svg
+          className="btn__arrow"
+          viewBox="0 0 16 16"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.75"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M2 8h11M9 4l4 4-4 4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       ) : null}
     </>
   );

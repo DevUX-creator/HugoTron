@@ -21,8 +21,8 @@
   align-items: center;
   padding-block: var(--gap-section-header);
   padding-inline: var(--container-padding);
-  background-color: var(--color-harbor-900);
-  color: var(--color-linen-50);
+  background-color: var(--color-bg-inverse);
+  color: var(--color-paper-50);
 }
 
 .hero__copy {
@@ -32,18 +32,18 @@
 }
 
 .hero__eyebrow {
-  color: var(--color-sand-300);
+  color: var(--color-lime-300);
 }
 
 .hero__title {
   margin-block-start: var(--gap-block);
-  color: var(--color-linen-50);
+  color: var(--color-paper-50);
 }
 
 .hero__lead {
   max-width: 42ch;
   margin-block-start: var(--gap-block);
-  color: var(--color-harbor-200);
+  color: var(--color-harbor-100);
   font-size: var(--text-body-md);
 }
 
@@ -56,17 +56,10 @@
   /* The secondary button's default surface is nearly invisible on this ground,
      so the hero fills it solid and inverts its ink — see button.css, where
      every one of these is a token for exactly this case. */
-  --color-btn-alt: var(--color-linen-50);
-  --color-btn-alt-ink: var(--color-harbor-900);
-  /* The disc matches the LABEL rather than contrasting with it: on this ground
-     a harbor-900 disc was invisible, being the panel's own colour. Both halves
-     the same, split by the morph cut — which is exactly the arrangement in
-     public/reference/shape-notch-card.png, where the cut does the separating
-     and colour does none of it. */
-  --color-btn-alt-disc: var(--color-linen-50);
-  --color-btn-alt-disc-ink: var(--color-harbor-900);
-  --color-btn-alt-hover: var(--color-sand-300);
-  --color-btn-alt-hover-ink: var(--color-harbor-900);
+  --color-btn-alt: var(--color-paper-50);
+  --color-btn-alt-ink: var(--color-harbor-800);
+  --color-btn-alt-fill: var(--color-accent);
+  --color-btn-alt-hover-ink: var(--color-harbor-800);
 }
 
 /* -- The media ------------------------------------------------------------ */
@@ -120,7 +113,7 @@
 }
 
 .hero__thumb[aria-current="true"] {
-  border-color: var(--color-linen-50);
+  border-color: var(--color-accent);
   opacity: 1;
 }
 
@@ -133,14 +126,14 @@
   border: 0;
   border-radius: var(--radius-sm);
   background-color: var(--color-ink-900);
-  color: var(--color-linen-50);
+  color: var(--color-paper-50);
   cursor: pointer;
   transition: background-color var(--duration-fast) var(--ease-standard);
 }
 
 .hero__pause:hover,
 .hero__pause:focus-visible {
-  background-color: var(--color-harbor-800);
+  background-color: var(--color-harbor-700);
 }
 
 .hero__pause-icon {

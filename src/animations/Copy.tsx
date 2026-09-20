@@ -35,7 +35,18 @@ export default function Copy({ children, eager = false, delay = 0 }: CopyProps) 
 
     let cancelled = false;
     let cleanup: (() => void) | undefined;
+    /* Holds the running tween so the late failsafe below can finish it. */
+    let running: { progress: (value: number) => void } | null = null;
+
+    /* Two stages, and the second one matters more than it looks.
+       `reveal()` only removes the pending CLASS. Once GSAP has written inline
+       opacity on the split lines, that class is no longer what is hiding them
+       — so if the tween starts and then stalls, the copy stays invisible with
+       the guard already lifted. The second timer jumps the tween to its end
+       state, which is the only thing that actually restores the text.
+       Unanimated copy is a far better failure than invisible copy. */
     const failsafe = window.setTimeout(reveal, 1200);
+    const hardFailsafe = window.setTimeout(() => running?.progress(1), 3000);
 
     const run = async () => {
       const { gsap, SplitText, ScrollTrigger, registerGsapPlugins } = await import("@/lib/gsap");
@@ -80,6 +91,7 @@ export default function Copy({ children, eager = false, delay = 0 }: CopyProps) 
         },
       );
 
+      running = tween;
       window.clearTimeout(failsafe);
       reveal();
 
@@ -110,6 +122,7 @@ export default function Copy({ children, eager = false, delay = 0 }: CopyProps) 
     return () => {
       cancelled = true;
       window.clearTimeout(failsafe);
+      window.clearTimeout(hardFailsafe);
       cleanup?.();
     };
   }, [eager, delay]);

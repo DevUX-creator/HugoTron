@@ -1,0 +1,87 @@
+/* ===========================================================================
+   MediaFrame — the shape photographs sit in.
+   ---------------------------------------------------------------------------
+   Rounded frame, with a quarter-disc bitten out of the bottom-right corner and
+   a circular control in the bite. See public/reference/shape-notch-card.png.
+
+   The mask is on `.media-frame__picture`, not on the frame itself, so the
+   control is NOT masked away with it.
+   =========================================================================== */
+
+.media-frame {
+  position: relative;
+  inline-size: 100%;
+
+  --notch-size: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  --notch-gap: 0.5rem;
+  /* The bite has to clear the control by the gap on every side. */
+  --notch-radius: calc(var(--notch-size) + var(--notch-gap));
+}
+
+.media-frame__picture {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-frame);
+  overflow: hidden;
+}
+
+/* THE BITE. A radial gradient used as a mask: transparent inside the radius,
+   opaque outside, centred on the frame's bottom-right corner. Because the
+   circle is tangent to both edges, the two corners it leaves run concave. */
+.media-frame--notched .media-frame__picture {
+  border-end-end-radius: 0;
+  mask-image: radial-gradient(
+    circle var(--notch-radius) at 100% 100%,
+    transparent calc(100% - 0.5px),
+    black 100%
+  );
+}
+
+.media-frame__action {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  inline-size: var(--notch-size);
+  block-size: var(--notch-size);
+}
+
+/* The control itself, whatever is passed in. */
+.media-frame__action > * {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 100%;
+  block-size: 100%;
+  border: 0;
+  border-radius: var(--radius-full);
+  background-color: var(--color-accent);
+  color: var(--color-ink-900);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-base) var(--ease-standard),
+    transform var(--duration-base) var(--ease-quint);
+}
+
+.media-frame:hover .media-frame__action > *,
+.media-frame__action > *:focus-visible {
+  background-color: var(--color-ink-900);
+  color: var(--color-accent);
+}
+
+.media-frame__action svg {
+  inline-size: 45%;
+  block-size: 45%;
+}
+
+/* Caption over the picture, top-left — the reference's "SWAGS". */
+.media-frame__caption {
+  position: absolute;
+  inset-block-start: clamp(0.75rem, 0.5rem + 1vw, 1.25rem);
+  inset-inline-start: clamp(0.75rem, 0.5rem + 1vw, 1.25rem);
+  z-index: var(--z-base);
+  color: var(--color-paper-50);
+  font-size: var(--text-body-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}

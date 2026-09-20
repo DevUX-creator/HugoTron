@@ -87,9 +87,14 @@ export default function Header() {
           <button type="button" className="header__control" aria-label={t("account")}>
             <AccountIcon className="header__icon" />
           </button>
-          <Link href="/cart" className="header__control">
-            <CartIcon className="header__icon" />
-            <span className="header__control-label">{t("cart")} (0)</span>
+          <Link href="/cart" className="header__control header__control--cart">
+            <span className="header__cart-mark">
+              <CartIcon className="header__icon" />
+              {/* Count as an accent badge. Reads at a glance, and gives the
+                  accent a second place to appear in the chrome. */}
+              <span className="header__cart-count">0</span>
+            </span>
+            <span className="header__control-label">{t("cart")}</span>
           </Link>
         </div>
       </div>

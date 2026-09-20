@@ -17,9 +17,11 @@ const theme = readFileSync(new URL("../src/styles/theme.css", import.meta.url), 
 
 /** Every `--color-<name>-<step>: #rrggbb;` declaration in the ramps. */
 function token(name: string): string {
-  const match = theme.match(new RegExp(`--color-${name}:\\s*(#[0-9a-f]{6});`, "i"));
+  /* Accepts the 3-digit form too — stylelint shortens #ffffff to #fff. */
+  const match = theme.match(new RegExp(`--color-${name}:\\s*(#[0-9a-f]{3,6});`, "i"));
   if (!match) throw new Error(`Token --color-${name} not found in theme.css`);
-  return match[1]!;
+  const hex = match[1]!;
+  return hex.length === 4 ? `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}` : hex;
 }
 
 function channel(value: number): number {
@@ -50,10 +52,10 @@ describe("colour tokens", () => {
   });
 
   describe("text on the light grounds clears AA", () => {
-    const grounds = { base: token("linen-100"), surface: token("linen-50") };
+    const grounds = { base: token("paper-50"), surface: token("paper-100") };
 
     for (const [groundName, ground] of Object.entries(grounds)) {
-      for (const fg of ["ink-900", "ink-700", "ink-600", "harbor-800", "saffron-600"]) {
+      for (const fg of ["ink-900", "ink-700", "ink-600", "harbor-800", "harbor-600"]) {
         it(`${fg} on bg-${groundName}`, () => {
           expect(contrast(token(fg), ground)).toBeGreaterThanOrEqual(AA_NORMAL);
         });
@@ -66,13 +68,13 @@ describe("colour tokens", () => {
        surface" exists. If a future ramp makes this pass, the limitation is
        gone and the note in theme.css should be deleted — so this asserts the
        state the comment describes rather than silently drifting from it. */
-    expect(contrast(token("ink-600"), token("linen-200"))).toBeLessThan(AA_NORMAL);
+    expect(contrast(token("ink-600"), token("paper-200"))).toBeLessThan(AA_NORMAL);
   });
 
   describe("inverse sections clear AA on harbor-900", () => {
-    const inverse = token("harbor-900");
+    const inverse = token("harbor-800");
 
-    for (const fg of ["linen-50", "harbor-200", "harbor-300", "sand-300"]) {
+    for (const fg of ["paper-50", "harbor-100", "harbor-200", "lime-300"]) {
       it(`${fg} on bg-inverse`, () => {
         expect(contrast(token(fg), inverse)).toBeGreaterThanOrEqual(AA_NORMAL);
       });
@@ -80,11 +82,11 @@ describe("colour tokens", () => {
   });
 
   it("keeps the primary button label legible on its own fill", () => {
-    expect(contrast(token("linen-50"), token("saffron-600"))).toBeGreaterThanOrEqual(AA_NORMAL);
+    expect(contrast(token("ink-900"), token("lime-300"))).toBeGreaterThanOrEqual(AA_NORMAL);
   });
 
   it("keeps the announcement chip label legible on its fill", () => {
-    expect(contrast(token("ink-900"), token("sand-300"))).toBeGreaterThanOrEqual(AA_NORMAL);
+    expect(contrast(token("ink-900"), token("taupe-300"))).toBeGreaterThanOrEqual(AA_NORMAL);
   });
 });
 

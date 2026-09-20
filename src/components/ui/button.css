@@ -1,36 +1,42 @@
 /* ===========================================================================
-   Button — the morph cut.
+   Button
    ---------------------------------------------------------------------------
-   Two fully-rounded surfaces split by a hairline gap, so the pair reads as one
-   shape cut in two. See public/reference/shape-notch-card.png, where a circular
-   arrow sits in a cut taken out of the card.
+   Hover is a FILL WIPE, not a colour swap: a solid layer slides up from below
+   and the label's colour flips in step with it. The label and arrow sit above
+   the fill, and the button clips it, so the wipe reads as the surface changing
+   rather than a background fading.
 
-   The accent lives on the DISC, not on the whole button. Filling the entire
-   button with it put a large muddy field beside everything on the page; at
-   disc size the same colour reads as a deliberate note.
-
-   `:focus-visible` gets the identical treatment to `:hover` — a keyboard user
-   should see exactly what a mouse user sees, and this is the easiest place to
-   forget it.
+   `:focus-visible` gets the identical treatment — a keyboard user should see
+   exactly what a mouse user sees, and this is the easiest place to forget it.
    =========================================================================== */
 
 .btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: var(--morph-split);
-  /* ONE declared height for both halves. `aspect-ratio: 1` on the disc needs a
-     definite size to resolve against — with `align-items: stretch` it had
-     none, so the disc laid out at zero width and overflowed the button into
-     its neighbour. */
-  --btn-size: 3rem;
-  border: 0;
-  background: none;
-  padding: 0;
-  color: inherit;
-  font-family: inherit;
-  text-decoration: none;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.95rem 1.7rem;
+  /* Rounded rather than chamfered. The cut corner came from the reference
+     project, where it rhymed with hexagonal badges this design does not have;
+     on its own it just read as a clipped rectangle.
+
+     A token, not a literal, so the whole set moves together — raise it to
+     --radius-full for pills. */
+  border-radius: var(--radius-button);
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  letter-spacing: var(--tracking-wide);
+  white-space: nowrap;
+  text-align: center;
   cursor: pointer;
+  /* Clips the fill to the shape, and isolate keeps the stacking local so the
+     fill can never slide under neighbouring content. */
+  overflow: hidden;
   isolation: isolate;
+  transition: color var(--duration-wipe) var(--ease-expo);
 }
 
 .btn:disabled {
@@ -39,119 +45,120 @@
   pointer-events: none;
 }
 
-.btn__label {
-  display: inline-flex;
-  align-items: center;
-  block-size: var(--btn-size);
-  padding-inline: 1.4rem;
-  border-radius: var(--radius-full);
-  background-color: var(--btn-bg);
-  color: var(--btn-ink);
-  font-size: var(--text-body-sm);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--tracking-wide);
-  line-height: 1;
-  white-space: nowrap;
-  transition:
-    background-color var(--duration-base) var(--ease-expo),
-    color var(--duration-base) var(--ease-expo);
+/* The wipe. Parked just past the bottom edge so no seam shows at rest. */
+.btn__fill {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--btn-fill);
+  transform: translateY(101%);
+  transition: transform var(--duration-wipe) var(--ease-expo);
 }
 
-.btn__disc {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  /* Square against the shared height, so the radius makes a true circle. */
-  inline-size: var(--btn-size);
-  block-size: var(--btn-size);
-  border-radius: var(--radius-full);
-  background-color: var(--btn-disc-bg);
-  color: var(--btn-disc-ink);
-  transition:
-    background-color var(--duration-base) var(--ease-expo),
-    color var(--duration-base) var(--ease-expo);
+.btn:hover .btn__fill,
+.btn:focus-visible .btn__fill {
+  transform: translateY(0);
+}
+
+.btn__label,
+.btn__arrow {
+  position: relative;
+  z-index: 1;
 }
 
 .btn__arrow {
-  inline-size: 1em;
-  block-size: 1em;
-  font-size: var(--text-body-sm);
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
   transition: transform var(--duration-base) var(--ease-quint);
 }
 
 .btn:hover .btn__arrow,
 .btn:focus-visible .btn__arrow {
-  transform: translateX(0.2em);
+  transform: translateX(0.25em);
 }
 
-/* The focus ring belongs to the whole shape, not to one half of it. */
-.btn:focus-visible {
-  outline: 2px solid var(--color-ring);
-  outline-offset: 3px;
-  border-radius: var(--radius-full);
-}
+/* -- Primary: the brand gold, at rest -------------------------------------
+   THE OLD HOVER IS THE NEW DEFAULT. This used to sit in a deep green and wipe
+   to gold when you pointed at it, which meant the strongest call to action on
+   the page was its quietest thing until touched — and on a phone, where there
+   is no hover at all, it was never anything else. It now arrives gold, and
+   hover is a separate answer on top of that.
 
-/* -- Primary --------------------------------------------------------------
-   Near-black label, accent disc. Hover swaps them: the label takes the accent
-   and the disc goes dark, so the two halves trade places rather than both
-   getting brighter. */
+   The base is a TOKEN so a section that remaps its palette can remap this with
+   it, the way `<Section inverse>` remaps the rest (see section.css). Nothing
+   overrides it today; what it defaults to is the saffron accent. */
 .btn--primary {
-  --btn-bg: var(--color-ink-900);
-  --btn-ink: var(--color-linen-50);
-  --btn-disc-bg: var(--color-accent);
-  --btn-disc-ink: var(--color-linen-50);
+  background-color: var(--color-btn-base, var(--color-accent));
+  color: var(--color-ink-900);
+
+  /* Hover wipes to the deepest ink in the palette and the label goes to cream —
+     the inversion of the resting state rather than a shade of it, which is what
+     makes a button that is already the brightest thing on the page still have
+     somewhere to go. */
+  --btn-fill: var(--color-ink-900);
 }
 
 .btn--primary:hover,
 .btn--primary:focus-visible {
-  --btn-bg: var(--color-accent);
-  --btn-disc-bg: var(--color-ink-900);
+  color: var(--color-paper-50);
 }
 
-/* -- Outline: a solid surface, NO ring -------------------------------------
-   On a photograph an outline alone disappears, and this variant has to hold up
-   over the hero. Every colour is a token with a sensible default, because what
-   a secondary button should be depends on what it stands on — the hero fills
-   it solid, see hero.css. */
+/* -- Secondary: a solid surface, NO OUTLINE -------------------------------
+   A filled surface rather than a ring: on a photograph an outline alone
+   disappears, and the variant has to hold up over the hero.
+
+   Like the primary, it now rests at the weight it used to reach on hover: a
+   solid tint rather than a 12% wash that was invisible against half the grounds
+   on the site.
+
+   Every colour here is a token with the tint as its default, because what a
+   secondary button should be depends entirely on what it is standing on. On the
+   light sections the tint is right. On the hero's dark stage it is barely
+   there, so the hero fills it solid white — see hero.css. */
 .btn--outline {
-  --btn-bg: var(--color-btn-alt, var(--color-bg-surface));
-  --btn-ink: var(--color-btn-alt-ink, var(--color-fg-heading));
-  --btn-disc-bg: var(--color-btn-alt-disc, var(--color-fg-heading));
-  --btn-disc-ink: var(--color-btn-alt-disc-ink, var(--color-bg-surface));
+  background-color: var(--color-btn-alt, color-mix(in srgb, currentcolor 22%, transparent));
+  color: var(--color-btn-alt-ink, var(--color-fg-heading));
+
+  --btn-fill: var(--color-btn-alt-fill, var(--color-fg-heading));
 }
 
 .btn--outline:hover,
 .btn--outline:focus-visible {
-  --btn-bg: var(--color-btn-alt-hover, var(--color-fg-heading));
-  --btn-ink: var(--color-btn-alt-hover-ink, var(--color-bg-surface));
+  color: var(--color-btn-alt-hover-ink, var(--color-bg-base));
 }
 
-/* -- Ghost: link-like, no surfaces ---------------------------------------- */
+/* -- Ghost: link-like, no wipe ------------------------------------------- */
 .btn--ghost {
-  --btn-bg: transparent;
-  --btn-ink: var(--color-fg-heading);
-  --btn-disc-bg: transparent;
-  --btn-disc-ink: var(--color-fg-heading);
-
-  gap: 0.25rem;
-  /* No surfaces, so no fixed control height to hold. */
-  --btn-size: auto;
+  padding-inline: 0.5rem;
+  background-color: transparent;
+  color: var(--color-fg-heading);
+  border-radius: var(--radius-sm);
 }
 
-.btn--ghost .btn__label {
-  block-size: auto;
-  padding-block: 0.25rem;
-  padding-inline: 0.25rem;
-}
-
-.btn--ghost .btn__disc {
-  inline-size: auto;
-  block-size: auto;
+.btn--ghost .btn__fill {
+  display: none;
 }
 
 .btn--ghost:hover,
 .btn--ghost:focus-visible {
-  --btn-ink: var(--color-accent-strong);
-  --btn-disc-ink: var(--color-accent-strong);
+  color: var(--color-accent-strong);
+}
+
+/* A wipe that cannot animate would flash the fill colour on hover, so the
+   layer is retired entirely and the variants fall back to a colour change. */
+@media (prefers-reduced-motion: reduce) {
+  .btn__fill {
+    display: none;
+  }
+
+  .btn--primary:hover,
+  .btn--primary:focus-visible {
+    background-color: var(--btn-fill);
+  }
+
+  .btn--outline:hover,
+  .btn--outline:focus-visible {
+    background-color: var(--color-fg-heading);
+  }
 }

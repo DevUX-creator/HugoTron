@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import Section from "@/components/ui/Section";
 import Heading from "@/components/ui/Heading";
-import Placeholder from "@/components/ui/Placeholder";
+import MediaFrame from "@/components/ui/MediaFrame";
 import { Link } from "@/i18n/navigation";
 import Reveal from "@/animations/Reveal";
 import RevealText from "@/animations/RevealText";
@@ -49,7 +49,31 @@ export default function Categories() {
           <li key={category.key}>
             <Reveal delay={i * 0.05}>
               <Link href={category.href} className="categories__row">
-                <Placeholder ratio="4 / 3" className="categories__thumb" />
+                {/* The notch carries the arrow, so the row needs none of its
+                    own. The control is a <span>: the whole row is already the
+                    link, and a button inside it would be a second target. */}
+                <MediaFrame
+                  ratio="4 / 3"
+                  className="categories__thumb"
+                  action={
+                    <span>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <path
+                          d="M4 12h15M13 6l6 6-6 6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                  }
+                />
 
                 <span className="categories__text">
                   <span className="categories__eyebrow eyebrow">
@@ -59,18 +83,6 @@ export default function Categories() {
                     {t(`${category.key}.title`)}
                   </Heading>
                 </span>
-
-                <svg
-                  className="categories__arrow"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <path d="M4 12h15M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
               </Link>
             </Reveal>
           </li>

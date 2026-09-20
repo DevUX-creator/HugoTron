@@ -149,7 +149,7 @@
   }
 
   ::selection {
-    background-color: var(--color-sand-300);
+    background-color: var(--color-taupe-300);
     color: var(--color-ink-900);
   }
 }

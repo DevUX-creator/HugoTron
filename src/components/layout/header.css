@@ -50,21 +50,67 @@
 
 .header__nav-link {
   display: block;
-  padding: 1rem 0.5rem;
+  padding-block: 0.9rem;
+  padding-inline: 0.5rem;
+  /* Clips the pair to one row — the whole effect depends on this. */
+  overflow: hidden;
   color: var(--color-fg-heading);
   font-size: var(--text-body-xs);
   font-weight: var(--font-weight-semibold);
   letter-spacing: var(--tracking-wide);
-  line-height: 1.1;
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
-  transition: color var(--duration-fast) var(--ease-standard);
+
+  --nav-row: 1.1rem;
 }
 
-.header__nav-link:hover,
-.header__nav-link:focus-visible {
+.header__nav-swap {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(0);
+  transition: transform var(--duration-slow) var(--ease-quint);
+}
+
+.header__nav-face {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  block-size: var(--nav-row);
+  line-height: var(--nav-row);
+}
+
+/* The incoming face is the accent, so the swap reads as a state change too. */
+.header__nav-face:last-child {
   color: var(--color-accent-strong);
+}
+
+/* HOVER IS GATED ON A DEVICE THAT HAS ONE.
+   A touch browser applies `:hover` to whatever was last TAPPED and leaves it
+   applied, which would park that link on its second face — the same treatment
+   the current page gets — so the nav would come back showing two items
+   selected. `:focus-visible` stays outside the query: it is the keyboard's
+   affordance and browsers do not set it for a tap. */
+@media (hover: hover) and (pointer: fine) {
+  .header__nav-link:hover .header__nav-swap {
+    transform: translateY(calc(-1 * var(--nav-row)));
+  }
+}
+
+.header__nav-link:focus-visible .header__nav-swap {
+  transform: translateY(calc(-1 * var(--nav-row)));
+}
+
+/* The current page rests on the accent face rather than swapping to it. */
+.header__nav-link[aria-current="page"] .header__nav-swap {
+  transform: translateY(calc(-1 * var(--nav-row)));
+}
+
+/* A swap that cannot animate would jump; fall back to a colour change. */
+@media (prefers-reduced-motion: reduce) {
+  .header__nav-swap {
+    transition: none;
+  }
 }
 
 /* -- Row 2: brand bar ----------------------------------------------------- */
@@ -117,6 +163,28 @@
 .header__icon {
   inline-size: 1.375rem;
   block-size: 1.375rem;
+}
+
+.header__cart-mark {
+  position: relative;
+  display: inline-flex;
+}
+
+.header__cart-count {
+  position: absolute;
+  inset-block-start: -0.4rem;
+  inset-inline-start: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 1.05rem;
+  padding-inline: 0.25rem;
+  border-radius: var(--radius-full);
+  background-color: var(--color-accent);
+  color: var(--color-ink-900);
+  font-size: 0.625rem;
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.05rem;
 }
 
 /* The word beside an icon is desktop-only — on a phone the icon carries it,

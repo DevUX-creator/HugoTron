@@ -45,8 +45,13 @@ export default function Reveal({ children, eager = false, delay = 0, className }
     let cancelled = false;
     let cleanup: (() => void) | undefined;
 
-    /* Invisible copy is a worse failure than unanimated copy. */
+    /* Invisible copy is a worse failure than unanimated copy. The second timer
+       finishes a tween that started and then stalled — by then the inline
+       opacity GSAP wrote is what is hiding the block, not the pending class,
+       so removing the class alone would not bring it back. */
+    let running: gsap.core.Tween | null = null;
     const failsafe = window.setTimeout(reveal, 1200);
+    const hardFailsafe = window.setTimeout(() => running?.progress(1), 3000);
 
     const run = async () => {
       const { gsap, ScrollTrigger, registerGsapPlugins } = await import("@/lib/gsap");
@@ -56,7 +61,7 @@ export default function Reveal({ children, eager = false, delay = 0, className }
       if (cancelled) return;
 
       const ctx = gsap.context(() => {
-        gsap.fromTo(
+        running = gsap.fromTo(
           el,
           { autoAlpha: 0, y: 32 },
           {
@@ -100,6 +105,7 @@ export default function Reveal({ children, eager = false, delay = 0, className }
     return () => {
       cancelled = true;
       window.clearTimeout(failsafe);
+      window.clearTimeout(hardFailsafe);
       cleanup?.();
     };
   }, [eager, delay]);
