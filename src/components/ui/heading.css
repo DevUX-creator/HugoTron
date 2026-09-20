@@ -1,7 +1,11 @@
-/* Display type. Weight is deliberately absent — Nasalization has one weight and
-   `font-synthesis: none` blocks a faked bold. Hierarchy = size + tracking. */
+/* Display type.
+   The weight used to be absent here, carried over from a project whose display
+   face shipped a single weight. Geist is variable, so every heading was simply
+   inheriting the body's 400 and rendering light. Hierarchy is size, tracking
+   AND weight. */
 .heading {
   font-family: var(--font-display);
+  font-weight: var(--font-weight-bold);
   color: var(--color-fg-heading);
   line-height: var(--leading-tight);
   letter-spacing: var(--tracking-display);

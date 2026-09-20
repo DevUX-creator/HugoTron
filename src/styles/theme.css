@@ -104,6 +104,13 @@
   --color-paper-800: #454440;
   --color-paper-900: #282825;
 
+  /* The hero's ground — a PREMIUM GRAPHITE rather than the brand blue.
+     Cool-cast and deliberately lighter than the near-black the ink ramp ends
+     on: at L 0.27 a full-height panel reads as a default dark mode, at L 0.33
+     it reads as a chosen surface. Low enough in chroma to stay a grey while
+     letting the lime accent carry all the colour. */
+  --color-stage: #33353a;
+
   /* Status */
   --color-positive: #1d7a44;
   --color-negative: #9a3412;
@@ -115,6 +122,9 @@
   --color-bg-base: var(--color-paper-50);
   --color-bg-surface: var(--color-paper-100);
   --color-bg-muted: var(--color-paper-200);
+  /* The hero's panel. Its own token, so it is not tied to the inverse ground
+     that sections and the menu share. */
+  --color-bg-stage: var(--color-stage);
   /* The inverse ground is the BRAND BLUE itself, not a near-black tinted
      toward it. That is what makes the dark panels read as branding. */
   --color-bg-inverse: var(--color-harbor-800);
@@ -204,6 +214,7 @@
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
 
   /* -------------------------------------------------------------------------
      SPACING & RHYTHM

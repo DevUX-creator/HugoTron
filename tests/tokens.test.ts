@@ -175,7 +175,7 @@ describe("the primary button reads on both grounds", () => {
    * lightens instead.
    */
   const white = token("paper-50");
-  const panel = token("harbor-800");
+  const panel = token("stage");
 
   it("rest: the label is legible on the accent", () => {
     expect(contrast(token("ink-900"), token("lime-100"))).toBeGreaterThanOrEqual(AA_NORMAL);
@@ -193,7 +193,7 @@ describe("the primary button reads on both grounds", () => {
     });
   });
 
-  describe("on the blue panel it lightens", () => {
+  describe("on the hero's graphite panel it lightens", () => {
     const fill = token("paper-50");
 
     it("the label is legible on the fill", () => {
@@ -206,4 +206,22 @@ describe("the primary button reads on both grounds", () => {
       expect(contrast(token("harbor-900"), panel)).toBeLessThan(3);
     });
   });
+});
+
+describe("the hero's graphite panel", () => {
+  const stage = token("stage");
+
+  it("is a grey, not the brand blue", () => {
+    expect(stage).toBe("#33353a");
+  });
+
+  for (const [name, fg] of [
+    ["white body copy", "paper-50"],
+    ["the lead", "ink-200"],
+    ["the lime eyebrow", "lime-100"],
+  ] as const) {
+    it(`carries ${name}`, () => {
+      expect(contrast(token(fg), stage)).toBeGreaterThanOrEqual(AA_NORMAL);
+    });
+  }
 });
