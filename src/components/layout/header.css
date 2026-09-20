@@ -214,8 +214,7 @@
   position: relative;
   display: block;
   inline-size: clamp(7rem, 5rem + 8vw, 11rem);
-  /* Hangs past the bar's bottom edge, onto whatever follows. */
-  margin-block-end: calc(var(--brand-overhang) * -1);
+
   /* THE NOTCH. A ring of the PAGE GROUND around the artwork, so where the
      plate crosses into the hero it reads as a tab cut out of the header rather
      than a navy block dropped on the photograph.
@@ -234,6 +233,23 @@
   border-end-end-radius: var(--brand-notch);
   background-color: var(--color-bg-base);
 
+  /* THE HANG IS DECLARED, NOT INFERRED.
+     This used to take its height from the artwork and sit centred in the bar,
+     with a negative bottom margin pulling it down — so how far it actually
+     hung was the result of the centring arithmetic, NOT --brand-overhang. It
+     came out around 23px against a declared 31px, which put the fillets eight
+     pixels ABOVE the bar's lower edge: invisible against the white header, and
+     leaving a bare right angle exactly where the plate crossed into the hero.
+
+     Pinned to the top instead, with the height stated, so the bottom edge
+     lands at header-height + overhang and the fillets land on the seam. */
+  align-self: start;
+  block-size: calc(var(--header-height) - var(--brand-top) + var(--brand-overhang));
+  /* Top offset holds it below the bar's edge; the negative bottom keeps the
+     overhang out of the bar's own height, so the row does not grow to fit it. */
+  margin-block: var(--brand-top) calc(var(--brand-overhang) * -1);
+
+  --brand-top: 0.4rem;
   --brand-notch: clamp(0.75rem, 0.5rem + 1vw, 1.25rem);
   --brand-overhang: calc(var(--brand-notch) * 2);
   --brand-ring: clamp(0.4rem, 0.25rem + 0.5vw, 0.7rem);
@@ -258,10 +274,10 @@
 .header__logo {
   display: block;
   inline-size: 100%;
-  /* Cropped rather than scaled: the source is near-square with a lot of navy
-     around the wordmark, and a square plate would hang almost to the fold. */
-  aspect-ratio: 5 / 3;
-  block-size: auto;
+  /* Fills the plate, cropped rather than scaled: the source is near-square
+     with a lot of navy around the wordmark. The plate's height is declared
+     above, so the artwork follows it instead of setting it. */
+  block-size: 100%;
   /* ALL FOUR corners. The bottom pair is inset from the plate's own corner by
      the ring, so the ring keeps an even width round the curve instead of
      pinching at it. The top pair had been left square: the plate's top padding

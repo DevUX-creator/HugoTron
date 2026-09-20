@@ -33,7 +33,9 @@
 .hero__panel {
   grid-area: panel;
   display: flex;
-  align-items: center;
+  /* Stretch, not centre: `space-between` in the copy needs the full height of
+     the panel to push its two groups apart. */
+  align-items: stretch;
   padding-block: var(--gap-section-header);
   padding-inline: var(--container-padding);
   background-color: var(--color-bg-inverse);
@@ -41,7 +43,13 @@
 }
 
 .hero__copy {
+  display: flex;
+  flex-direction: column;
+  /* Claim at the top of the panel, supporting line and button on its floor. */
+  justify-content: space-between;
+  gap: var(--gap-section-header);
   inline-size: 100%;
+  block-size: 100%;
   max-width: 34rem;
   margin-inline: auto;
 }
@@ -55,9 +63,14 @@
   color: var(--color-paper-50);
 }
 
+.hero__foot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-block);
+}
+
 .hero__lead {
   max-width: 42ch;
-  margin-block-start: var(--gap-block);
   color: var(--color-harbor-100);
   font-size: var(--text-body-md);
 }
@@ -66,7 +79,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-block-start: var(--gap-section-header);
 
   /* The outline variant's surface would be nearly invisible on this ground, so
      if a second button is ever added here it fills solid and inverts its ink —

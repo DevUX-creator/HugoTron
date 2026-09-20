@@ -29,24 +29,30 @@ export default function Hero() {
   return (
     <section className="hero" aria-label={t("label")}>
       <div className="hero__panel">
+        {/* Two groups pushed apart: the claim holds the top of the panel, the
+            supporting line and the call to action sit on its floor. */}
         <div className="hero__copy">
-          <Copy eager>
-            <p className="hero__eyebrow eyebrow">{t("eyebrow")}</p>
-          </Copy>
+          <div className="hero__claim">
+            <Copy eager>
+              <p className="hero__eyebrow eyebrow">{t("eyebrow")}</p>
+            </Copy>
 
-          <RevealText eager>
-            <Heading as={1} size="hero-md" className="hero__title" uppercase>
-              {t("title")}
-            </Heading>
-          </RevealText>
+            <RevealText eager>
+              <Heading as={1} size="hero-md" className="hero__title" uppercase>
+                {t("title")}
+              </Heading>
+            </RevealText>
+          </div>
 
-          <Copy eager delay={0.15}>
-            <p className="hero__lead">{t("lead")}</p>
-          </Copy>
+          <div className="hero__foot">
+            <Copy eager delay={0.15}>
+              <p className="hero__lead">{t("lead")}</p>
+            </Copy>
 
-          <Reveal eager delay={0.3} className="hero__actions">
-            <Button href="/range">{t("cta")}</Button>
-          </Reveal>
+            <Reveal eager delay={0.3} className="hero__actions">
+              <Button href="/range">{t("cta")}</Button>
+            </Reveal>
+          </div>
         </div>
       </div>
 
