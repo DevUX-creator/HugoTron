@@ -9,6 +9,9 @@
   position: relative;
   z-index: var(--z-header);
   background-color: var(--color-bg-base);
+  /* The menu overlay is a child of this element, so the header owns its
+     stacking context — it must not clip or hide overflow. */
+  isolation: isolate;
 }
 
 /* -- Row 1: navigation ---------------------------------------------------- */
@@ -52,7 +55,11 @@
   display: block;
   padding-block: 0.9rem;
   padding-inline: 0.5rem;
-  /* Clips the pair to one row — the whole effect depends on this. */
+  /* Clips the pair to ONE row. `overflow: hidden` alone is not enough — with
+     an auto height the box simply grows to fit both faces and shows them
+     stacked, which is exactly what it did. The height is explicit and, under
+     border-box, covers the padding too. */
+  block-size: calc(var(--nav-row) + 1.8rem);
   overflow: hidden;
   color: var(--color-fg-heading);
   font-size: var(--text-body-xs);

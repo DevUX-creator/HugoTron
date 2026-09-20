@@ -5,6 +5,7 @@ import {
   useContext,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
   type ReactNode,
@@ -30,13 +31,36 @@ export function useLenis(): Lenis | null {
   return useContext(LenisContext);
 }
 
+/**
+ * Restart the frame loop.
+ *
+ * The loop sleeps when nothing is scrolling and is woken by USER INPUT —
+ * wheel, touch, pointerdown, keydown. Anything that starts moving WITHOUT one
+ * of those has to wake it at the call site, which is why the navigation effect
+ * below does. A GSAP timeline kicked off programmatically is the same case:
+ * the menu's wipe started, found no ticker, and froze a fraction of a percent
+ * in. Call this immediately before any such animation.
+ */
+const WakeContext = createContext<() => void>(() => {});
+
+export function useScrollWake(): () => void {
+  return useContext(WakeContext);
+}
+
 /** Freeze/unfreeze page scroll — for modal and menu overlays. */
 export function useScrollLock(): { lock: () => void; unlock: () => void } {
   const lenis = useLenis();
-  return {
-    lock: () => lenis?.stop(),
-    unlock: () => lenis?.start(),
-  };
+  /* MEMOISED. Returning a fresh object literal made `lock` and `unlock` new
+     identities on every render, so any effect listing them as dependencies
+     re-ran on every render — which, for the menu's open/close timeline, meant
+     restarting the wipe from its closed state mid-animation. */
+  return useMemo(
+    () => ({
+      lock: () => lenis?.stop(),
+      unlock: () => lenis?.start(),
+    }),
+    [lenis],
+  );
 }
 
 export default function SmoothScroll({ children }: { children: ReactNode }) {
@@ -214,5 +238,12 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     return () => cancelAnimationFrame(id);
   }, [route]);
 
-  return <LenisContext.Provider value={lenis}>{children}</LenisContext.Provider>;
+  /* Stable identity, so an effect can depend on it without re-running. */
+  const wake = useMemo(() => () => wakeRef.current?.(), []);
+
+  return (
+    <LenisContext.Provider value={lenis}>
+      <WakeContext.Provider value={wake}>{children}</WakeContext.Provider>
+    </LenisContext.Provider>
+  );
 }

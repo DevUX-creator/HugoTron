@@ -19,7 +19,7 @@
 
   --color-border: var(--color-harbor-700);
   --color-border-strong: var(--color-harbor-600);
-  --color-ring: var(--color-lime-300);
+  --color-ring: var(--color-accent);
 
   background-color: var(--color-bg-base);
   color: var(--color-fg-primary);

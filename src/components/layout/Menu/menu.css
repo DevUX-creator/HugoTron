@@ -1,0 +1,278 @@
+/* ===========================================================================
+   Menu — trigger in the header bar, full-height panel wiping in from the LEFT.
+   ---------------------------------------------------------------------------
+   Adapted from the PV_energy project. That overlay wiped down from the top and
+   carried two modes; this one comes in from the left and carries one.
+   =========================================================================== */
+
+/* ---- Trigger -------------------------------------------------------------
+   Above the panel, so it stays visible and clickable while the menu is open
+   and can act as the close control. */
+.menu-btn {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--color-fg-heading);
+  font-family: inherit;
+  font-size: var(--text-eyebrow);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.menu-btn:hover,
+.menu-btn:focus-visible {
+  color: var(--color-accent-strong);
+}
+
+/* Two offset bars. They slide to align on hover and cross into an X when
+   open — one element doing both states, so there is nothing to keep in sync. */
+.menu-btn__bars {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  inline-size: 1.375rem;
+  block-size: 0.5rem;
+}
+
+.menu-btn__bars span {
+  display: block;
+  inline-size: 1.05rem;
+  block-size: 2px;
+  border-radius: 1px;
+  background-color: currentcolor;
+  transition: transform var(--duration-slow) var(--ease-expo);
+}
+
+.menu-btn__bars span:first-child {
+  align-self: flex-start;
+}
+
+.menu-btn__bars span:last-child {
+  align-self: flex-end;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .menu-btn:not(.is-open):hover .menu-btn__bars span:first-child {
+    transform: translateX(0.2rem);
+  }
+
+  .menu-btn:not(.is-open):hover .menu-btn__bars span:last-child {
+    transform: translateX(-0.2rem);
+  }
+}
+
+.menu-btn.is-open .menu-btn__bars span {
+  inline-size: 1.25rem;
+}
+
+.menu-btn.is-open .menu-btn__bars span:first-child {
+  transform: translateY(3px) rotate(45deg);
+}
+
+.menu-btn.is-open .menu-btn__bars span:last-child {
+  transform: translateY(-3px) rotate(-45deg);
+}
+
+/* ---- Overlay ------------------------------------------------------------ */
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  /* GSAP's autoAlpha takes over after mount; this is the pre-hydration state,
+     so the panel is never briefly visible on a slow first paint. */
+  visibility: hidden;
+}
+
+.menu__panel {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  background-color: var(--color-bg-inverse);
+  /* Closed state, in CSS as well as in the timeline: if GSAP has not loaded
+     yet the panel is still collapsed rather than covering the page. */
+  clip-path: inset(0 100% 0 0);
+}
+
+.menu__panel:focus-visible {
+  outline: none;
+}
+
+.menu__inner {
+  display: flex;
+  align-items: center;
+  min-block-size: 100svh;
+  padding-block: calc(var(--header-height) + var(--gap-block)) var(--gap-section-header);
+  padding-inline: var(--container-padding);
+}
+
+/* One box divided by hairlines rather than floating cards: a 1px grid gap over
+   the line colour shows through between cells, so no edge is ever doubled. */
+.menu__grid {
+  display: grid;
+  inline-size: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  border: 1px solid var(--color-harbor-700);
+  border-radius: var(--radius-frame);
+  overflow: hidden;
+  background-color: var(--color-harbor-700);
+  gap: 1px;
+}
+
+.menu__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-block);
+  padding: clamp(1.25rem, 1rem + 1.5vw, 2.25rem);
+  background-color: var(--color-bg-inverse);
+  color: var(--color-fg-on-inverse);
+}
+
+.menu__eyebrow {
+  color: var(--color-accent);
+}
+
+/* ---- Primary links ------------------------------------------------------ */
+
+.menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+  margin-block-start: auto;
+  list-style: none;
+}
+
+.menu__link {
+  display: block;
+  /* One row high, so only the resting face shows. Without an explicit height
+     the box grows to fit both and they stack. */
+  block-size: var(--menu-row);
+  overflow: hidden;
+  color: inherit;
+  font-size: var(--text-hero-md);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-tight);
+  text-decoration: none;
+
+  --menu-row: 1.15em;
+}
+
+.menu__swap {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(0);
+  transition: transform var(--duration-slow) var(--ease-quint);
+}
+
+.menu__face {
+  display: flex;
+  align-items: center;
+  block-size: var(--menu-row);
+  line-height: var(--menu-row);
+}
+
+.menu__face:last-child {
+  color: var(--color-accent);
+}
+
+/* Gated for the same reason as the header nav: a touch browser leaves `:hover`
+   on whatever was last tapped, which would park that link on its second face. */
+@media (hover: hover) and (pointer: fine) {
+  .menu__link:hover .menu__swap {
+    transform: translateY(calc(-1 * var(--menu-row)));
+  }
+}
+
+.menu__link:focus-visible .menu__swap {
+  transform: translateY(calc(-1 * var(--menu-row)));
+}
+
+/* ---- Contact and meta --------------------------------------------------- */
+
+.menu__contact {
+  align-self: flex-start;
+  color: inherit;
+  font-size: var(--text-body-lg);
+  text-decoration: none;
+  border-block-end: 1px solid transparent;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+}
+
+.menu__contact:hover,
+.menu__contact:focus-visible {
+  color: var(--color-accent);
+  border-block-end-color: currentcolor;
+}
+
+.menu__address {
+  color: var(--color-harbor-200);
+  font-size: var(--text-body-sm);
+}
+
+.menu__tagline {
+  font-size: var(--text-title-md);
+}
+
+.menu__meta-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-block-start: auto;
+  list-style: none;
+}
+
+.menu__meta-link {
+  color: var(--color-harbor-200);
+  font-size: var(--text-body-xs);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.menu__meta-link:hover,
+.menu__meta-link:focus-visible {
+  color: var(--color-fg-on-inverse);
+}
+
+/* Two columns from `md`: links fill the left, contact and meta stack right. */
+@media (width >= 48rem) {
+  .menu__grid {
+    grid-template-columns: 1.6fr 1fr;
+    grid-auto-rows: minmax(clamp(7rem, 16vh, 12rem), auto);
+  }
+
+  .menu__card--nav {
+    grid-column: 1;
+    grid-row: span 2;
+  }
+
+  .menu__card--contact {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .menu__card--meta {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+/* A wipe that cannot animate would jump the panel across the screen. */
+@media (prefers-reduced-motion: reduce) {
+  .menu__swap {
+    transition: none;
+  }
+}

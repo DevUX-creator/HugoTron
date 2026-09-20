@@ -10,14 +10,15 @@ def build(hue, chromas, pins=None):
 
 # Harbor — the brand blue, now SATURATED rather than muted. Big panels use the
 # brand colour itself, the way Birkenstock's do.
-harbor = build(259.0,
-    [0.010,0.022,0.045,0.075,0.105,0.135,0.150,0.150,0.120,0.080],
-    pins={800:"#053c74"})
+harbor = build(261.0,
+    [0.014,0.030,0.060,0.095,0.128,0.152,0.165,0.165,0.156,0.105],
+    pins={800:"#00348d"})
 
 # Lime — the flashy accent from the reference. Very light and very chromatic:
 # it is a SURFACE colour that carries dark ink, never text on white.
-lime = build(118.0,
-    [0.040,0.070,0.110,0.150,0.175,0.165,0.150,0.130,0.105,0.070])
+lime = build(115.6,
+    [0.105,0.153,0.175,0.180,0.180,0.170,0.155,0.135,0.110,0.075],
+    pins={100:"#eeff80"})
 
 # Taupe — the warm neutral counterweight.
 taupe = build(75.0,
@@ -61,9 +62,9 @@ checks=[
  ("paper-50 / harbor-800 (inverse body)",paper[50],inv),
  ("harbor-100 / harbor-800 (inverse sec)",harbor[100],inv),
  ("harbor-200 / harbor-800 (inverse ter)",harbor[200],inv),
- ("lime-300 / harbor-800 (inverse eyebrow)",lime[300],inv),
- ("ink-900 / lime-300 (primary btn)",ink[900],lime[300]),
- ("ink-900 / lime-400",ink[900],lime[400]),
+ ("lime-100 / harbor-800 (inverse eyebrow)",lime[100],inv),
+ ("ink-900 / lime-100 (primary btn)",ink[900],lime[100]),
+ ("ink-900 / lime-200",ink[900],lime[200]),
  ("paper-50 / ink-900 (banner)",paper[50],ink[900]),
  ("ink-900 / taupe-300 (chip)",ink[900],taupe[300]),
 ]
@@ -72,4 +73,4 @@ for l,f,b in checks:
     c=contrast(f,b); p=c>=4.5; ok&=p
     print(f"  {'PASS' if p else 'FAIL'} {c:5.2f}  {l}  ({f} on {b})")
 print("\nALL PASS" if ok else "\nSOME FAIL")
-json.dump(ramps,open('ramps3.json','w'),indent=1)
+json.dump(ramps,open('ramps4.json','w'),indent=1)

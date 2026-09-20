@@ -29,35 +29,42 @@
      Regenerate with `python3 scripts/palette.py` if an anchor changes.
      ------------------------------------------------------------------------- */
 
-  /* Harbor — the brand blue, sampled from the HUGO TRON logo.
-     ★ = #053c74, pinned verbatim so the plate matches the artwork.
+  /* Harbor — the brand blue. ★ = #00348d, sampled from
+     public/reference/colour-birkenstock.png.
 
-     Saturated on purpose: the big panels ARE the brand colour, as
-     Birkenstock's are, rather than a neutral tinted toward it */
-  --color-harbor-50: #f3f7fe;
-  --color-harbor-100: #e4eefc;
-  --color-harbor-200: #cbdefb;
-  --color-harbor-300: #a7c6f5;
-  --color-harbor-400: #82aced;
-  --color-harbor-500: #5b8fe1;
+     NOT the logo's own #053c74, which is the same lightness at two-thirds the
+     chroma and reads flat at panel scale. The logo artwork keeps its colour;
+     the notch ring of page ground separates the two wherever the plate crosses
+     a blue panel, so they are never edge to edge. */
+  --color-harbor-50: #f2f7ff;
+  --color-harbor-100: #e2eeff;
+  --color-harbor-200: #c6deff;
+  --color-harbor-300: #a1c5ff;
+  --color-harbor-400: #7cabfb;
+  --color-harbor-500: #588deb;
   --color-harbor-600: #316ac1;
-  --color-harbor-700: #1e57ad;
-  --color-harbor-800: #053c74;
-  --color-harbor-900: #0c264e;
+  --color-harbor-700: #1d54b5;
+  --color-harbor-800: #00348d;
+  --color-harbor-900: #05235a;
 
-  /* Lime — the flashy accent. Light and highly chromatic, so it is a
-     SURFACE that carries dark ink — a lime button with near-black type — and
-     never text on white, where it is unreadable at any step above 300 */
-  --color-lime-50: #f4fbdd;
-  --color-lime-100: #e8f4bf;
-  --color-lime-200: #d6e792;
-  --color-lime-300: #bcd155;
-  --color-lime-400: #a2b800;
-  --color-lime-500: #879b00;
-  --color-lime-600: #6e7f00;
-  --color-lime-700: #556300;
-  --color-lime-800: #3f4a00;
-  --color-lime-900: #252c00;
+  /* Lime — the flashy accent. ★ = #eeff80, sampled from
+     public/reference/colour-flashy-green.png.
+
+     Pinned at 100 because it is very light (L 0.96): it is a SURFACE carrying
+     near-black ink, and on the blue panel it is the brightest thing on the
+     page. An earlier version sat at L 0.82, which turned acid into olive.
+     For accent-coloured TEXT on white use harbor-600 — lime is unreadable
+     there at every step light enough to still look like lime. */
+  --color-lime-50: #f3ffad;
+  --color-lime-100: #eeff80;
+  --color-lime-200: #d8ea4e;
+  --color-lime-300: #c0d120;
+  --color-lime-400: #a7b700;
+  --color-lime-500: #8c9a00;
+  --color-lime-600: #727e00;
+  --color-lime-700: #596200;
+  --color-lime-800: #424900;
+  --color-lime-900: #272b00;
 
   /* Taupe — the warm neutral counterweight. Chips, quiet fills */
   --color-taupe-50: #f9f6f2;
@@ -131,7 +138,7 @@
   --color-fg-on-inverse: var(--color-paper-50);
 
   /* The accent as a SURFACE — buttons, marks, highlights. Carries dark ink. */
-  --color-accent: var(--color-lime-300);
+  --color-accent: var(--color-lime-100);
   /* The accent as TEXT. saffron-400 measures 1.9:1 on cream and could never be
      read; this is the step that clears 4.5:1 (7.45:1) while staying obviously
      the same colour. Use this and only this for accent-coloured type. */

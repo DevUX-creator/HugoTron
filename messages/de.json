@@ -57,5 +57,14 @@
       "eyebrow": "Schwarztee & Aromatees",
       "title": "Tee"
     }
+  },
+  "menu": {
+    "close": "Schließen",
+    "navigate": "Navigation",
+    "getInTouch": "Kontakt aufnehmen",
+    "tagline": "Direktimport ab Ursprung — seit Hamburg, für ganz Europa.",
+    "terms": "AGB",
+    "privacy": "Datenschutz",
+    "imprint": "Impressum"
   }
 }

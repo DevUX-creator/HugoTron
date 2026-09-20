@@ -2,7 +2,8 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import LocaleSwitcher from "@/components/ui/LocaleSwitcher";
-import { MenuIcon, SearchIcon, AccountIcon, CartIcon } from "./Icons";
+import Menu from "./Menu/Menu";
+import { SearchIcon, AccountIcon, CartIcon } from "./Icons";
 import "./header.css";
 
 /**
@@ -49,10 +50,9 @@ export default function Header() {
 
       <div className="header__bar">
         <div className="header__side header__side--start">
-          <button type="button" className="header__control" aria-label={t("openMenu")}>
-            <MenuIcon className="header__icon" />
-            <span className="header__control-label">{t("menu")}</span>
-          </button>
+          {/* Owns both the trigger and the overlay, so the open state stays
+              where it is used. */}
+          <Menu />
           <button type="button" className="header__control" aria-label={t("search")}>
             <SearchIcon className="header__icon" />
           </button>

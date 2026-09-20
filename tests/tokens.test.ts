@@ -45,10 +45,12 @@ function contrast(a: string, b: string): number {
 const AA_NORMAL = 4.5;
 
 describe("colour tokens", () => {
-  it("pins the brand navy to harbor-800", () => {
-    /* Sampled from the HUGO TRON logo — 89% of its pixels. NOT #00294d, which
-       is the Händlerbund badge in the footer and was the original mistake. */
-    expect(token("harbor-800")).toBe("#053c74");
+  it("pins the brand blue to harbor-800", () => {
+    /* Sampled from public/reference/colour-birkenstock.png. NOT the logo's
+       own #053c74 — same lightness, two-thirds the chroma, flat at panel
+       scale. And not #00294d, the Händlerbund badge, which was the first
+       mistake in this file's history. */
+    expect(token("harbor-800")).toBe("#00348d");
   });
 
   describe("text on the light grounds clears AA", () => {
@@ -74,7 +76,7 @@ describe("colour tokens", () => {
   describe("inverse sections clear AA on harbor-900", () => {
     const inverse = token("harbor-800");
 
-    for (const fg of ["paper-50", "harbor-100", "harbor-200", "lime-300"]) {
+    for (const fg of ["paper-50", "harbor-100", "harbor-200", "lime-100"]) {
       it(`${fg} on bg-inverse`, () => {
         expect(contrast(token(fg), inverse)).toBeGreaterThanOrEqual(AA_NORMAL);
       });
@@ -82,7 +84,7 @@ describe("colour tokens", () => {
   });
 
   it("keeps the primary button label legible on its own fill", () => {
-    expect(contrast(token("ink-900"), token("lime-300"))).toBeGreaterThanOrEqual(AA_NORMAL);
+    expect(contrast(token("ink-900"), token("lime-100"))).toBeGreaterThanOrEqual(AA_NORMAL);
   });
 
   it("keeps the announcement chip label legible on its fill", () => {
@@ -155,4 +157,12 @@ describe("no CSS references a colour token that does not exist", () => {
       expect(dangling).toEqual([]);
     });
   }
+});
+
+describe("the accent matches the reference it was sampled from", () => {
+  it("pins lime-100 to the acid value", () => {
+    /* L 0.96. An earlier ramp put the accent at L 0.82, which is olive rather
+       than acid — the single thing that made the palette read wrong. */
+    expect(token("lime-100")).toBe("#eeff80");
+  });
 });

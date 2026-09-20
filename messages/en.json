@@ -57,5 +57,14 @@
       "eyebrow": "Black & flavoured teas",
       "title": "Tea"
     }
+  },
+  "menu": {
+    "close": "Close",
+    "navigate": "Navigate",
+    "getInTouch": "Get in touch",
+    "tagline": "Direct from origin — out of Hamburg, across Europe.",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "imprint": "Imprint"
   }
 }
