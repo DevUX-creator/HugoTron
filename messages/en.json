@@ -87,12 +87,23 @@
     "decrease": "Decrease quantity",
     "increase": "Increase quantity",
     "add": "Add to cart",
-    "addNamed": "{count, plural, one {Add # × {product} to cart} other {Add # × {product} to cart}}"
+    "addNamed": "{count, plural, one {Add # × {product} to cart} other {Add # × {product} to cart}}",
+    "badgeNew": "New",
+    "badgeWholesale": "Wholesale",
+    "requestPrice": "Request price",
+    "perUnit": "per {unit}",
+    "rowEyebrow": "Our products",
+    "rowTitle": "Order direct, from the 1 kg bag to the 25 kg sack",
+    "rowCta": "See all products",
+    "pauseHint": "Hover the row to hold it still"
   },
   "units": {
     "kg1": "1 kg",
     "g1": "1 g",
-    "pack1": "1 pack"
+    "pack1": "pack",
+    "kg5": "5 kg",
+    "sack25": "25 kg sack",
+    "sack10": "10 kg sack"
   },
   "whoWeAre": {
     "eyebrow": "Who we are",

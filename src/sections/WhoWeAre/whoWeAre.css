@@ -47,50 +47,24 @@
   overflow: visible;
 }
 
-.who-trace {
+.who-fluid__contour {
   fill: none;
   stroke: currentcolor;
+  stroke-width: 1.2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-.who-trace--track {
-  stroke-width: 1;
-  opacity: 0.18;
-}
-
-.who-wave {
-  offset-path: var(--who-orbit);
-  offset-anchor: 0 0;
-  offset-rotate: auto;
-  animation: who-orbit 9s linear infinite;
-}
-
-.who-wave--a {
-  stroke-width: 1.6;
+.who-fluid__contour--0 {
   opacity: 0.85;
-  offset-distance: 12%;
-  animation-delay: -1.08s;
 }
 
-.who-wave--b {
-  stroke-width: 1.25;
+.who-fluid__contour--1 {
   opacity: 0.45;
-  offset-distance: 62%;
-  animation-duration: 13s;
-  animation-delay: -4.94s;
-  animation-direction: reverse;
 }
 
-/* A closed path keeps the loop continuous through all three sides. */
-@keyframes who-orbit {
-  from {
-    offset-distance: 0%;
-  }
-
-  to {
-    offset-distance: 100%;
-  }
+.who-fluid__contour--2 {
+  opacity: 0.22;
 }
 
 .who-micro__year {
@@ -175,12 +149,8 @@
   }
 }
 
-/* Keep both waves visible at different points when motion is disabled. */
+/* The fluid mark also stops its GSAP loop in the reduced-motion hook. */
 @media (prefers-reduced-motion: reduce) {
-  .who-wave {
-    animation: none;
-  }
-
   /* Drawn already, not drawing. An icon left at its undrawn state would be an
      invisible bullet, which is worse than an unanimated one. */
   .who-points__icon :is(path, rect, circle) {

@@ -4,6 +4,7 @@ import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
 import Copy from "@/animations/Copy";
 import Reveal from "@/animations/Reveal";
+import FluidTriangle from "./FluidTriangle";
 import { OriginIcon, DocumentIcon, PackSizesIcon, PalletIcon, LabelIcon } from "./WhoIcons";
 import "./whoWeAre.css";
 
@@ -20,8 +21,7 @@ import "./whoWeAre.css";
  * entry advisory — describe a different business, and writing them here would
  * have this section promising services nobody has said Hugo Tron performs.
  *
- * Server component: every moving part is one of the wrappers in
- * `src/animations`, which are client components already.
+ * Server component with client components for the text reveals and fluid mark.
  */
 export default function WhoWeAre() {
   const t = useTranslations("whoWeAre");
@@ -61,23 +61,9 @@ export default function WhoWeAre() {
           <p className="who-micro__note col-12 col-lg-4">{t("micro")}</p>
         </Copy>
 
-        {/* Two curved waves follow the same rounded triangle in opposite
-            directions. The faint outline keeps the shape legible throughout
-            the loop, including when reduced motion stops the waves. */}
+        {/* The complete triangular contours ripple continuously. */}
         <span className="who-micro__rule col-6 col-lg-3" aria-hidden="true">
-          <svg
-            viewBox="0 0 120 90"
-            focusable="false"
-            style={{ "--who-orbit": `path("${TRACE_ORBIT}")` } as React.CSSProperties}
-          >
-            <path className="who-trace who-trace--track" d={TRACE_ORBIT} />
-            <g className="who-wave who-wave--a">
-              <path className="who-trace" d="M-16 0 C-12-6-4-6 0 0 S12 6 16 0" />
-            </g>
-            <g className="who-wave who-wave--b">
-              <path className="who-trace" d="M-13 0 C-10-4-3-4 0 0 S10 4 13 0" />
-            </g>
-          </svg>
+          <FluidTriangle />
         </span>
 
         <span className="who-micro__year col-6 col-lg-2" aria-hidden="true">
@@ -128,7 +114,3 @@ export default function WhoWeAre() {
     </Section>
   );
 }
-
-/* Shared by the visible outline and the waves' CSS motion path. The curved
-   corners let their direction change smoothly on each lap. */
-const TRACE_ORBIT = "M56 15 Q60 8 64 15 L96 70 Q100 77 92 77 H28 Q20 77 24 70 Z";

@@ -7,6 +7,7 @@ import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import Header from "@/components/layout/Header";
 import Hero from "@/sections/Hero";
 import WhoWeAre from "@/sections/WhoWeAre";
+import Products from "@/sections/Products";
 import Categories from "@/sections/Categories";
 
 /**
@@ -16,7 +17,7 @@ import Categories from "@/sections/Categories";
  * and homepage-structure.en.md (EN). Both documents use the same numbering.
  *
  * Built:   Block 0 (chrome), Block 1 (hero), Block 11 (who we are),
- *          Block 4 (categories)
+ *          Block 8 (products), Block 4 (categories)
  * Next up: Block 2 (proof bar), Block 3 (audience split)
  */
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
@@ -31,6 +32,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
       <main>
         <Hero />
         <WhoWeAre />
+        <Products />
         <Categories />
       </main>
     </>

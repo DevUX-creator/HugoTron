@@ -1,0 +1,69 @@
+/* ===========================================================================
+   Products — the catalogue, drifting.
+   =========================================================================== */
+
+.products {
+  position: relative;
+  z-index: var(--z-base);
+  background-color: var(--color-bg-surface);
+  overflow: hidden;
+}
+
+.products__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-block);
+  max-width: var(--max-width-wide);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+  margin-block-end: var(--gap-section-header);
+}
+
+.products__eyebrow {
+  color: var(--color-accent-strong);
+}
+
+.products__title {
+  max-width: 24ch;
+}
+
+/* -- The track ------------------------------------------------------------ */
+
+/* FULL BLEED, DELIBERATELY. A row that stops at the container reads as a list
+   that happens to be cut off; one that runs past both edges reads as
+   continuing, which is the whole idea. */
+.ptrack {
+  position: relative;
+  inline-size: 100%;
+}
+
+.ptrack__rail {
+  display: flex;
+  inline-size: max-content;
+  will-change: transform;
+}
+
+.ptrack__set {
+  display: flex;
+  gap: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
+  /* The gap between sets has to match the gap inside one, or the seam shows
+     as a wider or narrower gap once a lap. */
+  padding-inline-end: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
+}
+
+/* Under reduced motion the track never moves, so it becomes an ordinary
+   scrollable row rather than a frozen one the reader cannot reach the end of. */
+@media (prefers-reduced-motion: reduce) {
+  .ptrack {
+    overflow-x: auto;
+  }
+
+  .ptrack__rail {
+    transform: none !important;
+  }
+
+  .ptrack__set:not(:first-child) {
+    display: none;
+  }
+}

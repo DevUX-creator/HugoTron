@@ -87,12 +87,23 @@
     "decrease": "Menge verringern",
     "increase": "Menge erhöhen",
     "add": "In den Warenkorb",
-    "addNamed": "{count, plural, one {# × {product} in den Warenkorb} other {# × {product} in den Warenkorb}}"
+    "addNamed": "{count, plural, one {# × {product} in den Warenkorb} other {# × {product} in den Warenkorb}}",
+    "badgeNew": "Neu",
+    "badgeWholesale": "Großhandel",
+    "requestPrice": "Preis anfragen",
+    "perUnit": "pro {unit}",
+    "rowEyebrow": "Sortiment",
+    "rowTitle": "Direkt bestellbar, vom 1-kg-Beutel bis zum 25-kg-Sack",
+    "rowCta": "Alle Produkte ansehen",
+    "pauseHint": "Fahren Sie über die Reihe, um sie anzuhalten"
   },
   "units": {
     "kg1": "1 kg",
     "g1": "1 g",
-    "pack1": "1 Packung"
+    "pack1": "Packung",
+    "kg5": "5 kg",
+    "sack25": "25-kg-Sack",
+    "sack10": "10-kg-Sack"
   },
   "whoWeAre": {
     "eyebrow": "Wer wir sind",

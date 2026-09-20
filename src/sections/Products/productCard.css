@@ -1,0 +1,170 @@
+/* ===========================================================================
+   Product card
+   ---------------------------------------------------------------------------
+   Card language from public/reference/product-card-style.png: a tinted tile
+   carrying the pack shot with tags in its corners, then name, price and one
+   outlined control across the full width.
+   =========================================================================== */
+
+.pcard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  inline-size: clamp(14rem, 11rem + 9vw, 19rem);
+  flex: none;
+}
+
+.pcard__tile {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-frame);
+  /* The ground the packs were photographed on, so the shot sits in the tile
+     with no visible edge of its own. */
+  background-color: var(--color-bg-product);
+  overflow: hidden;
+}
+
+.pcard__img {
+  object-fit: contain;
+  transition: scale var(--duration-slow) var(--ease-quint);
+}
+
+.pcard:hover .pcard__img {
+  scale: 1.04;
+}
+
+.pcard__tags {
+  position: absolute;
+  inset-block-start: 0.6rem;
+  inset-inline-start: 0.6rem;
+  z-index: var(--z-base);
+  display: flex;
+  gap: 0.35rem;
+  list-style: none;
+}
+
+.pcard__tag {
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-paper-50);
+  color: var(--color-fg-heading);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.pcard__name {
+  color: var(--color-fg-primary);
+  font-size: var(--text-body-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+.pcard__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  /* Pushes the control to the card's floor, so a row of cards whose names run
+     to different line counts still lines its buttons up. */
+  margin-block-start: auto;
+}
+
+.pcard__price {
+  color: var(--color-fg-primary);
+  font-size: var(--text-body-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.pcard__unit {
+  color: var(--color-fg-tertiary);
+  font-size: var(--text-eyebrow);
+}
+
+/* -- Stepper -------------------------------------------------------------- */
+
+.pcard__stepper {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.1rem;
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-product);
+}
+
+.pcard__step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.6rem;
+  block-size: 1.6rem;
+  border: 0;
+  border-radius: var(--radius-full);
+  background-color: transparent;
+  color: var(--color-fg-heading);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.pcard__step svg {
+  inline-size: 0.7rem;
+  block-size: 0.7rem;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.pcard__step:hover:not(:disabled),
+.pcard__step:focus-visible {
+  background-color: var(--color-fg-heading);
+  color: var(--color-paper-50);
+}
+
+.pcard__step:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.pcard__qty {
+  min-inline-size: 1.25rem;
+  color: var(--color-fg-primary);
+  font-size: var(--text-body-xs);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+/* -- The control ---------------------------------------------------------- */
+
+.pcard__action {
+  display: block;
+  inline-size: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--color-fg-heading);
+  font-family: inherit;
+  font-size: var(--text-body-xs);
+  font-weight: var(--font-weight-semibold);
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-base) var(--ease-standard),
+    border-color var(--duration-base) var(--ease-standard),
+    color var(--duration-base) var(--ease-standard);
+}
+
+.pcard__action:hover,
+.pcard__action:focus-visible {
+  border-color: var(--color-fg-heading);
+  background-color: var(--color-fg-heading);
+  color: var(--color-paper-50);
+}
