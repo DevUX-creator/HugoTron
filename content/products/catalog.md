@@ -26,14 +26,14 @@ eingestellt, die eigentlich B2B-Anfragen sind. Das gehört im Redesign getrennt 
 > Das Rückseitenbild zeigt eine vollständige Nährwerttabelle, Ursprungsland
 > und EAN. Genau die Daten, die laut `audit.md` §5a fehlen:
 >
-> | | je 100 g |
-> |---|---|
-> | Energie | 330 kcal |
-> | Eiweiß | 8,4 g |
-> | Kohlenhydrate | 74,0 g — davon Zucker 0,4 g |
-> | Fett | 0,6 g — davon gesättigt 0,4 g |
-> | Ballaststoffe | 2,4 g |
-> | Natrium | 2 mg |
+> |               | je 100 g                      |
+> | ------------- | ----------------------------- |
+> | Energie       | 330 kcal                      |
+> | Eiweiß        | 8,4 g                         |
+> | Kohlenhydrate | 74,0 g — davon Zucker 0,4 g   |
+> | Fett          | 0,6 g — davon gesättigt 0,4 g |
+> | Ballaststoffe | 2,4 g                         |
+> | Natrium       | 2 mg                          |
 >
 > Ursprungsland Indien · EAN 4270004058505 · Nettofüllmenge 5 kg
 >

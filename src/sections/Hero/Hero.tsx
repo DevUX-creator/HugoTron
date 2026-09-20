@@ -25,11 +25,18 @@ import "./hero.css";
 export default function Hero() {
   const t = useTranslations("hero");
 
-  /* The kitchen shot leads — it is the frame the client will swap — and the
-     pack views follow. Alt text is resolved here because message keys are
-     typed against the catalogue and cannot travel as loose strings. */
+  /* PACK SHOTS ONLY — no lifestyle frame. A product photographed against its
+     own ground reads at a glance and survives being shrunk into a thumbnail;
+     a room shot does neither, and the same picture cannot serve as both the
+     preview and the view.
+
+     Front leads, because that is the face a pack is recognised by. As more
+     photography arrives this becomes one front view per product rather than
+     three angles of one.
+
+     Alt text is resolved here: message keys are typed against the catalogue
+     and cannot travel as loose strings. */
   const slides: Slide[] = [
-    { src: "/hero/kitchen.png", alt: t("slideKitchen") },
     { src: "/products/pardis-1121-basmati-indien/front.png", alt: t("slideFront") },
     { src: "/products/pardis-1121-basmati-indien/side.png", alt: t("slideSide") },
     { src: "/products/pardis-1121-basmati-indien/back.png", alt: t("slideBack") },

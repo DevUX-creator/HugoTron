@@ -111,6 +111,13 @@
      letting the lime accent carry all the colour. */
   --color-stage: #33353a;
 
+  /* The ground the pack shots are photographed on. Sampled from the artwork
+     itself (#ede5da / #eee5dc / #f1e9e0 across the three views) so a frame
+     letterboxing one of them has no visible seam. Product images are squares
+     shown in a landscape frame: `cover` would crop a third off a bag that is
+     mostly height, so they are contained and this fills the rest. */
+  --color-stage-product: #eee6db;
+
   /* Status */
   --color-positive: #1d7a44;
   --color-negative: #9a3412;
@@ -125,6 +132,7 @@
   /* The hero's panel. Its own token, so it is not tied to the inverse ground
      that sections and the menu share. */
   --color-bg-stage: var(--color-stage);
+  --color-bg-product: var(--color-stage-product);
   /* The inverse ground is the BRAND BLUE itself, not a near-black tinted
      toward it. That is what makes the dark panels read as branding. */
   --color-bg-inverse: var(--color-harbor-800);

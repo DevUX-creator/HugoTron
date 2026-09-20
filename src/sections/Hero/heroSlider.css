@@ -16,6 +16,9 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
+  /* Matches the ground the packs are shot on, so the contained image below
+     letterboxes without a seam. */
+  background-color: var(--color-bg-product);
   /* ITS OWN STACKING CONTEXT. The transition raises the incoming slide to
      z-index 2; without a context here that number competed directly with the
      rail's, so from the first autoplay tick onward the slide painted over the
@@ -32,7 +35,9 @@
 }
 
 .hero-slider__img {
-  object-fit: cover;
+  /* CONTAIN, not cover. The packs are square and this frame is landscape —
+     covering it would crop a third off a subject that is nearly all height. */
+  object-fit: contain;
   /* The image travels inside its own clip, so it must not be the thing that
      gets clipped by the stage as well. */
   will-change: transform;
@@ -67,11 +72,11 @@
   cursor: pointer;
   overflow: hidden;
   aspect-ratio: 4 / 3;
-  /* A HAIRLINE ON EVERY THUMB. The dim below is dark, and so is much of the
-     photography it sits on — a dimmed thumbnail over a dark kitchen counter
-     has no edge at all. This gives the control a shape independent of what is
-     behind it. */
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 45%);
+  background-color: var(--color-bg-product);
+  /* A HAIRLINE ON EVERY THUMB, so the control has a shape independent of what
+     is behind it. DARK now the photography is light — a white hairline on a
+     cream pack shot is no edge at all. */
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 18%);
 }
 
 /* THE DIM IS A LAYER, NOT AN OPACITY. Fading the whole button also fades the
@@ -97,12 +102,13 @@
 }
 
 .hero-slider__thumb[aria-current="true"] {
-  outline: 2px solid var(--color-accent);
+  /* Ink rather than the accent: lime on a cream pack shot is barely a mark. */
+  outline: 2px solid var(--color-ink-900);
   outline-offset: -2px;
 }
 
 .hero-slider__thumb-img {
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .hero-slider__pause {
