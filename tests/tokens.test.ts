@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { globSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 /**
@@ -114,4 +114,43 @@ describe("theme hygiene", () => {
     expect(maxima[0]).toBeLessThan(maxima[1]!);
     expect(maxima[1]).toBeLessThan(maxima[2]!);
   });
+});
+
+describe("no CSS references a colour token that does not exist", () => {
+  /**
+   * This catches the class of bug that made the primary button invisible and
+   * `<Section inverse>` inert: CSS ported from the reference project kept
+   * referring to ITS ramps (`--color-hunter-900`, `--color-accent-gold`).
+   *
+   * `var(--missing)` is not an error — it resolves to nothing, so the whole
+   * declaration is dropped and the element renders transparent. Nothing else
+   * in the toolchain notices, which is exactly why it needs a test.
+   *
+   * Only bare `var(--color-x)` is checked. `var(--color-x, fallback)` is the
+   * deliberate override hook — button.css reads `--color-btn-alt` and hero.css
+   * sets it — and a fallback means a missing token degrades rather than
+   * disappears.
+   */
+  const files = globSync("../src/**/*.css", { cwd: new URL(".", import.meta.url) });
+
+  const declared = new Set([...theme.matchAll(/(--color-[\w-]+):/g)].map(([, name]) => name));
+
+  it("finds the stylesheets and the tokens", () => {
+    expect(files.length).toBeGreaterThan(5);
+    expect(declared.size).toBeGreaterThan(50);
+  });
+
+  for (const file of files) {
+    it(file, () => {
+      const css = readFileSync(new URL(file, import.meta.url), "utf8");
+
+      /* `var(--color-x)` with no comma before the closing paren. */
+      const bare = [...css.matchAll(/var\(\s*(--color-[\w-]+)\s*\)/g)].map(([, name]) => name);
+      const local = new Set([...css.matchAll(/(--color-[\w-]+):/g)].map(([, name]) => name));
+
+      const dangling = [...new Set(bare)].filter((name) => !declared.has(name) && !local.has(name));
+
+      expect(dangling).toEqual([]);
+    });
+  }
 });

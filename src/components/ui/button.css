@@ -89,16 +89,16 @@
 
    The base is a TOKEN so a section that remaps its palette can remap this with
    it, the way `<Section inverse>` remaps the rest (see section.css). Nothing
-   overrides it today; what it defaults to is the brand gold. */
+   overrides it today; what it defaults to is the saffron accent. */
 .btn--primary {
-  background-color: var(--color-btn-base, var(--color-accent-gold));
-  color: var(--color-hunter-900);
+  background-color: var(--color-btn-base, var(--color-accent));
+  color: var(--color-ink-900);
 
   /* Hover wipes to the deepest ink in the palette and the label goes to cream —
      the inversion of the resting state rather than a shade of it, which is what
      makes a button that is already the brightest thing on the page still have
      somewhere to go. */
-  --btn-fill: var(--color-bokara-900);
+  --btn-fill: var(--color-ink-900);
 }
 
 .btn--primary:hover,

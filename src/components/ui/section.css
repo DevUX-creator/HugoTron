@@ -8,18 +8,18 @@
    =========================================================================== */
 
 .section-block--inverse {
-  --color-bg-base: var(--color-hunter-900);
-  --color-bg-surface: var(--color-hunter-800);
-  --color-bg-muted: var(--color-hunter-700);
+  --color-bg-base: var(--color-harbor-900);
+  --color-bg-surface: var(--color-harbor-800);
+  --color-bg-muted: var(--color-harbor-700);
 
   --color-fg-primary: var(--color-cream-50);
-  --color-fg-secondary: var(--color-hunter-200);
-  --color-fg-tertiary: var(--color-hunter-400);
+  --color-fg-secondary: var(--color-harbor-200);
+  --color-fg-tertiary: var(--color-harbor-400);
   --color-fg-heading: var(--color-cream-50);
 
-  --color-border: var(--color-hunter-700);
-  --color-border-strong: var(--color-hunter-600);
-  --color-ring: var(--color-lime-300);
+  --color-border: var(--color-harbor-700);
+  --color-border-strong: var(--color-harbor-600);
+  --color-ring: var(--color-saffron-300);
 
   background-color: var(--color-bg-base);
   color: var(--color-fg-primary);

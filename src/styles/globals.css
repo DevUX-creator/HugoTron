@@ -149,8 +149,8 @@
   }
 
   ::selection {
-    background-color: var(--color-lime-300);
-    color: var(--color-hunter-900);
+    background-color: var(--color-saffron-200);
+    color: var(--color-ink-900);
   }
 }
 

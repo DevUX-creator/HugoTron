@@ -1,62 +1,34 @@
 /* ===========================================================================
-   Hero
+   Hero — split panel and media.
    ---------------------------------------------------------------------------
-   Media fills the block; copy and slide rail sit over its lower edge sharing
-   one baseline. The header's brand plate overhangs into the top of this
-   section, so nothing may be positioned in the top-centre.
+   The header's brand plate overhangs into the top of this section, so nothing
+   may be positioned in the top-centre of either half.
    =========================================================================== */
 
 .hero {
-  position: relative;
+  display: grid;
+  /* Media first on narrow viewports; the panel follows beneath it. */
+  grid-template-areas:
+    "media"
+    "panel";
+}
+
+/* -- The copy panel ------------------------------------------------------- */
+
+.hero__panel {
+  grid-area: panel;
   display: flex;
-  align-items: flex-end;
-  /* Short of a full viewport on purpose: the row beneath has to be visible at
-     rest, otherwise the page looks like it ends at the fold. `svh` because
-     `vh` is wrong for the whole time a mobile browser's toolbar is showing. */
-  min-block-size: clamp(30rem, 78svh, 48rem);
+  align-items: center;
   padding-block: var(--gap-section-header);
-  overflow: hidden;
-  color: var(--color-cream-50);
-  isolation: isolate;
-}
-
-.hero__media {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-}
-
-.hero__placeholder {
-  block-size: 100%;
-}
-
-/* Bottom-weighted, because that is where the type is. Stronger on narrow
-   viewports where the copy covers more of the frame. */
-.hero__scrim {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(
-    to top,
-    var(--color-harbor-900) 0%,
-    color-mix(in srgb, var(--color-harbor-900) 72%, transparent) 38%,
-    transparent 78%
-  );
-}
-
-.hero__inner {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-section-header);
-  inline-size: 100%;
-  max-width: var(--max-width-wide);
-  margin-inline: auto;
   padding-inline: var(--container-padding);
+  background-color: var(--color-harbor-900);
+  color: var(--color-cream-50);
 }
-
-/* -- Copy ----------------------------------------------------------------- */
 
 .hero__copy {
+  inline-size: 100%;
   max-width: 34rem;
+  margin-inline: auto;
 }
 
 .hero__eyebrow {
@@ -69,19 +41,19 @@
 }
 
 .hero__lead {
-  max-width: 44ch;
+  max-width: 42ch;
   margin-block-start: var(--gap-block);
-  color: var(--color-harbor-100);
-  font-size: var(--text-body-lg);
+  color: var(--color-harbor-200);
+  font-size: var(--text-body-md);
 }
 
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-block-start: var(--gap-block);
+  margin-block-start: var(--gap-section-header);
 
-  /* The secondary button's tint is nearly invisible on a dark photograph, so
+  /* The secondary button's default tint is nearly invisible on this ground, so
      the hero fills it solid and inverts its ink — see button.css, where every
      one of these is a token for exactly this case. */
   --color-btn-alt: var(--color-cream-50);
@@ -90,20 +62,28 @@
   --color-btn-alt-hover-ink: var(--color-harbor-900);
 }
 
+/* -- The media ------------------------------------------------------------ */
+
+.hero__media {
+  grid-area: media;
+  position: relative;
+  isolation: isolate;
+}
+
+.hero__frame {
+  block-size: 100%;
+  min-block-size: clamp(16rem, 42svh, 26rem);
+}
+
 /* -- Slide rail ----------------------------------------------------------- */
 
 .hero__rail {
+  position: absolute;
+  inset-block-end: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
+  inset-inline-end: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
   display: flex;
   align-items: stretch;
   gap: 0.5rem;
-  /* Scrolls rather than shrinks on narrow viewports: three thumbs squeezed
-     into a phone width stop being recognisable as pictures. */
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.hero__rail::-webkit-scrollbar {
-  display: none;
 }
 
 .hero__thumbs {
@@ -114,17 +94,17 @@
 
 .hero__thumb {
   display: block;
-  inline-size: clamp(4.5rem, 3rem + 6vw, 7rem);
+  inline-size: clamp(3.5rem, 2.5rem + 4vw, 6rem);
   padding: 0;
   border: 2px solid transparent;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   background: none;
   cursor: pointer;
   overflow: hidden;
+  opacity: 0.6;
   transition:
     border-color var(--duration-base) var(--ease-standard),
     opacity var(--duration-base) var(--ease-standard);
-  opacity: 0.65;
 }
 
 .hero__thumb:hover,
@@ -133,7 +113,7 @@
 }
 
 .hero__thumb[aria-current="true"] {
-  border-color: var(--color-saffron-400);
+  border-color: var(--color-cream-50);
   opacity: 1;
 }
 
@@ -142,9 +122,9 @@
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  inline-size: clamp(2.5rem, 2rem + 2vw, 3.25rem);
+  inline-size: clamp(2.25rem, 1.75rem + 2vw, 3rem);
   border: 0;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   background-color: var(--color-ink-900);
   color: var(--color-cream-50);
   cursor: pointer;
@@ -157,20 +137,28 @@
 }
 
 .hero__pause-icon {
-  inline-size: 1rem;
-  block-size: 1rem;
+  inline-size: 0.9rem;
+  block-size: 0.9rem;
 }
 
-/* From `md` the copy and the rail share a baseline, copy left, rail right. */
-@media (width >= 48rem) {
-  .hero__inner {
-    flex-direction: row;
-    align-items: flex-end;
-    justify-content: space-between;
+/* Side by side from `lg`. The panel is the narrower track — it holds words,
+   the photograph holds the room. */
+@media (width >= 64rem) {
+  .hero {
+    grid-template-areas: "panel media";
+    grid-template-columns: minmax(0, 0.42fr) minmax(0, 0.58fr);
+    min-block-size: clamp(30rem, 74svh, 44rem);
   }
 
-  .hero__rail {
-    flex-shrink: 0;
-    overflow-x: visible;
+  .hero__panel {
+    padding-inline: clamp(2rem, 1rem + 3vw, 4.5rem);
+  }
+
+  .hero__copy {
+    margin-inline: 0;
+  }
+
+  .hero__frame {
+    min-block-size: 100%;
   }
 }

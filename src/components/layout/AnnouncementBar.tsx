@@ -5,14 +5,14 @@ import "./announcementBar.css";
 /**
  * The shipping strip above the header.
  *
- * A dark panel inset from the viewport edges with its BOTTOM corners rounded,
- * so it reads as hanging from the top of the page rather than as a full-bleed
- * band. The header's logo plate repeats that shape, which is what ties the two
- * together as one piece of chrome.
+ * One line: a filled chip carrying the offer, the detail beside it, a chevron
+ * at the end. The panel is inset from the viewport edges with its BOTTOM
+ * corners rounded, so it reads as hanging from the top of the page rather than
+ * as a full-bleed band.
  *
  * It is a link, not a notice: the one thing the old site never resolved is what
  * delivery actually costs (see content/strategy/audit.md §3), so the promise
- * points straight at the page that will answer it.
+ * points straight at the page that answers it.
  */
 export default function AnnouncementBar() {
   const t = useTranslations("announcement");
@@ -20,14 +20,14 @@ export default function AnnouncementBar() {
   return (
     <aside className="announce">
       <Link href="/delivery" className="announce__panel">
-        <span className="announce__eyebrow eyebrow">{t("eyebrow")}</span>
+        <span className="announce__chip">{t("chip")}</span>
         <span className="announce__message">{t("message")}</span>
         <svg
           className="announce__chevron"
           viewBox="0 0 16 16"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.75"
+          strokeWidth="2"
           aria-hidden="true"
           focusable="false"
         >

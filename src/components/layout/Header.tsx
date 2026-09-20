@@ -5,17 +5,20 @@ import { MenuIcon, SearchIcon, AccountIcon, CartIcon } from "./Icons";
 import "./header.css";
 
 /**
- * Sticky header with the logo centred.
+ * Two stacked rows, following the reference layout
+ * (public/reference/brigade-desktop.png):
  *
- * Three tracks: controls left, brand centre, controls right. The brand sits in
- * a plate that hangs BELOW the bar's bottom edge, repeating the announcement
- * panel's rounded-bottom shape — that overhang is what stops a centred logo
- * reading as merely symmetrical.
+ *   1. NAV ROW — the primary links spread across the full width, split by
+ *      vertical hairlines, closed by a rule underneath. Desktop only; below
+ *      `lg` the links move into the menu.
+ *   2. BRAND BAR — menu control left, logo centred, account and cart right.
  *
- * DESKTOP shows the primary links inline, split by hairlines. BELOW `lg` they
- * collapse into the menu button, which is currently inert — the drawer and its
- * motion come later, per Dmitrij. The button is still a real `<button>` with an
- * accessible name so the markup does not have to change when it is wired up.
+ * The logo plate hangs below the brand bar onto the hero, so neither row may
+ * clip its overflow.
+ *
+ * The menu button is currently inert — the drawer and its motion come later,
+ * per Dmitrij. It is still a real `<button>` with an accessible name so the
+ * markup does not change when it is wired up.
  */
 export default function Header() {
   const t = useTranslations("nav");
@@ -25,35 +28,30 @@ export default function Header() {
     { href: "/wholesale", label: t("wholesale") },
     { href: "/private-label", label: t("privateLabel") },
     { href: "/about", label: t("about") },
+    { href: "/delivery", label: t("delivery") },
     { href: "/contact", label: t("contact") },
   ] as const;
 
   return (
     <header className="header">
+      <nav className="header__nav" aria-label={t("primary")}>
+        <ul className="header__nav-list">
+          {links.map((link) => (
+            <li key={link.href} className="header__nav-item">
+              <Link href={link.href} className="header__nav-link">
+                {link.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
       <div className="header__bar">
         <div className="header__side header__side--start">
-          <button
-            type="button"
-            className="header__icon-btn header__menu"
-            aria-label={t("openMenu")}
-          >
+          <button type="button" className="header__control" aria-label={t("openMenu")}>
             <MenuIcon className="header__icon" />
+            <span className="header__control-label">{t("menu")}</span>
           </button>
-          <button type="button" className="header__icon-btn" aria-label={t("search")}>
-            <SearchIcon className="header__icon" />
-          </button>
-
-          <nav className="header__nav" aria-label={t("primary")}>
-            <ul className="header__nav-list">
-              {links.map((link) => (
-                <li key={link.href} className="header__nav-item">
-                  <Link href={link.href} className="header__nav-link">
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
         </div>
 
         <Link href="/" className="header__brand" aria-label={t("home")}>
@@ -75,11 +73,15 @@ export default function Header() {
         </Link>
 
         <div className="header__side header__side--end">
-          <button type="button" className="header__icon-btn" aria-label={t("account")}>
+          <button type="button" className="header__control" aria-label={t("search")}>
+            <SearchIcon className="header__icon" />
+          </button>
+          <button type="button" className="header__control" aria-label={t("account")}>
             <AccountIcon className="header__icon" />
           </button>
-          <Link href="/cart" className="header__icon-btn" aria-label={t("cart")}>
+          <Link href="/cart" className="header__control">
             <CartIcon className="header__icon" />
+            <span className="header__control-label">{t("cart")} (0)</span>
           </Link>
         </div>
       </div>

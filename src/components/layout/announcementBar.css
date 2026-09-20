@@ -1,8 +1,8 @@
 /* ===========================================================================
    Announcement bar
    ---------------------------------------------------------------------------
-   Inset from the viewport edges, bottom corners rounded. The header's logo
-   plate uses the same radius so the two read as one piece of chrome.
+   Inset from the viewport edges, bottom corners rounded. The brand plate in
+   the header repeats that radius so the two read as one piece of chrome.
    =========================================================================== */
 
 .announce {
@@ -11,68 +11,56 @@
 }
 
 .announce__panel {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: flex;
+  /* One row, always. Letting this wrap put the chevron alone on a third line
+     and turned a one-line promise into a paragraph. The message wraps inside
+     its own box instead. */
+  flex-wrap: nowrap;
   align-items: center;
-  column-gap: var(--gap-block);
+  justify-content: center;
+  gap: 0.75rem;
   max-width: var(--max-width-wide);
   margin-inline: auto;
-  padding: 0.7rem 1.25rem 0.8rem;
+  padding: 0.6rem 1.25rem;
   border-end-start-radius: var(--radius-lg);
   border-end-end-radius: var(--radius-lg);
   background-color: var(--color-ink-900);
   color: var(--color-cream-50);
+  text-align: center;
   text-decoration: none;
-  transition: background-color var(--duration-base) var(--ease-standard);
 }
 
-.announce__panel:hover,
-.announce__panel:focus-visible {
-  background-color: var(--color-harbor-900);
-}
-
-.announce__eyebrow {
-  grid-column: 1;
-  color: var(--color-saffron-300);
+/* The offer itself, as a filled chip — the one thing that has to survive being
+   skimmed. Everything after it is detail. */
+.announce__chip {
+  flex-shrink: 0;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-clay-300);
+  color: var(--color-ink-900);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  line-height: 1.1;
+  text-transform: uppercase;
 }
 
 .announce__message {
-  grid-column: 1;
+  min-inline-size: 0;
   font-size: var(--text-body-xs);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--leading-snug);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
 }
 
 .announce__chevron {
-  grid-column: 2;
-  grid-row: 1 / -1;
-  inline-size: 1rem;
-  block-size: 1rem;
+  flex-shrink: 0;
+  inline-size: 0.85rem;
+  block-size: 0.85rem;
   transition: transform var(--duration-base) var(--ease-quint);
 }
 
 .announce__panel:hover .announce__chevron,
 .announce__panel:focus-visible .announce__chevron {
-  transform: translateX(0.2rem);
-}
-
-/* Centred once the message fits on one line — below this it stays left-aligned
-   so a wrapped German line does not read as two ragged centred fragments. */
-@media (width >= 48rem) {
-  .announce__panel {
-    justify-items: center;
-    padding-inline: 3rem;
-    text-align: center;
-  }
-
-  .announce__eyebrow,
-  .announce__message {
-    grid-column: 1;
-  }
-
-  .announce__chevron {
-    position: absolute;
-    inset-inline-end: 1.5rem;
-  }
+  transform: translateX(0.25rem);
 }
