@@ -17,15 +17,13 @@
   justify-content: center;
   gap: 0.55rem;
   padding: 0.95rem 1.7rem;
-  /* Chamfered silhouette — a cut bottom-right corner. Deliberately NOT a pill:
-     it echoes the hexagonal product callouts, so the two read as one system. */
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% calc(100% - var(--chamfer-cut)),
-    calc(100% - var(--chamfer-cut)) 100%,
-    0 100%
-  );
+  /* Rounded rather than chamfered. The cut corner came from the reference
+     project, where it rhymed with hexagonal badges this design does not have;
+     on its own it just read as a clipped rectangle.
+
+     A token, not a literal, so the whole set moves together — raise it to
+     --radius-full for pills. */
+  border-radius: var(--radius-button);
   font-family: var(--font-sans);
   font-size: var(--text-body-sm);
   font-weight: var(--font-weight-semibold);
@@ -34,7 +32,7 @@
   white-space: nowrap;
   text-align: center;
   cursor: pointer;
-  /* Clips the fill to the pill, and isolate keeps the stacking local so the
+  /* Clips the fill to the shape, and isolate keeps the stacking local so the
      fill can never slide under neighbouring content. */
   overflow: hidden;
   isolation: isolate;
@@ -103,14 +101,12 @@
 
 .btn--primary:hover,
 .btn--primary:focus-visible {
-  color: var(--color-cream-50);
+  color: var(--color-linen-50);
 }
 
 /* -- Secondary: a solid surface, NO OUTLINE -------------------------------
-   Never a border. `clip-path` cuts the corner off the box and takes the stroke
-   with it, so an outlined button on this shape is a visibly broken one — which
-   is the reason this variant has always been a filled surface rather than a
-   ring, and the reason it stays one.
+   A filled surface rather than a ring: on a photograph an outline alone
+   disappears, and the variant has to hold up over the hero.
 
    Like the primary, it now rests at the weight it used to reach on hover: a
    solid tint rather than a 12% wash that was invisible against half the grounds
@@ -137,7 +133,7 @@
   padding-inline: 0.5rem;
   background-color: transparent;
   color: var(--color-fg-heading);
-  clip-path: none;
+  border-radius: var(--radius-sm);
 }
 
 .btn--ghost .btn__fill {

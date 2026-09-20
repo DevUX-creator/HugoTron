@@ -17,92 +17,105 @@
 @theme {
   /* -------------------------------------------------------------------------
      COLOUR
-     Five ramps generated in OKLCH at fixed perceptual lightness steps, so the
-     ladder is even rather than eyeballed. Each brand anchor is pinned verbatim
-     to its nearest step (marked ★) and the rest of the ramp is derived around
-     it. Chroma falls away toward both ends of every ramp, which is why the
-     light steps of `harbor` are a tint of navy and not cyan.
+     Five ramps generated in OKLCH at fixed perceptual lightness steps, each
+     with an EXPLICIT chroma profile rather than a curve — a muted palette needs
+     the saturation shaped by hand, and a formula gave us a candy-bright accent
+     and a heavy saturated panel.
 
-     Regenerate with scripts/palette.py if an anchor changes.
+     The character is deliberately low-chroma, warm and earthy, benchmarked
+     against public/reference/brigade-desktop.png: its ground sits at C=0.012,
+     its big dark panel at C=0.022, and only its one accent goes loud.
+
+     Regenerate with `python3 scripts/palette.py` if an anchor changes.
      ------------------------------------------------------------------------- */
 
-  /* Harbor — the brand navy, sampled from the HUGO TRON logo itself.
-     Headings, dark surfaces, brand marks. ★ = #053c74, 89% of the logo's pixels.
+  /* Harbor — the brand navy, sampled from the HUGO TRON logo (89% of its
+     pixels). ★ = #053c74, pinned verbatim so the plate matches the artwork.
 
-     CORRECTION: this was first anchored on #00294d, taken from the wrong image
-     in the scrape — that file is `hbLogo.png`, the Händlerbund membership badge
-     in the footer, not the company mark. Re-anchored on the real logo. */
-  --color-harbor-50: #f1f6fc;
-  --color-harbor-100: #e0e9f4;
-  --color-harbor-200: #c7d6e9;
-  --color-harbor-300: #a7bdd7;
-  --color-harbor-400: #85a1c3;
-  --color-harbor-500: #6486af;
-  --color-harbor-600: #446b9a;
-  --color-harbor-700: #245185;
+     Chroma PEAKS at the pinned step and drops hard at 900. That break is
+     deliberate: 900 is the big-surface step — the hero panel, inverse
+     sections — and a whole dark field at C=0.10 reads heavy and dated. The
+     reference's equivalent panel sits at C=0.022; ours is 0.030 */
+  --color-harbor-50: #f0f4f9;
+  --color-harbor-100: #e0e7f0;
+  --color-harbor-200: #c8d4e3;
+  --color-harbor-300: #aabbd0;
+  --color-harbor-400: #89a1be;
+  --color-harbor-500: #6986ab;
+  --color-harbor-600: #486c99;
+  --color-harbor-700: #275386;
   --color-harbor-800: #053c74;
-  --color-harbor-900: #001d4b;
+  --color-harbor-900: #182230;
 
-  /* Saffron — the accent, taken from the product that carries the best
-     margin in the range. Highlights, primary buttons, active states */
-  --color-saffron-50: #fff3e1;
-  --color-saffron-100: #fde4bf;
-  --color-saffron-200: #f5cd90;
-  --color-saffron-300: #e9af4b;
-  --color-saffron-400: #e3a11b;
-  --color-saffron-500: #b17600;
-  --color-saffron-600: #925c00;
-  --color-saffron-700: #744400;
-  --color-saffron-800: #572c00;
-  --color-saffron-900: #381400;
+  /* Saffron — the accent. Re-anchored from a high-key yellow to the DEEP RED
+     that saffron threads actually are. The old saffron-400 sat at L=0.75,
+     C=0.15: a bright yellow at that lightness on a dark panel is the loudest
+     pairing available, and it read as candy. This ramp peaks at L=0.53, the
+     same register as the reference's brick accent */
+  --color-saffron-50: #fbf1ee;
+  --color-saffron-100: #f6e1dc;
+  --color-saffron-200: #eec9bf;
+  --color-saffron-300: #e2aa9b;
+  --color-saffron-400: #d28976;
+  --color-saffron-500: #c06750;
+  --color-saffron-600: #a84932;
+  --color-saffron-700: #87331e;
+  --color-saffron-800: #672414;
+  --color-saffron-900: #3d1208;
 
-  /* Clay — the warm counterweight. Earth, grain, packaging */
-  --color-clay-50: #fcf3ef;
-  --color-clay-100: #f5e4db;
-  --color-clay-200: #e9cec0;
-  --color-clay-300: #d7b19d;
-  --color-clay-400: #c39278;
-  --color-clay-500: #b1795a;
-  --color-clay-600: #8d5b3f;
-  --color-clay-700: #70432a;
-  --color-clay-800: #532c15;
-  --color-clay-900: #351502;
+  /* Sand — the muted greige/tan. Chips, quiet fills, the warm counterweight */
+  --color-sand-50: #f5f3ef;
+  --color-sand-100: #e9e6dd;
+  --color-sand-200: #d8d2c4;
+  --color-sand-300: #c1b8a4;
+  --color-sand-400: #a79e85;
+  --color-sand-500: #8d836a;
+  --color-sand-600: #736a53;
+  --color-sand-700: #59513e;
+  --color-sand-800: #423c2d;
+  --color-sand-900: #252118;
 
-  /* Ink — the near-neutral warm grey. Body text and borders */
-  --color-ink-50: #f5f5f5;
-  --color-ink-100: #e8e8e7;
-  --color-ink-200: #d4d4d4;
-  --color-ink-300: #bbbaba;
-  --color-ink-400: #9f9e9e;
-  --color-ink-500: #838382;
-  --color-ink-600: #696867;
-  --color-ink-700: #50504f;
-  --color-ink-800: #383837;
-  --color-ink-900: #2b2926;
+  /* Ink — warm near-neutral. Body text, borders, the banner ground */
+  --color-ink-50: #f5f3f1;
+  --color-ink-100: #e8e6e3;
+  --color-ink-200: #d5d2cf;
+  --color-ink-300: #bbb8b5;
+  --color-ink-400: #a19e9a;
+  --color-ink-500: #87837f;
+  --color-ink-600: #6a6662;
+  --color-ink-700: #55514d;
+  --color-ink-800: #3f3c39;
+  --color-ink-900: #24211f;
 
-  /* Cream — the page ground. Warm, never clinical white */
-  --color-cream-50: #f7f4ef;
-  --color-cream-100: #e9e8e5;
-  --color-cream-200: #d5d4d2;
-  --color-cream-300: #bbbab8;
-  --color-cream-400: #9f9e9c;
-  --color-cream-500: #848381;
-  --color-cream-600: #6a6967;
-  --color-cream-700: #50504e;
-  --color-cream-800: #383837;
-  --color-cream-900: #201f1e;
+  /* Linen — the page ground. Warm greige, and deliberately NOT near-white:
+     the old ground sat at L=0.97, which reads as an unstyled default rather
+     than as a chosen colour. The reference's ground is L=0.92; base here is
+     linen-100 at the same value, and surfaces LIFT toward white from it */
+  --color-linen-50: #f4f4ef;
+  --color-linen-100: #e7e6df;
+  --color-linen-200: #d4d3c9;
+  --color-linen-300: #bbbaad;
+  --color-linen-400: #a19f91;
+  --color-linen-500: #868477;
+  --color-linen-600: #6c6b5f;
+  --color-linen-700: #535249;
+  --color-linen-800: #3e3d37;
+  --color-linen-900: #22221e;
 
   /* Status */
-  --color-positive: #1f6b3e;
+  --color-positive: #3f6b4a;
   --color-negative: #9a3412;
 
   /* ---- Semantic aliases -----------------------------------------------------
      Sections reference THESE, never a raw ramp step. That indirection is what
      lets <Section inverse> swap an entire subtree to the dark palette without
      touching a single child rule. */
-  --color-bg-base: var(--color-cream-50);
-  --color-bg-surface: var(--color-cream-100);
-  --color-bg-muted: var(--color-cream-200);
+  /* The base IS the warm greige. Surfaces LIFT toward white (a raised card),
+     muted RECEDES below it — the opposite of the usual near-white model, and
+     what makes a warm ground read as chosen rather than as unpainted. */
+  --color-bg-base: var(--color-linen-100);
+  --color-bg-surface: var(--color-linen-50);
+  --color-bg-muted: var(--color-linen-200);
   --color-bg-inverse: var(--color-harbor-900);
 
   --color-fg-primary: var(--color-ink-900);
@@ -121,18 +134,20 @@
      tests/tokens.test.ts. */
   --color-fg-tertiary: var(--color-ink-600);
   --color-fg-heading: var(--color-harbor-800);
-  --color-fg-on-inverse: var(--color-cream-50);
+  --color-fg-on-inverse: var(--color-linen-50);
 
-  /* The accent as a SURFACE (buttons, marks) — bright, and not for text. */
-  --color-accent: var(--color-saffron-400);
+  /* The accent as a SURFACE (buttons, marks). */
+  --color-accent: var(--color-saffron-600);
   /* The accent as TEXT. saffron-400 measures 1.9:1 on cream and could never be
      read; this is the step that clears 4.5:1 (7.45:1) while staying obviously
      the same colour. Use this and only this for accent-coloured type. */
-  --color-accent-strong: var(--color-saffron-700);
-  --color-accent-warm: var(--color-clay-500);
+  --color-accent-strong: var(--color-saffron-600);
+  --color-accent-warm: var(--color-sand-500);
+  /* The quiet fill — chips and tags. */
+  --color-accent-muted: var(--color-sand-300);
 
-  --color-border: var(--color-cream-300);
-  --color-border-strong: var(--color-cream-400);
+  --color-border: var(--color-linen-300);
+  --color-border-strong: var(--color-linen-400);
   --color-ring: var(--color-harbor-700);
 
   /* -------------------------------------------------------------------------
@@ -230,6 +245,8 @@
   --radius-full: 9999px;
   /* The shared softness for anything holding a photograph or a fill. */
   --radius-frame: var(--radius-xl);
+  /* Every button's corner, in one place. --radius-full makes them pills. */
+  --radius-button: var(--radius-lg);
 
   /* Chamfer — the cut-corner silhouette shared by buttons and callouts. */
   --chamfer-cut: 0.85rem;

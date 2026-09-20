@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import LocaleSwitcher from "@/components/ui/LocaleSwitcher";
 import { MenuIcon, SearchIcon, AccountIcon, CartIcon } from "./Icons";
 import "./header.css";
 
@@ -52,6 +53,10 @@ export default function Header() {
             <MenuIcon className="header__icon" />
             <span className="header__control-label">{t("menu")}</span>
           </button>
+          <button type="button" className="header__control" aria-label={t("search")}>
+            <SearchIcon className="header__icon" />
+          </button>
+          <LocaleSwitcher />
         </div>
 
         <Link href="/" className="header__brand" aria-label={t("home")}>
@@ -73,9 +78,6 @@ export default function Header() {
         </Link>
 
         <div className="header__side header__side--end">
-          <button type="button" className="header__control" aria-label={t("search")}>
-            <SearchIcon className="header__icon" />
-          </button>
           <button type="button" className="header__control" aria-label={t("account")}>
             <AccountIcon className="header__icon" />
           </button>

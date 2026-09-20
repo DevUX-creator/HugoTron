@@ -22,7 +22,7 @@
   padding-block: var(--gap-section-header);
   padding-inline: var(--container-padding);
   background-color: var(--color-harbor-900);
-  color: var(--color-cream-50);
+  color: var(--color-linen-50);
 }
 
 .hero__copy {
@@ -32,12 +32,12 @@
 }
 
 .hero__eyebrow {
-  color: var(--color-saffron-300);
+  color: var(--color-sand-300);
 }
 
 .hero__title {
   margin-block-start: var(--gap-block);
-  color: var(--color-cream-50);
+  color: var(--color-linen-50);
 }
 
 .hero__lead {
@@ -56,9 +56,9 @@
   /* The secondary button's default tint is nearly invisible on this ground, so
      the hero fills it solid and inverts its ink — see button.css, where every
      one of these is a token for exactly this case. */
-  --color-btn-alt: var(--color-cream-50);
+  --color-btn-alt: var(--color-linen-50);
   --color-btn-alt-ink: var(--color-harbor-900);
-  --color-btn-alt-fill: var(--color-saffron-400);
+  --color-btn-alt-fill: var(--color-saffron-600);
   --color-btn-alt-hover-ink: var(--color-harbor-900);
 }
 
@@ -113,7 +113,7 @@
 }
 
 .hero__thumb[aria-current="true"] {
-  border-color: var(--color-cream-50);
+  border-color: var(--color-linen-50);
   opacity: 1;
 }
 
@@ -126,7 +126,7 @@
   border: 0;
   border-radius: var(--radius-sm);
   background-color: var(--color-ink-900);
-  color: var(--color-cream-50);
+  color: var(--color-linen-50);
   cursor: pointer;
   transition: background-color var(--duration-fast) var(--ease-standard);
 }

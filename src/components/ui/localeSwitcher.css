@@ -1,0 +1,32 @@
+/* ===========================================================================
+   Locale switcher — two links split by a hairline.
+   =========================================================================== */
+
+.locale-switcher {
+  display: inline-flex;
+  align-items: center;
+}
+
+.locale-switcher__link {
+  padding: 0.35rem 0.5rem;
+  color: var(--color-fg-tertiary);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  line-height: 1;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.locale-switcher__link + .locale-switcher__link {
+  border-inline-start: 1px solid var(--color-border);
+}
+
+.locale-switcher__link:hover,
+.locale-switcher__link:focus-visible {
+  color: var(--color-fg-heading);
+}
+
+.locale-switcher__link[aria-current="true"] {
+  color: var(--color-fg-heading);
+}

@@ -25,7 +25,7 @@
   border-end-start-radius: var(--radius-lg);
   border-end-end-radius: var(--radius-lg);
   background-color: var(--color-ink-900);
-  color: var(--color-cream-50);
+  color: var(--color-linen-50);
   text-align: center;
   text-decoration: none;
 }
@@ -36,7 +36,7 @@
   flex-shrink: 0;
   padding: 0.35rem 0.75rem;
   border-radius: var(--radius-sm);
-  background-color: var(--color-clay-300);
+  background-color: var(--color-accent-muted);
   color: var(--color-ink-900);
   font-size: var(--text-eyebrow);
   font-weight: var(--font-weight-semibold);

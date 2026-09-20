@@ -12,14 +12,14 @@
   --color-bg-surface: var(--color-harbor-800);
   --color-bg-muted: var(--color-harbor-700);
 
-  --color-fg-primary: var(--color-cream-50);
+  --color-fg-primary: var(--color-linen-50);
   --color-fg-secondary: var(--color-harbor-200);
   --color-fg-tertiary: var(--color-harbor-400);
-  --color-fg-heading: var(--color-cream-50);
+  --color-fg-heading: var(--color-linen-50);
 
   --color-border: var(--color-harbor-700);
   --color-border-strong: var(--color-harbor-600);
-  --color-ring: var(--color-saffron-300);
+  --color-ring: var(--color-sand-300);
 
   background-color: var(--color-bg-base);
   color: var(--color-fg-primary);

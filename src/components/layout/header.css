@@ -31,10 +31,21 @@
   list-style: none;
 }
 
-/* THE HAIRLINES. A leading border on every item but the first, so a rule sits
-   BETWEEN links and never on the outer edges of the group. */
-.header__nav-item + .header__nav-item {
-  border-inline-start: 1px solid var(--color-border);
+/* THE HAIRLINES. Drawn as a pseudo-element rather than a border so they can be
+   INSET from the row's top and bottom. A full-height border ran into the promo
+   panel above and the rule below, which read as one continuous grid; held
+   short, each divider is clearly its own mark and the row breathes. */
+.header__nav-item {
+  position: relative;
+}
+
+.header__nav-item + .header__nav-item::before {
+  content: "";
+  position: absolute;
+  inset-block: 0.55rem;
+  inset-inline-start: 0;
+  inline-size: 1px;
+  background-color: var(--color-border);
 }
 
 .header__nav-link {
@@ -118,15 +129,22 @@
 
 .header__brand {
   display: block;
-  inline-size: clamp(6.5rem, 4.5rem + 8vw, 10rem);
+  inline-size: clamp(7rem, 5rem + 8vw, 11rem);
   /* Hangs past the bar's bottom edge, onto whatever follows. */
   margin-block-end: calc(var(--brand-overhang) * -1);
-  border-end-start-radius: var(--radius-lg);
-  border-end-end-radius: var(--radius-lg);
-  /* Clips the artwork to the rounded plate. */
-  overflow: hidden;
+  /* THE NOTCH. A ring of the PAGE GROUND around the artwork, so where the
+     plate crosses into the hero it reads as a shape cut out of the header
+     rather than as a navy block dropped on top of the photograph. The outer
+     radius is one step larger than the inner so the ring keeps an even width
+     around the curve. */
+  padding: var(--brand-ring);
+  padding-block-start: 0;
+  border-end-start-radius: var(--radius-xl);
+  border-end-end-radius: var(--radius-xl);
+  background-color: var(--color-bg-base);
 
-  --brand-overhang: clamp(1rem, 0.5rem + 1.6vw, 2.25rem);
+  --brand-overhang: clamp(1.25rem, 0.5rem + 2vw, 2.75rem);
+  --brand-ring: clamp(0.4rem, 0.25rem + 0.5vw, 0.7rem);
 }
 
 .header__logo {
@@ -136,6 +154,8 @@
      around the wordmark, and a square plate would hang almost to the fold. */
   aspect-ratio: 5 / 3;
   block-size: auto;
+  border-end-start-radius: var(--radius-lg);
+  border-end-end-radius: var(--radius-lg);
   object-fit: cover;
 }
 

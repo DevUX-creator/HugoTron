@@ -3,10 +3,19 @@ import { defineRouting } from "next-intl/routing";
 export const locales = ["de", "en"] as const;
 export type Locale = (typeof locales)[number];
 
-/** German is the source of truth — the company, its customers and its legal
- *  texts are German. English exists for the export side (private label,
- *  wholesale) and is written for that reader, not translated word for word. */
-export const defaultLocale: Locale = "de";
+/**
+ * TEMPORARY: English, so the site is readable during review.
+ *
+ * German is the real default — the company, its customers and its legal texts
+ * are German, and English exists for the export side (private label,
+ * wholesale), written for that reader rather than translated word for word.
+ * `messages/de.json` stays the source of truth for the message SHAPE either
+ * way (see i18n/messages.ts).
+ *
+ * SWITCH BACK TO "de" BEFORE LAUNCH — it decides where `/` redirects and which
+ * language search engines treat as primary.
+ */
+export const defaultLocale: Locale = "en";
 
 export const localeLabels: Record<Locale, { name: string; short: string; htmlLang: string }> = {
   de: { name: "Deutsch", short: "DE", htmlLang: "de" },

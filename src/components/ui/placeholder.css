@@ -15,16 +15,16 @@
 }
 
 .placeholder--light {
-  background-color: var(--color-cream-300);
+  background-color: var(--color-linen-300);
 }
 
 /* Roughly a photograph's weight, so light type over it is reviewed honestly. */
 .placeholder--dark {
-  background-color: var(--color-cream-700);
+  background-color: var(--color-linen-700);
 }
 
 .placeholder--dark .placeholder__label {
-  color: var(--color-cream-300);
+  color: var(--color-linen-300);
 }
 
 .placeholder--rounded {
@@ -33,7 +33,7 @@
 
 .placeholder__label {
   padding: 0.4rem 0.6rem;
-  color: var(--color-cream-700);
+  color: var(--color-linen-700);
   font-size: var(--text-eyebrow);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;

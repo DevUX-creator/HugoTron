@@ -50,10 +50,10 @@ describe("colour tokens", () => {
   });
 
   describe("text on the light grounds clears AA", () => {
-    const grounds = { base: token("cream-50"), surface: token("cream-100") };
+    const grounds = { base: token("linen-100"), surface: token("linen-50") };
 
     for (const [groundName, ground] of Object.entries(grounds)) {
-      for (const fg of ["ink-900", "ink-700", "ink-600", "harbor-800", "saffron-700", "clay-700"]) {
+      for (const fg of ["ink-900", "ink-700", "ink-600", "harbor-800", "saffron-600"]) {
         it(`${fg} on bg-${groundName}`, () => {
           expect(contrast(token(fg), ground)).toBeGreaterThanOrEqual(AA_NORMAL);
         });
@@ -66,13 +66,13 @@ describe("colour tokens", () => {
        surface" exists. If a future ramp makes this pass, the limitation is
        gone and the note in theme.css should be deleted — so this asserts the
        state the comment describes rather than silently drifting from it. */
-    expect(contrast(token("ink-600"), token("cream-200"))).toBeLessThan(AA_NORMAL);
+    expect(contrast(token("ink-600"), token("linen-200"))).toBeLessThan(AA_NORMAL);
   });
 
   describe("inverse sections clear AA on harbor-900", () => {
     const inverse = token("harbor-900");
 
-    for (const fg of ["cream-50", "harbor-200", "harbor-300", "saffron-300"]) {
+    for (const fg of ["linen-50", "harbor-200", "harbor-300", "sand-300"]) {
       it(`${fg} on bg-inverse`, () => {
         expect(contrast(token(fg), inverse)).toBeGreaterThanOrEqual(AA_NORMAL);
       });
@@ -80,11 +80,11 @@ describe("colour tokens", () => {
   });
 
   it("keeps the primary button label legible on its own fill", () => {
-    expect(contrast(token("ink-900"), token("saffron-400"))).toBeGreaterThanOrEqual(AA_NORMAL);
+    expect(contrast(token("linen-50"), token("saffron-600"))).toBeGreaterThanOrEqual(AA_NORMAL);
   });
 
-  it("keeps the announcement eyebrow legible on the dark panel", () => {
-    expect(contrast(token("saffron-300"), token("ink-900"))).toBeGreaterThanOrEqual(AA_NORMAL);
+  it("keeps the announcement chip label legible on its fill", () => {
+    expect(contrast(token("ink-900"), token("sand-300"))).toBeGreaterThanOrEqual(AA_NORMAL);
   });
 });
 
