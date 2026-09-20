@@ -78,7 +78,10 @@
   margin-inline: auto;
 }
 
-.hero__eyebrow {
+/* The colour belongs on the TAG, not the paragraph: `.eyebrow` sets its own
+   colour, so anything inherited from the parent loses to it — and the tag's
+   border is mixed from `currentColor`, so the two have to agree. */
+.hero__eyebrow .tag {
   color: var(--color-accent);
 }
 

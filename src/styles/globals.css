@@ -209,6 +209,21 @@
     );
   }
 
+  /* A SECTION'S LABEL, AS A TAG. An outlined pill rather than loose small
+     caps, so the label reads as a marker on the page rather than as the first
+     line of the copy under it.
+
+     The border is mixed from `currentColor`, so the tag takes the tone of
+     whatever it is set in — the accent on a light ground, lime on the hero's
+     graphite — without a variant per ground. */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid color-mix(in srgb, currentcolor 38%, transparent);
+    border-radius: var(--radius-full);
+  }
+
   /* Available to assistive technology, invisible on screen. */
   .visually-hidden {
     position: absolute;

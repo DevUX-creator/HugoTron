@@ -53,29 +53,30 @@ export default function WhoWeAre() {
           Four elements at four sizes across the full width, which is what sets
           the section's register before the statement arrives. */}
       <div className="grid-12 who-micro">
-        <p className="who-micro__kicker eyebrow col-12 col-lg-3">{t("eyebrow")}</p>
+        <p className="who-micro__kicker col-12 col-lg-3">
+          <span className="eyebrow tag">{t("eyebrow")}</span>
+        </p>
 
         <Copy>
           <p className="who-micro__note col-12 col-lg-4">{t("micro")}</p>
         </Copy>
 
-        {/* TWO TRACES, RUNNING PAST EACH OTHER — goods out, orders back. The
-            only thing in this row that moves, and the only mark on the page
-            that says what the company is for without using a word.
-
-            The lines themselves are triangle waves and they TRAVEL on a
-            triangular path as well — see the keyframes in the stylesheet.
-
-            Each path is drawn at TWICE the window's width and slid by exactly
-            one window, so the loop is seamless: the wave at 120 is the wave at
-            0. That only holds while the window is a whole number of each
-            line's own periods — 120 is four of A's thirty and three of B's
-            forty — so the two can run at different wavelengths, and in
-            opposite directions, without either stuttering at the wrap. */}
+        {/* Two curved waves follow the same rounded triangle in opposite
+            directions. The faint outline keeps the shape legible throughout
+            the loop, including when reduced motion stops the waves. */}
         <span className="who-micro__rule col-6 col-lg-3" aria-hidden="true">
-          <svg viewBox={`0 0 ${TRACE_WIDTH} 24`} preserveAspectRatio="none" focusable="false">
-            <path className="who-trace who-trace--a" d={wavePath(15, 7)} />
-            <path className="who-trace who-trace--b" d={wavePath(20, 4)} />
+          <svg
+            viewBox="0 0 120 90"
+            focusable="false"
+            style={{ "--who-orbit": `path("${TRACE_ORBIT}")` } as React.CSSProperties}
+          >
+            <path className="who-trace who-trace--track" d={TRACE_ORBIT} />
+            <g className="who-wave who-wave--a">
+              <path className="who-trace" d="M-16 0 C-12-6-4-6 0 0 S12 6 16 0" />
+            </g>
+            <g className="who-wave who-wave--b">
+              <path className="who-trace" d="M-13 0 C-10-4-3-4 0 0 S10 4 13 0" />
+            </g>
           </svg>
         </span>
 
@@ -128,41 +129,6 @@ export default function WhoWeAre() {
   );
 }
 
-/* The window the traces are seen through, in the SVG's own units. The
-   stylesheet slides each path by exactly this much — the two numbers are the
-   same distance and have to stay that way. */
-const TRACE_WIDTH = 120;
-/** Twice the window, so there is always a second copy waiting off the right. */
-const TRACE_RUN = TRACE_WIDTH * 2;
-/** The traces' centre line, half of the 24-unit viewBox. */
-const TRACE_MID = 12;
-
-/**
- * One continuous TRIANGLE wave, `TRACE_RUN` units long.
- *
- * `halfPeriod` is centre crossing to centre crossing and `lift` is how far the
- * apex sits off the centre line. Each segment runs straight out to an apex and
- * straight back, alternating above and below — no curves, so the mark reads as
- * a signal trace rather than as water.
- *
- * THE WRAP IS WHY THE NUMBERS ARE WHAT THEY ARE. The window is 120 units and
- * the path is drawn at 240, then slid by exactly 120, so the loop is seamless
- * only while 120 is a whole number of periods: it is four of A's thirty and
- * three of B's forty. Both counts are even, so each line leaves the window
- * travelling the same way it entered and there is no kink at the joint.
- *
- * Pure arithmetic on two constants, so the server and the client draw an
- * identical `d` and there is nothing for hydration to disagree about.
- */
-function wavePath(halfPeriod: number, lift: number) {
-  let d = `M0 ${TRACE_MID}`;
-  let up = true;
-
-  for (let x = 0; x < TRACE_RUN; x += halfPeriod) {
-    const apex = TRACE_MID + (up ? -lift : lift);
-    d += ` L ${x + halfPeriod / 2} ${apex} L ${x + halfPeriod} ${TRACE_MID}`;
-    up = !up;
-  }
-
-  return d;
-}
+/* Shared by the visible outline and the waves' CSS motion path. The curved
+   corners let their direction change smoothly on each lap. */
+const TRACE_ORBIT = "M56 15 Q60 8 64 15 L96 70 Q100 77 92 77 H28 Q20 77 24 70 Z";

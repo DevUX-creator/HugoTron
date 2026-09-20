@@ -67,7 +67,9 @@ export default function Hero() {
         <div className="hero__copy">
           <div className="hero__claim">
             <Copy eager>
-              <p className="hero__eyebrow eyebrow">{t("eyebrow")}</p>
+              <p className="hero__eyebrow">
+                <span className="eyebrow tag">{t("eyebrow")}</span>
+              </p>
             </Copy>
 
             <RevealText eager>

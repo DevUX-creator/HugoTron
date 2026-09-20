@@ -21,7 +21,9 @@
   margin-block-end: var(--gap-section);
 }
 
-.who-micro__kicker {
+/* On the tag, not the paragraph — `.eyebrow` sets its own colour and would
+   win over anything inherited, and the border is mixed from `currentColor`. */
+.who-micro__kicker .tag {
   color: var(--color-accent-strong);
 }
 
@@ -40,88 +42,54 @@
 .who-micro__rule svg {
   display: block;
   inline-size: 100%;
-  max-inline-size: 7.5rem;
-  block-size: 1.5rem;
-  overflow: hidden;
-  /* Softened at both ends, so the traces enter and leave the window instead of
-     being guillotined by it. Without this the clip cuts each line dead against
-     a vertical edge and the mark reads as a cropped picture of a wave rather
-     than as something passing through. */
-  mask-image: linear-gradient(to right, transparent, black 14%, black 86%, transparent);
+  max-inline-size: 6rem;
+  block-size: 4.5rem;
+  overflow: visible;
 }
 
 .who-trace {
   fill: none;
   stroke: currentcolor;
   stroke-linecap: round;
-  /* MITRE, not round: the apex is the whole character of a triangle wave, and
-     rounding the joins turns it back into the curve it replaced. */
-  stroke-linejoin: miter;
+  stroke-linejoin: round;
 }
 
-.who-trace--a {
-  stroke-width: 1.25;
-  opacity: 0.85;
-  animation: who-trace-out 7s linear infinite;
-}
-
-.who-trace--b {
+.who-trace--track {
   stroke-width: 1;
-  opacity: 0.4;
-  animation: who-trace-back 11s linear infinite;
+  opacity: 0.18;
 }
 
-/* THE PATH IS THE TRIANGLE, not the line. Each trace slides one full window
-   horizontally — that is what makes the loop seamless — while rising and
-   falling on a triangular path as it goes: straight up for a quarter of the
-   cycle, straight down for a half, straight back up for the last quarter.
-
-   `linear` timing is what keeps those runs straight. Any easing would round
-   the three turns into a curve and the motion would read as a wave again,
-   which is exactly what this replaced. */
-@keyframes who-trace-out {
-  0% {
-    transform: translate(0, 0);
-  }
-
-  25% {
-    transform: translate(-30px, -4px);
-  }
-
-  50% {
-    transform: translate(-60px, 0);
-  }
-
-  75% {
-    transform: translate(-90px, 4px);
-  }
-
-  100% {
-    transform: translate(-120px, 0);
-  }
+.who-wave {
+  offset-path: var(--who-orbit);
+  offset-anchor: 0 0;
+  offset-rotate: auto;
+  animation: who-orbit 9s linear infinite;
 }
 
-/* The return trace runs the other way, and takes its turns on the opposite
-   beat, so the two cross rather than travel in step. */
-@keyframes who-trace-back {
-  0% {
-    transform: translate(-120px, 0);
+.who-wave--a {
+  stroke-width: 1.6;
+  opacity: 0.85;
+  offset-distance: 12%;
+  animation-delay: -1.08s;
+}
+
+.who-wave--b {
+  stroke-width: 1.25;
+  opacity: 0.45;
+  offset-distance: 62%;
+  animation-duration: 13s;
+  animation-delay: -4.94s;
+  animation-direction: reverse;
+}
+
+/* A closed path keeps the loop continuous through all three sides. */
+@keyframes who-orbit {
+  from {
+    offset-distance: 0%;
   }
 
-  25% {
-    transform: translate(-90px, 3px);
-  }
-
-  50% {
-    transform: translate(-60px, 0);
-  }
-
-  75% {
-    transform: translate(-30px, -3px);
-  }
-
-  100% {
-    transform: translate(0, 0);
+  to {
+    offset-distance: 100%;
   }
 }
 
@@ -207,10 +175,9 @@
   }
 }
 
-/* The traces are the only thing here that loops, so they are the only thing to
-   stop. `--b` keeps its offset, or the two would sit on top of each other. */
+/* Keep both waves visible at different points when motion is disabled. */
 @media (prefers-reduced-motion: reduce) {
-  .who-trace {
+  .who-wave {
     animation: none;
   }
 
@@ -219,9 +186,5 @@
   .who-points__icon :is(path, rect, circle) {
     animation: none;
     stroke-dashoffset: 0;
-  }
-
-  .who-trace--b {
-    transform: translateX(-120px);
   }
 }

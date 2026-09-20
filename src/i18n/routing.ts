@@ -38,8 +38,10 @@ export const localeLabels: Record<Locale, { name: string; short: string; htmlLan
 export const pathnames = {
   "/": "/",
   "/about": { de: "/ueber-uns", en: "/about" },
-  "/range": { de: "/sortiment", en: "/range" },
-  "/range/[slug]": { de: "/sortiment/[slug]", en: "/range/[slug]" },
+  /* German keeps "Sortiment", the standard trade word and the one
+     content/strategy/seo-redirects.md maps the old Wix category onto. */
+  "/range": { de: "/sortiment", en: "/products" },
+  "/range/[slug]": { de: "/sortiment/[slug]", en: "/products/[slug]" },
   "/product/[slug]": { de: "/produkt/[slug]", en: "/product/[slug]" },
   "/wholesale": { de: "/grosshandel", en: "/wholesale" },
   "/wholesale/[slug]": { de: "/grosshandel/[slug]", en: "/wholesale/[slug]" },
