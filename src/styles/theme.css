@@ -1,0 +1,269 @@
+/* ===========================================================================
+   Hugo Tron — design tokens
+   ---------------------------------------------------------------------------
+   THE single source of truth for colour, type, space, motion and breakpoints.
+   Declared inside Tailwind v4's `@theme`, so every token is available BOTH as a
+   utility class (`text-harbor-800`) and as a raw custom property
+   (`var(--color-harbor-800)`) in section CSS.
+
+   Rules (enforced — see .stylelintrc.json and tests/tokens.test.ts):
+     · No raw hex outside this file.
+     · No media query that is not a breakpoint declared here.
+     · Sections reference SEMANTIC aliases, never a raw ramp step.
+
+   Architecture ported from the Poleum project; values are Hugo Tron's own.
+   =========================================================================== */
+
+@theme {
+  /* -------------------------------------------------------------------------
+     COLOUR
+     Five ramps generated in OKLCH at fixed perceptual lightness steps, so the
+     ladder is even rather than eyeballed. Each brand anchor is pinned verbatim
+     to its nearest step (marked ★) and the rest of the ramp is derived around
+     it. Chroma falls away toward both ends of every ramp, which is why the
+     light steps of `harbor` are a tint of navy and not cyan.
+
+     Regenerate with scripts/palette.py if an anchor changes.
+     ------------------------------------------------------------------------- */
+
+  /* Harbor — the brand navy, sampled from the company logo.
+     Headings, dark surfaces, brand marks. ★ = #00294d, the logo's own colour */
+  --color-harbor-50: #f2f5f9;
+  --color-harbor-100: #e2e9f0;
+  --color-harbor-200: #cbd6e1;
+  --color-harbor-300: #adbccd;
+  --color-harbor-400: #8da1b6;
+  --color-harbor-500: #6e86a0;
+  --color-harbor-600: #506c89;
+  --color-harbor-700: #335272;
+  --color-harbor-800: #00294d;
+  --color-harbor-900: #002041;
+
+  /* Saffron — the accent, taken from the product that carries the best
+     margin in the range. Highlights, primary buttons, active states */
+  --color-saffron-50: #fff3e1;
+  --color-saffron-100: #fde4bf;
+  --color-saffron-200: #f5cd90;
+  --color-saffron-300: #e9af4b;
+  --color-saffron-400: #e3a11b;
+  --color-saffron-500: #b17600;
+  --color-saffron-600: #925c00;
+  --color-saffron-700: #744400;
+  --color-saffron-800: #572c00;
+  --color-saffron-900: #381400;
+
+  /* Clay — the warm counterweight. Earth, grain, packaging */
+  --color-clay-50: #fcf3ef;
+  --color-clay-100: #f5e4db;
+  --color-clay-200: #e9cec0;
+  --color-clay-300: #d7b19d;
+  --color-clay-400: #c39278;
+  --color-clay-500: #b1795a;
+  --color-clay-600: #8d5b3f;
+  --color-clay-700: #70432a;
+  --color-clay-800: #532c15;
+  --color-clay-900: #351502;
+
+  /* Ink — the near-neutral warm grey. Body text and borders */
+  --color-ink-50: #f5f5f5;
+  --color-ink-100: #e8e8e7;
+  --color-ink-200: #d4d4d4;
+  --color-ink-300: #bbbaba;
+  --color-ink-400: #9f9e9e;
+  --color-ink-500: #838382;
+  --color-ink-600: #696867;
+  --color-ink-700: #50504f;
+  --color-ink-800: #383837;
+  --color-ink-900: #2b2926;
+
+  /* Cream — the page ground. Warm, never clinical white */
+  --color-cream-50: #f7f4ef;
+  --color-cream-100: #e9e8e5;
+  --color-cream-200: #d5d4d2;
+  --color-cream-300: #bbbab8;
+  --color-cream-400: #9f9e9c;
+  --color-cream-500: #848381;
+  --color-cream-600: #6a6967;
+  --color-cream-700: #50504e;
+  --color-cream-800: #383837;
+  --color-cream-900: #201f1e;
+
+  /* Status */
+  --color-positive: #1f6b3e;
+  --color-negative: #9a3412;
+
+  /* ---- Semantic aliases -----------------------------------------------------
+     Sections reference THESE, never a raw ramp step. That indirection is what
+     lets <Section inverse> swap an entire subtree to the dark palette without
+     touching a single child rule. */
+  --color-bg-base: var(--color-cream-50);
+  --color-bg-surface: var(--color-cream-100);
+  --color-bg-muted: var(--color-cream-200);
+  --color-bg-inverse: var(--color-harbor-900);
+
+  --color-fg-primary: var(--color-ink-900);
+  --color-fg-secondary: var(--color-ink-700);
+  /* Tertiary is SMALL text — eyebrows, footer labels, the language switch — so
+     it has to clear 4.5:1, not the 3:1 floor for large text. The generated ramp
+     gave #696968, which measured 4.49:1 on `bg-surface` — one hundredth under
+     the bar. Darkened one perceptual step to #696867 (4.54:1 there, 5.07:1 on
+     `bg-base`).
+
+     KNOWN LIMIT: it measures 3.75:1 on `bg-muted`. That is deliberate rather
+     than overlooked — darkening it far enough to clear cream-200 would collapse
+     the gap to `fg-secondary` and flatten the three-tier hierarchy everywhere
+     else. So the rule is: TERTIARY TEXT IS NOT PERMITTED ON A `muted` SURFACE.
+     A muted section uses `fg-secondary` for small text. Enforced in
+     tests/tokens.test.ts. */
+  --color-fg-tertiary: var(--color-ink-600);
+  --color-fg-heading: var(--color-harbor-800);
+  --color-fg-on-inverse: var(--color-cream-50);
+
+  /* The accent as a SURFACE (buttons, marks) — bright, and not for text. */
+  --color-accent: var(--color-saffron-400);
+  /* The accent as TEXT. saffron-400 measures 1.9:1 on cream and could never be
+     read; this is the step that clears 4.5:1 (7.45:1) while staying obviously
+     the same colour. Use this and only this for accent-coloured type. */
+  --color-accent-strong: var(--color-saffron-700);
+  --color-accent-warm: var(--color-clay-500);
+
+  --color-border: var(--color-cream-300);
+  --color-border-strong: var(--color-cream-400);
+  --color-ring: var(--color-harbor-700);
+
+  /* -------------------------------------------------------------------------
+     TYPOGRAPHY
+     Two families, strictly separated. The `-src` indirection is filled in by
+     next/font (src/styles/fonts.ts) so this file never imports from the
+     framework.
+
+     ⚠ THE FACES ARE NOT CHOSEN YET — the fallbacks below are placeholders.
+     Set them in src/styles/fonts.ts. If the display face ships a single
+     weight, keep `font-synthesis: none` and drive hierarchy from size,
+     tracking and case instead.
+     ------------------------------------------------------------------------- */
+  --font-display: var(--font-display-src, Georgia), serif;
+  --font-sans: var(--font-sans-src, -apple-system), sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Fluid scale. German compounds run long — "Lebensmittelgroßhandel",
+     "Zahlungsmodalitäten" — so the minimums are set low enough that the
+     longest German headline survives 320px. Check German first, not English. */
+  --text-claim: clamp(2.5rem, 0.5rem + 9.5vw, 10rem);
+  --text-hero-xl: clamp(2.5rem, 1.4rem + 5.5vw, 6rem);
+  --text-hero-lg: clamp(2.125rem, 1.2rem + 4.6vw, 4.5rem);
+  --text-hero-md: clamp(1.875rem, 1.35rem + 2.6vw, 3.25rem);
+  --text-title-xl: clamp(1.75rem, 1.3rem + 2.25vw, 2.75rem);
+  --text-title-lg: clamp(1.5rem, 1.2rem + 1.5vw, 2.125rem);
+  --text-title-md: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);
+  --text-title-sm: clamp(1.125rem, 1.05rem + 0.4vw, 1.375rem);
+  --text-body-lg: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
+  --text-body-md: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-body-sm: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
+  --text-body-xs: clamp(0.875rem, 0.85rem + 0.15vw, 1rem);
+  --text-eyebrow: clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem);
+
+  --leading-tight: 1.05;
+  --leading-snug: 1.18;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  --tracking-display: -0.015em;
+  --tracking-tight: -0.01em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.04em;
+  --tracking-eyebrow: 0.16em;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* -------------------------------------------------------------------------
+     SPACING & RHYTHM
+     ------------------------------------------------------------------------- */
+  --spacing: 0.25rem;
+
+  /* Three vertical rhythm tiers. HARD RULE: never invert them —
+     --gap-block < --gap-section-header < --gap-section. */
+  --gap-block: clamp(1.25rem, 1rem + 1.25vw, 2.5rem);
+  --gap-section-header: clamp(2.5rem, 2rem + 2.5vw, 5rem);
+  --gap-section: clamp(5rem, 4rem + 5vw, 10rem);
+
+  /* -------------------------------------------------------------------------
+     LAYOUT & GRID  (12 columns, mobile-first)
+     ------------------------------------------------------------------------- */
+  --max-width: 1440px;
+  --max-width-wide: 1760px;
+  --max-width-text: 68ch;
+  --container-padding: clamp(1.25rem, 0.875rem + 1.25vw, 2rem);
+  --header-height: clamp(4rem, 3.25rem + 2.5vw, 5.5rem);
+  --grid-columns: 12;
+  --grid-gutter: clamp(1rem, 0.75rem + 1.25vw, 2rem);
+
+  /* Mobile-first min-width breakpoints. These are the ONLY permitted media
+     queries — stylelint fails the build on any other. */
+  --breakpoint-xs: 30rem; /* 480px */
+  --breakpoint-sm: 40rem; /* 640px */
+  --breakpoint-md: 48rem; /* 768px */
+  --breakpoint-lg: 64rem; /* 1024px */
+  --breakpoint-xl: 80rem; /* 1280px */
+  --breakpoint-2xl: 90rem; /* 1440px */
+
+  /* -------------------------------------------------------------------------
+     RADII, SHADOW, BLUR
+     ------------------------------------------------------------------------- */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: clamp(1.25rem, 1rem + 0.833vw, 1.75rem);
+  --radius-3xl: clamp(1.75rem, 1.375rem + 1.25vw, 2.5rem);
+  --radius-full: 9999px;
+  /* The shared softness for anything holding a photograph or a fill. */
+  --radius-frame: var(--radius-xl);
+
+  /* Chamfer — the cut-corner silhouette shared by buttons and callouts. */
+  --chamfer-cut: 0.85rem;
+  --chamfer-cut-sm: 0.6rem;
+  --chamfer-cut-lg: clamp(2rem, 1rem + 3vw, 4rem);
+  --chamfer-joint: 0.4rem;
+
+  --shadow-sm: 0 2px 10px rgb(43 41 38 / 6%);
+  --shadow-md: 0 8px 28px rgb(43 41 38 / 9%);
+  --shadow-lg: 0 20px 60px rgb(43 41 38 / 12%);
+  --shadow-xl: 0 32px 90px rgb(43 41 38 / 16%);
+
+  --blur-sm: 6px;
+  --blur-md: 12px;
+  --blur-lg: 20px;
+  --blur-xl: 32px;
+
+  /* -------------------------------------------------------------------------
+     MOTION
+     A closed vocabulary. Sections pick from these; they do not invent curves.
+     ------------------------------------------------------------------------- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --ease-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-organic: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-expo: cubic-bezier(0.83, 0, 0.17, 1);
+
+  --duration-fast: 160ms;
+  --duration-base: 280ms;
+  --duration-slow: 460ms;
+  --duration-reveal: 1100ms;
+  --duration-wipe: 500ms;
+
+  /* -------------------------------------------------------------------------
+     ELEVATION ORDER
+     ------------------------------------------------------------------------- */
+  --z-base: 1;
+  --z-dropdown: 10;
+  --z-sticky: 50;
+  --z-overlay: 99;
+  --z-header: 100;
+  --z-modal: 200;
+  --z-tooltip: 300;
+}

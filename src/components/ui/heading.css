@@ -1,0 +1,55 @@
+/* Display type. Weight is deliberately absent — Nasalization has one weight and
+   `font-synthesis: none` blocks a faked bold. Hierarchy = size + tracking. */
+.heading {
+  font-family: var(--font-display);
+  color: var(--color-fg-heading);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+
+/* The largest step, for a statement that opens a section. It carries its own
+   leading and wrapping: at this size the tight-but-normal leading the rest of
+   the scale uses opens gaps the words fall through, and `balance` — which is
+   right for a heading finding its own breaks — fights copy that has already
+   been split into deliberate lines. */
+.heading--claim {
+  font-size: var(--text-claim);
+  line-height: 0.92;
+  text-wrap: pretty;
+}
+
+.heading--hero-xl {
+  font-size: var(--text-hero-xl);
+}
+.heading--hero-lg {
+  font-size: var(--text-hero-lg);
+}
+.heading--hero-md {
+  font-size: var(--text-hero-md);
+}
+.heading--title-xl {
+  font-size: var(--text-title-xl);
+}
+
+.heading--title-lg {
+  font-size: var(--text-title-lg);
+  letter-spacing: var(--tracking-tight);
+}
+
+.heading--title-md {
+  font-size: var(--text-title-md);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+}
+
+.heading--title-sm {
+  font-size: var(--text-title-sm);
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-tight);
+}
+
+.heading--uppercase {
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-tight);
+}

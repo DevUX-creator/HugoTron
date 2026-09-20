@@ -1,0 +1,387 @@
+/* ===========================================================================
+   Hugo Tron — global stylesheet
+   ---------------------------------------------------------------------------
+   Import order matters and is the only cascade mechanism we rely on beyond
+   explicit @layer. Tailwind first (it establishes the layers), then our tokens,
+   then our layout primitives.
+   =========================================================================== */
+
+@import "tailwindcss";
+@import "./theme.css";
+@import "./grid.css";
+
+/* ---------------------------------------------------------------------------
+   BASE
+   --------------------------------------------------------------------------- */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    /* Lenis owns smooth scrolling. Native smooth scroll fights it. */
+    scroll-behavior: auto;
+    /* NO RUBBER-BAND AT THE ENDS. iOS lets the page drag past its own bounds
+       and paints the body's ground in the gap — and `position: fixed` elements
+       travel with it, so the navigation bar leaves the bottom of the screen and
+       floats in the middle of a blank cream field. It reads as several hundred
+       pixels of empty page under the footer, which is exactly how it was
+       reported.
+
+       This also turns off pull-to-refresh, which is the trade: on a site with
+       no feed to refresh, an accidental reload part-way down a scroll-driven
+       page costs more than the gesture is worth. */
+    overscroll-behavior-y: none;
+    background-color: var(--color-bg-base);
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    max-width: 100%;
+    /* `clip`, not `hidden` — `hidden` silently breaks position: sticky. */
+    overflow-x: clip;
+    background-color: var(--color-bg-base);
+    color: var(--color-fg-primary);
+    font-family: var(--font-sans);
+    font-size: var(--text-body-md);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--leading-relaxed);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* The display face may ship a single weight — forbid the browser faking others. */
+    font-synthesis: none;
+  }
+
+  /* -- Headings ------------------------------------------------------------
+     Display face, one weight. Hierarchy is size + tracking + case only.
+     Never add font-weight here; there is no bold to switch to. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
+    color: var(--color-fg-heading);
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: var(--text-hero-md);
+  }
+  h2 {
+    font-size: var(--text-title-xl);
+  }
+  h3 {
+    font-size: var(--text-title-lg);
+  }
+  h4 {
+    font-size: var(--text-title-md);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+  }
+  h5 {
+    font-size: var(--text-title-sm);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-tight);
+  }
+  h6 {
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-normal);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img,
+  picture,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  input,
+  textarea,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+
+  ul,
+  ol {
+    list-style: none;
+  }
+
+  /* Turkish sets hyphenation differently; keep it opt-in per component. */
+  :lang(tr) {
+    hyphens: manual;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  ::selection {
+    background-color: var(--color-lime-300);
+    color: var(--color-hunter-900);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   COMPONENTS — only truly global pieces live here.
+   --------------------------------------------------------------------------- */
+@layer components {
+  .skip-link {
+    position: absolute;
+    inset-block-start: -100px;
+    inset-inline-start: 50%;
+    transform: translateX(-50%);
+    z-index: var(--z-modal);
+    padding: 0.75rem 1.25rem;
+    background-color: var(--color-bg-inverse);
+    color: var(--color-fg-on-inverse);
+    border-radius: var(--radius-md);
+    font-size: var(--text-body-sm);
+    transition: inset-block-start var(--duration-base) var(--ease-standard);
+  }
+
+  .skip-link:focus {
+    inset-block-start: 1rem;
+  }
+
+  /* Reveal FOUC guard.
+     Scoped to `.js`, which an inline script in the layout sets before paint.
+     Without JavaScript the class is never added, so animated copy stays
+     VISIBLE rather than being permanently hidden by a style the client never
+     gets to clear. The reference project hid it unconditionally. */
+  .js .reveal-pending {
+    visibility: hidden;
+  }
+
+  /* -------------------------------------------------------------------------
+     Notched panel — the buttons' chamfer, at block scale.
+     A rounded panel with one corner cut away on the diagonal. Set
+     `--notch-corner` to choose which: `tl` is the default, and the four
+     modifier classes below pick the others.
+
+     Two implementations. `polygon()` can only draw straight edges, so it gives
+     the cut sharp points and leans on `border-radius` for the other three
+     corners. `shape()` can draw the whole outline including curves, so where
+     it is supported the cut gets a small bevel at each end and meets the
+     radius cleanly. The fallback is not a downgrade anyone will notice; the
+     enhancement is what makes the device look drawn rather than clipped.
+     ------------------------------------------------------------------------- */
+  .notch {
+    --notch-cut: var(--chamfer-cut-lg);
+    --notch-radius: var(--radius-3xl);
+    --notch-joint: var(--chamfer-joint);
+
+    border-radius: var(--notch-radius);
+    clip-path: polygon(var(--notch-cut) 0, 100% 0, 100% 100%, 0 100%, 0 var(--notch-cut));
+  }
+
+  @supports (clip-path: shape(from 0 0, line to 100% 0)) {
+    .notch {
+      clip-path: shape(
+        from calc(var(--notch-cut) + var(--notch-joint)) 0,
+        line to calc(100% - var(--notch-radius)) 0,
+        curve to 100% var(--notch-radius) with 100% 0,
+        line to 100% calc(100% - var(--notch-radius)),
+        curve to calc(100% - var(--notch-radius)) 100% with 100% 100%,
+        line to var(--notch-radius) 100%,
+        curve to 0 calc(100% - var(--notch-radius)) with 0 100%,
+        line to 0 calc(var(--notch-cut) + var(--notch-joint)),
+        curve to calc(0.7 * var(--notch-joint)) calc(var(--notch-cut) - 0.7 * var(--notch-joint))
+          with 0 var(--notch-cut),
+        line to calc(var(--notch-cut) - 0.7 * var(--notch-joint)) calc(0.7 * var(--notch-joint)),
+        curve to calc(var(--notch-cut) + var(--notch-joint)) 0 with var(--notch-cut) 0,
+        close
+      );
+    }
+  }
+
+  /* Bottom-right instead — the corner the buttons cut, for a panel that should
+     echo them directly. Written out rather than rotated: rotating the box to
+     move the clip would take the content with it. */
+  .notch--br {
+    clip-path: polygon(
+      0 0,
+      100% 0,
+      100% calc(100% - var(--notch-cut)),
+      calc(100% - var(--notch-cut)) 100%,
+      0 100%
+    );
+  }
+
+  @supports (clip-path: shape(from 0 0, line to 100% 0)) {
+    .notch--br {
+      clip-path: shape(
+        from var(--notch-radius) 0,
+        line to calc(100% - var(--notch-radius)) 0,
+        curve to 100% var(--notch-radius) with 100% 0,
+        line to 100% calc(100% - var(--notch-cut) - var(--notch-joint)),
+        curve to calc(100% - 0.7 * var(--notch-joint))
+          calc(100% - var(--notch-cut) + 0.7 * var(--notch-joint)) with 100%
+          calc(100% - var(--notch-cut)),
+        line to calc(100% - var(--notch-cut) + 0.7 * var(--notch-joint))
+          calc(100% - 0.7 * var(--notch-joint)),
+        curve to calc(100% - var(--notch-cut) - var(--notch-joint)) 100% with
+          calc(100% - var(--notch-cut)) 100%,
+        line to var(--notch-radius) 100%,
+        curve to 0 calc(100% - var(--notch-radius)) with 0 100%,
+        line to 0 var(--notch-radius),
+        curve to var(--notch-radius) 0 with 0 0,
+        close
+      );
+    }
+  }
+
+  /* -------------------------------------------------------------------------
+     PACKAGING SHOTS, DESATURATED.
+     The bags are photographed navy on navy, and navy is the one colour the site
+     does not otherwise contain: the palette is hunter green, cream, sand and
+     gold, so a full-colour package shot dropped into it reads as a photograph
+     borrowed from somewhere else rather than as this company's product.
+
+     Pulled most of the way to grey rather than all the way. At `grayscale(1)`
+     the bag becomes a technical illustration and the print on it loses the last
+     of its depth; at 0.85 the navy neutralises into the charcoal the rest of
+     the site already uses and a trace of the original stays in the shadows. The
+     small contrast lift puts back the separation the desaturation costs.
+
+     Marked in the markup rather than matched on the file path: `next/image`
+     rewrites `src` to an optimizer URL, so a selector on it would be matching
+     an encoded query string. Ammonia carries no bag and keeps its colour.
+     ------------------------------------------------------------------------- */
+  [data-package],
+  [data-package] img {
+    filter: grayscale(0.85) contrast(1.06);
+  }
+
+  .eyebrow {
+    font-family: var(--font-sans);
+    font-size: var(--text-eyebrow);
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--color-fg-tertiary);
+  }
+
+  /* Page transition. The App Router remounts template.tsx on navigation, so
+     this keyframe replays with zero JavaScript. */
+  .page-transition {
+    animation: page-in var(--duration-slow) var(--ease-quint) backwards;
+  }
+
+  @keyframes page-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   REDUCED MOTION — global kill switch.
+   Component-level JS must ALSO bail before loading GSAP; see docs/ANIMATION.md.
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .page-transition {
+    animation: none;
+  }
+}
+
+/* ===========================================================================
+   Pointer targets
+   ---------------------------------------------------------------------------
+   WCAG 2.5.8 puts the floor at 24 x 24 CSS pixels, and a line of small caps in
+   a footer column is 20 — under it, everywhere, on every page. On a touch
+   screen 24 is the floor rather than the target: every platform's own guidance
+   asks for around 44.
+
+   So the rule is written once, here, keyed on how the device POINTS rather than
+   on how wide it is. A trackpad on a small window does not need fat rows and a
+   stylus-less tablet at 1024px does. `pointer: coarse` is the actual question —
+   "is this being hit with a finger" — and it is the only one worth branching
+   on.
+
+   Applied as a MINIMUM HEIGHT on inline-flex, not as padding, so nothing has to
+   be pulled back with a negative margin and no baseline moves: the text stays
+   optically centred in a box that simply got taller. Lists that carry their own
+   rhythm through `gap` give some of it back, because the row height is now
+   doing that work.
+
+   Deliberately NOT applied to every link on the page. Links inside a paragraph
+   are part of a sentence and giving them 44px rows would break the line box
+   they live in; 2.5.8 exempts inline text for exactly that reason. This targets
+   the places that are lists of destinations, which is where a thumb actually
+   goes hunting.
+   =========================================================================== */
+.site-footer__link,
+.nav-panel__legal a,
+.why-reach__phone,
+.why-reach__credit a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 1.75rem;
+}
+
+@media (pointer: coarse) {
+  .site-footer__link,
+  .nav-panel__legal a,
+  .why-reach__phone,
+  .why-reach__credit a {
+    min-block-size: 2.75rem;
+  }
+
+  /* The row height now carries the rhythm these gaps were providing, so they
+     come back down — otherwise the footer doubles in length on the one device
+     that can least afford the scrolling. */
+  .site-footer__list {
+    gap: 0;
+  }
+
+  .why-reach__value {
+    gap: 0;
+  }
+}

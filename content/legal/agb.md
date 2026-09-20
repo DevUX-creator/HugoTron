@@ -1,0 +1,131 @@
+# Allgemeine Geschäftsbedingungen für Geschäftskunden
+
+## § 1 Geltung
+
+(1) Alle Lieferungen, Leistungen und Angebote der Hugo Tron GmbH (nachfolgend „Verkäufer“) erfolgen ausschließlich aufgrund dieser Allgemeinen Lieferbedingungen. Diese sind Bestandteil aller Verträge, die der Verkäufer mit seinen Vertragspartnern (nachfolgend auch „Käufer“ genannt) über die von ihm angebotenen Lieferungen oder Leistungen schließt. Sie gelten auch für alle zukünftigen Lieferungen, Leistungen oder Angebote an den Käufer, auch wenn sie nicht nochmals gesondert vereinbart werden.
+
+(2) Geschäftsbedingungen des Käufers oder Dritter finden keine Anwendung, auch wenn der Verkäufer ihrer Geltung im Einzelfall nicht gesondert widerspricht. Selbst wenn der Verkäufer auf ein Schreiben Bezug nimmt, das Geschäftsbedingungen des Käufers oder eines Dritten enthält oder auf solche verweist, liegt darin kein Einverständnis mit der Geltung jener Geschäftsbedingungen.
+
+## § 2 Angebot und Vertragsabschluss
+
+(1) Alle Angebote des Verkäufers sind freibleibend und unverbindlich, sofern sie nicht ausdrücklich als verbindlich gekennzeichnet sind oder eine bestimmte Annahmefrist enthalten. Bestellungen oder Aufträge kann der Verkäufer innerhalb von (14) Tagen nach Zugang annehmen.
+
+(2) Allein maßgeblich für die Rechtsbeziehungen zwischen Verkäufer und Käufer ist der schriftlich oder per Textform geschlossene Kaufvertrag, einschließlich dieser Allgemeinen Lieferbedingungen. Dieser gibt alle Abreden zwischen den Vertragsparteien zum Vertragsgegenstand vollständig wieder. Mündliche Zusagen des Verkäufers vor Abschluss dieses Vertrages sind rechtlich unverbindlich und mündliche Abreden der Vertragsparteien werden durch den schriftlichen Vertrag bzw. den Vertrag in Textform ersetzt, sofern nicht jeweils ausdrücklich anders zwischen den Vertragsparteien vereinbart.
+
+(3) Ergänzungen und Abänderungen der getroffenen Vereinbarungen einschließlich dieser Allgemeinen Lieferbedingungen bedürfen zu ihrer Wirksamkeit der Textform. Mit Ausnahme von Geschäftsführern oder Prokuristen sind die Mitarbeiter des Verkäufers nicht berechtigt, von der schriftlichen Vereinbarung abweichende mündliche Abreden zu treffen. Zur Wahrung der Schriftform genügt die telekommunikative Übermittlung, insb. per Telefax oder per E-Mail.
+
+(4) Angaben des Verkäufers zum Gegenstand der Lieferung oder Leistung (z.B. Gewichte, Maße) sind nur annähernd maßgeblich, soweit nicht die Verwendbarkeit zum vertraglich vorgesehenen Zweck eine genaue Übereinstimmung voraussetzt. Sie sind keine garantierten Beschaffenheitsmerkmale, sondern Beschreibungen oder Kennzeichnungen der Lieferung oder Leistung. Handelsübliche Abweichungen und Abweichungen, die aufgrund rechtlicher Vorschriften erfolgen oder technische Verbesserungen darstellen, sind zulässig, soweit sie die Verwendbarkeit zum vertraglich vorgesehenen Zweck nicht beeinträchtigen.
+
+## § 3 Preise und Zahlung
+
+(1) Die Preise gelten für den in den Auftragsbestätigungen aufgeführten Leistungs- und Lieferungsumfang. Mehr- oder Sonderleistungen werden gesondert berechnet. Die Preise verstehen sich in EUR ab Werk inkl. Verpackung, der gesetzlichen Mehrwertsteuer, bei Exportlieferungen Zoll sowie Gebühren und anderer öffentlicher Abgaben.
+
+(2) Soweit den vereinbarten Preisen die Listenpreise des Verkäufers zugrunde liegen und die Lieferung erst mehr als vier Monate nach Vertragsschluss erfolgen soll, gelten die bei Lieferung gültigen Listenpreise des Verkäufers (jeweils abzüglich eines vereinbarten prozentualen oder festen Rabatts).
+
+(3) Rechnungsbeträge sind innerhalb von dreißig Tagen ohne jeden Abzug zu bezahlen, sofern nicht etwas anderes schriftlich vereinbart ist. Maßgebend für das Datum der Zahlung ist der Eingang beim Verkäufer. Leistet der Käufer bei Fälligkeit nicht, so sind die ausstehenden Beträge ab dem Tag der Fälligkeit mit 9 % p. a. zu verzinsen; die Geltendmachung höherer Zinsen und weiterer Schäden im Falle des Verzugs bleibt unberührt.
+
+(4) Die Aufrechnung mit Gegenansprüchen des Käufers oder die Zurückbehaltung von Zahlungen wegen solcher Ansprüche ist nur zulässig, soweit die Gegenansprüche unbestritten oder rechtskräftig festgestellt sind oder sich aus demselben Auftrag ergeben, unter dem die betreffende Lieferung erfolgt ist.
+
+(5) Der Verkäufer ist berechtigt, noch ausstehende Lieferungen oder Leistungen nur gegen Vorauszahlung oder Sicherheitsleistung auszuführen oder zu erbringen, wenn ihm nach Abschluss des Vertrages Umstände bekannt werden, welche die Kreditwürdigkeit des Käufers wesentlich zu mindern geeignet sind und durch welche die Bezahlung der offenen Forderungen des Verkäufers durch den Käufer aus dem jeweiligen Vertragsverhältnis (einschließlich aus anderen Einzelaufträgen, für die derselbe Rahmenvertrag gilt) gefährdet wird.
+
+## § 4 Lieferung und Lieferzeit
+
+(1) Lieferungen erfolgen ab Werk.
+
+(2) Vom Verkäufer in Aussicht gestellte Fristen und Termine für Lieferungen und Leistungen gelten stets nur annähernd, es sei denn, dass ausdrücklich eine feste Frist oder ein fester Termin zugesagt oder vereinbart ist. Sofern Versendung vereinbart wurde, beziehen sich Lieferfristen und Liefertermine, sofern nicht ausdrücklich von uns anders angegeben, auf den Zeitpunkt der Übergabe an den Spediteur, Frachtführer oder sonst mit dem Transport beauftragten Dritten.
+
+(3) Der Verkäufer kann – unbeschadet seiner Rechte aus Verzug des Käufers – vom Käufer eine Verlängerung von Liefer- und Leistungsfristen oder eine Verschiebung von Liefer- und Leistungsterminen um den Zeitraum verlangen, in dem der Käufer seinen vertraglichen Verpflichtungen dem Verkäufer gegenüber nicht nachkommt.
+
+(4) Der Verkäufer haftet nicht für Unmöglichkeit der Lieferung oder für Lieferverzögerungen, soweit diese durch höhere Gewalt oder sonstige, zum Zeitpunkt des Vertragsabschlusses nicht vorhersehbare Ereignisse (z.B. Betriebsstörungen aller Art, Schwierigkeiten in der Material- oder Energiebeschaffung, Transportverzögerungen, Streiks, rechtmäßige Aussperrungen, Mangel an Arbeitskräften, Energie oder Rohstoffen, Schwierigkeiten bei der Beschaffung von notwendigen behördlichen Genehmigungen, Pandemien oder Epidemien, behördliche Maßnahmen oder die ausbleibende, nicht richtige oder nicht rechtzeitige Belieferung durch Lieferanten trotz eines vom Verkäufer geschlossenen kongruenten Deckungsgeschäfts) verursacht worden sind, die der Verkäufer nicht zu vertreten hat. Sofern solche Ereignisse dem Verkäufer die Lieferung oder Leistung wesentlich erschweren oder unmöglich machen und die Behinderung nicht nur von vorübergehender Dauer ist, ist der Verkäufer zum Rücktritt vom Vertrag berechtigt. Bei Hindernissen vorübergehender Dauer verlängern sich die Liefer- oder Leistungsfristen oder verschieben sich die Liefer- oder Leistungstermine um den Zeitraum der Behinderung zzgl. einer angemessenen Anlauffrist. Soweit dem Käufer infolge der Verzögerung die Abnahme der Lieferung oder Leistung nicht zuzumuten ist, kann er durch unverzügliche schriftliche Erklärung gegenüber dem Verkäufer vom Vertrag zurücktreten.
+
+(5) Der Verkäufer ist nur zu Teillieferungen berechtigt, wenn
+
+die Teillieferung für den Käufer im Rahmen des vertraglichen Bestimmungszwecks verwendbar ist,
+
+die Lieferung der restlichen bestellten Ware sichergestellt ist und
+
+dem Käufer hierdurch kein erheblicher Mehraufwand oder zusätzliche Kosten entstehen (es sei denn, der Verkäufer erklärt sich zur Übernahme dieser Kosten bereit).
+
+(6) Gerät der Verkäufer mit einer Lieferung oder Leistung in Verzug oder wird ihm eine Lieferung oder Leistung, gleich aus welchem Grunde, unmöglich, so ist die Haftung des Verkäufers auf Schadensersatz nach Maßgabe des § 8 dieser Allgemeinen Lieferbedingungen beschränkt.
+
+## § 5 Erfüllungsort, Versand, Verpackung, Gefahrübergang, Abnahme
+
+(1) Erfüllungsort für alle Verpflichtungen aus dem Vertragsverhältnis ist Wedel, soweit nichts anderes bestimmt ist.
+
+(2) Die Versandart und die Verpackung unterstehen dem pflichtgemäßen Ermessen des Verkäufers.
+
+(3) Die Gefahr geht, sofern Versand der Ware vereinbart ist und der Verkäufer nicht Transport oder Installation übernommen hat, spätestens mit der Übergabe des Liefergegenstandes (wobei der Beginn des Verladevorgangs maßgeblich ist) an den Spediteur, Frachtführer oder sonst zur Ausführung der Versendung bestimmten Dritten auf den Käufer über. Verzögert sich der Versand oder die Übergabe infolge eines Umstandes, dessen Ursache beim Käufer liegt, geht die Gefahr von dem Tag an auf den Käufer über, an dem der Liefergegenstand versandbereit ist und der Verkäufer dies dem Käufer angezeigt hat.
+
+(4) Lagerkosten nach Gefahrübergang trägt der Käufer. Bei Lagerung durch den Verkäufer betragen die Lagerkosten 0,25 % des Rechnungsbetrages der zu lagernden Liefergegenstände pro abgelaufene Woche. Die Geltendmachung und der Nachweis weiterer oder geringerer Lagerkosten bleiben vorbehalten.
+
+(5) Die Sendung wird vom Verkäufer nur auf ausdrücklichen Wunsch des Käufers und auf dessen Kosten gegen Diebstahl, Bruch-, Transport-, Feuer- und Wasserschäden oder sonstige versicherbare Risiken versichert.
+
+(6) Soweit eine Abnahme stattzufinden hat, gilt die Kaufsache als abgenommen, wenn
+
+• die Lieferung abgeschlossen ist,
+
+• der Verkäufer dies dem Käufer unter Hinweis auf die Abnahmefiktion nach diesem § 5 (6) mitgeteilt und ihn zur Abnahme aufgefordert hat,
+
+• seit der Lieferung 10 Werktage vergangen sind oder der Käufer mit der Nutzung der Kaufsache begonnen hat (z.B. die Lieferung zum Verkauf anbietet) und in diesem Fall seit Lieferung 7 Werktage vergangen sind und
+
+• der Käufer die Abnahme innerhalb dieses Zeitraums aus einem anderen Grund als wegen eines dem Verkäufer angezeigten Mangels, der die Nutzung der Kaufsache unmöglich macht oder wesentlich beeinträchtigt, unterlassen hat.
+
+## § 6 Gewährleistung, Sachmängel
+
+(1) Die Gewährleistungsfrist beträgt ein Jahr ab Lieferung oder, soweit eine Abnahme erforderlich ist, ab der Abnahme. Diese Frist gilt nicht für Schadensersatzansprüche des Käufers aus der Verletzung des Lebens, des Körpers oder der Gesundheit oder aus vorsätzlichen oder grob fahrlässigen Pflichtverletzungen des Verkäufers oder seiner Erfüllungsgehilfen, welche jeweils nach den gesetzlichen Vorschriften verjähren.
+
+(2) Die gelieferten Gegenstände sind unverzüglich nach Ablieferung an den Käufer oder an den von ihm bestimmten Dritten sorgfältig zu untersuchen. Sie gelten hinsichtlich offensichtlicher Mängel oder anderer Mängel, die bei einer unverzüglichen, sorgfältigen Untersuchung erkennbar gewesen wären, als vom Käufer genehmigt, wenn dem Verkäufer nicht binnen einem Werktag nach Ablieferung eine Mängelrüge in Textform zugeht. Hinsichtlich anderer Mängel gelten die Liefergegenstände als vom Käufer genehmigt, wenn die Mängelrüge dem Verkäufer nicht binnen einem Werktag nach dem Zeitpunkt zugeht, in dem sich der Mangel zeigte; war der Mangel bei normaler Verwendung bereits zu einem früheren Zeitpunkt offensichtlich, ist jedoch dieser frühere Zeitpunkt für den Beginn der Rügefrist maßgeblich. Auf Verlangen des Verkäufers ist ein beanstandeter Liefergegenstand frachtfrei an den Verkäufer zurückzusenden. Bei berechtigter Mängelrüge vergütet der Verkäufer die Kosten des günstigsten Versandweges; dies gilt nicht, soweit die Kosten sich erhöhen, weil der Liefergegenstand sich an einem anderen Ort als dem Ort des bestimmungsgemäßen Gebrauchs befindet.
+
+(3) Bei Sachmängeln der gelieferten Gegenstände ist der Verkäufer nach seiner innerhalb angemessener Frist zu treffenden Wahl zunächst zur Nachbesserung oder Ersatzlieferung verpflichtet und berechtigt. Im Falle des Fehlschlagens, d.h. der Unmöglichkeit, Unzumutbarkeit, Verweigerung oder unangemessenen Verzögerung der Nachbesserung oder Ersatzlieferung, kann der Käufer vom Vertrag zurücktreten oder den Kaufpreis angemessen mindern.
+
+(4) Beruht ein Mangel auf dem Verschulden des Verkäufers, kann der Käufer unter den in § 8 bestimmten Voraussetzungen Schadensersatz verlangen.
+
+(5) Die Gewährleistung entfällt, wenn der Käufer ohne Zustimmung des Verkäufers den Liefergegenstand ändert oder durch Dritte ändern lässt und die Mängelbeseitigung hierdurch unmöglich oder unzumutbar erschwert wird. In jedem Fall hat der Käufer die durch die Änderung entstehenden Mehrkosten der Mängelbeseitigung zu tragen.
+
+## § 7 Schutzrechte
+
+(1) Der Verkäufer steht nach Maßgabe dieses § 7 dafür ein, dass der Liefergegenstand frei von gewerblichen Schutzrechten oder Urheberrechten Dritter ist. Jeder Vertragspartner wird den anderen Vertragspartner unverzüglich in Textform benachrichtigen, falls ihm gegenüber Ansprüche wegen der Verletzung solcher Rechte geltend gemacht werden.
+
+(2) In dem Fall, dass der Liefergegenstand ein gewerbliches Schutzrecht oder Urheberrecht eines Dritten verletzt, wird der Verkäufer nach seiner Wahl und auf seine Kosten den Liefergegenstand derart abändern oder austauschen, dass keine Rechte Dritter mehr verletzt werden, der Liefergegenstand aber weiterhin die vertraglich vereinbarten Funktionen erfüllt, oder dem Käufer durch Abschluss eines Lizenzvertrages mit dem Dritten das Nutzungsrecht verschaffen. Gelingt dem Verkäufer dies innerhalb eines angemessenen Zeitraums nicht, ist der Käufer berechtigt, von dem Vertrag zurückzutreten oder den Kaufpreis angemessen zu mindern. Etwaige Schadensersatzansprüche des Käufers unterliegen den Beschränkungen des § 8 dieser Allgemeinen Lieferbedingungen.
+
+(3) Bei Rechtsverletzungen durch vom Verkäufer gelieferte Produkte anderer Hersteller wird der Verkäufer nach seiner Wahl seine Ansprüche gegen die Hersteller und Vorlieferanten für Rechnung des Käufers geltend machen oder an den Käufer abtreten. Ansprüche gegen den Verkäufer bestehen in diesen Fällen nach Maßgabe dieses § 7 nur ,wenn die gerichtliche Durchsetzung der vorstehend genannten Ansprüche gegen die Hersteller und Vorlieferanten erfolglos war oder, bspw. aufgrund einer Insolvenz, aussichtslos ist.
+
+## § 8 Haftung auf Schadensersatz wegen Verschuldens
+
+(1) Die Haftung des Verkäufers auf Schadensersatz, gleich aus welchem Rechtsgrund, insb. aus Unmöglichkeit, Verzug, mangelhafter oder falscher Lieferung, Vertragsverletzung, Verletzung von Pflichten bei Vertragsverhandlungen und unerlaubter Handlung ist, soweit es dabei jeweils auf ein Verschulden ankommt, nach Maßgabe dieses § 8 eingeschränkt.
+
+(2) Der Verkäufer haftet nicht im Falle einfacher Fahrlässigkeit seiner Organe, gesetzlichen Vertreter, Angestellten oder sonstigen Erfüllungsgehilfen, soweit es sich nicht um eine Verletzung vertragswesentlicher Pflichten handelt. Vertragswesentlich sind die Verpflichtung zur rechtzeitigen Lieferung und Installation des Liefergegenstands, dessen Freiheit von Rechtsmängeln sowie solchen Sachmängeln, die seine Funktionsfähigkeit oder Gebrauchstauglichkeit mehr als nur unerheblich beeinträchtigen, sowie Beratungs-, Schutz- und Obhutspflichten, die dem Käufer die vertragsgemäße Verwendung des Liefergegenstands ermöglichen sollen oder den Schutz von Leib oder Leben von Personal des Käufers oder den Schutz von dessen Eigentum vor erheblichen Schäden bezwecken.
+
+(3) Soweit der Verkäufer gem. Abs. 2 dem Grunde nach auf Schadensersatz haftet, ist diese Haftung auf Schäden begrenzt, die der Verkäufer bei Vertragsschluss als mögliche Folge einer Vertragsverletzung vorausgesehen hat oder die er bei Anwendung verkehrsüblicher Sorgfalt hätte voraussehen müssen. Mittelbare Schäden und Folgeschäden, die Folge von Mängeln des Liefergegenstands sind, sind außerdem nur ersatzfähig, soweit solche Schäden bei bestimmungsgemäßer Verwendung des Liefergegenstands typischerweise zu erwarten sind. Die vorstehenden Regelungen dieses Abs. 3 gelten nicht im Fall vorsätzlichen oder grob fahrlässigen Verhaltens von Organmitgliedern oder leitenden Angestellten des Verkäufers.
+
+(4) Im Falle einer Haftung für einfache Fahrlässigkeit ist die Ersatzpflicht des Verkäufers für Sachschäden und daraus resultierende weitere Vermögensschäden auf einen Betrag in Höhe des Doppelten des Nettokaufpreises je Schadensfall beschränkt, auch wenn es sich um eine Verletzung vertragswesentlicher Pflichten handelt.
+
+(5) Die vorstehenden Haftungsausschlüsse und -Beschränkungen gelten in gleichem Umfang zugunsten der Organe, gesetzlichen Vertreter, Angestellten und sonstigen Erfüllungsgehilfen des Verkäufers.
+
+(6) Die Einschränkungen dieses § 8 gelten nicht für die Haftung des Verkäufers wegen vorsätzlichen Verhaltens, für garantierte Beschaffenheitsmerkmale, wegen Verletzung des Lebens, des Körpers oder der Gesundheit oder nach dem Produkthaftungsgesetz.
+
+## § 9 Eigentumsvorbehalt
+
+(1) Der nachfolgend vereinbarte Eigentumsvorbehalt dient der Sicherung aller jeweils bestehenden derzeitigen und künftigen Forderungen des Verkäufers gegen den Käufer aus der zwischen den Vertragspartnern bestehenden Lieferbeziehung über Handelswaren, die auf hugo-tron.de erhältlich sind sowie zzgl. der vom Verkäufer vertriebenen spezifischen Handelswaren für den Lebensmitteleinzelhandel.
+
+(2) Die vom Verkäufer an den Käufer gelieferte Ware bleibt bis zur vollständigen Bezahlung aller gesicherten Forderungen Eigentum des Verkäufers. Die Ware sowie die nach den nachfolgenden Bestimmungen an ihre Stelle tretende, vom Eigentumsvorbehalt erfasste Ware wird nachfolgend „Vorbehaltsware“ genannt.
+
+(3) Der Käufer verwahrt die Vorbehaltsware unentgeltlich für den Verkäufer.
+
+(4) Der Käufer ist berechtigt, die Vorbehaltsware bis zum Eintritt des Verwertungsfalls (Abs. 8) im ordnungsgemäßen Geschäftsverkehr zu verarbeiten und zu veräußern. Verpfändungen und Sicherungsübereignungen sind unzulässig.
+
+(5) Im Fall der Weiterveräußerung der Vorbehaltsware tritt der Käufer bereits jetzt sicherungshalber die hieraus entstehende Forderung gegen den Erwerber an den Verkäufer ab. Gleiches gilt für sonstige Forderungen, die an die Stelle der Vorbehaltsware treten oder sonst hinsichtlich der Vorbehaltsware entstehen, wie z.B. Versicherungsansprüche oder Ansprüche aus unerlaubter Handlung bei Verlust oder Zerstörung. Der Verkäufer ermächtigt den Käufer widerruflich, die an den Verkäufer abgetretenen Forderungen im eigenen Namen einzuziehen. Der Verkäufer darf diese Einzugsermächtigung nur im Verwertungsfall widerrufen.
+
+(6) Greifen Dritte auf die Vorbehaltsware zu, insb. durch Pfändung, wird der Käufer sie unverzüglich auf das Eigentum des Verkäufers hinweisen und den Verkäufer hierüber informieren, um ihm die Durchsetzung seiner Eigentumsrechte zu ermöglichen. Sofern der Dritte nicht in der Lage ist, dem Verkäufer die in diesem Zusammenhang entstehenden gerichtlichen oder außergerichtlichen Kosten zu erstatten, haftet hierfür der Käufer dem Verkäufer.
+
+(7) Der Verkäufer wird die Vorbehaltsware sowie die an ihre Stelle tretenden Sachen oder Forderungen freigeben, soweit ihr Wert die Höhe der gesicherten Forderungen um mehr als 50 % übersteigt. Die Auswahl der danach freizugebenden Gegenstände liegt beim Verkäufer.
+
+(8) Tritt der Verkäufer bei vertragswidrigem Verhalten des Käufers – insb. Zahlungsverzug – vom Vertrag zurück (Verwertungsfall), ist er berechtigt, die Vorbehaltsware herauszuverlangen.
+
+## § 10 Schlussbestimmungen
+
+(1) Ist der Käufer Kaufmann, eine juristische Person des öffentlichen Rechts oder ein öffentlich-rechtliches Sondervermögen oder hat er in der Bundesrepublik Deutschland keinen allgemeinen Gerichtsstand, so ist ausschließlicher Gerichtsstand für alle etwaigen Streitigkeiten aus der Geschäftsbeziehung zwischen dem Verkäufer und dem Käufer der Sitz des Verkäufers. Zwingende gesetzliche Bestimmungen über ausschließliche Gerichtsstände bleiben von dieser Regelung unberührt.
+
+(2) Die Beziehungen zwischen dem Verkäufer und dem Käufer unterliegen ausschließlich dem Recht der Bundesrepublik Deutschland unter Ausschluss des UN-Kaufrechts.
+
+(3) Soweit der Vertrag oder diese Allgemeinen Lieferbedingungen Regelungslücken enthalten, gelten zur Ausfüllung dieser Lücken diejenigen rechtlich wirksamen Regelungen als vereinbart, welche die Vertragspartner nach den wirtschaftlichen Zielsetzungen des Vertrages und dem Zweck dieser Allgemeinen Lieferbedingungen vereinbart hätten, wenn sie die Regelungslücke gekannt hätten.

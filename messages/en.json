@@ -1,0 +1,11 @@
+{
+  "nav": {
+    "range": "Range",
+    "wholesale": "Wholesale",
+    "privateLabel": "Private Label",
+    "about": "About",
+    "contact": "Contact",
+    "requestQuote": "Request a quote",
+    "cart": "Cart"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "nav": {
+    "range": "Sortiment",
+    "wholesale": "Großhandel",
+    "privateLabel": "Private Label",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "requestQuote": "Angebot anfragen",
+    "cart": "Warenkorb"
+  }
+}

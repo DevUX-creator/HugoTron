@@ -1,0 +1,34 @@
+/* ===========================================================================
+   <Section inverse> — local token remapping.
+   ---------------------------------------------------------------------------
+   A dark section re-points the SEMANTIC tokens inside its own subtree. Every
+   child rule that reads var(--color-fg-primary) keeps working unchanged, so a
+   section can be flipped to the dark palette without touching its CSS.
+   This is why sections must never reference a raw ramp step directly.
+   =========================================================================== */
+
+.section-block--inverse {
+  --color-bg-base: var(--color-hunter-900);
+  --color-bg-surface: var(--color-hunter-800);
+  --color-bg-muted: var(--color-hunter-700);
+
+  --color-fg-primary: var(--color-cream-50);
+  --color-fg-secondary: var(--color-hunter-200);
+  --color-fg-tertiary: var(--color-hunter-400);
+  --color-fg-heading: var(--color-cream-50);
+
+  --color-border: var(--color-hunter-700);
+  --color-border-strong: var(--color-hunter-600);
+  --color-ring: var(--color-lime-300);
+
+  background-color: var(--color-bg-base);
+  color: var(--color-fg-primary);
+}
+
+.section-block--surface {
+  background-color: var(--color-bg-surface);
+}
+
+.section-block--muted {
+  background-color: var(--color-bg-muted);
+}

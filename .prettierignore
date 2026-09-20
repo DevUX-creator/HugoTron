@@ -1,0 +1,10 @@
+.next
+node_modules
+pnpm-lock.yaml
+public
+raw
+coverage
+playwright-report
+
+# Third-party reference material — not project source.
+raw

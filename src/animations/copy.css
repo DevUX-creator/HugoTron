@@ -1,0 +1,5 @@
+/* SplitText's `mask: "lines"` option generates its own overflow clip wrapper,
+   so the only thing we own is making each line a block. */
+.split-line {
+  display: block;
+}

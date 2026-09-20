@@ -1,0 +1,168 @@
+/* ===========================================================================
+   Button
+   ---------------------------------------------------------------------------
+   Hover is a FILL WIPE, not a colour swap: a solid layer slides up from below
+   and the label's colour flips in step with it. The label and arrow sit above
+   the fill, and the button clips it, so the wipe reads as the surface changing
+   rather than a background fading.
+
+   `:focus-visible` gets the identical treatment — a keyboard user should see
+   exactly what a mouse user sees, and this is the easiest place to forget it.
+   =========================================================================== */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.95rem 1.7rem;
+  /* Chamfered silhouette — a cut bottom-right corner. Deliberately NOT a pill:
+     it echoes the hexagonal product callouts, so the two read as one system. */
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    100% calc(100% - var(--chamfer-cut)),
+    calc(100% - var(--chamfer-cut)) 100%,
+    0 100%
+  );
+  font-family: var(--font-sans);
+  font-size: var(--text-body-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+  letter-spacing: var(--tracking-wide);
+  white-space: nowrap;
+  text-align: center;
+  cursor: pointer;
+  /* Clips the fill to the pill, and isolate keeps the stacking local so the
+     fill can never slide under neighbouring content. */
+  overflow: hidden;
+  isolation: isolate;
+  transition: color var(--duration-wipe) var(--ease-expo);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* The wipe. Parked just past the bottom edge so no seam shows at rest. */
+.btn__fill {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--btn-fill);
+  transform: translateY(101%);
+  transition: transform var(--duration-wipe) var(--ease-expo);
+}
+
+.btn:hover .btn__fill,
+.btn:focus-visible .btn__fill {
+  transform: translateY(0);
+}
+
+.btn__label,
+.btn__arrow {
+  position: relative;
+  z-index: 1;
+}
+
+.btn__arrow {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  transition: transform var(--duration-base) var(--ease-quint);
+}
+
+.btn:hover .btn__arrow,
+.btn:focus-visible .btn__arrow {
+  transform: translateX(0.25em);
+}
+
+/* -- Primary: the brand gold, at rest -------------------------------------
+   THE OLD HOVER IS THE NEW DEFAULT. This used to sit in a deep green and wipe
+   to gold when you pointed at it, which meant the strongest call to action on
+   the page was its quietest thing until touched — and on a phone, where there
+   is no hover at all, it was never anything else. It now arrives gold, and
+   hover is a separate answer on top of that.
+
+   The base is a TOKEN so a section that remaps its palette can remap this with
+   it, the way `<Section inverse>` remaps the rest (see section.css). Nothing
+   overrides it today; what it defaults to is the brand gold. */
+.btn--primary {
+  background-color: var(--color-btn-base, var(--color-accent-gold));
+  color: var(--color-hunter-900);
+
+  /* Hover wipes to the deepest ink in the palette and the label goes to cream —
+     the inversion of the resting state rather than a shade of it, which is what
+     makes a button that is already the brightest thing on the page still have
+     somewhere to go. */
+  --btn-fill: var(--color-bokara-900);
+}
+
+.btn--primary:hover,
+.btn--primary:focus-visible {
+  color: var(--color-cream-50);
+}
+
+/* -- Secondary: a solid surface, NO OUTLINE -------------------------------
+   Never a border. `clip-path` cuts the corner off the box and takes the stroke
+   with it, so an outlined button on this shape is a visibly broken one — which
+   is the reason this variant has always been a filled surface rather than a
+   ring, and the reason it stays one.
+
+   Like the primary, it now rests at the weight it used to reach on hover: a
+   solid tint rather than a 12% wash that was invisible against half the grounds
+   on the site.
+
+   Every colour here is a token with the tint as its default, because what a
+   secondary button should be depends entirely on what it is standing on. On the
+   light sections the tint is right. On the hero's dark stage it is barely
+   there, so the hero fills it solid white — see hero.css. */
+.btn--outline {
+  background-color: var(--color-btn-alt, color-mix(in srgb, currentcolor 22%, transparent));
+  color: var(--color-btn-alt-ink, var(--color-fg-heading));
+
+  --btn-fill: var(--color-btn-alt-fill, var(--color-fg-heading));
+}
+
+.btn--outline:hover,
+.btn--outline:focus-visible {
+  color: var(--color-btn-alt-hover-ink, var(--color-bg-base));
+}
+
+/* -- Ghost: link-like, no wipe ------------------------------------------- */
+.btn--ghost {
+  padding-inline: 0.5rem;
+  background-color: transparent;
+  color: var(--color-fg-heading);
+  clip-path: none;
+}
+
+.btn--ghost .btn__fill {
+  display: none;
+}
+
+.btn--ghost:hover,
+.btn--ghost:focus-visible {
+  color: var(--color-accent-strong);
+}
+
+/* A wipe that cannot animate would flash the fill colour on hover, so the
+   layer is retired entirely and the variants fall back to a colour change. */
+@media (prefers-reduced-motion: reduce) {
+  .btn__fill {
+    display: none;
+  }
+
+  .btn--primary:hover,
+  .btn--primary:focus-visible {
+    background-color: var(--btn-fill);
+  }
+
+  .btn--outline:hover,
+  .btn--outline:focus-visible {
+    background-color: var(--color-fg-heading);
+  }
+}
