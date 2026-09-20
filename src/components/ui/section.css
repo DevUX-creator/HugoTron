@@ -21,6 +21,10 @@
   --color-border-strong: var(--color-harbor-600);
   --color-ring: var(--color-accent);
 
+  /* Buttons lighten on this ground rather than darkening — see button.css. */
+  --color-btn-hover: var(--color-paper-50);
+  --color-btn-hover-ink: var(--color-harbor-800);
+
   background-color: var(--color-bg-base);
   color: var(--color-fg-primary);
 }

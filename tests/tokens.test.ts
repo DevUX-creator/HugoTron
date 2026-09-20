@@ -166,3 +166,44 @@ describe("the accent matches the reference it was sampled from", () => {
     expect(token("lime-100")).toBe("#eeff80");
   });
 });
+
+describe("the primary button reads on both grounds", () => {
+  /**
+   * Its hover fill is a token because the right one depends on what it stands
+   * on. Every dark fill measures about 1.3:1 against the blue panel, so a
+   * button that darkens on hover disappears there. On the inverse ground it
+   * lightens instead.
+   */
+  const white = token("paper-50");
+  const panel = token("harbor-800");
+
+  it("rest: the label is legible on the accent", () => {
+    expect(contrast(token("ink-900"), token("lime-100"))).toBeGreaterThanOrEqual(AA_NORMAL);
+  });
+
+  describe("on a light page it darkens", () => {
+    const fill = token("harbor-900");
+
+    it("the label is legible on the fill", () => {
+      expect(contrast(white, fill)).toBeGreaterThanOrEqual(AA_NORMAL);
+    });
+
+    it("the button is still visible against the page", () => {
+      expect(contrast(fill, white)).toBeGreaterThanOrEqual(3);
+    });
+  });
+
+  describe("on the blue panel it lightens", () => {
+    const fill = token("paper-50");
+
+    it("the label is legible on the fill", () => {
+      expect(contrast(token("harbor-800"), fill)).toBeGreaterThanOrEqual(AA_NORMAL);
+    });
+
+    it("the button is still visible against the panel", () => {
+      /* The whole point: a dark fill here measures ~1.3 and vanishes. */
+      expect(contrast(fill, panel)).toBeGreaterThanOrEqual(3);
+      expect(contrast(token("harbor-900"), panel)).toBeLessThan(3);
+    });
+  });
+});

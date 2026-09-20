@@ -95,20 +95,26 @@
    The base is a TOKEN so a section that remaps its palette can remap this with
    it, the way `<Section inverse>` remaps the rest (see section.css). Nothing
    overrides it today; what it defaults to is the saffron accent. */
+/* Rest is the accent; hover wipes to the deep brand navy and the label goes
+   white — an inversion of the resting state rather than a shade of it, which
+   is what gives a button that is already the brightest thing on the page
+   somewhere to go.
+
+   BOTH ENDS ARE TOKENS, because the right hover depends on the ground. On a
+   light page the button darkens. On the BLUE panel it must do the opposite:
+   every dark fill measures around 1.3:1 against that panel, so the button
+   simply vanished on hover. There it lightens instead — see hero.css and
+   section.css, which flip these two. */
 .btn--primary {
   background-color: var(--color-btn-base, var(--color-accent));
   color: var(--color-ink-900);
 
-  /* Hover wipes to the deepest ink in the palette and the label goes to cream —
-     the inversion of the resting state rather than a shade of it, which is what
-     makes a button that is already the brightest thing on the page still have
-     somewhere to go. */
-  --btn-fill: var(--color-ink-900);
+  --btn-fill: var(--color-btn-hover, var(--color-harbor-900));
 }
 
 .btn--primary:hover,
 .btn--primary:focus-visible {
-  color: var(--color-paper-50);
+  color: var(--color-btn-hover-ink, var(--color-paper-50));
 }
 
 /* -- Secondary: a solid surface, NO OUTLINE -------------------------------
