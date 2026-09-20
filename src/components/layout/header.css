@@ -23,6 +23,12 @@
 }
 
 .header__nav-list {
+  /* The row's two metrics, declared where both the item and the link can read
+     them. `rem` not `em`: the swap's transform reads --nav-row too, and an
+     `em` there would resolve against a different font size. */
+  --nav-row: 1.4rem;
+  --nav-pad: 0.85rem;
+
   display: grid;
   /* Equal tracks, so the hairlines land on a regular rhythm across the full
      width rather than wherever the words happen to end. */
@@ -40,6 +46,12 @@
    short, each divider is clearly its own mark and the row breathes. */
 .header__nav-item {
   position: relative;
+  /* THE PADDING LIVES HERE, NOT ON THE LINK. `overflow` clips at the PADDING
+     box, not the content box, so padding on the clipping element sits INSIDE
+     the window: a 22.4px row with 12.8px of padding each side gave a 48px
+     window, and the 44.8px pair of faces fitted inside it whole. Both labels
+     showed, one above the other. */
+  padding-block: var(--nav-pad);
 }
 
 .header__nav-item + .header__nav-item::before {
@@ -53,13 +65,11 @@
 
 .header__nav-link {
   display: block;
-  padding-block: var(--nav-pad);
   padding-inline: 0.5rem;
-  /* Clips the pair to ONE row. `overflow: hidden` alone is not enough — with
-     an auto height the box simply grows to fit both faces and shows them
-     stacked, which is exactly what it did. The height is explicit and, under
-     border-box, covers the padding too. */
-  block-size: calc(var(--nav-row) + var(--nav-pad) * 2);
+  /* Exactly one row tall, with NO block padding — see the note on the item
+     above. This box is the window the swap slides through, so nothing may pad
+     it open. */
+  block-size: var(--nav-row);
   overflow: hidden;
   color: var(--color-fg-heading);
   font-size: var(--text-body-xs);
@@ -68,18 +78,6 @@
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
-
-  /* Row height and padding as ONE unit each, and the box derived from both.
-     Two earlier attempts got this wrong in the same way: the height addend and
-     the padding drifted apart, so the visible window ended up SHORTER than a
-     single face and clipped the type top and bottom. Deriving the box means
-     they cannot disagree.
-
-     `rem` rather than `em`: the swap's transform reads the same custom
-     property, and an `em` there resolves against a different font size than
-     the one that sized the row. */
-  --nav-row: 1.4rem;
-  --nav-pad: 0.8rem;
 }
 
 .header__nav-swap {
@@ -264,10 +262,12 @@
      around the wordmark, and a square plate would hang almost to the fold. */
   aspect-ratio: 5 / 3;
   block-size: auto;
-  /* Inset from the plate's corner by the ring, so the ring keeps an even
-     width all the way round the curve instead of pinching at it. */
-  border-end-start-radius: calc(var(--brand-notch) - var(--brand-ring));
-  border-end-end-radius: calc(var(--brand-notch) - var(--brand-ring));
+  /* ALL FOUR corners. The bottom pair is inset from the plate's own corner by
+     the ring, so the ring keeps an even width round the curve instead of
+     pinching at it. The top pair had been left square: the plate's top padding
+     is zero, so those corners sit directly on the bar and their right angles
+     were visible against it. */
+  border-radius: calc(var(--brand-notch) - var(--brand-ring));
   object-fit: cover;
 }
 

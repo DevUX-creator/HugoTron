@@ -33,6 +33,19 @@
   color: var(--color-accent-strong);
 }
 
+/* OPEN, IT STANDS ON THE PANEL. At rest the trigger is --color-fg-heading,
+   which is harbor-800 — the panel's own colour — so the close control was
+   invisible against it, and its hover state (harbor-600) was barely better.
+   Once open it belongs to the inverse surface and takes that palette. */
+.menu-btn.is-open {
+  color: var(--color-fg-on-inverse);
+}
+
+.menu-btn.is-open:hover,
+.menu-btn.is-open:focus-visible {
+  color: var(--color-accent);
+}
+
 /* Two offset bars. They slide to align on hover and cross into an X when
    open — one element doing both states, so there is nothing to keep in sync. */
 .menu-btn__bars {
