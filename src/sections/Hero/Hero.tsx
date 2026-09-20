@@ -8,16 +8,19 @@ import Copy from "@/animations/Copy";
 import Reveal from "@/animations/Reveal";
 import "./hero.css";
 
-/** Catalogue order, and the order the hero cycles them in. */
+/**
+ * FOUR, CHOSEN FOR RANGE RATHER THAN FOR COUNT.
+ *
+ * One per category the homepage actually sells on — the rice flagship, the
+ * premium spice, a nut line, and the 25 kg sack that stands for the wholesale
+ * side. The full catalogue belongs on /range; a hero that cycles nine asks the
+ * visitor to wait through near-duplicates (two 1121 bags, then the same two
+ * again at 1 kg) to learn something the fourth slide already told them.
+ */
 const PRODUCTS = [
   "pardis-1121-basmati-indien",
-  "aladdin-1121-basmati-pakistan",
-  "pardis-basmati-indien-1kg",
-  "aladdin-basmati-pakistan-1kg",
   "premium-negin-safran",
-  "vahdam-earl-grey",
   "pistazien-mit-schale",
-  "pistazienkerne",
   "kichererbsen-25kg",
 ] as const;
 

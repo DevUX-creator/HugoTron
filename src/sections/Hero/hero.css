@@ -44,22 +44,23 @@
   color: var(--color-paper-50);
 }
 
-/* THE WATERMARK. Small, and barely there on purpose — it sits in the panel's
-   quiet middle, between the claim above and the lead below, where there is
-   space for a mark but none for an image. A light tint at 4% reads as a
-   change in the surface rather than as a drawing on it.
+/* THE WATERMARK. ROOTED IN THE BOTTOM-LEFT AND GROWING UP OUT OF IT, which is
+   how the thing it draws actually stands — anchored to the corner rather than
+   floating in the middle, and running slightly past both edges so it reads as
+   continuing beyond the frame rather than as a mark that happens to fit.
 
-   It was first placed at full panel height, which made it the second thing
-   the eye found after the headline. */
+   Still a light tint at 4.5%: a change in the surface rather than a drawing
+   on it. It sits behind the call to action, which at this weight is texture
+   under the button, not competition with it. */
 .hero__mark {
   position: absolute;
-  inset-block-start: 42%;
-  inset-inline-end: clamp(1.5rem, 1rem + 2vw, 3.5rem);
+  inset-block-end: -5%;
+  inset-inline-start: -7%;
   z-index: 0;
-  block-size: clamp(3.5rem, 2rem + 5vw, 7rem);
+  block-size: clamp(8rem, 5rem + 13vw, 17rem);
   inline-size: auto;
   color: var(--color-paper-50);
-  opacity: 0.04;
+  opacity: 0.045;
   pointer-events: none;
 }
 

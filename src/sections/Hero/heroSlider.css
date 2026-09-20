@@ -66,9 +66,7 @@
 .hero-slider__thumb {
   position: relative;
   display: block;
-  /* Sized for NINE. The rail used to carry three; at the old width the row
-     ran past the frame. */
-  inline-size: clamp(2.25rem, 1.5rem + 2.2vw, 4rem);
+  inline-size: clamp(2.75rem, 1.75rem + 3vw, 5rem);
   padding: 0;
   border: 0;
   border-radius: var(--radius-sm);
