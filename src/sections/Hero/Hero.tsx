@@ -1,8 +1,9 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
-import GrainMark from "@/components/ui/GrainMark";
+import GrainPattern from "@/components/ui/GrainPattern";
 import HeroSlider, { type Slide } from "./HeroSlider";
+import { HERO_PRODUCTS } from "@/content/heroProducts";
 import RevealText from "@/animations/RevealText";
 import Copy from "@/animations/Copy";
 import Reveal from "@/animations/Reveal";
@@ -17,14 +18,8 @@ import "./hero.css";
  * request-only, so leading with them would send a visitor to a page where the
  * thing they just saw cannot be bought.
  *
- * The full catalogue belongs on /range.
+ * Order and pricing come from content/heroProducts.ts.
  */
-const PRODUCTS = [
-  "pardis-1121-basmati-indien",
-  "aladdin-1121-basmati-pakistan",
-  "premium-negin-safran",
-  "vahdam-earl-grey",
-] as const;
 
 /**
  * Block 1 — Hero.
@@ -44,26 +39,35 @@ const PRODUCTS = [
 export default function Hero() {
   const t = useTranslations("hero");
   const tp = useTranslations("products");
+  const tu = useTranslations("units");
+  const locale = useLocale();
 
   /* ONE FRONT VIEW PER PRODUCT. A pack photographed against its own ground
      reads at a glance and survives being shrunk into a thumbnail; a lifestyle
      frame does neither, and the same picture has to serve as both the preview
-     and the view.
+     and the view. Front only — the other angles belong on a product page.
 
-     Front only — the other angles belong on a product page, where a visitor
-     has already chosen what they are looking at. */
-  const slides: Slide[] = PRODUCTS.map((slug) => ({
-    src: `/products/${slug}/front.png`,
-    alt: tp(slug),
+     Names, prices and units are resolved HERE rather than in the slider:
+     message keys are typed against the catalogue and cannot travel as loose
+     strings, and currency formatting needs the active locale. */
+  const money = new Intl.NumberFormat(locale, { style: "currency", currency: "EUR" });
+
+  const slides: Slide[] = HERO_PRODUCTS.map((product) => ({
+    src: `/products/${product.slug}/front.png`,
+    alt: tp(product.slug),
+    name: tp(product.slug),
+    priceFrom: money.format(product.priceFrom / 100),
+    fromUnit: tu(product.fromUnit),
   }));
 
   return (
     <section className="hero" aria-label={t("label")}>
       <div className="hero__panel">
-        {/* A tonal watermark, one step off the panel rather than on it. It sits
-            behind the copy and takes no space — the column's measure is set by
-            the words, not by decoration. */}
-        <GrainMark className="hero__mark" />
+        {/* A tiled surface rather than a single mark: at this weight it reads
+            as the panel having a texture, which a lone stalk never quite did.
+            Behind the copy, and it takes no space — the column's measure is
+            set by the words, not by decoration. */}
+        <GrainPattern className="hero__pattern" />
 
         {/* Two groups pushed apart: the claim holds the top of the panel, the
             supporting line and the call to action sit on its floor. */}

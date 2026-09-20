@@ -79,5 +79,19 @@
     "pistazien-mit-schale": "Pistachios in shell",
     "pistazienkerne": "Pistachio kernels",
     "kichererbsen-25kg": "Chickpeas, 25 kg sack"
+  },
+  "cart": {
+    "from": "from {price}",
+    "soldFrom": "Available from {unit}",
+    "quantity": "Quantity",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "add": "Add to cart",
+    "addNamed": "{count, plural, one {Add # × {product} to cart} other {Add # × {product} to cart}}"
+  },
+  "units": {
+    "kg1": "1 kg",
+    "g1": "1 g",
+    "pack1": "1 pack"
   }
 }

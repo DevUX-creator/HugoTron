@@ -79,5 +79,19 @@
     "pistazien-mit-schale": "Pistazien mit Schale",
     "pistazienkerne": "Pistazienkerne",
     "kichererbsen-25kg": "Kichererbsen, 25-kg-Sack"
+  },
+  "cart": {
+    "from": "ab {price}",
+    "soldFrom": "Erhältlich ab {unit}",
+    "quantity": "Menge",
+    "decrease": "Menge verringern",
+    "increase": "Menge erhöhen",
+    "add": "In den Warenkorb",
+    "addNamed": "{count, plural, one {# × {product} in den Warenkorb} other {# × {product} in den Warenkorb}}"
+  },
+  "units": {
+    "kg1": "1 kg",
+    "g1": "1 g",
+    "pack1": "1 Packung"
   }
 }

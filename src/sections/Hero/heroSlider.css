@@ -35,14 +35,27 @@
 }
 
 .hero-slider__img {
-  /* COVER is safe now the source is 4:3 landscape with the product at ~70%
-     height and generous cream margin: filling the frame crops the margin, not
-     the pack, and leaves no letterbox seam. It was `contain` when the images
-     were squares. */
-  object-fit: cover;
+  /* CONTAIN. The frame is wider than the source's 4:3, so `cover` had to crop
+     roughly 6% off the top and bottom of every shot — never into the product,
+     but it ate the studio margin the images were composed with and made each
+     pack read tighter than it was photographed. Measured across the four
+     fronts, the products occupy 69% of frame height (the saffron 80%), and
+     that framing is the point of the set.
+
+     The side gaps this leaves are filled by the stage's own ground, which is
+     sampled from the artwork. */
+  object-fit: contain;
   /* The image travels inside its own clip, so it must not be the thing that
      gets clipped by the stage as well. */
   will-change: transform;
+}
+
+/* The purchase control, opposite the rail so the two never collide. */
+.hero-slider__buy {
+  position: absolute;
+  inset-block-end: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
+  inset-inline-start: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
+  z-index: var(--z-base);
 }
 
 /* -- The rail ------------------------------------------------------------- */

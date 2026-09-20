@@ -2,12 +2,20 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import AddToCart from "./AddToCart";
 import { useScrollWake } from "@/components/providers/SmoothScroll";
 import "./heroSlider.css";
 
 /** Alt text arrives resolved: the slide list is data, and message keys are
  *  typed against the catalogue, so they cannot be carried as loose strings. */
-export type Slide = { src: string; alt: string };
+export type Slide = {
+  src: string;
+  alt: string;
+  /** Resolved product name, price and unit for the purchase control. */
+  name: string;
+  priceFrom: string;
+  fromUnit: string;
+};
 
 type HeroSliderProps = {
   slides: Slide[];
@@ -152,6 +160,17 @@ export default function HeroSlider({
             />
           </div>
         ))}
+      </div>
+
+      {/* Keyed on the index so the stepper resets to 1 when the slide turns —
+          a quantity chosen for one product must not carry to the next. */}
+      <div className="hero-slider__buy">
+        <AddToCart
+          key={index}
+          productName={slides[index]!.name}
+          priceFrom={slides[index]!.priceFrom}
+          fromUnit={slides[index]!.fromUnit}
+        />
       </div>
 
       <div className="hero-slider__rail">
