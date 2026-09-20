@@ -53,12 +53,19 @@
   gap: 0.75rem;
   margin-block-start: var(--gap-section-header);
 
-  /* The secondary button's default tint is nearly invisible on this ground, so
-     the hero fills it solid and inverts its ink — see button.css, where every
-     one of these is a token for exactly this case. */
+  /* The secondary button's default surface is nearly invisible on this ground,
+     so the hero fills it solid and inverts its ink — see button.css, where
+     every one of these is a token for exactly this case. */
   --color-btn-alt: var(--color-linen-50);
   --color-btn-alt-ink: var(--color-harbor-900);
-  --color-btn-alt-fill: var(--color-saffron-600);
+  /* The disc matches the LABEL rather than contrasting with it: on this ground
+     a harbor-900 disc was invisible, being the panel's own colour. Both halves
+     the same, split by the morph cut — which is exactly the arrangement in
+     public/reference/shape-notch-card.png, where the cut does the separating
+     and colour does none of it. */
+  --color-btn-alt-disc: var(--color-linen-50);
+  --color-btn-alt-disc-ink: var(--color-harbor-900);
+  --color-btn-alt-hover: var(--color-sand-300);
   --color-btn-alt-hover-ink: var(--color-harbor-900);
 }
 

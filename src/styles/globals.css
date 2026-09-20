@@ -158,6 +158,45 @@
    COMPONENTS — only truly global pieces live here.
    --------------------------------------------------------------------------- */
 @layer components {
+  /* ---- THE MORPH FILLET ---------------------------------------------------
+     A concave corner joining two surfaces of the SAME colour — see the
+     references in public/reference/shape-*.png.
+
+     It is a square of that colour with a quarter-disc masked OUT of its far
+     corner, so what remains is the curve between the two edges. Place one at
+     each side of a tab: `--morph-side: left | right` picks which corner the
+     disc is removed from.
+
+     Requires a positioned parent. The colour is inherited via
+     `--morph-color`, so the same rule works on any ground. */
+  .morph-fillet {
+    position: absolute;
+    inline-size: var(--morph-size, var(--morph-md));
+    block-size: var(--morph-size, var(--morph-md));
+    background-color: var(--morph-color, var(--color-bg-base));
+    pointer-events: none;
+  }
+
+  .morph-fillet--left {
+    inset-inline-end: 100%;
+    /* Disc removed from the fillet's OWN bottom-left, which leaves the curve
+       running from the bar's edge down into the tab's side. */
+    mask-image: radial-gradient(
+      circle at 0 100%,
+      transparent calc(var(--morph-size, var(--morph-md)) - 0.5px),
+      black var(--morph-size, var(--morph-md))
+    );
+  }
+
+  .morph-fillet--right {
+    inset-inline-start: 100%;
+    mask-image: radial-gradient(
+      circle at 100% 100%,
+      transparent calc(var(--morph-size, var(--morph-md)) - 0.5px),
+      black var(--morph-size, var(--morph-md))
+    );
+  }
+
   /* Available to assistive technology, invisible on screen. */
   .visually-hidden {
     position: absolute;

@@ -248,11 +248,23 @@
   /* Every button's corner, in one place. --radius-full makes them pills. */
   --radius-button: var(--radius-lg);
 
-  /* Chamfer — the cut-corner silhouette shared by buttons and callouts. */
-  --chamfer-cut: 0.85rem;
-  --chamfer-cut-sm: 0.6rem;
-  --chamfer-cut-lg: clamp(2rem, 1rem + 3vw, 4rem);
-  --chamfer-joint: 0.4rem;
+  /* ---- THE MORPH CUT -------------------------------------------------------
+     The shape language of the references in public/reference/shape-*.png: where
+     two surfaces meet, the joint is a CONCAVE fillet rather than a right angle,
+     so one surface appears to flow out of the other.
+
+     Drawn with a radial-gradient mask on a small square at the junction — see
+     `.morph-fillet` in globals.css. Three sizes, because the joint has to be
+     proportional to what it joins: a button's split, a plate meeting a bar, a
+     panel meeting a panel. */
+  --morph-sm: 0.5rem;
+  --morph-md: 1rem;
+  --morph-lg: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+
+  /* The gap that reads as a cut between two fused shapes — the split between a
+     button's label and its arrow disc. Small on purpose: any wider and the two
+     read as separate controls rather than as one cut in two. */
+  --morph-split: 0.1875rem;
 
   --shadow-sm: 0 2px 10px rgb(43 41 38 / 6%);
   --shadow-md: 0 8px 28px rgb(43 41 38 / 9%);

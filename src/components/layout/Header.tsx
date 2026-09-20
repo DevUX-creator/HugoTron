@@ -60,6 +60,12 @@ export default function Header() {
         </div>
 
         <Link href="/" className="header__brand" aria-label={t("home")}>
+          {/* The concave joints. Without them the plate meets the bar at two
+              right angles and reads as a block sitting on top of the header;
+              with them the bar appears to flow down into the plate. See
+              public/reference/shape-klim-panels.png. */}
+          <span className="morph-fillet morph-fillet--left header__brand-fillet" />
+          <span className="morph-fillet morph-fillet--right header__brand-fillet" />
           {/* The logo is a solid navy block, so it IS the plate rather than
               sitting on one — the artwork's own ground provides the shape.
               Cropped with object-fit because the source is near-square with
