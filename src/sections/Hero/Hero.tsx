@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
-import GrainPattern from "@/components/ui/GrainPattern";
+import GrainMark from "@/components/ui/GrainMark";
 import HeroSlider, { type Slide } from "./HeroSlider";
 import { HERO_PRODUCTS } from "@/content/heroProducts";
 import RevealText from "@/animations/RevealText";
@@ -57,11 +57,10 @@ export default function Hero() {
   return (
     <section className="hero" aria-label={t("label")}>
       <div className="hero__panel">
-        {/* A tiled surface rather than a single mark: at this weight it reads
-            as the panel having a texture, which a lone stalk never quite did.
-            Behind the copy, and it takes no space — the column's measure is
-            set by the words, not by decoration. */}
-        <GrainPattern className="hero__pattern" />
+        {/* One stalk, rooted in the panel's floor. Behind the copy, and it
+            takes no space — the column's measure is set by the words, not by
+            decoration. */}
+        <GrainMark className="hero__mark" />
 
         {/* Two groups pushed apart: the claim holds the top of the panel, the
             supporting line and the call to action sit on its floor. */}

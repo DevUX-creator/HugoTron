@@ -44,20 +44,23 @@
   color: var(--color-paper-50);
 }
 
-/* THE PATTERN. Covers the whole panel at 2.2% — below the point where any
-   single stalk can be picked out, which is what lets it sit under the
-   headline and the call to action without competing with either.
+/* THE MARK. ONE STALK, GROWING UP OUT OF THE PANEL'S FLOOR — planted on the
+   bottom edge rather than floating, and running past it so the base is
+   cropped by the panel the way a stem is cropped by the ground.
 
-   It began as one large stalk in the corner; at any weight that made it the
-   second thing the eye found. A scatter has no focus to find. */
-.hero__pattern {
+   Kept at 5%: heavy enough to be found if looked for, light enough that the
+   headline and the call to action still own the column. A scattered tile was
+   tried here and read as texture rather than as a mark; a single stalk at
+   this scale is the more deliberate of the two. */
+.hero__mark {
   position: absolute;
-  inset: 0;
+  inset-block-end: -6%;
+  inset-inline-start: 6%;
   z-index: 0;
-  inline-size: 100%;
-  block-size: 100%;
+  block-size: clamp(11rem, 7rem + 16vw, 22rem);
+  inline-size: auto;
   color: var(--color-paper-50);
-  opacity: 0.022;
+  opacity: 0.05;
   pointer-events: none;
 }
 

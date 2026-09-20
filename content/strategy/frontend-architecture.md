@@ -312,6 +312,25 @@ get independently written English aimed at export buyers — different buying mo
 
 ---
 
+## 7a. One trap worth writing down: replacing an image in place
+
+`next/image` requests look like `/_next/image?url=/products/x/front.png&w=1080&q=75`.
+The URL carries the PATH, a width and a quality — and **no content hash**. So when a
+file is replaced at the same path, every cache in front of it keeps serving the old
+bytes: the browser's, the CDN's, and Next's own on-disk cache.
+
+This is not theoretical. During the hero build a product's photography was swapped from
+a square crop to a 4:3 one; the page kept rendering the square for that single slide —
+decoded at 613×613 while its neighbours were 708×531 — and it looked for all the world
+like that one image had been exported wrong. Disk and the optimiser were both correct
+the whole time.
+
+**When assets change, change the filename** — `front-2.png`, or a content hash in the
+name. If they must keep the same path, bust the cache deliberately and tell everyone
+holding a stale copy to hard-reload. Diagnose it by comparing an `<img>`'s
+`naturalWidth`/`naturalHeight` against the file on disk: if they disagree, it is a
+cache, not the artwork.
+
 ## 8. What we hand over
 
 Beyond the code:
