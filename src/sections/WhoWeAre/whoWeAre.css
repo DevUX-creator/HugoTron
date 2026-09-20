@@ -181,10 +181,12 @@
    finished icon and then redraw it. */
 .who-points__icon {
   flex: none;
-  inline-size: 1.35em;
-  block-size: 1.35em;
+  /* Larger than a tick would be: these are thin geometric marks, and at
+     tick size the 1.25 stroke closes up and the inner shapes disappear. */
+  inline-size: 1.6em;
+  block-size: 1.6em;
   color: var(--color-accent-strong);
-  translate: 0 0.22em;
+  translate: 0 0.3em;
 }
 
 .who-points__icon :is(path, rect, circle) {
