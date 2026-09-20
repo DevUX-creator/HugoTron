@@ -24,37 +24,45 @@
     "title": "Food without middlemen",
     "lead": "Basmati rice, pulses, pistachios and saffron — direct from growers to Hamburg, and across Europe to restaurants, retailers and food producers. From a 1 kg bag to a full pallet.",
     "cta": "Our Products",
-    "mediaHint": "Warehouse image to follow",
     "pause": "Pause slideshow",
-    "slide1": "Basmati rice",
-    "slide2": "Pulses in 25 kg sacks",
-    "slide3": "Saffron from Iran"
+    "mediaAlt": "Pardis Basmati in a restaurant kitchen",
+    "play": "Resume slideshow",
+    "slideKitchen": "Pardis Basmati in a restaurant kitchen",
+    "slideFront": "Pardis 1121 Basmati Sella, 5 kg pack, front",
+    "slideSide": "Pardis 1121 Basmati Sella, 5 kg pack, side",
+    "slideBack": "Pardis 1121 Basmati Sella, 5 kg pack, back with nutrition table"
   },
   "categories": {
     "title": "Our range",
     "rice": {
       "eyebrow": "1 kg to pallet",
-      "title": "Basmati rice"
+      "title": "Basmati rice",
+      "alt": "Pardis 1121 Basmati Sella, 5 kg pack"
     },
     "pulses": {
       "eyebrow": "25 kg sacks",
-      "title": "Pulses"
+      "title": "Pulses",
+      "alt": "Pulses"
     },
     "nuts": {
       "eyebrow": "10 to 50 kg",
-      "title": "Nuts & kernels"
+      "title": "Nuts & kernels",
+      "alt": "Nuts and kernels"
     },
     "spices": {
       "eyebrow": "1 g to 1 kg",
-      "title": "Spices"
+      "title": "Spices",
+      "alt": "Spices"
     },
     "grains": {
       "eyebrow": "Various grinds",
-      "title": "Grains"
+      "title": "Grains",
+      "alt": "Grains"
     },
     "tea": {
       "eyebrow": "Black & flavoured teas",
-      "title": "Tea"
+      "title": "Tea",
+      "alt": "Tea"
     }
   },
   "menu": {

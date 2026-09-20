@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import Section from "@/components/ui/Section";
 import Heading from "@/components/ui/Heading";
@@ -22,13 +23,18 @@ import "./categories.css";
  * comes from the heading inside the link, so there is no "read more" to
  * announce out of context.
  */
+/**
+ * `image` is the category's overview shot — the pack's FRONT view, which is
+ * what a row like this has to be recognisable by. Categories without one fall
+ * back to a placeholder until the client supplies photography.
+ */
 const CATEGORIES = [
-  { key: "rice", href: "/range" },
-  { key: "pulses", href: "/range" },
-  { key: "nuts", href: "/range" },
-  { key: "spices", href: "/range" },
-  { key: "grains", href: "/range" },
-  { key: "tea", href: "/range" },
+  { key: "rice", href: "/range", image: "/products/pardis-1121-basmati-indien/front.png" },
+  { key: "pulses", href: "/range", image: null },
+  { key: "nuts", href: "/range", image: null },
+  { key: "spices", href: "/range", image: null },
+  { key: "grains", href: "/range", image: null },
+  { key: "tea", href: "/range", image: null },
 ] as const;
 
 export default function Categories() {
@@ -55,6 +61,7 @@ export default function Categories() {
                 <MediaFrame
                   ratio="4 / 3"
                   className="categories__thumb"
+                  tone="light"
                   action={
                     <span>
                       <svg
@@ -73,7 +80,17 @@ export default function Categories() {
                       </svg>
                     </span>
                   }
-                />
+                >
+                  {category.image ? (
+                    <Image
+                      src={category.image}
+                      alt={t(`${category.key}.alt`)}
+                      fill
+                      sizes="(width >= 64rem) 13rem, 40vw"
+                      className="categories__image"
+                    />
+                  ) : null}
+                </MediaFrame>
 
                 <span className="categories__text">
                   <span className="categories__eyebrow eyebrow">

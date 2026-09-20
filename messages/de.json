@@ -24,37 +24,45 @@
     "title": "Lebensmittel ohne Zwischenhändler",
     "lead": "Basmati-Reis, Hülsenfrüchte, Pistazien und Safran — direkt vom Erzeuger nach Hamburg und europaweit an Gastronomie, Handel und Industrie. Vom 1-kg-Beutel bis zur vollen Palette.",
     "cta": "Unsere Produkte",
-    "mediaHint": "Lagerbild folgt",
     "pause": "Bildwechsel pausieren",
-    "slide1": "Basmati-Reis",
-    "slide2": "Hülsenfrüchte im 25-kg-Gebinde",
-    "slide3": "Safran aus dem Iran"
+    "mediaAlt": "Pardis Basmati in einer Restaurantküche",
+    "play": "Bildwechsel fortsetzen",
+    "slideKitchen": "Pardis Basmati in einer Restaurantküche",
+    "slideFront": "Pardis 1121 Basmati Sella, 5-kg-Packung, Vorderseite",
+    "slideSide": "Pardis 1121 Basmati Sella, 5-kg-Packung, Seitenansicht",
+    "slideBack": "Pardis 1121 Basmati Sella, 5-kg-Packung, Rückseite mit Nährwerten"
   },
   "categories": {
     "title": "Unser Sortiment",
     "rice": {
       "eyebrow": "1 kg bis Palette",
-      "title": "Basmati-Reis"
+      "title": "Basmati-Reis",
+      "alt": "Pardis 1121 Basmati Sella, 5-kg-Packung"
     },
     "pulses": {
       "eyebrow": "25-kg-Gebinde",
-      "title": "Hülsenfrüchte"
+      "title": "Hülsenfrüchte",
+      "alt": "Hülsenfrüchte"
     },
     "nuts": {
       "eyebrow": "10 bis 50 kg",
-      "title": "Nüsse & Kerne"
+      "title": "Nüsse & Kerne",
+      "alt": "Nüsse und Kerne"
     },
     "spices": {
       "eyebrow": "1 g bis 1 kg",
-      "title": "Gewürze"
+      "title": "Gewürze",
+      "alt": "Gewürze"
     },
     "grains": {
       "eyebrow": "Verschiedene Körnungen",
-      "title": "Getreide"
+      "title": "Getreide",
+      "alt": "Getreide"
     },
     "tea": {
       "eyebrow": "Schwarztee & Aromatees",
-      "title": "Tee"
+      "title": "Tee",
+      "alt": "Tee"
     }
   },
   "menu": {

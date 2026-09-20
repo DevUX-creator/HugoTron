@@ -103,82 +103,13 @@
 .hero__media {
   grid-area: media;
   position: relative;
+  /* `fill` positions the image absolutely, so this track needs its own height
+     on narrow viewports, where the grid does not give it one. */
+  min-block-size: clamp(16rem, 42svh, 26rem);
   isolation: isolate;
 }
 
-.hero__frame {
-  block-size: 100%;
-  min-block-size: clamp(16rem, 42svh, 26rem);
-}
-
-/* -- Slide rail ----------------------------------------------------------- */
-
-.hero__rail {
-  position: absolute;
-  inset-block-end: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
-  inset-inline-end: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
-  display: flex;
-  align-items: stretch;
-  gap: 0.5rem;
-}
-
-.hero__thumbs {
-  display: flex;
-  gap: 0.5rem;
-  list-style: none;
-}
-
-.hero__thumb {
-  display: block;
-  inline-size: clamp(3.5rem, 2.5rem + 4vw, 6rem);
-  padding: 0;
-  border: 2px solid transparent;
-  border-radius: var(--radius-sm);
-  background: none;
-  cursor: pointer;
-  overflow: hidden;
-  opacity: 0.6;
-  transition:
-    border-color var(--duration-base) var(--ease-standard),
-    opacity var(--duration-base) var(--ease-standard);
-}
-
-.hero__thumb:hover,
-.hero__thumb:focus-visible {
-  opacity: 1;
-}
-
-.hero__thumb[aria-current="true"] {
-  border-color: var(--color-accent);
-  opacity: 1;
-}
-
-.hero__pause {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  inline-size: clamp(2.25rem, 1.75rem + 2vw, 3rem);
-  border: 0;
-  border-radius: var(--radius-sm);
-  background-color: var(--color-ink-900);
-  color: var(--color-paper-50);
-  cursor: pointer;
-  transition: background-color var(--duration-fast) var(--ease-standard);
-}
-
-.hero__pause:hover,
-.hero__pause:focus-visible {
-  background-color: var(--color-harbor-700);
-}
-
-.hero__pause-icon {
-  inline-size: 0.9rem;
-  block-size: 0.9rem;
-}
-
-/* Side by side from `lg`. The panel is the narrower track — it holds words,
-   the photograph holds the room. */
+/* From `lg` the panel and the media sit side by side. */
 @media (width >= 64rem) {
   .hero {
     grid-template-areas: "panel media";
@@ -194,7 +125,7 @@
     margin-inline: 0;
   }
 
-  .hero__frame {
-    min-block-size: 100%;
+  .hero__media {
+    min-block-size: 0;
   }
 }

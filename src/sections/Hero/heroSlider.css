@@ -1,0 +1,133 @@
+/* ===========================================================================
+   Hero slider
+   ---------------------------------------------------------------------------
+   Transition mechanic from the reference in ExampleSlider.zip, at the scale of
+   a half-width panel rather than a full screen. See HeroSlider.tsx for what
+   the three parts are doing.
+   =========================================================================== */
+
+.hero-slider {
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
+}
+
+.hero-slider__stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  /* ITS OWN STACKING CONTEXT. The transition raises the incoming slide to
+     z-index 2; without a context here that number competed directly with the
+     rail's, so from the first autoplay tick onward the slide painted over the
+     controls and they vanished. Isolating keeps slide ordering internal. */
+  isolation: isolate;
+}
+
+/* Stacked, with only the active one visible. The clip-path the transition
+   animates is set by GSAP; at rest every slide is fully open. */
+.hero-slider__slide {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+.hero-slider__img {
+  object-fit: cover;
+  /* The image travels inside its own clip, so it must not be the thing that
+     gets clipped by the stage as well. */
+  will-change: transform;
+}
+
+/* -- The rail ------------------------------------------------------------- */
+
+.hero-slider__rail {
+  position: absolute;
+  inset-block-end: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
+  inset-inline-end: clamp(0.75rem, 0.5rem + 1vw, 1.5rem);
+  z-index: var(--z-base);
+  display: flex;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+
+.hero-slider__thumbs {
+  display: flex;
+  gap: 0.5rem;
+  list-style: none;
+}
+
+.hero-slider__thumb {
+  position: relative;
+  display: block;
+  inline-size: clamp(3.25rem, 2.25rem + 4vw, 5.5rem);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  cursor: pointer;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  /* A HAIRLINE ON EVERY THUMB. The dim below is dark, and so is much of the
+     photography it sits on — a dimmed thumbnail over a dark kitchen counter
+     has no edge at all. This gives the control a shape independent of what is
+     behind it. */
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 45%);
+}
+
+/* THE DIM IS A LAYER, NOT AN OPACITY. Fading the whole button also fades the
+   picture's contrast, so an inactive thumb stops reading as a photograph;
+   a dark sheet over it keeps the image intact and just quiets it. */
+.hero-slider__thumb::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background-color: var(--color-ink-900);
+  opacity: 0.55;
+  transition: opacity var(--duration-base) var(--ease-standard);
+}
+
+.hero-slider__thumb:hover::after,
+.hero-slider__thumb:focus-visible::after {
+  opacity: 0.25;
+}
+
+.hero-slider__thumb[aria-current="true"]::after {
+  opacity: 0;
+}
+
+.hero-slider__thumb[aria-current="true"] {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.hero-slider__thumb-img {
+  object-fit: cover;
+}
+
+.hero-slider__pause {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  inline-size: clamp(2.25rem, 1.75rem + 2vw, 3rem);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-ink-900);
+  color: var(--color-paper-50);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.hero-slider__pause:hover,
+.hero-slider__pause:focus-visible {
+  background-color: var(--color-accent);
+  color: var(--color-ink-900);
+}
+
+.hero-slider__pause svg {
+  inline-size: 0.9rem;
+  block-size: 0.9rem;
+}

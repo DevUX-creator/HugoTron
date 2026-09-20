@@ -39,6 +39,10 @@
   --notch-gap: 0.4rem;
 }
 
+.categories__image {
+  object-fit: cover;
+}
+
 .categories__text {
   display: flex;
   flex-direction: column;

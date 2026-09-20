@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
-import Placeholder from "@/components/ui/Placeholder";
+import HeroSlider, { type Slide } from "./HeroSlider";
 import RevealText from "@/animations/RevealText";
 import Copy from "@/animations/Copy";
 import Reveal from "@/animations/Reveal";
@@ -19,12 +19,21 @@ import "./hero.css";
  * Below `lg` the two stack, media first: a phone-width column beside a picture
  * leaves room for neither.
  *
- * LAYOUT ONLY at this stage. The thumb rail is static markup with the right
- * states and no behaviour — the slider and its motion come from Dmitrij later.
+ * The media is a slider — see HeroSlider, whose transition follows the
+ * reference in ExampleSlider.zip.
  */
 export default function Hero() {
   const t = useTranslations("hero");
-  const slides = [t("slide1"), t("slide2"), t("slide3")];
+
+  /* The kitchen shot leads — it is the frame the client will swap — and the
+     pack views follow. Alt text is resolved here because message keys are
+     typed against the catalogue and cannot travel as loose strings. */
+  const slides: Slide[] = [
+    { src: "/hero/kitchen.png", alt: t("slideKitchen") },
+    { src: "/products/pardis-1121-basmati-indien/front.png", alt: t("slideFront") },
+    { src: "/products/pardis-1121-basmati-indien/side.png", alt: t("slideSide") },
+    { src: "/products/pardis-1121-basmati-indien/back.png", alt: t("slideBack") },
+  ];
 
   return (
     <section className="hero" aria-label={t("label")}>
@@ -57,38 +66,7 @@ export default function Hero() {
       </div>
 
       <div className="hero__media">
-        <Placeholder rounded={false} tone="dark" label={t("mediaHint")} className="hero__frame" />
-
-        {/* The slide rail — the reference's bottom-right cards. */}
-        <Reveal eager delay={0.45} className="hero__rail">
-          <ul className="hero__thumbs">
-            {slides.map((slide, i) => (
-              <li key={slide}>
-                <button
-                  type="button"
-                  className="hero__thumb"
-                  aria-label={slide}
-                  aria-current={i === 0 ? "true" : undefined}
-                >
-                  <Placeholder ratio="4 / 3" />
-                </button>
-              </li>
-            ))}
-          </ul>
-
-          <button type="button" className="hero__pause" aria-label={t("pause")}>
-            <svg
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              aria-hidden="true"
-              focusable="false"
-              className="hero__pause-icon"
-            >
-              <rect x="4" y="3" width="3" height="10" rx="1" />
-              <rect x="9" y="3" width="3" height="10" rx="1" />
-            </svg>
-          </button>
-        </Reveal>
+        <HeroSlider slides={slides} pauseLabel={t("pause")} playLabel={t("play")} />
       </div>
     </section>
   );
