@@ -19,17 +19,17 @@ type MediaFrameProps = {
 /**
  * The shape every photograph sits in — see public/reference/shape-notch-card.png.
  *
- * A rounded frame with a bite taken out of its bottom-right corner, and a
- * circular control sitting in the bite. The bite is a quarter-disc masked out
- * of the frame, so where it meets the two edges the corners run CONCAVE and
- * the picture appears to wrap around the button.
+ * A rounded frame with a STEP cut out of its bottom-right corner and a
+ * circular control sitting in it. The step's inner corner is rounded convex
+ * and both places where it meets the frame's edges run CONCAVE, at the same
+ * radius — the geometry of the reference SVG.
  *
- * `--notch-size` is the button's diameter and `--notch-gap` the ring of page
- * showing between picture and button; the mask radius is derived from both, so
- * the bite always clears the control by the same margin.
+ * `--notch-size` is the control's diameter and `--notch-gap` the ring of page
+ * showing around it, so the step always clears the control by the same margin.
+ * `--notch-radius` rounds every corner of the step at once.
  *
- * Pass `action` to get the notch. Without it this is just a rounded frame —
- * a picture with nothing to press should not have a hole in it.
+ * Pass `action` to get the step. Without it this is just a rounded frame — a
+ * picture with nothing to press should not have a corner missing.
  */
 export default function MediaFrame({
   ratio,
@@ -52,7 +52,19 @@ export default function MediaFrame({
       </div>
 
       {caption ? <div className="media-frame__caption">{caption}</div> : null}
-      {action ? <div className="media-frame__action">{action}</div> : null}
+
+      {action ? (
+        <>
+          {/* The step, and the two concave joins where it leaves the frame's
+              edges. Ground-coloured boxes over the picture rather than a mask
+              on it — see mediaFrame.css. */}
+          <div className="media-frame__notch" aria-hidden="true">
+            <span className="morph-fillet morph-fillet--inner media-frame__fillet media-frame__fillet--bottom" />
+            <span className="morph-fillet morph-fillet--inner media-frame__fillet media-frame__fillet--right" />
+          </div>
+          <div className="media-frame__action">{action}</div>
+        </>
+      ) : null}
     </div>
   );
 }

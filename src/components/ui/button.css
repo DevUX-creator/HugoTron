@@ -45,10 +45,17 @@
   pointer-events: none;
 }
 
-/* The wipe. Parked just past the bottom edge so no seam shows at rest. */
+/* The wipe. Parked just past the bottom edge so no seam shows at rest.
+
+   OVERSHOOTS BY A PIXEL on every side. At `inset: 0` the fill's straight edge
+   has to be clipped by the button's rounded one, and the antialiasing of that
+   clip does not land exactly on the fill's own antialiased edge — which left a
+   hairline of the resting colour tracing the pill on hover. Growing the layer
+   past the boundary means the parent's clip alone defines the shape, and there
+   is no second edge to disagree with it. */
 .btn__fill {
   position: absolute;
-  inset: 0;
+  inset: -1px;
   z-index: 0;
   background-color: var(--btn-fill);
   transform: translateY(101%);

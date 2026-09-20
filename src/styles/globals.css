@@ -188,6 +188,18 @@
     );
   }
 
+  /* Disc removed from the fillet's OWN top-left. Used where a surface steps
+     AWAY from an edge — the notch in a media frame — rather than hanging off
+     one. Position it against the stepped corner; the curve then runs from the
+     frame's edge into the step's side. */
+  .morph-fillet--inner {
+    mask-image: radial-gradient(
+      circle at 0 0,
+      transparent calc(var(--morph-size, var(--morph-md)) - 0.5px),
+      black var(--morph-size, var(--morph-md))
+    );
+  }
+
   .morph-fillet--right {
     inset-inline-start: 100%;
     mask-image: radial-gradient(

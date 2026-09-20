@@ -41,7 +41,16 @@ export default function Header() {
           {links.map((link) => (
             <li key={link.href} className="header__nav-item">
               <Link href={link.href} className="header__nav-link">
-                {link.label}
+                {/* Two stacked copies of the label. Hover shifts the pair up by
+                    exactly one row, so the second takes the first's place — the
+                    same swap the menu's links use. The second copy is
+                    aria-hidden so the label is announced once. */}
+                <span className="header__nav-swap">
+                  <span className="header__nav-face">{link.label}</span>
+                  <span className="header__nav-face" aria-hidden="true">
+                    {link.label}
+                  </span>
+                </span>
               </Link>
             </li>
           ))}

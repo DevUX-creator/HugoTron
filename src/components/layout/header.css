@@ -53,13 +53,13 @@
 
 .header__nav-link {
   display: block;
-  padding-block: 0.9rem;
+  padding-block: var(--nav-pad);
   padding-inline: 0.5rem;
   /* Clips the pair to ONE row. `overflow: hidden` alone is not enough — with
      an auto height the box simply grows to fit both faces and shows them
      stacked, which is exactly what it did. The height is explicit and, under
      border-box, covers the padding too. */
-  block-size: calc(var(--nav-row) + 1.8rem);
+  block-size: calc(var(--nav-row) + var(--nav-pad) * 2);
   overflow: hidden;
   color: var(--color-fg-heading);
   font-size: var(--text-body-xs);
@@ -69,7 +69,17 @@
   text-decoration: none;
   text-transform: uppercase;
 
-  --nav-row: 1.1rem;
+  /* Row height and padding as ONE unit each, and the box derived from both.
+     Two earlier attempts got this wrong in the same way: the height addend and
+     the padding drifted apart, so the visible window ended up SHORTER than a
+     single face and clipped the type top and bottom. Deriving the box means
+     they cannot disagree.
+
+     `rem` rather than `em`: the swap's transform reads the same custom
+     property, and an `em` there resolves against a different font size than
+     the one that sized the row. */
+  --nav-row: 1.4rem;
+  --nav-pad: 0.8rem;
 }
 
 .header__nav-swap {
@@ -209,17 +219,25 @@
   /* Hangs past the bar's bottom edge, onto whatever follows. */
   margin-block-end: calc(var(--brand-overhang) * -1);
   /* THE NOTCH. A ring of the PAGE GROUND around the artwork, so where the
-     plate crosses into the hero it reads as a shape cut out of the header
-     rather than as a navy block dropped on top of the photograph. The outer
-     radius is one step larger than the inner so the ring keeps an even width
-     around the curve. */
+     plate crosses into the hero it reads as a tab cut out of the header rather
+     than a navy block dropped on the photograph.
+
+     ONE RADIUS DRIVES THE WHOLE SHAPE. The concave fillets at the top and the
+     convex corners at the bottom are the SAME size, and the tab hangs exactly
+     twice that — the geometry of the reference SVGs, where a 14 fillet meets a
+     14 corner across a 28 drop. Each curve then ends precisely where the next
+     begins: no straight scrap between them, and no overlap.
+
+     Before this the fillet was 40px against a 20px corner on a 52px drop, so
+     the two curves collided and left a lump on each side. */
   padding: var(--brand-ring);
   padding-block-start: 0;
-  border-end-start-radius: var(--radius-xl);
-  border-end-end-radius: var(--radius-xl);
+  border-end-start-radius: var(--brand-notch);
+  border-end-end-radius: var(--brand-notch);
   background-color: var(--color-bg-base);
 
-  --brand-overhang: clamp(1.5rem, 0.75rem + 2.4vw, 3.25rem);
+  --brand-notch: clamp(0.75rem, 0.5rem + 1vw, 1.25rem);
+  --brand-overhang: calc(var(--brand-notch) * 2);
   --brand-ring: clamp(0.4rem, 0.25rem + 0.5vw, 0.7rem);
 }
 
@@ -234,7 +252,8 @@
 .header__brand-fillet {
   inset-block-start: calc(100% - var(--brand-overhang));
 
-  --morph-size: clamp(1.25rem, 0.75rem + 2vw, 2.5rem);
+  /* Equal to the plate's own corner — see the note above. */
+  --morph-size: var(--brand-notch);
   --morph-color: var(--color-bg-base);
 }
 
@@ -245,8 +264,10 @@
      around the wordmark, and a square plate would hang almost to the fold. */
   aspect-ratio: 5 / 3;
   block-size: auto;
-  border-end-start-radius: var(--radius-lg);
-  border-end-end-radius: var(--radius-lg);
+  /* Inset from the plate's corner by the ring, so the ring keeps an even
+     width all the way round the curve instead of pinching at it. */
+  border-end-start-radius: calc(var(--brand-notch) - var(--brand-ring));
+  border-end-end-radius: calc(var(--brand-notch) - var(--brand-ring));
   object-fit: cover;
 }
 

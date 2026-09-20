@@ -1,11 +1,14 @@
 /* ===========================================================================
    MediaFrame — the shape photographs sit in.
    ---------------------------------------------------------------------------
-   Rounded frame, with a quarter-disc bitten out of the bottom-right corner and
-   a circular control in the bite. See public/reference/shape-notch-card.png.
+   A rounded frame with a STEP cut out of its bottom-right corner and a
+   circular control in the step. Geometry from the reference SVG: the step's
+   inner corner is rounded convex, and both places where it meets the frame's
+   edges are rounded CONCAVE at the same radius.
 
-   The mask is on `.media-frame__picture`, not on the frame itself, so the
-   control is NOT masked away with it.
+   Built by overlaying a patch of page ground over the corner rather than by
+   masking the picture. Compositing three masks is the clever way and an
+   unpredictable one; this is plain boxes, and every curve is a token.
    =========================================================================== */
 
 .media-frame {
@@ -14,8 +17,9 @@
 
   --notch-size: clamp(2.5rem, 2rem + 2vw, 3.5rem);
   --notch-gap: 0.5rem;
-  /* The bite has to clear the control by the gap on every side. */
-  --notch-radius: calc(var(--notch-size) + var(--notch-gap));
+  /* One radius for every corner of the step — concave and convex alike. */
+  --notch-radius: var(--radius-md);
+  --notch-box: calc(var(--notch-size) + var(--notch-gap) * 2);
 }
 
 .media-frame__picture {
@@ -25,22 +29,43 @@
   overflow: hidden;
 }
 
-/* THE BITE. A radial gradient used as a mask: transparent inside the radius,
-   opaque outside, centred on the frame's bottom-right corner. Because the
-   circle is tangent to both edges, the two corners it leaves run concave. */
+/* The step takes that corner, so the frame must not round it as well. */
 .media-frame--notched .media-frame__picture {
   border-end-end-radius: 0;
-  mask-image: radial-gradient(
-    circle var(--notch-radius) at 100% 100%,
-    transparent calc(100% - 0.5px),
-    black 100%
-  );
+}
+
+/* The patch of page ground that makes the step. Its top-left is the step's
+   inner corner, rounded convex. */
+.media-frame__notch {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  inline-size: var(--notch-box);
+  block-size: var(--notch-box);
+  border-start-start-radius: var(--notch-radius);
+  background-color: var(--color-bg-base);
+}
+
+/* The two concave joins, one per edge the step leaves. */
+.media-frame__fillet {
+  --morph-size: var(--notch-radius);
+  --morph-color: var(--color-bg-base);
+}
+
+.media-frame__fillet--bottom {
+  inset-inline-end: 100%;
+  inset-block-end: 0;
+}
+
+.media-frame__fillet--right {
+  inset-block-end: 100%;
+  inset-inline-end: 0;
 }
 
 .media-frame__action {
   position: absolute;
-  inset-block-end: 0;
-  inset-inline-end: 0;
+  inset-block-end: var(--notch-gap);
+  inset-inline-end: var(--notch-gap);
   inline-size: var(--notch-size);
   block-size: var(--notch-size);
 }
