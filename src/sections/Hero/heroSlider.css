@@ -16,8 +16,8 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
-  /* Matches the ground the packs are shot on, so the contained image below
-     letterboxes without a seam. */
+  /* Matches the ground the packs are shot on — visible only while an image
+     is still loading. */
   background-color: var(--color-bg-product);
   /* ITS OWN STACKING CONTEXT. The transition raises the incoming slide to
      z-index 2; without a context here that number competed directly with the
@@ -35,9 +35,11 @@
 }
 
 .hero-slider__img {
-  /* CONTAIN, not cover. The packs are square and this frame is landscape —
-     covering it would crop a third off a subject that is nearly all height. */
-  object-fit: contain;
+  /* COVER is safe now the source is 4:3 landscape with the product at ~70%
+     height and generous cream margin: filling the frame crops the margin, not
+     the pack, and leaves no letterbox seam. It was `contain` when the images
+     were squares. */
+  object-fit: cover;
   /* The image travels inside its own clip, so it must not be the thing that
      gets clipped by the stage as well. */
   will-change: transform;
@@ -64,24 +66,27 @@
 .hero-slider__thumb {
   position: relative;
   display: block;
-  inline-size: clamp(3.25rem, 2.25rem + 4vw, 5.5rem);
+  /* Sized for NINE. The rail used to carry three; at the old width the row
+     ran past the frame. */
+  inline-size: clamp(2.25rem, 1.5rem + 2.2vw, 4rem);
   padding: 0;
   border: 0;
   border-radius: var(--radius-sm);
-  background: none;
+  background-color: var(--color-bg-product);
   cursor: pointer;
   overflow: hidden;
+  /* Matches the source images, so the thumbnail is the picture uncropped. */
   aspect-ratio: 4 / 3;
-  background-color: var(--color-bg-product);
-  /* A HAIRLINE ON EVERY THUMB, so the control has a shape independent of what
-     is behind it. DARK now the photography is light — a white hairline on a
-     cream pack shot is no edge at all. */
-  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 18%);
 }
 
-/* THE DIM IS A LAYER, NOT AN OPACITY. Fading the whole button also fades the
-   picture's contrast, so an inactive thumb stops reading as a photograph;
-   a dark sheet over it keeps the image intact and just quiets it. */
+/* SELECTION IS THE DIM, AND NOTHING ELSE — the reference's own treatment.
+   A frame and a ring were added while the photography was dark; with light
+   pack shots they only made the rail busy. The active thumb is simply the one
+   that is not covered.
+
+   And it IS a layer, not an opacity: fading the whole button fades the
+   picture's contrast too, so an inactive thumb stops reading as a photograph.
+   A dark sheet over it keeps the image intact and just quiets it. */
 .hero-slider__thumb::after {
   content: "";
   position: absolute;
@@ -101,14 +106,8 @@
   opacity: 0;
 }
 
-.hero-slider__thumb[aria-current="true"] {
-  /* Ink rather than the accent: lime on a cream pack shot is barely a mark. */
-  outline: 2px solid var(--color-ink-900);
-  outline-offset: -2px;
-}
-
 .hero-slider__thumb-img {
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .hero-slider__pause {

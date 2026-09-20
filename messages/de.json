@@ -25,10 +25,7 @@
     "lead": "Basmati-Reis, Hülsenfrüchte, Pistazien und Safran — direkt vom Erzeuger nach Hamburg und europaweit an Gastronomie, Handel und Industrie. Vom 1-kg-Beutel bis zur vollen Palette.",
     "cta": "Unsere Produkte",
     "pause": "Bildwechsel pausieren",
-    "play": "Bildwechsel fortsetzen",
-    "slideFront": "Pardis 1121 Basmati Sella, 5-kg-Packung, Vorderseite",
-    "slideSide": "Pardis 1121 Basmati Sella, 5-kg-Packung, Seitenansicht",
-    "slideBack": "Pardis 1121 Basmati Sella, 5-kg-Packung, Rückseite mit Nährwerten"
+    "play": "Bildwechsel fortsetzen"
   },
   "categories": {
     "title": "Unser Sortiment",
@@ -71,5 +68,16 @@
     "terms": "AGB",
     "privacy": "Datenschutz",
     "imprint": "Impressum"
+  },
+  "products": {
+    "pardis-1121-basmati-indien": "Pardis 1121 Basmati aus Indien, 5 kg",
+    "aladdin-1121-basmati-pakistan": "Aladdin 1121 Basmati aus Pakistan, 5 kg",
+    "pardis-basmati-indien-1kg": "Pardis Basmati aus Indien, 1 kg",
+    "aladdin-basmati-pakistan-1kg": "Aladdin Basmati aus Pakistan, 1 kg",
+    "premium-negin-safran": "Premium Negin Safran",
+    "vahdam-earl-grey": "Vahdam Earl Grey Pyramiden-Teebeutel",
+    "pistazien-mit-schale": "Pistazien mit Schale",
+    "pistazienkerne": "Pistazienkerne",
+    "kichererbsen-25kg": "Kichererbsen, 25-kg-Sack"
   }
 }

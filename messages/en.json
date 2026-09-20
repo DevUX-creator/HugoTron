@@ -25,10 +25,7 @@
     "lead": "Basmati rice, pulses, pistachios and saffron — direct from growers to Hamburg, and across Europe to restaurants, retailers and food producers. From a 1 kg bag to a full pallet.",
     "cta": "Our Products",
     "pause": "Pause slideshow",
-    "play": "Resume slideshow",
-    "slideFront": "Pardis 1121 Basmati Sella, 5 kg pack, front",
-    "slideSide": "Pardis 1121 Basmati Sella, 5 kg pack, side",
-    "slideBack": "Pardis 1121 Basmati Sella, 5 kg pack, back with nutrition table"
+    "play": "Resume slideshow"
   },
   "categories": {
     "title": "Our range",
@@ -71,5 +68,16 @@
     "terms": "Terms",
     "privacy": "Privacy",
     "imprint": "Imprint"
+  },
+  "products": {
+    "pardis-1121-basmati-indien": "Pardis 1121 Basmati from India, 5 kg",
+    "aladdin-1121-basmati-pakistan": "Aladdin 1121 Basmati from Pakistan, 5 kg",
+    "pardis-basmati-indien-1kg": "Pardis Basmati from India, 1 kg",
+    "aladdin-basmati-pakistan-1kg": "Aladdin Basmati from Pakistan, 1 kg",
+    "premium-negin-safran": "Premium Negin saffron",
+    "vahdam-earl-grey": "Vahdam Earl Grey pyramid tea bags",
+    "pistazien-mit-schale": "Pistachios in shell",
+    "pistazienkerne": "Pistachio kernels",
+    "kichererbsen-25kg": "Chickpeas, 25 kg sack"
   }
 }

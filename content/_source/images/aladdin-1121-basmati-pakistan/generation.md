@@ -1,6 +1,6 @@
 # Aladdin 1121 Basmati aus Pakistan — 5 kg
 
-Status: generated for user review; awaiting approval before beginning the next product.
+Status: original set approved by the user. Subsequently reframed to 4:3 landscape at the user's request; see ../product-image-format.md for the current 1448 × 1086 files and exact edit prompts. The original 1254 × 1254 files described below are retained in approved-square/.
 
 Generated with the built-in image_gen tool on 2026-09-20. No CLI fallback used.
 

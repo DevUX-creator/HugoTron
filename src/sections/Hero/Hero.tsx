@@ -1,11 +1,25 @@
 import { useTranslations } from "next-intl";
 import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
+import GrainMark from "@/components/ui/GrainMark";
 import HeroSlider, { type Slide } from "./HeroSlider";
 import RevealText from "@/animations/RevealText";
 import Copy from "@/animations/Copy";
 import Reveal from "@/animations/Reveal";
 import "./hero.css";
+
+/** Catalogue order, and the order the hero cycles them in. */
+const PRODUCTS = [
+  "pardis-1121-basmati-indien",
+  "aladdin-1121-basmati-pakistan",
+  "pardis-basmati-indien-1kg",
+  "aladdin-basmati-pakistan-1kg",
+  "premium-negin-safran",
+  "vahdam-earl-grey",
+  "pistazien-mit-schale",
+  "pistazienkerne",
+  "kichererbsen-25kg",
+] as const;
 
 /**
  * Block 1 — Hero.
@@ -24,27 +38,28 @@ import "./hero.css";
  */
 export default function Hero() {
   const t = useTranslations("hero");
+  const tp = useTranslations("products");
 
-  /* PACK SHOTS ONLY — no lifestyle frame. A product photographed against its
-     own ground reads at a glance and survives being shrunk into a thumbnail;
-     a room shot does neither, and the same picture cannot serve as both the
-     preview and the view.
+  /* ONE FRONT VIEW PER PRODUCT. A pack photographed against its own ground
+     reads at a glance and survives being shrunk into a thumbnail; a lifestyle
+     frame does neither, and the same picture has to serve as both the preview
+     and the view.
 
-     Front leads, because that is the face a pack is recognised by. As more
-     photography arrives this becomes one front view per product rather than
-     three angles of one.
-
-     Alt text is resolved here: message keys are typed against the catalogue
-     and cannot travel as loose strings. */
-  const slides: Slide[] = [
-    { src: "/products/pardis-1121-basmati-indien/front.png", alt: t("slideFront") },
-    { src: "/products/pardis-1121-basmati-indien/side.png", alt: t("slideSide") },
-    { src: "/products/pardis-1121-basmati-indien/back.png", alt: t("slideBack") },
-  ];
+     Front only — the other angles belong on a product page, where a visitor
+     has already chosen what they are looking at. */
+  const slides: Slide[] = PRODUCTS.map((slug) => ({
+    src: `/products/${slug}/front.png`,
+    alt: tp(slug),
+  }));
 
   return (
     <section className="hero" aria-label={t("label")}>
       <div className="hero__panel">
+        {/* A tonal watermark, one step off the panel rather than on it. It sits
+            behind the copy and takes no space — the column's measure is set by
+            the words, not by decoration. */}
+        <GrainMark className="hero__mark" />
+
         {/* Two groups pushed apart: the claim holds the top of the panel, the
             supporting line and the call to action sit on its floor. */}
         <div className="hero__copy">
