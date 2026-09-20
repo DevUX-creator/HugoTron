@@ -18,9 +18,7 @@ import "./header.css";
  * The logo plate hangs below the brand bar onto the hero, so neither row may
  * clip its overflow.
  *
- * The menu button is currently inert — the drawer and its motion come later,
- * per Dmitrij. It is still a real `<button>` with an accessible name so the
- * markup does not change when it is wired up.
+ * The brand bar stays visible while scrolling; the nav row above scrolls away.
  */
 export default function Header() {
   const t = useTranslations("nav");
@@ -96,7 +94,11 @@ export default function Header() {
           <button type="button" className="header__control" aria-label={t("account")}>
             <AccountIcon className="header__icon" />
           </button>
-          <Link href="/cart" className="header__control header__control--cart">
+          <Link
+            href="/cart"
+            className="header__control header__control--cart"
+            aria-label={t("cart")}
+          >
             <span className="header__cart-mark">
               <CartIcon className="header__icon" />
               {/* Count as an accent badge. Reads at a glance, and gives the

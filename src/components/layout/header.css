@@ -6,7 +6,14 @@
    =========================================================================== */
 
 .header {
-  position: relative;
+  /* Share the nav metrics with its sticky offset: the links scroll away,
+     leaving the brand/control row at the top of the viewport. */
+  --nav-row: 1.4rem;
+  --nav-pad: 0.85rem;
+  --header-nav-height: 0px;
+
+  position: sticky;
+  inset-block-start: calc(-1 * var(--header-nav-height));
   z-index: var(--z-header);
   background-color: var(--color-bg-base);
   /* The menu overlay is a child of this element, so the header owns its
@@ -23,12 +30,6 @@
 }
 
 .header__nav-list {
-  /* The row's two metrics, declared where both the item and the link can read
-     them. `rem` not `em`: the swap's transform reads --nav-row too, and an
-     `em` there would resolve against a different font size. */
-  --nav-row: 1.4rem;
-  --nav-pad: 0.85rem;
-
   display: grid;
   /* Equal tracks, so the hairlines land on a regular rhythm across the full
      width rather than wherever the words happen to end. */
@@ -288,11 +289,53 @@
 }
 
 @media (width >= 64rem) {
+  .header {
+    --header-nav-height: calc(var(--nav-row) + 2 * var(--nav-pad) + 1px);
+  }
+
   .header__nav {
     display: block;
   }
 
   .header__control-label {
     display: inline;
+  }
+}
+
+/* Reveal the desktop links when keyboard focus returns to the scrolled row. */
+.header:has(.header__nav :focus-visible) {
+  inset-block-start: 0;
+}
+
+@media (width < 30rem) {
+  .header {
+    --header-height: 4.5rem;
+  }
+
+  .header__bar {
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    column-gap: 0.5rem;
+    padding-inline: 0.75rem;
+  }
+
+  .header__brand {
+    inline-size: clamp(5rem, 20vw, 6rem);
+  }
+
+  .header__side--start {
+    flex-wrap: wrap;
+  }
+
+  .header__side--start .locale-switcher {
+    flex-basis: 100%;
+  }
+
+  .header__control,
+  .header .menu-btn {
+    flex-shrink: 0;
+    min-inline-size: 2.25rem;
+    min-block-size: 2.75rem;
+    justify-content: center;
+    padding-inline: 0.25rem;
   }
 }

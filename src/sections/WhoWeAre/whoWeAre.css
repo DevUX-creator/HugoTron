@@ -1,0 +1,225 @@
+/* ===========================================================================
+   Who we are
+   ---------------------------------------------------------------------------
+   Layout off the Poleum section; palette, type and motion are ours. Every
+   colour is a semantic token and every size a --text-* step, so the block
+   would survive being dropped into an inverse section unchanged.
+   =========================================================================== */
+
+.who {
+  position: relative;
+  z-index: var(--z-base);
+  background-color: var(--color-bg-base);
+}
+
+/* -- The hairline row ----------------------------------------------------- */
+
+.who-micro {
+  align-items: center;
+  padding-block-end: var(--gap-block);
+  border-block-end: 1px solid var(--color-border);
+  margin-block-end: var(--gap-section);
+}
+
+.who-micro__kicker {
+  color: var(--color-accent-strong);
+}
+
+.who-micro__note {
+  max-inline-size: 38ch;
+  color: var(--color-fg-secondary);
+  font-size: var(--text-body-xs);
+  line-height: var(--leading-relaxed);
+}
+
+.who-micro__rule {
+  display: block;
+  color: var(--color-fg-heading);
+}
+
+.who-micro__rule svg {
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 7.5rem;
+  block-size: 1.5rem;
+  overflow: hidden;
+  /* Softened at both ends, so the traces enter and leave the window instead of
+     being guillotined by it. Without this the clip cuts each line dead against
+     a vertical edge and the mark reads as a cropped picture of a wave rather
+     than as something passing through. */
+  mask-image: linear-gradient(to right, transparent, black 14%, black 86%, transparent);
+}
+
+.who-trace {
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  /* MITRE, not round: the apex is the whole character of a triangle wave, and
+     rounding the joins turns it back into the curve it replaced. */
+  stroke-linejoin: miter;
+}
+
+.who-trace--a {
+  stroke-width: 1.25;
+  opacity: 0.85;
+  animation: who-trace-out 7s linear infinite;
+}
+
+.who-trace--b {
+  stroke-width: 1;
+  opacity: 0.4;
+  animation: who-trace-back 11s linear infinite;
+}
+
+/* THE PATH IS THE TRIANGLE, not the line. Each trace slides one full window
+   horizontally — that is what makes the loop seamless — while rising and
+   falling on a triangular path as it goes: straight up for a quarter of the
+   cycle, straight down for a half, straight back up for the last quarter.
+
+   `linear` timing is what keeps those runs straight. Any easing would round
+   the three turns into a curve and the motion would read as a wave again,
+   which is exactly what this replaced. */
+@keyframes who-trace-out {
+  0% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(-30px, -4px);
+  }
+
+  50% {
+    transform: translate(-60px, 0);
+  }
+
+  75% {
+    transform: translate(-90px, 4px);
+  }
+
+  100% {
+    transform: translate(-120px, 0);
+  }
+}
+
+/* The return trace runs the other way, and takes its turns on the opposite
+   beat, so the two cross rather than travel in step. */
+@keyframes who-trace-back {
+  0% {
+    transform: translate(-120px, 0);
+  }
+
+  25% {
+    transform: translate(-90px, 3px);
+  }
+
+  50% {
+    transform: translate(-60px, 0);
+  }
+
+  75% {
+    transform: translate(-30px, -3px);
+  }
+
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+.who-micro__year {
+  justify-self: end;
+  color: var(--color-fg-heading);
+  font-family: var(--font-display);
+  font-size: var(--text-title-md);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tracking-wide);
+}
+
+/* -- The statement -------------------------------------------------------- */
+
+.who-head {
+  align-items: end;
+  row-gap: var(--gap-section-header);
+}
+
+.who-head__title {
+  text-wrap: balance;
+}
+
+.who-head__accent {
+  color: var(--color-accent-strong);
+}
+
+.who-head__aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-block);
+}
+
+.who-points {
+  display: grid;
+  gap: 0.85rem;
+  list-style: none;
+}
+
+.who-points__item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  color: var(--color-fg-secondary);
+  font-size: var(--text-body-sm);
+}
+
+/* THE ICONS DRAW THEMSELVES IN.
+   Every path carries `pathLength="100"` (see WhoIcons.tsx), so one dash length
+   covers all six whatever their real geometry — nothing to measure and nothing
+   to keep in sync when a path changes.
+
+   `Reveal` is the trigger: while its `reveal-pending` class is on the wrapper
+   the animation is PAUSED at 0%, which is the undrawn state, and removing the
+   class lets it run. Paused rather than `none`, because `none` would show the
+   finished icon and then redraw it. */
+.who-points__icon {
+  flex: none;
+  inline-size: 1.35em;
+  block-size: 1.35em;
+  color: var(--color-accent-strong);
+  translate: 0 0.22em;
+}
+
+.who-points__icon :is(path, rect, circle) {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: who-draw 900ms var(--ease-quint) forwards;
+  /* Each line follows the one above it. */
+  animation-delay: calc(var(--i, 0) * 110ms);
+}
+
+.reveal-pending .who-points__icon :is(path, rect, circle) {
+  animation-play-state: paused;
+}
+
+@keyframes who-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* The traces are the only thing here that loops, so they are the only thing to
+   stop. `--b` keeps its offset, or the two would sit on top of each other. */
+@media (prefers-reduced-motion: reduce) {
+  .who-trace {
+    animation: none;
+  }
+
+  /* Drawn already, not drawing. An icon left at its undrawn state would be an
+     invisible bullet, which is worse than an unanimated one. */
+  .who-points__icon :is(path, rect, circle) {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
+  .who-trace--b {
+    transform: translateX(-120px);
+  }
+}

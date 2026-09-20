@@ -93,5 +93,18 @@
     "kg1": "1 kg",
     "g1": "1 g",
     "pack1": "1 pack"
+  },
+  "whoWeAre": {
+    "eyebrow": "Who we are",
+    "micro": "Between the growers and the kitchens waiting on them, we are the link that has to hold.",
+    "titleLead": "Dependable sourcing and supply —",
+    "titleAccent": "for buyers of every size.",
+    "pointOne": "Direct import from selected countries of origin",
+    "pointTwo": "EU-compliant quality and complete documentation",
+    "pointThree": "Flexible pack sizes for trade and bulk buyers",
+    "pointWholesale": "Wholesale from the 25 kg sack to the full pallet",
+    "pointPrivateLabel": "Private label for retail and distribution",
+    "pointFour": "Personal support from first enquiry to delivery",
+    "cta": "More about us"
   }
 }

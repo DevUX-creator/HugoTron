@@ -73,6 +73,19 @@ export default function Menu() {
       wakeScroll();
 
       const cards = panel.querySelectorAll<HTMLElement>(".menu__card");
+
+      /* With motion disabled, apply the final state directly. A zero-duration
+         staggered timeline can leave the trigger waiting for completion. */
+      if (reduce) {
+        if (open) scrollLock.current.lock();
+        else scrollLock.current.unlock();
+        gsap.set(overlay, { autoAlpha: open ? 1 : 0 });
+        gsap.set(panel, { clipPath: open ? "inset(0 0% 0 0)" : "inset(0 100% 0 0)" });
+        gsap.set(cards, { x: 0, autoAlpha: 1 });
+        animating.current = false;
+        return;
+      }
+
       animating.current = true;
 
       if (open) {
@@ -87,7 +100,7 @@ export default function Menu() {
         tl.fromTo(
           panel,
           { clipPath: "inset(0 100% 0 0)" },
-          { clipPath: "inset(0 0% 0 0)", duration: reduce ? 0 : 0.7, ease: "power3.inOut" },
+          { clipPath: "inset(0 0% 0 0)", duration: 0.7, ease: "power3.inOut" },
         );
         tl.fromTo(
           cards,
@@ -95,7 +108,7 @@ export default function Menu() {
           {
             x: 0,
             autoAlpha: 1,
-            duration: reduce ? 0 : 0.55,
+            duration: 0.55,
             stagger: 0.07,
             ease: "power3.out",
           },
@@ -105,7 +118,7 @@ export default function Menu() {
         scrollLock.current.unlock();
         gsap.to(panel, {
           clipPath: "inset(0 100% 0 0)",
-          duration: reduce ? 0 : 0.45,
+          duration: 0.45,
           ease: "power3.inOut",
           onComplete: () => {
             gsap.set(overlay, { autoAlpha: 0 });

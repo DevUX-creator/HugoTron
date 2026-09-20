@@ -93,5 +93,18 @@
     "kg1": "1 kg",
     "g1": "1 g",
     "pack1": "1 Packung"
+  },
+  "whoWeAre": {
+    "eyebrow": "Wer wir sind",
+    "micro": "Zwischen den Erzeugern und den Küchen, die auf sie warten, sind wir das Glied, das halten muss.",
+    "titleLead": "Verlässliche Beschaffung und Lieferung —",
+    "titleAccent": "für Abnehmer jeder Größe.",
+    "pointOne": "Direktimport aus ausgewählten Ursprungsländern",
+    "pointTwo": "EU-konforme Qualität und vollständige Dokumentation",
+    "pointThree": "Flexible Gebinde für Handel und Großkunden",
+    "pointWholesale": "Großhandel vom 25-kg-Sack bis zur ganzen Palette",
+    "pointPrivateLabel": "Private Label für Handel und Distribution",
+    "pointFour": "Persönliche Betreuung von der Anfrage bis zur Lieferung",
+    "cta": "Mehr über uns"
   }
 }
