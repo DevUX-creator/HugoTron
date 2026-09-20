@@ -4,14 +4,7 @@ import Heading from "@/components/ui/Heading";
 import Button from "@/components/ui/Button";
 import Copy from "@/animations/Copy";
 import Reveal from "@/animations/Reveal";
-import {
-  OriginIcon,
-  DocumentIcon,
-  PackSizesIcon,
-  PalletIcon,
-  LabelIcon,
-  SupportIcon,
-} from "./WhoIcons";
+import { OriginIcon, DocumentIcon, PackSizesIcon, PalletIcon, LabelIcon } from "./WhoIcons";
 import "./whoWeAre.css";
 
 /**
@@ -41,8 +34,8 @@ export default function WhoWeAre() {
      Replace with the real founding year once the client supplies it. */
   const year = new Date().getFullYear();
 
-  /* SIX, AND TWO OF THEM ARE THE OFFER, NOT THE PROCESS. Wholesale and
-     private label are the two things the company sells that a visitor cannot
+  /* FIVE, AND TWO OF THEM ARE THE OFFER RATHER THAN THE PROCESS. Wholesale
+     and private label are the things the company sells that a visitor cannot
      guess from a shop full of 1 kg bags, and the strategy docs put both on the
      revenue side — so they belong in the list that says what we do, not only
      in the navigation. */
@@ -52,7 +45,6 @@ export default function WhoWeAre() {
     { key: "pointThree", Icon: PackSizesIcon },
     { key: "pointWholesale", Icon: PalletIcon },
     { key: "pointPrivateLabel", Icon: LabelIcon },
-    { key: "pointFour", Icon: SupportIcon },
   ] as const;
 
   return (
