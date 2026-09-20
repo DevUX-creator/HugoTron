@@ -11,6 +11,21 @@
   grid-template-areas:
     "media"
     "panel";
+
+  /* A ROUNDED BLOCK ON THE PAGE, not a full-bleed band. Inset to the same
+     gutter as the announcement panel above it, so the two read as the same
+     family of surfaces — the arrangement in
+     public/reference/shape-klim-panels.png, where every panel floats on the
+     ground rather than running to the edge.
+
+     Rounding without the inset would put the curves hard against the viewport
+     and read as a rendering fault rather than a shape. */
+  inline-size: calc(100% - var(--container-padding) * 2);
+  max-width: var(--max-width-wide);
+  margin-inline: auto;
+  border-radius: var(--radius-3xl);
+  /* Clips the media and the panel to the shape. */
+  overflow: hidden;
 }
 
 /* -- The copy panel ------------------------------------------------------- */
