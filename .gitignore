@@ -3,6 +3,7 @@ node_modules/
 out/
 build/
 .DS_Store
+.idea/
 *.pem
 .env*.local
 .vercel

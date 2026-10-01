@@ -1,0 +1,73 @@
+/* ===========================================================================
+   Cursor — a circle that becomes a pill around what it is over.
+   ---------------------------------------------------------------------------
+   The element is created and driven by Cursor.tsx, which writes four custom
+   properties: its centre, and the box it should currently be. Everything about
+   how it LOOKS is here.
+   =========================================================================== */
+
+.cursor {
+  position: fixed;
+  z-index: var(--z-tooltip);
+  /* Sized from the centre out, which is what lets one element be both a
+     circle at the pointer and a pill around a word without the maths caring
+     which it currently is. */
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inline-size: var(--cursor-w, 26px);
+  block-size: var(--cursor-h, 26px);
+  translate: calc(var(--cursor-x, 50vw) - 50%) calc(var(--cursor-y, 50vh) - 50%);
+  border: 1px solid var(--color-fg-primary);
+  border-radius: var(--radius-full);
+  /* A whisper of fill. Enough to register as a shape over the ground, far too
+     little to grey out the word it wraps. */
+  background-color: color-mix(in srgb, var(--color-fg-primary) 6%, transparent);
+  opacity: 0;
+
+  /* NEVER IN THE WAY. It sits above everything, so without this it would eat
+     every click on the page. */
+  pointer-events: none;
+
+  /* The stretch into a pill, and nothing else. Position is eased frame by
+     frame in JavaScript — putting a transition on `translate` as well would
+     apply a second, slower easing on top of the first and the circle would
+     swim after the pointer. */
+  transition:
+    inline-size var(--duration-base) var(--ease-quint),
+    block-size var(--duration-base) var(--ease-quint),
+    background-color var(--duration-base) var(--ease-standard),
+    opacity var(--duration-fast) var(--ease-standard);
+  will-change: translate, inline-size, block-size;
+}
+
+.cursor.is-visible {
+  opacity: 1;
+}
+
+/* Wrapped, it firms up: the outline carries the shape, so the fill can come
+   back down and leave the word as legible as it was. */
+.cursor.is-wrapping {
+  border-color: var(--color-fg-primary);
+  background-color: color-mix(in srgb, var(--color-fg-primary) 4%, transparent);
+}
+
+/* TOUCH AND COARSE POINTERS GET NOTHING. There is no hover to respond to and
+   no persistent pointer to follow, and a circle parked wherever the last tap
+   landed is just a stray ring on the page. Cursor.tsx checks the same query
+   before it creates the element; this is the belt to that braces. */
+@media not all and (hover: hover) and (pointer: fine) {
+  .cursor {
+    display: none;
+  }
+}
+
+/* The lag is removed in the script (the circle snaps to the pointer rather
+   than easing toward it). What is left to do here is take the stretch down to
+   something that reads as a change of state rather than a movement. */
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    transition:
+      opacity var(--duration-fast) var(--ease-standard),
+      background-color var(--duration-fast) var(--ease-standard);
+  }
+}

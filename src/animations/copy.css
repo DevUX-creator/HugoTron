@@ -1,5 +1,24 @@
-/* SplitText's `mask: "lines"` option generates its own overflow clip wrapper,
-   so the only thing we own is making each line a block. */
+/* SplitText's `mask: "lines"` generates its own overflow clip wrapper and
+   gives it our class with `-mask` appended (see SplitText.js), so both halves
+   are addressable from here. */
 .split-line {
   display: block;
+}
+
+/* DESCENDERS WERE BEING CUT OFF. The clip wrapper is exactly as tall as the
+   line box, and `.heading--claim` sets `line-height: 0.92` — a line box 8%
+   SHORTER than the font size. Anything below the baseline therefore falls
+   outside it and is clipped: the g in "growers" lost its tail, and nobody
+   noticed while the title read "Food without middlemen", which has no
+   descender in it at all.
+
+   The room is added to the MASK, not to the line. `overflow` clips at the
+   element's own padding box, so padding here widens the window; the matching
+   negative margin then takes the height back out of the flow, so the block is
+   not one line-gap taller per line. Padding the line instead would have grown
+   its border box past the wrapper's padding box and been clipped just the
+   same — which is the trap this comment exists to stop someone repeating. */
+.split-line-mask {
+  padding-block-end: 0.24em;
+  margin-block-end: -0.24em;
 }

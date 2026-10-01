@@ -1,0 +1,100 @@
+.sound-toggle {
+  position: relative;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  inline-size: 3.25rem;
+  block-size: 2.75rem;
+  margin-block: -0.85rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--color-fg-heading);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sound-toggle svg {
+  position: relative;
+  inline-size: 32px;
+  block-size: 24px;
+  stroke: currentcolor;
+  stroke-width: 1;
+  stroke-linecap: round;
+  opacity: 0.65;
+  transition: opacity 200ms;
+}
+
+.sound-toggle__mute {
+  stroke-width: 1;
+  transition: opacity 200ms;
+}
+
+.sound-toggle[aria-pressed="true"] .sound-toggle__mute {
+  opacity: 0;
+}
+
+.sound-toggle[aria-pressed="true"] svg,
+.sound-toggle:hover svg {
+  opacity: 1;
+}
+
+.sound-toggle__wave {
+  opacity: 0.18;
+  transform-box: fill-box;
+  transform-origin: left center;
+}
+.sound-toggle[aria-pressed="true"] .sound-toggle__wave {
+  opacity: 0.8;
+}
+.sound-toggle[data-state="on"] .sound-toggle__wave {
+  animation: sound-wave 2.4s ease-in-out infinite;
+}
+.sound-toggle[data-state="on"] .sound-toggle__wave--far {
+  animation-delay: 350ms;
+}
+
+.sound-toggle:focus-visible {
+  outline: 1px solid currentcolor;
+  outline-offset: 3px;
+}
+
+.sound-toggle[data-state="loading"] svg {
+  animation: sound-wait 900ms ease-in-out infinite alternate;
+}
+
+@keyframes sound-wait {
+  to {
+    opacity: 0.35;
+  }
+}
+
+@keyframes sound-wave {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scaleX(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+/* Other pages keep the control beside navigation, below it on compact screens. */
+@media (width < 48rem) {
+  .header .sound-toggle {
+    position: absolute;
+    inset-block-start: calc(100% + 1rem);
+    inset-inline-end: -0.6rem;
+    margin: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sound-toggle[data-state="on"] .sound-toggle__wave,
+  .sound-toggle svg {
+    animation: none;
+    transition: none;
+  }
+}

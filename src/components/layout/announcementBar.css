@@ -1,12 +1,11 @@
 /* ===========================================================================
    Announcement bar
    ---------------------------------------------------------------------------
-   Inset from the viewport edges, bottom corners rounded. The brand plate in
-   the header repeats that radius so the two read as one piece of chrome.
+   Full-width shipping strip, with a compact two-row layout on phones.
    =========================================================================== */
 
 .announce {
-  padding-inline: var(--container-padding);
+  padding-inline: 0;
   background-color: var(--color-bg-base);
 }
 
@@ -19,11 +18,11 @@
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  max-width: var(--max-width-wide);
+  max-width: none;
   margin-inline: auto;
   padding: 0.6rem 1.25rem;
-  border-end-start-radius: var(--radius-lg);
-  border-end-end-radius: var(--radius-lg);
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
   background-color: var(--color-ink-900);
   color: var(--color-paper-50);
   text-align: center;
@@ -35,7 +34,7 @@
 .announce__chip {
   flex-shrink: 0;
   padding: 0.35rem 0.75rem;
-  border-radius: var(--radius-sm);
+  border-radius: 0;
   background-color: var(--color-accent-muted);
   color: var(--color-ink-900);
   font-size: var(--text-eyebrow);
@@ -63,4 +62,22 @@
 .announce__panel:hover .announce__chevron,
 .announce__panel:focus-visible .announce__chevron {
   transform: translateX(0.25rem);
+}
+
+@media (width < 40rem) {
+  .announce__panel {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 0.4rem 0.65rem;
+    padding: 0.65rem 1.25rem;
+  }
+
+  .announce__message {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    max-inline-size: 40ch;
+    font-size: 0.65rem;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+  }
 }

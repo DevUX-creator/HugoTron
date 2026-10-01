@@ -17,7 +17,11 @@ export type ProductSlug =
   | "vahdam-earl-grey"
   | "pistazien-mit-schale"
   | "pistazienkerne"
-  | "kichererbsen-25kg";
+  | "kichererbsen-25kg"
+  | "rote-linsen-25kg"
+  | "gelbe-spalterbsen-25kg"
+  | "kidneybohnen-25kg"
+  | "bulgur-25kg";
 
 export type UnitKey = "kg1" | "kg5" | "g1" | "pack1" | "sack25" | "sack10";
 
@@ -36,22 +40,136 @@ export type Product = {
   channel: "shop" | "wholesale";
   /** Matches the "Neu" ribbon the live shop puts on these. */
   isNew?: boolean;
+  /**
+   * The views a card can page through, front first. File names under
+   * public/products/<slug>/ — read off disk when this list was written, so a
+   * new angle means adding the file AND naming it here.
+   */
+  views: readonly string[];
+  /** Optional transparent catalogue image, suitable for fitting the whole pack. */
+  cardImage?: string;
+  /**
+   * Brand and origin, for ranges sold as more than one type of the same thing — basmati comes
+   * as Pardis from India and Aladdin from Pakistan — so a buyer can choose between them.
+   */
+  brand?: "pardis" | "aladdin";
+  origin?: "india" | "pakistan";
 };
 
 export const PRODUCTS: readonly Product[] = [
-  { slug: "pardis-1121-basmati-indien", price: 1890, unit: "kg5", channel: "shop", isNew: true },
   {
+    views: ["front", "side", "back"],
+    slug: "pardis-1121-basmati-indien",
+    brand: "pardis",
+    origin: "india",
+    cardImage: "/products/pardis-1121-basmati-indien/front-cutout.png",
+    price: 1890,
+    unit: "kg5",
+    channel: "shop",
+    isNew: true,
+  },
+  {
+    views: ["front", "side", "back"],
     slug: "aladdin-1121-basmati-pakistan",
+    brand: "aladdin",
+    origin: "pakistan",
+    cardImage: "/products/aladdin-1121-basmati-pakistan/front-cutout.png",
     price: 1990,
     unit: "kg5",
     channel: "shop",
     isNew: true,
   },
-  { slug: "pardis-basmati-indien-1kg", price: 390, unit: "kg1", channel: "shop", isNew: true },
-  { slug: "aladdin-basmati-pakistan-1kg", price: 490, unit: "kg1", channel: "shop", isNew: true },
-  { slug: "premium-negin-safran", price: 490, unit: "g1", channel: "shop" },
-  { slug: "vahdam-earl-grey", price: 349, unit: "pack1", channel: "shop" },
-  { slug: "pistazien-mit-schale", price: null, unit: "sack10", channel: "wholesale" },
-  { slug: "pistazienkerne", price: null, unit: "sack25", channel: "wholesale" },
-  { slug: "kichererbsen-25kg", price: null, unit: "sack25", channel: "wholesale" },
+  {
+    views: ["front", "angle"],
+    slug: "pardis-basmati-indien-1kg",
+    brand: "pardis",
+    origin: "india",
+    cardImage: "/products/pardis-basmati-indien-1kg/front-cutout.png",
+    price: 390,
+    unit: "kg1",
+    channel: "shop",
+    isNew: true,
+  },
+  {
+    views: ["front", "angle", "back"],
+    slug: "aladdin-basmati-pakistan-1kg",
+    brand: "aladdin",
+    origin: "pakistan",
+    cardImage: "/products/aladdin-basmati-pakistan-1kg/front-cutout.png",
+    price: 490,
+    unit: "kg1",
+    channel: "shop",
+    isNew: true,
+  },
+  {
+    views: ["front", "angle", "detail"],
+    slug: "premium-negin-safran",
+    price: 490,
+    unit: "g1",
+    channel: "shop",
+  },
+  {
+    views: ["front", "angle"],
+    slug: "vahdam-earl-grey",
+    price: 349,
+    unit: "pack1",
+    channel: "shop",
+  },
+  {
+    views: ["front", "top"],
+    slug: "pistazien-mit-schale",
+    price: null,
+    unit: "sack10",
+    channel: "wholesale",
+  },
+  {
+    views: ["front", "top"],
+    slug: "pistazienkerne",
+    price: null,
+    unit: "sack25",
+    channel: "wholesale",
+  },
+  {
+    views: ["front", "top"],
+    slug: "kichererbsen-25kg",
+    price: null,
+    unit: "sack25",
+    channel: "wholesale",
+  },
+  {
+    // Imported to order for trade; listed from the live wholesale page, quoted on request.
+    views: ["sack-cutout"],
+    slug: "rote-linsen-25kg",
+    cardImage: "/products/rote-linsen-25kg/sack-cutout.png",
+    price: null,
+    unit: "sack25",
+    channel: "wholesale",
+  },
+  {
+    // Imported to order for trade; listed from the live wholesale page, quoted on request.
+    views: ["sack-cutout"],
+    slug: "gelbe-spalterbsen-25kg",
+    cardImage: "/products/gelbe-spalterbsen-25kg/sack-cutout.png",
+    price: null,
+    unit: "sack25",
+    channel: "wholesale",
+  },
+  {
+    // Imported to order for trade; listed from the live wholesale page, quoted on request.
+    views: ["sack-cutout"],
+    slug: "kidneybohnen-25kg",
+    cardImage: "/products/kidneybohnen-25kg/sack-cutout.png",
+    price: null,
+    unit: "sack25",
+    channel: "wholesale",
+  },
+  {
+    // Imported to order for trade; listed from the live wholesale page, quoted on request.
+    views: ["sack-cutout"],
+    slug: "bulgur-25kg",
+    cardImage: "/products/bulgur-25kg/sack-cutout.png",
+    price: null,
+    unit: "sack25",
+    channel: "wholesale",
+  },
 ] as const;

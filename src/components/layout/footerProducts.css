@@ -1,0 +1,184 @@
+.footer-products {
+  --frame-closed: clamp(0.375rem, 1.7vw, 1.5rem);
+  --frame-gap: clamp(0.125rem, 0.35vw, 0.3125rem);
+  --frame-open: calc(100cqw - (var(--frame-count) - 1) * (var(--frame-closed) + var(--frame-gap)));
+  --frame-transition: 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+
+  position: relative;
+  container-type: inline-size;
+  padding-block: var(--gap-block) var(--gap-section-header);
+  overflow: clip;
+}
+
+.footer-products__track {
+  position: relative;
+  inline-size: 100%;
+  block-size: clamp(19rem, 32vw, 25rem);
+  margin-inline: auto;
+}
+
+.footer-products__panels {
+  list-style: none;
+}
+
+.footer-products__panel {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: calc(
+    var(--frame-index) * (var(--frame-closed) + var(--frame-gap)) + var(--frame-offset)
+  );
+  inline-size: var(--frame-closed);
+  overflow: hidden;
+  isolation: isolate;
+  background-color: var(--color-ink-900);
+  transition:
+    inset-inline-start var(--frame-transition),
+    inline-size var(--frame-transition);
+}
+
+.footer-products__panel[data-active="true"] {
+  inline-size: var(--frame-open);
+}
+
+/* Keep the photograph full size behind each slit as its frame opens. */
+.footer-products__image {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 50%;
+  inline-size: var(--frame-open);
+  transform: translateX(-50%);
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity var(--duration-slow) var(--ease-quint);
+}
+
+.footer-products__panel[data-active="true"] .footer-products__image {
+  opacity: 1;
+}
+
+.footer-products__image img {
+  object-fit: cover;
+  object-position: 68% center;
+  user-select: none;
+}
+
+.footer-products__select {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  inline-size: 100%;
+  block-size: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.footer-products__select:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: -6px;
+}
+
+.footer-products__overlay {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  inline-size: var(--frame-open);
+  padding: clamp(0.85rem, 2vw, 1.5rem);
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--color-ink-900) 85%, transparent),
+    transparent 35%
+  );
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) linear;
+}
+
+.footer-products__panel[data-active="true"] .footer-products__overlay {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: var(--duration-fast);
+}
+
+.footer-products__order {
+  min-block-size: 2.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0;
+  font-size: var(--text-body-xs);
+  pointer-events: auto;
+}
+
+.footer-products__order:focus-visible {
+  outline-color: var(--color-paper-50);
+}
+
+.footer-products__name {
+  max-inline-size: 28ch;
+  color: var(--color-fg-on-inverse);
+  font-size: var(--text-body-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--leading-snug);
+}
+
+.footer-products__controls {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  inline-size: 10rem;
+  margin: var(--gap-block) auto 0;
+  background-color: var(--color-bg-stage);
+  font-size: var(--text-body-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.footer-products__controls button {
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid currentcolor;
+  background: transparent;
+  color: inherit;
+  font-size: var(--text-body-lg);
+  cursor: pointer;
+}
+
+.footer-products__controls button:hover,
+.footer-products__controls button:focus-visible {
+  background-color: var(--color-accent);
+  color: var(--color-ink-900);
+}
+
+@media (width >= 48rem) and (hover: hover) and (pointer: fine) {
+  .footer-products__controls {
+    display: none;
+  }
+}
+
+@media (width >= 48rem) {
+  .footer-products {
+    --frame-open: 40cqw;
+    --frame-closed: calc(
+      (100cqw - var(--frame-open) - (var(--frame-count) - 1) * var(--frame-gap)) /
+        (var(--frame-count) - 1)
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-products__panel,
+  .footer-products__image,
+  .footer-products__overlay {
+    transition: none;
+  }
+}

@@ -1,27 +1,27 @@
-import Image from "next/image";
-import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import type { ReactNode } from "react";
+import { getPathname, Link } from "@/i18n/navigation";
 import LocaleSwitcher from "@/components/ui/LocaleSwitcher";
-import Menu from "./Menu/Menu";
-import { SearchIcon, AccountIcon, CartIcon } from "./Icons";
+import SwapLabel from "@/components/ui/SwapLabel";
+import Wordmark from "./Wordmark";
+import BrandLogo from "./BrandLogo";
+import { SearchIcon, AccountIcon } from "./Icons";
+import CartButton from "@/components/cart/CartButton";
+import SoundToggle from "@/components/sound/SoundToggle";
 import "./header.css";
 
-/**
- * Two stacked rows, following the reference layout
- * (public/reference/brigade-desktop.png):
- *
- *   1. NAV ROW — the primary links spread across the full width, split by
- *      vertical hairlines, closed by a rule underneath. Desktop only; below
- *      `lg` the links move into the menu.
- *   2. BRAND BAR — menu control left, logo centred, account and cart right.
- *
- * The logo plate hangs below the brand bar onto the hero, so neither row may
- * clip its overflow.
- *
- * The brand bar stays visible while scrolling; the nav row above scrolls away.
- */
-export default function Header() {
+/** Floating navigation shared by the world, product experiences and enquiry. */
+export default function Header({
+  brandControl,
+  brandLogo = false,
+  showSoundToggle = true,
+}: {
+  brandControl?: ReactNode;
+  brandLogo?: boolean;
+  showSoundToggle?: boolean;
+}) {
   const t = useTranslations("nav");
+  const locale = useLocale();
 
   const links = [
     { href: "/range", label: t("range") },
@@ -34,79 +34,54 @@ export default function Header() {
 
   return (
     <header className="header">
-      <nav className="header__nav" aria-label={t("primary")}>
-        <ul className="header__nav-list">
-          {links.map((link) => (
-            <li key={link.href} className="header__nav-item">
-              <Link href={link.href} className="header__nav-link">
-                {/* Two stacked copies of the label. Hover shifts the pair up by
-                    exactly one row, so the second takes the first's place — the
-                    same swap the menu's links use. The second copy is
-                    aria-hidden so the label is announced once. */}
-                <span className="header__nav-swap">
-                  <span className="header__nav-face">{link.label}</span>
-                  <span className="header__nav-face" aria-hidden="true">
-                    {link.label}
-                  </span>
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <div className="header__start">
+        {/* A document navigation intentionally reloads the localized homepage. */}
+        <a
+          href={getPathname({ locale, href: "/" })}
+          className="header__brand"
+          aria-label={t("home")}
+        >
+          {brandLogo ? <BrandLogo /> : <Wordmark />}
+        </a>
+        {brandControl}
+      </div>
 
-      <div className="header__bar">
-        <div className="header__side header__side--start">
-          {/* Owns both the trigger and the overlay, so the open state stays
-              where it is used. */}
-          <Menu />
-          <button type="button" className="header__control" aria-label={t("search")}>
+      <div className="header__end">
+        <nav aria-label={t("primary")}>
+          <ul className="header__links">
+            {links.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="header__link swap-host"
+                  data-cursor="wrap"
+                  data-sound-hover
+                >
+                  <SwapLabel>{link.label}</SwapLabel>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <span className="header__rule" aria-hidden="true" />
+
+        <div className="header__tools">
+          {showSoundToggle && <SoundToggle />}
+          <button type="button" className="header__tool" aria-label={t("search")}>
             <SearchIcon className="header__icon" />
           </button>
+
           <LocaleSwitcher />
-        </div>
 
-        <Link href="/" className="header__brand" aria-label={t("home")}>
-          {/* The concave joints. Without them the plate meets the bar at two
-              right angles and reads as a block sitting on top of the header;
-              with them the bar appears to flow down into the plate. See
-              public/reference/shape-klim-panels.png. */}
-          <span className="morph-fillet morph-fillet--left header__brand-fillet" />
-          <span className="morph-fillet morph-fillet--right header__brand-fillet" />
-          {/* The logo is a solid navy block, so it IS the plate rather than
-              sitting on one — the artwork's own ground provides the shape.
-              Cropped with object-fit because the source is near-square with
-              generous navy padding; a full square would hang far too deep.
-
-              Raster lifted from the live site. A vector original is requested —
-              see content/strategy/kundenfragebogen.md §A. */}
-          <Image
-            src="/brand/logo.png"
-            alt="Hugo Tron GmbH"
-            width={536}
-            height={510}
-            priority
-            className="header__logo"
-          />
-        </Link>
-
-        <div className="header__side header__side--end">
-          <button type="button" className="header__control" aria-label={t("account")}>
+          {/* TODO(auth): a real destination once accounts exist. It is a
+              button rather than a link for exactly that reason — a link to
+              nowhere is worse than a control that does not act yet. */}
+          <button type="button" className="header__tool" aria-label={t("account")}>
             <AccountIcon className="header__icon" />
           </button>
-          <Link
-            href="/cart"
-            className="header__control header__control--cart"
-            aria-label={t("cart")}
-          >
-            <span className="header__cart-mark">
-              <CartIcon className="header__icon" />
-              {/* Count as an accent badge. Reads at a glance, and gives the
-                  accent a second place to appear in the chrome. */}
-              <span className="header__cart-count">0</span>
-            </span>
-            <span className="header__control-label">{t("cart")}</span>
-          </Link>
+
+          <CartButton />
         </div>
       </div>
     </header>

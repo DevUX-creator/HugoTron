@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
 import "./heading.css";
 
 type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
@@ -9,6 +9,7 @@ type HeadingSize =
 
 type HeadingProps = {
   children: ReactNode;
+  ref?: Ref<HTMLHeadingElement>;
   /**
    * Document outline level — chosen for semantics, independent of size.
    *
@@ -33,6 +34,7 @@ type HeadingProps = {
  */
 export default function Heading({
   children,
+  ref,
   as,
   size,
   uppercase = false,
@@ -50,7 +52,7 @@ export default function Heading({
     .join(" ");
 
   return (
-    <Tag id={id} className={classes}>
+    <Tag ref={ref} id={id} className={classes}>
       {children}
     </Tag>
   );

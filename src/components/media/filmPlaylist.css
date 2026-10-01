@@ -1,0 +1,22 @@
+.film-playlist {
+  position: absolute;
+  inset: 0;
+}
+.film-playlist .film-playlist__video {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 450ms ease;
+}
+.film-playlist .film-playlist__video[data-active="true"] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .film-playlist .film-playlist__video {
+    transition: none;
+  }
+}

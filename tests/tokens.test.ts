@@ -65,12 +65,45 @@ describe("colour tokens", () => {
     }
   });
 
+  /* THE LIVE THEME IS THE DARK ONE (concept v2). The light-ground block above
+     still holds — those pairs remain true of the ramps and the `inverse`
+     section class puts them back on screen — but these are the pairs the page
+     is actually painted with, so they are the ones that must not drift. */
+  describe("text on the dark grounds clears AA", () => {
+    const grounds = { base: token("ink-900"), surface: token("ink-800") };
+
+    for (const [groundName, ground] of Object.entries(grounds)) {
+      for (const fg of ["ink-50", "ink-100", "ink-200", "ink-300"]) {
+        it(`${fg} on bg-${groundName}`, () => {
+          expect(contrast(token(fg), ground)).toBeGreaterThanOrEqual(AA_NORMAL);
+        });
+      }
+    }
+  });
+
+  it("brightens rather than dims for emphasis on the dark ground", () => {
+    /* `accent-strong` is ink-50 and `fg-heading` is ink-100. A hover has to
+       move UP the ramp here, which is the opposite of what the same token did
+       on paper — assert the direction, not just the ratio. */
+    expect(contrast(token("ink-50"), token("ink-900"))).toBeGreaterThan(
+      contrast(token("ink-100"), token("ink-900")),
+    );
+  });
+
+  it("keeps the focus ring unmistakable on the dark ground", () => {
+    /* It is the one place a saturated colour earns its keep. */
+    expect(contrast(token("lime-100"), token("ink-900"))).toBeGreaterThanOrEqual(AA_NORMAL);
+  });
+
   it("documents that fg-tertiary does NOT clear AA on bg-muted", () => {
     /* Deliberate, and the reason the rule "no tertiary text on a muted
        surface" exists. If a future ramp makes this pass, the limitation is
        gone and the note in theme.css should be deleted — so this asserts the
        state the comment describes rather than silently drifting from it. */
+    /* Light theme: ink-600 on paper-200. */
     expect(contrast(token("ink-600"), token("paper-200"))).toBeLessThan(AA_NORMAL);
+    /* Dark theme: ink-400 on ink-700 — the same limitation, the same rule. */
+    expect(contrast(token("ink-400"), token("ink-700"))).toBeLessThan(AA_NORMAL);
   });
 
   describe("inverse sections clear AA on harbor-900", () => {
@@ -212,7 +245,22 @@ describe("the hero's graphite panel", () => {
   const stage = token("stage");
 
   it("is a grey, not the brand blue", () => {
-    expect(stage).toBe("#33353a");
+    /* Warmed from #33353a to #1a1917 in concept v2. The old value was a COOL
+       graphite, which was right beside a cool page ground and wrong beside a
+       warm one — it read as the only blue-grey left on the page.
+
+       The pin is kept rather than loosened: this token is a raw value with no
+       ramp behind it, so nothing else would notice it drifting. */
+    expect(stage).toBe("#1a1917");
+  });
+
+  it("stays neutral — no channel runs away from the others", () => {
+    /* What "a grey, not the brand blue" actually means, asserted directly
+       rather than through a hex that has now changed once. A warm grey keeps
+       its channels within a few points; the brand blue spans 141. */
+    const n = parseInt(stage.slice(1), 16);
+    const channels = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+    expect(Math.max(...channels) - Math.min(...channels)).toBeLessThan(12);
   });
 
   for (const [name, fg] of [

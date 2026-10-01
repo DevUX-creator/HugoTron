@@ -1,0 +1,129 @@
+/* ===========================================================================
+   Daylight — the same frame, a new scene. The track overlaps the journey's last
+   pinned screen (the hand-off runway), then holds a pinned stage on which the
+   light scenes change in place. Nothing here scrolls like a page.
+   =========================================================================== */
+
+.daylight {
+  /* Keep --runway in step with RUNWAY in Daylight.tsx and under the journey's endHold. */
+  --runway: 170svh;
+  --scenes: 240svh;
+  position: relative;
+  block-size: calc(var(--runway) + var(--scenes));
+  margin-block-start: calc(-1 * var(--runway));
+  /* While overlapping the journey, the scene beneath stays usable. */
+  pointer-events: none;
+}
+
+/* Over the scene and its copy, under the frame (3) and the header. */
+.daylight__fill {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+  visibility: hidden;
+}
+.daylight__fill[data-active="true"] {
+  visibility: visible;
+}
+
+.daylight__stage {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 2;
+  block-size: 100svh;
+  color: var(--color-ink-800);
+}
+.daylight__statement,
+.daylight__origins {
+  position: absolute;
+  inset: 0;
+}
+.daylight[data-scene="none"] .daylight__stage {
+  visibility: hidden;
+}
+.daylight[data-scene="statement"] .daylight__statement,
+.daylight[data-scene="origins"] .daylight__origins {
+  pointer-events: auto;
+}
+
+/* -- Statement --------------------------------------------------------------- */
+
+.daylight__statement {
+  /* Gives way to the map by fading upward out of focus; only the Details slide flies away. */
+  opacity: calc(1 - var(--out, 0));
+  translate: 0 calc(var(--out, 0) * -2.5rem);
+  filter: blur(calc(var(--out, 0) * 8px));
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 2rem;
+  padding: 8rem max(4rem, 12vw);
+  text-align: center;
+}
+.daylight__eyebrow,
+.daylight__note,
+.daylight__coord {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-ink-600);
+}
+.daylight__words {
+  max-inline-size: 22ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.2vw, 4.25rem);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  color: var(--color-ink-900);
+}
+.daylight__note {
+  max-inline-size: 40ch;
+  line-height: 1.7;
+}
+
+/* Hamburg's coordinates on the frame's edges, as on a survey sheet. */
+.daylight__coord {
+  position: absolute;
+  inset-block-start: 50%;
+}
+.daylight__coord--lat {
+  inset-inline-start: max(3rem, 5vw);
+}
+.daylight__coord--lon {
+  inset-inline-end: max(3rem, 5vw);
+}
+.daylight[data-scene="origins"] .daylight__coord {
+  visibility: hidden;
+}
+
+/* -- Origins arrives where the statement fell from ----------------------------- */
+
+.daylight__origins {
+  opacity: var(--enter, 0);
+  translate: 0 calc((1 - var(--enter, 0)) * 3rem);
+  filter: blur(calc((1 - var(--enter, 0)) * 8px));
+}
+
+@media (width < 48rem) {
+  .daylight__statement {
+    padding: 6rem 1.5rem;
+  }
+  .daylight__coord {
+    inset-block-start: 7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .daylight__origins {
+    translate: none;
+    filter: none;
+  }
+}

@@ -1,0 +1,128 @@
+.rice-product {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  inline-size: 100%;
+  gap: 0.55rem;
+}
+.rice-product__tile {
+  position: relative;
+  block-size: clamp(100px, calc(34svh - 120px), 216px);
+  aspect-ratio: auto;
+  border-radius: 0;
+  background: radial-gradient(
+    ellipse at 50% 80%,
+    color-mix(in srgb, var(--color-fg-primary) 5%, transparent),
+    transparent 70%
+  );
+  overflow: visible;
+}
+.rice-product__img {
+  object-fit: contain;
+  transition: scale var(--duration-slow) var(--ease-quint);
+  filter: drop-shadow(0 12px 10px rgb(0 0 0 / 16%));
+  animation: pack-arrive 650ms var(--ease-quint) both;
+}
+.rice-product__name {
+  color: var(--color-fg-primary);
+  margin-block-start: 0.3rem;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+.rice-product__price {
+  color: var(--color-fg-primary);
+  font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+.rice-product__unit {
+  color: var(--color-fg-secondary);
+  font-size: 0.75rem;
+}
+.rice-product__enquiry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-block-size: 44px;
+  margin-block-start: 0.2rem;
+  border-block-start: 1px solid var(--color-border-strong);
+  color: var(--color-fg-heading);
+  font-size: 0.8125rem;
+  text-decoration: none;
+}
+.rice-product__enquiry .arrow-link__label {
+  font-size: 0.75rem;
+}
+
+.rice-product__buy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-block-size: 44px;
+  margin-block-start: 0.2rem;
+  padding-block-start: 0.6rem;
+  border-block-start: 1px solid var(--color-border-strong);
+}
+.rice-product__buy .qty {
+  --qty-size: 2rem;
+  background: transparent;
+  border: 1px solid var(--color-border-strong);
+}
+.rice-product__add {
+  --mark-size: 2.25rem;
+}
+.rice-product__add .arrow-link__label {
+  font-size: 0.75rem;
+}
+
+@keyframes pack-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (width < 48rem) {
+  .rice-product {
+    display: grid;
+    grid-template-columns: minmax(72px, 32%) minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr;
+    column-gap: 1.25rem;
+    row-gap: 0.65rem;
+  }
+  .rice-product__tile {
+    grid-row: 1 / 4;
+    block-size: 146px;
+  }
+  .rice-product__name {
+    margin: 0;
+    font-size: 1rem;
+  }
+  .rice-product__price {
+    font-size: 0.875rem;
+  }
+  .rice-product__enquiry {
+    align-self: end;
+    margin: 0;
+    font-size: 0.8125rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rice-product__img {
+    animation: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .rice-product:hover .rice-product__img {
+    scale: 1.04;
+  }
+}

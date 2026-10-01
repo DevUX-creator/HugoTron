@@ -42,7 +42,7 @@
   --color-harbor-300: #a1c5ff;
   --color-harbor-400: #7cabfb;
   --color-harbor-500: #588deb;
-  --color-harbor-600: #316ac1;
+  --color-harbor-600: #2861b7;
   --color-harbor-700: #1d54b5;
   --color-harbor-800: #00348d;
   --color-harbor-900: #05235a;
@@ -80,22 +80,48 @@
 
   /* Ink — near-neutral, cool-leaning so it sits beside the blue rather
      than fighting it. Body text, borders, the banner ground */
-  --color-ink-50: #f5f7f9;
-  --color-ink-100: #ebedf0;
-  --color-ink-200: #d9dce2;
-  --color-ink-300: #c0c4cb;
-  --color-ink-400: #a6abb3;
-  --color-ink-500: #8b8f97;
-  --color-ink-600: #676b72;
-  --color-ink-700: #575b62;
-  --color-ink-800: #414449;
-  --color-ink-900: #25282c;
+  /* THE INK RAMP IS WARM NOW — concept v2. It was a cool blue-grey (H ~260)
+     against what is now a warm ground, which reads as two different greys
+     arguing. Rebuilt on H 95, the ground's own hue, at low chroma.
+
+     THE LIGHTNESS WALK WAS ALSO REPAIRED. Fixing a contrast failure earlier
+     had pushed 600 down to L 49.9 while 700 sat at 47.0 — two steps three
+     points apart, which collapsed the three-tier text hierarchy the design
+     system depends on. The steps below are evenly spaced again, and 600 is
+     placed so it clears 4.5:1 on `bg-surface` BY CONSTRUCTION (4.68) rather
+     than by being nudged afterwards. */
+  --color-ink-50: #f6f5f2;
+  --color-ink-100: #ecebe7;
+  --color-ink-200: #dad9d4;
+  --color-ink-300: #c4c2bc;
+  --color-ink-400: #aba9a2;
+  --color-ink-500: #888680;
+  --color-ink-600: #63625c;
+  --color-ink-700: #4c4a45;
+  --color-ink-800: #373531;
+  --color-ink-900: #201f1c;
 
   /* Paper — the ground. White-based and clean, as both references are.
      ★ paper-50 is pure white (#fff) */
-  --color-paper-50: #fff;
-  --color-paper-100: #eeedea;
-  --color-paper-200: #dedcd7;
+  /* THE GROUND — concept v2, second pass.
+     Started at yucca's almond (#f7f4e9, L 96.6 / C 0.015) and pulled back on
+     both axes: DARKER by about two points of lightness, and HALF THE CHROMA,
+     so it reads as a warm grey rather than a cream. Still unmistakably not
+     paper white; no longer tipping toward beige.
+
+     Kept on the same hue (~H 95) rather than rotated to neutral. Dropping the
+     chroma is what takes the warmth out; dropping the hue as well would land
+     on a cool grey, which is where this palette started and what the whole
+     rotation is moving away from.
+
+     The three steps walk down in lightness on one hue, so surfaces stack on
+     the ground without needing a border between them.
+
+     History: #fff / #eeedea / #dedcd7 (cool, v1) → almond (too warm) → here.
+     See content/strategy/concept-v2.md. */
+  --color-paper-50: #eeede7;
+  --color-paper-100: #e3e1db;
+  --color-paper-200: #d0cec6;
   --color-paper-300: #c6c4bd;
   --color-paper-400: #aeaba2;
   --color-paper-500: #928f87;
@@ -109,7 +135,27 @@
      on: at L 0.27 a full-height panel reads as a default dark mode, at L 0.33
      it reads as a chosen surface. Low enough in chroma to stay a grey while
      letting the lime accent carry all the colour. */
-  --color-stage: #33353a;
+  --color-stage: #1a1917;
+  /* Rice hero: a deep forest ground with a vivid vermilion accent.
+     It was a red-brown wood (#211411 / #2b1c17 / #35241f). Brown put the
+     ground in the same family as the bowl and the grain, so the scene sat in
+     a monochrome and the vermilion was the only thing that was not — rich in
+     the swatch, muddy on the screen.
+
+     Rotated to H 158 at the SAME three lightnesses, with the chroma nudged up
+     a quarter. Green is roughly opposite vermilion on the wheel, so the
+     accent reads as accent again; keeping the lightness means nothing that
+     was legible on the brown stops being legible on this.
+
+     Low chroma on purpose — around 0.03. Any deeper and it stops being a
+     ground and starts being a colour the photography has to survive. */
+  --color-stage-deep: #0c1c13;
+  --color-stage-surface: #12251a;
+  --color-stage-muted: #192e22;
+  --color-grain-light: #ff3b26;
+  --color-grain-dark: #de2918;
+  --color-claim-white: #fff;
+  --color-claim-black: #090909;
 
   /* The ground the pack shots are photographed on. Sampled from the artwork
      itself (#ede5da / #eee5dc / #f1e9e0 across the three views) so a frame
@@ -126,34 +172,47 @@
      Sections reference THESE, never a raw ramp step. That indirection is what
      lets <Section inverse> swap an entire subtree to the dark palette without
      touching a single child rule. */
-  --color-bg-base: var(--color-paper-50);
-  --color-bg-surface: var(--color-paper-100);
-  --color-bg-muted: var(--color-paper-200);
+  /* ═══ THE THEME IS DARK — concept v2, trial ═══════════════════════════════
+     The ramps did not move; only what the semantics point AT. The whole site
+     inverts from this block, because every rule downstream reads an alias and
+     not a step — which is exactly what that indirection was for.
+
+     Grounds run dark → light (base, surface, muted), mirroring the light
+     theme's light → dark. `bg-inverse` therefore becomes a LIGHT panel: it
+     has always meant "the other one", not "the dark one".
+
+     TO GO BACK, point these at the paper ramp again. Nothing else changes.
+
+     Contrast on the new grounds is asserted in tests/tokens.test.ts, in its
+     own block beside the light-theme one — both sets of claims are true of
+     the ramps, and only one set is live at a time. */
+  --color-bg-base: var(--color-ink-900);
+  --color-world-night: #0a1320;
+  --color-world-accent: #b8cee8;
+  /* The scene's light streams, for 2D surfaces that continue them (the Origins map). */
+  --color-world-neon: #2f7bff;
+  --color-world-neon-hot: #b4dcff;
+  --color-world-surface: #152c47;
+  --color-world-day: #e9e5db;
+  --color-bg-surface: var(--color-ink-800);
+  --color-bg-muted: var(--color-ink-700);
   /* The hero's panel. Its own token, so it is not tied to the inverse ground
      that sections and the menu share. */
   --color-bg-stage: var(--color-stage);
+  --color-home-claim-accent: var(--color-grain-light);
+  --color-home-claim: var(--color-claim-white);
   --color-bg-product: var(--color-stage-product);
-  /* The inverse ground is the BRAND BLUE itself, not a near-black tinted
-     toward it. That is what makes the dark panels read as branding. */
-  --color-bg-inverse: var(--color-harbor-800);
+  --color-bg-inverse: var(--color-paper-50);
 
-  --color-fg-primary: var(--color-ink-900);
-  --color-fg-secondary: var(--color-ink-700);
-  /* Tertiary is SMALL text — eyebrows, footer labels, the language switch — so
-     it has to clear 4.5:1, not the 3:1 floor for large text. The generated ramp
-     gave #696968, which measured 4.49:1 on `bg-surface` — one hundredth under
-     the bar. Darkened one perceptual step to #696867 (4.54:1 there, 5.07:1 on
-     `bg-base`).
-
-     KNOWN LIMIT: it measures 3.75:1 on `bg-muted`. That is deliberate rather
-     than overlooked — darkening it far enough to clear cream-200 would collapse
-     the gap to `fg-secondary` and flatten the three-tier hierarchy everywhere
-     else. So the rule is: TERTIARY TEXT IS NOT PERMITTED ON A `muted` SURFACE.
-     A muted section uses `fg-secondary` for small text. Enforced in
-     tests/tokens.test.ts. */
-  --color-fg-tertiary: var(--color-ink-600);
-  --color-fg-heading: var(--color-harbor-800);
-  --color-fg-on-inverse: var(--color-paper-50);
+  --color-fg-primary: var(--color-ink-100);
+  --color-fg-secondary: var(--color-ink-300);
+  /* THE SAME LIMITATION SURVIVES THE FLIP, and lands on the same pair.
+     Tertiary clears AA on `base` (7.01) and `surface` (5.20) and misses on
+     `muted` (3.76) — so the rule stands unchanged: TERTIARY TEXT IS NOT
+     PERMITTED ON A MUTED SURFACE. Use `fg-secondary` there. */
+  --color-fg-tertiary: var(--color-ink-400);
+  --color-fg-heading: var(--color-ink-100);
+  --color-fg-on-inverse: var(--color-ink-900);
 
   /* The accent as a SURFACE — buttons, marks, highlights. Carries dark ink. */
   --color-accent: var(--color-lime-100);
@@ -162,14 +221,21 @@
      the same colour. Use this and only this for accent-coloured type. */
   /* The accent as TEXT. Lime is unreadable on white at every usable step, so
      accent-coloured TYPE uses the blue instead — the accent stays a surface. */
-  --color-accent-strong: var(--color-harbor-600);
+  /* On a dark ground, emphasis BRIGHTENS. `fg-heading` sits at ink-100 and
+     this is the step above it, so a hover moves up the ramp rather than down
+     — the opposite of what the same token did on paper, and the reason it is
+     a token at all. Still no hue: the accent colour is the open decision. */
+  --color-accent-strong: var(--color-ink-50);
   --color-accent-warm: var(--color-taupe-500);
   /* The quiet fill — chips and tags. */
   --color-accent-muted: var(--color-taupe-300);
 
-  --color-border: var(--color-paper-200);
-  --color-border-strong: var(--color-paper-300);
-  --color-ring: var(--color-harbor-700);
+  --color-border: var(--color-ink-800);
+  --color-border-strong: var(--color-ink-700);
+  /* The focus ring is the one place a saturated colour earns its keep: it has
+     to be unmistakable against every ground, and lime reads at 15:1 on base.
+     It was the blue. */
+  --color-ring: var(--color-lime-100);
 
   /* -------------------------------------------------------------------------
      TYPOGRAPHY
@@ -205,6 +271,9 @@
   --text-body-md: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
   --text-body-sm: clamp(0.9375rem, 0.9rem + 0.2vw, 1.0625rem);
   --text-body-xs: clamp(0.875rem, 0.85rem + 0.15vw, 1rem);
+  /* Smaller than an eyebrow, for the navigation bar's labels — the one place
+     that wants type below the body scale without becoming unreadable. */
+  --text-micro: clamp(0.6875rem, 0.66rem + 0.1vw, 0.75rem);
   --text-eyebrow: clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem);
 
   --leading-tight: 1.05;
@@ -242,6 +311,17 @@
   --max-width-wide: 1760px;
   --max-width-text: 68ch;
   --container-padding: clamp(1.25rem, 0.875rem + 1.25vw, 2rem);
+  /* ---- THE FLOATING BAR ---------------------------------------------------
+     Declared here rather than on `.header`, because a fixed bar is something
+     every section has to clear and a section cannot clear a number it cannot
+     see. `--header-clearance` is the whole height it occupies from the top of
+     the viewport: anything that starts at the top of the screen must leave at
+     least this much, plus a little air. */
+  --header-inset-block: clamp(0.6rem, 0.35rem + 0.7vw, 1.05rem);
+  --header-inset-inline: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+  --header-row: 1rem;
+  --header-clearance: calc(var(--header-inset-block) * 2 + var(--header-row));
+
   --header-height: clamp(4rem, 3.25rem + 2.5vw, 5.5rem);
   --grid-columns: 12;
   --grid-gutter: clamp(1rem, 0.75rem + 1.25vw, 2rem);
@@ -265,10 +345,14 @@
   --radius-2xl: clamp(1.25rem, 1rem + 0.833vw, 1.75rem);
   --radius-3xl: clamp(1.75rem, 1.375rem + 1.25vw, 2.5rem);
   --radius-full: 9999px;
-  /* The shared softness for anything holding a photograph or a fill. */
+  /* Frames — cards, media, panels. Sized to READ as rounded on a box that is
+     hundreds of pixels across: at the 8px step the curve is there in the
+     computed style and invisible on the screen, which is the same as square. */
   --radius-frame: var(--radius-xl);
-  /* Every button's corner, in one place. */
-  --radius-button: var(--radius-full);
+  /* Every button's corner, in one place. Smaller than a frame's, because the
+     box is smaller — the same 20px on a 44px-tall control starts turning it
+     into a pill. */
+  --radius-button: var(--radius-lg);
 
   /* ---- THE MORPH CUT -------------------------------------------------------
      The shape language of the references in public/reference/shape-*.png: where
@@ -287,6 +371,33 @@
      button's label and its arrow disc. Small on purpose: any wider and the two
      read as separate controls rather than as one cut in two. */
   --morph-split: 0.1875rem;
+
+  /* ---- THE CHAMFER --------------------------------------------------------
+     One shape, and its sizes live here rather than inside the `.notch`
+     utility — a magnitude hardcoded in globals.css is a magnitude nobody finds
+     when the shape language changes. See docs/DESIGN-SYSTEM.md.
+
+     `--chamfer-joint` is the small bevel at each end of the cut, used only by
+     the `clip-path: shape()` path: it is what stops the diagonal meeting the
+     edge at a hard 135° point next to three rounded corners. */
+  /* ---- FILM GRAIN ---------------------------------------------------------
+     Fine monochrome noise covers the entire page. Increasing the tonal range
+     of feTurbulence makes the specks distinct at a restrained layer opacity.
+     Keep the 200px tile at its native scale so the grain stays sharp. */
+  --grain-opacity: 0.14;
+  --grain-size: 200px;
+  /* How often the grain re-seats. Film runs at 24 frames a second; this is
+     deliberately slower, because a full-viewport layer jumping 24 times a
+     second is a lot of compositing for a texture, and past about 15 it stops
+     reading as grain and starts reading as interference. */
+  --grain-speed: 0.72s;
+  /* How far it jumps. The reference moves 2% and it hums; 0.9% is enough to
+     re-seat every speck without the surface appearing to swim. */
+  --grain-shift: 0.9%;
+  --grain-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncR type='linear' slope='3' intercept='-1'/%3E%3CfeFuncG type='linear' slope='3' intercept='-1'/%3E%3CfeFuncB type='linear' slope='3' intercept='-1'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+
+  --chamfer-cut-lg: clamp(1.25rem, 3vw, 3rem);
+  --chamfer-joint: clamp(0.3rem, 0.7vw, 0.6rem);
 
   --shadow-sm: 0 2px 10px rgb(43 41 38 / 6%);
   --shadow-md: 0 8px 28px rgb(43 41 38 / 9%);
@@ -325,4 +436,5 @@
   --z-header: 100;
   --z-modal: 200;
   --z-tooltip: 300;
+  --z-grain: 400;
 }

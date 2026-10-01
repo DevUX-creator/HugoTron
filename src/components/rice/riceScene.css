@@ -1,0 +1,21 @@
+.rice-canvas {
+  position: relative;
+  inline-size: 100%;
+  block-size: 100%;
+  touch-action: pan-y;
+  outline-offset: -8px;
+}
+.rice-canvas canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.rice-canvas:focus-visible {
+  outline: 1px solid var(--color-fg-secondary);
+  border-radius: 1rem;
+}
+.rice-brush-surface {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+}

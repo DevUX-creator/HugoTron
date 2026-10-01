@@ -228,6 +228,8 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
   /* On navigation: jump to top before paint, then let ScrollTrigger remeasure
      the new document once. */
   useIsomorphicLayoutEffect(() => {
+    // A locale change replaces the root HTML classes; restore the enhancement marker.
+    document.documentElement.classList.add("js");
     wakeRef.current?.();
     lenisRef.current?.scrollTo(0, { immediate: true });
     window.scrollTo(0, 0);

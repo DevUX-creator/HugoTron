@@ -1,0 +1,33 @@
+/* ===========================================================================
+   Fly away — anything marked `.flies` leaves the frame as the inherited
+   `--leave` runs 0 → 1, the way a film sheet departs between slides: up, to the
+   side and into depth, shrinking and turning as it goes. `--r` (0–1, per
+   element) staggers when it lets go and how it turns, so nothing moves in step.
+   Individual `translate`/`rotate`/`scale` compose with an element's own `transform`.
+   =========================================================================== */
+
+.flies {
+  --fly: clamp(0, calc(var(--leave, 0) * 1.8 - var(--r, 0.5) * 0.8), 1);
+  translate: calc(var(--fly) * (0.12 + var(--r, 0.5) * 0.3) * 60vw)
+    calc(var(--fly) * var(--fly) * -55svh);
+  scale: calc(1 - var(--fly) * 0.62);
+  rotate: calc((var(--r, 0.5) - 0.35) * 55deg * var(--fly));
+  filter: blur(calc(var(--fly) * 7px));
+  opacity: calc(1 - var(--fly));
+  will-change: translate, scale;
+}
+
+/* A word keeps its place in the line until it flies. */
+.split-word {
+  display: inline-block;
+  white-space: pre;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flies {
+    translate: none;
+    scale: none;
+    rotate: none;
+    filter: none;
+  }
+}

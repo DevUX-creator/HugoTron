@@ -11,5 +11,4 @@ export type Messages = typeof de;
  * this `satisfies` fails and `pnpm typecheck` errors — a translation gap can
  * never reach production as a silently-rendered raw key.
  */
-export const enMessages = en satisfies Messages;
-export const deMessages = de;
+void (en satisfies Messages);

@@ -1,0 +1,314 @@
+/* ===========================================================================
+   Origins — where it comes from, on the Daylight paper: an ink engraving of
+   the map, with the scene's neon continuing as routes into Hamburg.
+   =========================================================================== */
+
+.origins {
+  /* Read by the canvas painter for the engraving's two inks. */
+  --origins-ink: color-mix(in srgb, var(--color-world-night) 58%, transparent);
+  --origins-hot: var(--color-world-neon);
+  --origins-neon: var(--color-world-neon);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(17rem, 25rem) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 4vw, 5rem);
+  min-block-size: 100svh;
+  padding: clamp(4.5rem, 8vw, 7rem) max(3rem, 5vw);
+  color: var(--color-fg-primary);
+}
+
+/* -- Copy ------------------------------------------------------------------ */
+
+.origins__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.origins__eyebrow,
+.origins__route {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.origins__eyebrow {
+  color: var(--color-fg-secondary);
+}
+.origins__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+.origins__title span {
+  display: block;
+}
+.origins__title span:last-child {
+  color: var(--origins-hot);
+}
+.origins__lead {
+  max-inline-size: 34ch;
+  margin: 0;
+  color: var(--color-fg-secondary);
+  line-height: 1.6;
+}
+
+/* The same brutalist rows as the hero's category list. */
+.origins__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.origins__list button {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  inline-size: 100%;
+  min-block-size: 2.75rem;
+  padding: 0.6rem 0;
+  border: 0;
+  border-block-end: 1px solid color-mix(in srgb, var(--color-fg-primary) 18%, transparent);
+  background: none;
+  color: var(--color-fg-primary);
+  font: inherit;
+  font-size: 0.9375rem;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    color 250ms,
+    padding 350ms var(--ease-quint);
+}
+.origins__list button > span {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--color-fg-tertiary);
+}
+.origins__list button small {
+  margin-inline-start: auto;
+  color: var(--color-fg-tertiary);
+  font-size: 0.75rem;
+}
+.origins__list button[aria-pressed="true"] {
+  padding-inline-start: 0.5rem;
+  color: var(--origins-hot);
+}
+.origins__list button[aria-pressed="true"] > span,
+.origins__list button[aria-pressed="true"] small {
+  color: var(--origins-hot);
+}
+
+.origins__detail {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+}
+.origins__route {
+  color: var(--origins-hot);
+}
+.origins__products {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+}
+.origins__products span {
+  margin-inline-start: 0.6rem;
+  color: var(--color-fg-tertiary);
+  font-size: 0.75rem;
+}
+
+/* -- Map ------------------------------------------------------------------- */
+
+.origins-map {
+  position: relative;
+  justify-self: end;
+  /* Never taller than the viewport, so the whole map and its routes are seen at once. */
+  inline-size: min(100%, calc((100svh - 9rem) * 200 / 133));
+  aspect-ratio: 200 / 133;
+}
+.origins-map__land,
+.origins-map__routes {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.origins-map__routes {
+  overflow: visible;
+  pointer-events: none;
+}
+.origins-map__routes path {
+  fill: none;
+  stroke-linecap: round;
+}
+
+/* Each route draws itself in once the map arrives, then carries light to Hamburg. */
+.origins-map__route-line,
+.origins-map__route-glow {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition:
+    stroke-dashoffset 1.6s var(--ease-quint),
+    stroke 400ms,
+    stroke-width 400ms,
+    opacity 400ms;
+}
+.origins-map__route-line {
+  stroke: var(--origins-neon);
+  /* Widths are in map cells (the SVG's viewBox), so dashes and draw-in stay true to length. */
+  stroke-width: 0.4;
+  opacity: 0.45;
+}
+.origins-map__route-glow {
+  stroke: var(--origins-neon);
+  stroke-width: 2.4;
+  opacity: 0.12;
+  filter: blur(1px);
+}
+.origins-map__route-pulse {
+  stroke: var(--origins-hot);
+  stroke-width: 0.7;
+  stroke-dasharray: 0.035 0.965;
+  opacity: 0;
+  animation: origins-flow 2.8s linear infinite;
+  transition: opacity 600ms 1.2s;
+}
+.origins-map[data-revealed] .origins-map__route-line,
+.origins-map[data-revealed] .origins-map__route-glow {
+  stroke-dashoffset: 0;
+}
+.origins-map[data-revealed] .origins-map__route-pulse {
+  opacity: 0.35;
+}
+.origins-map__route:nth-child(2) path {
+  transition-delay: 0.15s;
+}
+.origins-map__route:nth-child(3) path {
+  transition-delay: 0.3s;
+}
+.origins-map__route:nth-child(4) path {
+  transition-delay: 0.45s;
+}
+.origins-map__route[data-active] .origins-map__route-line {
+  stroke: var(--origins-hot);
+  stroke-width: 0.6;
+  opacity: 1;
+}
+.origins-map__route[data-active] .origins-map__route-glow {
+  stroke-width: 4;
+  opacity: 0.5;
+}
+.origins-map[data-revealed] .origins-map__route[data-active] .origins-map__route-pulse {
+  stroke-width: 1;
+  opacity: 1;
+}
+
+@keyframes origins-flow {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Places and the hub: the hero list's square marker, set on the map. */
+.origins-map__place,
+.origins-map__hub {
+  position: absolute;
+  translate: -50% -50%;
+}
+.origins-map__place {
+  display: grid;
+  place-items: center;
+  inline-size: 2rem;
+  block-size: 2rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.origins-map__place i,
+.origins-map__hub i {
+  display: block;
+  border: 1px solid var(--origins-hot);
+  background: var(--color-paper-100);
+  transition:
+    background-color 300ms,
+    box-shadow 300ms,
+    transform 400ms var(--ease-quint);
+}
+.origins-map__place i {
+  inline-size: 0.6rem;
+  block-size: 0.6rem;
+  transform: rotate(45deg);
+}
+.origins-map__place[data-active] i {
+  background: var(--origins-hot);
+  box-shadow: 0 0 0.9rem var(--origins-neon);
+  transform: rotate(45deg) scale(1.35);
+}
+.origins-map__hub {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 0.6rem;
+  /* The label sits west of the square, over open sea, clear of the incoming routes. */
+  translate: calc(-100% + 0.45rem) -50%;
+  pointer-events: none;
+  text-align: end;
+}
+.origins-map__hub i {
+  inline-size: 0.9rem;
+  block-size: 0.9rem;
+  background: var(--origins-hot);
+  box-shadow: 0 0 1.1rem var(--origins-neon);
+}
+.origins-map__hub span {
+  display: grid;
+  justify-items: end;
+  color: var(--origins-hot);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.origins-map__hub small {
+  color: var(--color-fg-tertiary);
+  font-size: 0.5625rem;
+}
+
+@media (width < 64rem) {
+  .origins {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .origins-map {
+    order: -1;
+    justify-self: stretch;
+    inline-size: 100%;
+  }
+}
+
+@media (width < 48rem) {
+  .origins {
+    padding: 5rem 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .origins-map__route-pulse {
+    animation: none;
+  }
+  .origins-map__route-line,
+  .origins-map__route-glow,
+  .origins__list button {
+    transition: none;
+  }
+}

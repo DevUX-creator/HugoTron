@@ -1,7 +1,7 @@
 /**
  * Header icons.
  *
- * Inline SVG rather than a sprite or an icon package — there are four, they
+ * Inline SVG rather than a sprite or an icon package — there are three, they
  * never change, and this keeps the header free of a runtime dependency.
  *
  * Drawn to carry some weight: a heavier stroke than a default icon set, square
@@ -21,15 +21,6 @@ const base = {
   "aria-hidden": true,
   focusable: false,
 } as const;
-
-/** Two bars, the lower one short — the asymmetry is the whole point. */
-export function MenuIcon({ className }: IconProps) {
-  return (
-    <svg {...base} className={className}>
-      <path d="M3 9h18M3 16h11" />
-    </svg>
-  );
-}
 
 /** Magnifier with a short, heavy handle set at 45°. */
 export function SearchIcon({ className }: IconProps) {

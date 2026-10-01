@@ -1,0 +1,47 @@
+/* The torn edge follows the selected theme and covers the pinned rice scene. */
+.paper-chapter {
+  --paper-edge-height: clamp(32px, 4.5vw, 76px);
+  position: relative;
+  z-index: 4;
+  margin-block-start: clamp(200px, 50svh, 520px);
+  background: var(--color-bg-base);
+  color: var(--color-fg-primary);
+}
+.paper-chapter::before {
+  content: "";
+  position: absolute;
+  inset: calc(2px - var(--paper-edge-height)) 0 auto;
+  block-size: var(--paper-edge-height);
+  background: var(--color-bg-base);
+  mask: url("/textures/paper-torn-edge.svg") center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+/* The film's containing block is the viewport width, including on wide monitors. */
+.paper-chapter__inner {
+  inline-size: 100%;
+}
+.paper-chapter__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-inline: var(--container-padding);
+  padding-block: 1.25rem 2rem;
+  border-block-start: 1px solid var(--color-border);
+  color: var(--color-fg-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+@media (width < 48rem) {
+  .paper-chapter__foot {
+    align-items: flex-start;
+    font-size: 0.625rem;
+  }
+  .paper-chapter__foot > :last-child {
+    max-inline-size: 24ch;
+    text-align: end;
+  }
+}

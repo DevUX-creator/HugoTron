@@ -87,7 +87,7 @@ re-anchored for Hugo Tron. What carries over unchanged:
   semantic aliases over raw ramp steps, so `<Section inverse>` can flip a whole subtree
 - The 12-column grid and the three-tier vertical rhythm
 - `Section` / `Container` / `Heading` / `Button` primitives
-- The animation wrappers (`Reveal`, `RevealText`, `Copy`) and their shared contract
+- The animation wrappers (`Reveal`, `Copy`) and their shared contract
 - The lint rules that enforce all of it — no raw hex, no undeclared media queries
 
 What changes: the palette (food importer, not fertilizer trading), the display face,

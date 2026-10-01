@@ -14,6 +14,8 @@ type SectionProps = {
   width?: ContainerWidth;
   ariaLabel?: string;
   className?: string;
+  /** Tighten the entrance gap while retaining the shared section rhythm. */
+  compactStart?: boolean;
 };
 
 /**
@@ -29,10 +31,12 @@ export default function Section({
   width = "default",
   ariaLabel,
   className,
+  compactStart = false,
 }: SectionProps) {
   const classes = [
     "section",
     "section-block",
+    compactStart ? "section-block--compact-start" : null,
     inverse ? "section-block--inverse" : null,
     surface ? `section-block--${surface}` : null,
     className,

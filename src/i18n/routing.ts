@@ -15,7 +15,7 @@ export type Locale = (typeof locales)[number];
  * SWITCH BACK TO "de" BEFORE LAUNCH — it decides where `/` redirects and which
  * language search engines treat as primary.
  */
-export const defaultLocale: Locale = "en";
+const defaultLocale: Locale = "en";
 
 export const localeLabels: Record<Locale, { name: string; short: string; htmlLang: string }> = {
   de: { name: "Deutsch", short: "DE", htmlLang: "de" },
@@ -35,12 +35,19 @@ export const localeLabels: Record<Locale, { name: string; short: string; htmlLan
  * NOTE: the old Wix site used umlaut URLs (`/überuns`, `/großhandel`). Those
  * are gone — see content/strategy/seo-redirects.md for the 301 map.
  */
-export const pathnames = {
+const pathnames = {
   "/": "/",
+  "/rice": { de: "/reis", en: "/rice" },
   "/about": { de: "/ueber-uns", en: "/about" },
   /* German keeps "Sortiment", the standard trade word and the one
      content/strategy/seo-redirects.md maps the old Wix category onto. */
   "/range": { de: "/sortiment", en: "/products" },
+  "/range/rice": { de: "/sortiment/reis", en: "/products/rice" },
+  "/range/pistachios": { de: "/sortiment/pistazien", en: "/products/pistachios" },
+  "/range/tea": { de: "/sortiment/tee", en: "/products/tea" },
+  "/range/saffron": { de: "/sortiment/safran", en: "/products/saffron" },
+  "/range/pulses": { de: "/sortiment/huelsenfruechte", en: "/products/pulses" },
+  "/range/grains": { de: "/sortiment/getreide", en: "/products/grains" },
   "/range/[slug]": { de: "/sortiment/[slug]", en: "/products/[slug]" },
   "/product/[slug]": { de: "/produkt/[slug]", en: "/product/[slug]" },
   "/wholesale": { de: "/grosshandel", en: "/wholesale" },

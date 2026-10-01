@@ -1,0 +1,15 @@
+/* Each word reaches full ink once the shared reveal passes its place in the line. */
+.scroll-words span {
+  display: inline-block;
+  white-space: pre;
+  opacity: clamp(0.14, calc(var(--reveal, 1) * var(--count) * 1.15 - var(--i)), 1);
+  transition: opacity 120ms linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-words span {
+    display: inline-block;
+    white-space: pre;
+    opacity: 1;
+  }
+}

@@ -28,10 +28,4 @@ export function registerGsapPlugins(): void {
   registered = true;
 }
 
-/** True when the user has asked the OS to reduce motion. SSR-safe. */
-export function prefersReducedMotion(): boolean {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-}
-
-export { gsap, ScrollTrigger, SplitText, CustomEase };
+export { gsap, ScrollTrigger, SplitText };

@@ -1,0 +1,71 @@
+/* ===========================================================================
+   Quantity stepper
+   =========================================================================== */
+
+.qty {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.15rem;
+  border-radius: 0;
+  background-color: var(--color-bg-product);
+}
+
+.qty__step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--qty-size);
+  block-size: var(--qty-size);
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--color-fg-heading);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.qty__step svg {
+  inline-size: 0.72em;
+  block-size: 0.72em;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.qty__step:hover:not(:disabled),
+.qty__step:focus-visible {
+  background-color: var(--color-fg-heading);
+  color: var(--color-paper-50);
+}
+
+.qty__step:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.qty__value {
+  /* Fixed width and tabular figures, so the row does not jump as it counts. */
+  min-inline-size: 1.3rem;
+  color: var(--color-fg-primary);
+  font-size: var(--text-body-xs);
+  font-weight: var(--font-weight-semibold);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.qty--sm {
+  --qty-size: 1.6rem;
+
+  font-size: var(--text-body-xs);
+}
+
+.qty--md {
+  --qty-size: 1.9rem;
+
+  font-size: var(--text-body-sm);
+}

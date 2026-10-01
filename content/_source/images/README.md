@@ -2,7 +2,11 @@
 
 Completed 2026-09-20. All nine products from the [Hugo-Tron catalog](https://www.hugo-tron.com/category/all-products) now have matching studio images in public/products/.
 
-**22 images across 9 products.** Every PNG is 1448 × 1086 pixels (4:3 landscape), with a warm cream setting and increased breathing room. The final batch added 14 images for the six remaining products. All work used built-in image_gen; original sources and exact prompts are retained in the linked notes.
+**40 images across 9 products:** 22 studio landscape PNGs at 1448 × 1086 pixels (4:3), nine studio portrait PNGs at 1086 × 1448 pixels (3:4), and nine lifestyle landscape PNGs at 1774 × 887 pixels (2:1). Studio images share a warm cream setting; lifestyle images now use nine distinct settings, including a restaurant kitchen, stockroom, dining room, café, garden table, pastry bench and market stall. All work used built-in image_gen; original sources and exact prompts are retained in the linked notes.
+
+Each product now has a `card-portrait.png` used as its opening card image. See [portrait files and exact prompts](card-portraits.md). Existing landscape images remain available at their original paths.
+
+Each product also has a `lifestyle-parallax.png`. The first set was replaced with varied environments at the user's request. See the [nine lifestyle images and exact prompt set](lifestyle-parallax.md).
 
 ## Files
 
@@ -25,4 +29,4 @@ Completed 2026-09-20. All nine products from the [Hugo-Tron catalog](https://www
 - Some alternate angles are reconstructions from front-only references. These limitations are recorded per product. No undocumented back packaging was created.
 - Generated small back-label text and nutritional details are not verified label artwork. Retain the original photographs for label comparison.
 - The loose-food images depict the ingredients from the catalog; the 25kg chickpea listing has no source sack photograph.
-- All files were inspected visually and checked for image dimensions. Website components and routes were not changed by this asset task.
+- All files were inspected visually and checked for image dimensions. The portrait addition updates ProductCard to use the new front image with cover framing; other views retain their existing images and contain framing.

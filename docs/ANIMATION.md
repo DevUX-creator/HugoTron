@@ -1,110 +1,131 @@
 # Animation
 
-GSAP 3 (+ ScrollTrigger, SplitText) for choreography, Lenis for smooth scroll —
-the same pairing the outgoing site used, so the motion feel carries over.
+The homepage and rice category have separate Three.js scenes. GSAP supplies
+text and scroll reveals; Lenis smooths vertical scrolling.
 
-## Plugin registration
+## Hugo Tron world
 
-Always via `registerGsapPlugins()` from `@/lib/gsap`. It is idempotent and also
-sets `ScrollTrigger.defaults({ pinType: "fixed" })` — transform-based pinning
-creates a containing block that breaks the `position: fixed` header.
+`src/sections/World/World.tsx` loads the world scene dynamically. The supplied
+courtyard surrounds a glass cube with an engraved mark, moving blue edges,
+particle streams, light beams and foreground defocus. The camera approaches
+along a curved path while focus resolves. Scene and cube respond to the cursor;
+hovering the cube adds local colour, sheen, lift and tilt.
 
-Call it **inside an effect in a client component**. `src/lib/gsap.ts` imports
-GSAP statically, so importing it from a server component pulls the library into
-the server bundle.
+The catalogue arrow sits below the two-line uppercase title at the bottom left.
+The introduction sits in the top-right corner. A narrower category list sits
+below it, with the last category aligned to the bottom of the catalogue action. Copy reveals
+follow scene readiness. Mobile places the content around the scene in normal
+flow. Reduced motion keeps copy visible and the scene still. Failed scene
+loading and disabled JavaScript preserve a static poster and usable links.
 
-## Smooth scroll
+`useWorldJourney` maps native scroll onto a continuous second environment.
+The single canvas stays pinned as the courtyard dissolves and the cube panels
+part. The entire cube, including its core, cages, flare and light, fades at the
+entrance; it does not travel into the second scene. `journey.ts` takes the camera
+forward along the light currents. The shortened chapter stops at 60% of that
+flight, before the upward camera bank. `progress.ts` keeps camera, lighting,
+shader transitions and DOM shading at the same low composition.
 
-`SmoothScroll` (`src/components/providers/SmoothScroll.tsx`) owns the Lenis
-instance, bridges it to `ScrollTrigger.update` and the GSAP ticker, and scrolls
-to top on navigation.
+The hero's filaments and sparks in `stream.ts` become two open, sweeping blue
+currents. Their shared curves in `paths.ts` also guide the instanced mineral field
+in `rocks.ts`: stones travel along each current and slowly revolve around its
+local axis, with independent rotation. Endpoints sit beyond the composition and
+taper out before particles or stones wrap. Fine strands, white-cyan accents and
+local blue scattering share the hero's depth-aware light pass. Small cyan-white
+particles drift along both routes, reusing the hero particle buffer. There is no
+central sculpture, spiral or separate tunnel in the second scene.
 
-Access it through the typed context, never a global:
+The focus pass follows the trails while blurring peripheral geometry. Rocks
+share one geometry and draw call, with fewer instances on phones and no added
+model or texture downloads. Their dark charcoal material uses object-space
+mineral grain and filtered fine relief, which stays attached as each rock rotates.
+They are compiled behind the loader. The half-resolution peripheral blur pass
+stays active at the held pose, retaining the flight's depth and softness.
+Camera progress is speed-limited, and copy follows the rendered camera.
+The arrival heading is centred low in the
+frame, leaving the sweeping currents visible above it. One fixed hairline frame
+with corner details spans both chapters, independently of the copy fades.
 
-```tsx
-const { lock, unlock } = useScrollLock(); // for menus and modals
-const lenis = useLenis();
-```
+One curved video screen in `films.ts` enters from the right during the last part
+of the flight and settles above the text. The video has no border or corner marks.
+Its edges bend gently away from the viewer, with slow, asymmetric ripples and
+a slight twist that keep it feeling like floating paper while the centre stays
+quiet. This ambient deformation stops under reduced motion.
+Hovering lifts the paper locally beneath the cursor and adds a small tilt and
+forward lift. A plane intersection maps the cursor into the sheet's coordinates;
+the response eases out beyond its edges and during departure, and settles when
+the pointer leaves. Touch and reduced motion do not trigger this deformation.
+Continued scrolling peels a corner, tips the sheet down and sends it back into
+the rocks and light current, with increasing defocus as it recedes. The next film
+arrives from the right; only one screen remains at rest. The camera holds its
+established low pose. Direction and scroll velocity drive a GPU sheet bend
+inspired by `IDEA.zip` (the Three.js slider). The bend relaxes when scrolling
+stops. No wheel or touch events are intercepted.
 
-On breakpoint changes it uses `gsap.matchMedia()` + `ScrollTrigger.refresh()`.
-It must never call `window.location.reload()` — the project this was modelled on
-did, and a desktop window resize threw away all page state.
+The three screens use `WORLD_FILMS`: rice fields, dining room, and tea ritual.
+The first two reuse existing range media; the third uses optimized versions of
+the supplied `3dvideo.mp4`. The rice page retains its separate `RANGE_FILMS`
+playlist. Desktop/mobile delivery files and posters are documented in
+`content/_source/video/world-films.md`.
+`filmTexture.ts` loads posters during the approach, plays only the selected video,
+and pauses decoding outside the chapter, when hidden, or under reduced motion.
+Posters remain visible while video loads or if playback fails. The film pass uses
+the existing renderer after the atmosphere blur, sampling scene depth for rock
+occlusion so the video stays sharp within the soft environment. Film selectors,
+a pause control, and synchronized EN/DE copy remain ordinary accessible HTML.
+Without WebGL, the selectors change a static image and its matching text.
 
-## The three wrappers
+The scroll run is a real flow spacer, not bottom padding: a sticky canvas cannot
+travel into its parent's padding. The hero's selected category is preserved when
+scrolling back. Inactive sections become inert. Reduced motion switches directly
+between still compositions; failed WebGL and no JavaScript use two normal-flow
+sections with optimized scene posters. No wheel interception or scroll locking.
 
-| Wrapper        | Splits        | Use for                                   |
-| -------------- | ------------- | ----------------------------------------- |
-| `<Reveal>`     | nothing       | A whole block — a card, an image, a group |
-| `<RevealText>` | words         | Headings                                  |
-| `<Copy>`       | lines, masked | Body copy                                 |
+The renderer reduces resolution and assets on mobile, slows ambient frames,
+pauses when hidden or out of view, and disposes resources on unmount. Scene
+implementation details and model preparation are documented in
+`content/_source/models/hugo-world.md`.
 
-```tsx
-<RevealText eager>
-  <Heading as={1} size="hero-lg">{title}</Heading>
-</RevealText>
+## Rice category
 
-<Copy delay={0.2}>
-  <p>{body}</p>
-</Copy>
-```
+`Opening` owns the sculptural bowl and warm basmati. Hover tilts the bowl;
+clicking or using the corner control lifts the grains. The control keeps its
+label while temporarily disabled during a toss. Slow motion is optional.
 
-`RevealText` and `Copy` clone their child so SplitText operates on the real
-`<h1>`/`<p>` rather than a wrapper div, which keeps line metrics honest.
-Pass exactly one element child.
+The reveal begins distant and blurred, approaches along a curve, and settles
+into the initial composition. Scrolling early skips the entrance. Continued
+scroll pulls the camera back, follows a shallow orbit and approaches overhead.
+Pointer drift fades before brushing becomes available. Reduced motion skips
+camera travel, the entrance and hover parallax.
 
-## The hero is the one exception
+Hero copy, rules, product and ambient light follow the pointer at different
+response rates; navigation stays fixed. Grain composites over the content.
+Theme changes update the lighting, material and page together, and persist
+across reloads. The original temporary rice lab now redirects to this page.
 
-`src/sections/Hero/HeroCopy.tsx` uses the same three motions — words out of a
-blur, masked lines, block lift — but not the wrappers. It cannot: the wrappers
-are one-shot (`ScrollTrigger` with `once: true`), and the hero's two copy sets
-have to arrive AND leave, repeatedly, every time the scroll crosses the phase
-threshold in either direction.
+## Range and buying sections
 
-So each set gets a paused timeline assembled from the same tweens, played
-forward to arrive and `.reverse()`d to leave. The exit is therefore literally
-the entrance backwards, rather than a second effect that has to be maintained
-in sympathy with the first. Parts opt in with `data-reveal="words" | "lines"`,
-and anything SplitText would mangle — a flex row, a pair of buttons — omits the
-value and lifts as one block.
+`PaperChapter` covers the rice scene after its scroll sequence. `RangeReveal`
+expands the film to the viewport before moving the commerce cards horizontally.
+`FilmPlaylist` owns the optimized range films and playback controls. The cards
+share the catalogue's product and cart components.
 
-The same shared contract applies: dynamic GSAP import, `reveal-pending` guard,
-failsafe timeout, reduced-motion short-circuit, full revert on unmount.
+`BuyingOptions` returns to vertical flow. `StoryImage` moves the kitchen
+photograph within its overscanned frame and stays still under reduced motion.
 
-`eager` animates immediately — use it above the fold. Without it, the wrapper
-waits for an IntersectionObserver.
+## Shared wrappers
 
-## The shared contract
+- `Copy`: masked lines for headings and body copy.
+- `Reveal`: whole-block entrances for images, controls and groups.
 
-Every wrapper in `src/animations/` must:
+Pass one text child to `Copy`. Custom text components must forward their ref
+and class name. SplitText waits for fonts and remeasures after layout changes.
+Both wrappers load GSAP dynamically and wait for the page entrance. Content
+stays available without JavaScript and when setup fails.
 
-1. **Dynamically import GSAP**, so it stays out of the initial bundle.
-2. **Wait for `document.fonts.ready`** before splitting. Splitting against the
-   fallback face measures the wrong metrics and the text jumps when
-   Nasalization swaps in.
-3. **Guard against FOUC with the `.reveal-pending` class**, never an inline
-   `visibility: hidden`. The class only bites when `.js` is present on `<html>`
-   (set by an inline script in the layout), so a visitor without JavaScript
-   sees the content instead of a permanently blank page.
-4. **Carry a failsafe timeout** (1200ms) that reveals the content anyway.
-   Unanimated copy is a far better failure than invisible copy.
-5. **Bail before loading GSAP** under `prefers-reduced-motion`.
-6. **Revert everything on unmount** — `splitter.revert()`, `tween.kill()`,
-   `scrollTrigger.kill()`, `observer.disconnect()`.
+Register plugins through `registerGsapPlugins()` in `@/lib/gsap`. Revert split
+text and tweens, disconnect observers and remove event handlers on unmount.
 
-## Reduced motion
-
-Two layers, both required:
-
-- CSS: a global kill-switch in `globals.css` collapses all animation and
-  transition durations.
-- JS: every animated component checks `prefersReducedMotion()` and returns
-  **before** importing GSAP, so the library is never even fetched.
-
-`tests/e2e/smoke.spec.ts` asserts content is visible and unhidden under
-reduced motion, and again with JavaScript fully disabled.
-
-## Page transitions
-
-`app/[locale]/template.tsx` is remounted on every navigation, replaying the
-`page-in` keyframe from `globals.css`. Zero JavaScript, and it disables itself
-under reduced motion.
+`SmoothScroll` owns Lenis and coordinates it with ScrollTrigger. Its frame loop
+rests when scrolling and tweens settle. `useScrollLock()` supports overlays,
+and native anchors use the header clearance from `scroll-padding`.

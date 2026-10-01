@@ -1,341 +1,178 @@
 /* ===========================================================================
-   Header — nav row over brand bar.
+   Header — one floating line.
    ---------------------------------------------------------------------------
-   Neither row may clip overflow: the brand plate hangs past the bar's bottom
-   edge onto the hero.
+   Concept v2. Fixed and inset from the edges rather than filling the top of
+   the window, after interractlabs.com: a bar that stops short of all three
+   edges sits ON the page; one that reaches them forms a lid over it.
+
+   This replaces the two-row header (nav row over brand bar, navy plate hanging
+   onto the hero). The old file is in git history; the reasoning is kept in
+   content/strategy/concept-v2.md.
    =========================================================================== */
 
 .header {
-  /* Share the nav metrics with its sticky offset: the links scroll away,
-     leaving the brand/control row at the top of the viewport. */
-  --nav-row: 1.4rem;
-  --nav-pad: 0.85rem;
-  --header-nav-height: 0px;
-
-  position: sticky;
-  inset-block-start: calc(-1 * var(--header-nav-height));
+  position: fixed;
   z-index: var(--z-header);
-  background-color: var(--color-bg-base);
-  /* The menu overlay is a child of this element, so the header owns its
-     stacking context — it must not clip or hide overflow. */
-  isolation: isolate;
+  inset-block-start: var(--header-inset-block);
+  inset-inline: var(--header-inset-inline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-block);
+
+  /* THE TWO INSETS ARE NOT THE SAME, and that is the point. Sitting the bar
+     as far from the top as it is from the sides puts it visually low — the
+     eye reads the gap above a floating element as larger than an equal gap
+     beside it, because there is nothing above it to measure against. Held
+     tight to the top and generous at the sides, it reads as level. */
+  /* The three metrics live in theme.css now — a fixed bar is a thing every
+     section has to clear, and a section cannot clear a number it cannot see.
+     They were declared here, so `var(--header-row)` elsewhere silently fell
+     back to a guess. */
+  /* One row height shared by the links, the swap window and the controls, so
+     everything on the line sits on the same baseline. This is what the bar's
+     height IS — there is no padding anywhere in it. */
 }
 
-/* -- Row 1: navigation ---------------------------------------------------- */
+/* -- The wordmark --------------------------------------------------------- */
 
-/* Collapsed below `lg`; the menu control takes over. */
-.header__nav {
-  display: none;
-  border-block-end: 1px solid var(--color-border);
+.header__start {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 1vw, 1rem);
+  flex-shrink: 0;
 }
 
-.header__nav-list {
-  display: grid;
-  /* Equal tracks, so the hairlines land on a regular rhythm across the full
-     width rather than wherever the words happen to end. */
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  max-width: var(--max-width-wide);
-  margin-inline: auto;
-  padding-inline: var(--container-padding);
-  list-style: none;
-}
-
-/* THE HAIRLINES. Drawn as a pseudo-element rather than a border so they can be
-   INSET from the row's top and bottom. A full-height border ran into the promo
-   panel above and the rule below, which read as one continuous grid; held
-   short, each divider is clearly its own mark and the row breathes. */
-.header__nav-item {
-  position: relative;
-  /* THE PADDING LIVES HERE, NOT ON THE LINK. `overflow` clips at the PADDING
-     box, not the content box, so padding on the clipping element sits INSIDE
-     the window: a 22.4px row with 12.8px of padding each side gave a 48px
-     window, and the 44.8px pair of faces fitted inside it whole. Both labels
-     showed, one above the other. */
-  padding-block: var(--nav-pad);
-}
-
-.header__nav-item + .header__nav-item::before {
-  content: "";
-  position: absolute;
-  inset-block: 0.55rem;
-  inset-inline-start: 0;
-  inline-size: 1px;
-  background-color: var(--color-border);
-}
-
-.header__nav-link {
-  display: block;
-  padding-inline: 0.5rem;
-  /* Exactly one row tall, with NO block padding — see the note on the item
-     above. This box is the window the swap slides through, so nothing may pad
-     it open. */
-  block-size: var(--nav-row);
-  overflow: hidden;
+.header__brand {
+  display: flex;
+  align-items: center;
   color: var(--color-fg-heading);
-  font-size: var(--text-body-xs);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--tracking-wide);
-  text-align: center;
   text-decoration: none;
-  text-transform: uppercase;
-}
-
-.header__nav-swap {
-  display: flex;
-  flex-direction: column;
-  transform: translateY(0);
-  transition: transform var(--duration-slow) var(--ease-quint);
-}
-
-.header__nav-face {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  block-size: var(--nav-row);
-  line-height: var(--nav-row);
-}
-
-/* The incoming face is the accent, so the swap reads as a state change too. */
-.header__nav-face:last-child {
-  color: var(--color-accent-strong);
-}
-
-/* HOVER IS GATED ON A DEVICE THAT HAS ONE.
-   A touch browser applies `:hover` to whatever was last TAPPED and leaves it
-   applied, which would park that link on its second face — the same treatment
-   the current page gets — so the nav would come back showing two items
-   selected. `:focus-visible` stays outside the query: it is the keyboard's
-   affordance and browsers do not set it for a tap. */
-@media (hover: hover) and (pointer: fine) {
-  .header__nav-link:hover .header__nav-swap {
-    transform: translateY(calc(-1 * var(--nav-row)));
-  }
-}
-
-.header__nav-link:focus-visible .header__nav-swap {
-  transform: translateY(calc(-1 * var(--nav-row)));
-}
-
-/* The current page rests on the accent face rather than swapping to it. */
-.header__nav-link[aria-current="page"] .header__nav-swap {
-  transform: translateY(calc(-1 * var(--nav-row)));
-}
-
-/* A swap that cannot animate would jump; fall back to a colour change. */
-@media (prefers-reduced-motion: reduce) {
-  .header__nav-swap {
-    transition: none;
-  }
-}
-
-/* -- Row 2: brand bar ----------------------------------------------------- */
-
-.header__bar {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  column-gap: var(--gap-block);
-  max-width: var(--max-width-wide);
-  min-block-size: var(--header-height);
-  margin-inline: auto;
-  padding-inline: var(--container-padding);
-}
-
-.header__side {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.header__side--end {
-  justify-content: flex-end;
-}
-
-.header__control {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.6rem;
-  border: 0;
-  border-radius: var(--radius-sm);
-  background-color: transparent;
-  color: var(--color-fg-heading);
-  font-family: inherit;
-  font-size: var(--text-eyebrow);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--tracking-wide);
-  text-decoration: none;
-  text-transform: uppercase;
-  cursor: pointer;
   transition: color var(--duration-fast) var(--ease-standard);
 }
 
-.header__control:hover,
-.header__control:focus-visible {
+.header__brand:hover,
+.header__brand:focus-visible {
   color: var(--color-accent-strong);
 }
 
-.header__icon {
-  inline-size: 1.375rem;
-  block-size: 1.375rem;
-}
-
-.header__cart-mark {
-  position: relative;
-  display: inline-flex;
-}
-
-.header__cart-count {
-  position: absolute;
-  inset-block-start: -0.4rem;
-  inset-inline-start: 0.85rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-inline-size: 1.05rem;
-  padding-inline: 0.25rem;
-  border-radius: var(--radius-full);
-  background-color: var(--color-accent);
-  color: var(--color-ink-900);
-  font-size: 0.625rem;
-  font-weight: var(--font-weight-semibold);
-  line-height: 1.05rem;
-}
-
-/* The word beside an icon is desktop-only — on a phone the icon carries it,
-   and the accessible name is on the control either way. */
-.header__control-label {
-  display: none;
-}
-
-/* -- The brand plate ------------------------------------------------------ */
-
-.header__brand {
-  position: relative;
+/* The artwork is 74×10, so the height follows the width and never needs
+   stating twice. `currentColor` fills it — see Wordmark.tsx. */
+.wordmark {
   display: block;
-  inline-size: clamp(7rem, 5rem + 8vw, 11rem);
-
-  /* THE NOTCH. A ring of the PAGE GROUND around the artwork, so where the
-     plate crosses into the hero it reads as a tab cut out of the header rather
-     than a navy block dropped on the photograph.
-
-     ONE RADIUS DRIVES THE WHOLE SHAPE. The concave fillets at the top and the
-     convex corners at the bottom are the SAME size, and the tab hangs exactly
-     twice that — the geometry of the reference SVGs, where a 14 fillet meets a
-     14 corner across a 28 drop. Each curve then ends precisely where the next
-     begins: no straight scrap between them, and no overlap.
-
-     Before this the fillet was 40px against a 20px corner on a 52px drop, so
-     the two curves collided and left a lump on each side. */
-  padding: var(--brand-ring);
-  padding-block-start: 0;
-  border-end-start-radius: var(--brand-notch);
-  border-end-end-radius: var(--brand-notch);
-  background-color: var(--color-bg-base);
-
-  /* THE HANG IS DECLARED, NOT INFERRED.
-     This used to take its height from the artwork and sit centred in the bar,
-     with a negative bottom margin pulling it down — so how far it actually
-     hung was the result of the centring arithmetic, NOT --brand-overhang. It
-     came out around 23px against a declared 31px, which put the fillets eight
-     pixels ABOVE the bar's lower edge: invisible against the white header, and
-     leaving a bare right angle exactly where the plate crossed into the hero.
-
-     Pinned to the top instead, with the height stated, so the bottom edge
-     lands at header-height + overhang and the fillets land on the seam. */
-  align-self: start;
-  block-size: calc(var(--header-height) - var(--brand-top) + var(--brand-overhang));
-  /* Top offset holds it below the bar's edge; the negative bottom keeps the
-     overhang out of the bar's own height, so the row does not grow to fit it. */
-  margin-block: var(--brand-top) calc(var(--brand-overhang) * -1);
-
-  --brand-top: 0.4rem;
-  --brand-notch: clamp(0.75rem, 0.5rem + 1vw, 1.25rem);
-  --brand-overhang: calc(var(--brand-notch) * 2);
-  --brand-ring: clamp(0.4rem, 0.25rem + 0.5vw, 0.7rem);
-}
-
-/* Level with THE BAR'S LOWER EDGE — the point where the plate leaves the
-   header — not with the top of the plate. The plate is centred in the bar and
-   hangs `--brand-overhang` past it, so that edge sits at 100% minus the
-   overhang. Pinned to the top of the plate (the first attempt) they landed in
-   the middle of the bar, where everything is already this colour, and did
-   nothing at all.
-
-   Size is the visual weight of the joint, not of the plate. */
-.header__brand-fillet {
-  inset-block-start: calc(100% - var(--brand-overhang));
-
-  /* Equal to the plate's own corner — see the note above. */
-  --morph-size: var(--brand-notch);
-  --morph-color: var(--color-bg-base);
+  inline-size: clamp(5.5rem, 4.5rem + 3vw, 8rem);
+  block-size: auto;
 }
 
 .header__logo {
   display: block;
-  inline-size: 100%;
-  /* Fills the plate, cropped rather than scaled: the source is near-square
-     with a lot of navy around the wordmark. The plate's height is declared
-     above, so the artwork follows it instead of setting it. */
-  block-size: 100%;
-  /* ALL FOUR corners. The bottom pair is inset from the plate's own corner by
-     the ring, so the ring keeps an even width round the curve instead of
-     pinching at it. The top pair had been left square: the plate's top padding
-     is zero, so those corners sit directly on the bar and their right angles
-     were visible against it. */
-  border-radius: calc(var(--brand-notch) - var(--brand-ring));
-  object-fit: cover;
+  inline-size: clamp(6.25rem, 4.5rem + 5vw, 10rem);
+  block-size: auto;
 }
 
-@media (width >= 64rem) {
-  .header {
-    --header-nav-height: calc(var(--nav-row) + 2 * var(--nav-pad) + 1px);
-  }
+/* -- Everything else, on the same line ------------------------------------ */
 
-  .header__nav {
-    display: block;
-  }
+.header__end {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 0.5rem + 1.5vw, 2rem);
+}
 
-  .header__control-label {
-    display: inline;
+.header__links {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.85rem, 0.4rem + 1.4vw, 2rem);
+  list-style: none;
+}
+
+.header__link {
+  display: block;
+  color: var(--color-fg-heading);
+  font-size: var(--text-micro);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-decoration: none;
+  text-transform: uppercase;
+
+  /* The window the two faces are clipped to. NO BLOCK PADDING HERE — the host
+     clips at its padding box, so padding would open the window and show both
+     faces at once. See the note on `.swap-host` in globals.css. */
+  --swap-row: var(--header-row);
+  /* THE INCOMING FACE KEEPS THE SAME COLOUR. Globally the second face carries
+     the accent, which was the blue; with headings and accent now two greys a
+     hop apart, a tint on the swap reads as the label fading rather than as a
+     state change. The movement is the whole effect — which is also what the
+     reference does. */
+  --swap-accent: currentcolor;
+}
+
+/* A hairline between the places and the tools. They are different kinds of
+   thing, and a rule says so more quietly than a gap would. */
+.header__rule {
+  inline-size: 1px;
+  block-size: var(--header-row);
+  background-color: var(--color-border-strong);
+}
+
+.header__tools {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 0.25rem + 0.75vw, 1rem);
+}
+
+.header__tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  color: var(--color-fg-heading);
+  font-family: inherit;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.header__tool:hover,
+.header__tool:focus-visible {
+  color: var(--color-accent-strong);
+}
+
+.header__icon {
+  inline-size: var(--header-row);
+  block-size: var(--header-row);
+}
+
+/* The count rides beside the icon rather than on it: at this size a badge
+   pinned to the corner of a 17px glyph is a smudge. */
+.header__count {
+  font-size: var(--text-micro);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* Below `lg` the links come out of the bar. They do not have anywhere to go
+   yet — the menu is out while the concept is rebuilt — so this is the state
+   the site is in, not the state it ships in. See concept-v2.md. */
+@media (width < 64rem) {
+  .header nav,
+  .header__links,
+  .header__rule {
+    display: none;
   }
 }
 
-/* Reveal the desktop links when keyboard focus returns to the scrolled row. */
-.header:has(.header__nav :focus-visible) {
-  inset-block-start: 0;
-}
-
-@media (width < 30rem) {
-  .header {
-    --header-height: 4.5rem;
+@media (width < 26rem) {
+  .header:has(.home-theme) {
+    gap: 0.5rem;
   }
-
-  .header__bar {
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    column-gap: 0.5rem;
-    padding-inline: 0.75rem;
+  .header:has(.home-theme) .header__start {
+    gap: 0.35rem;
   }
-
-  .header__brand {
-    inline-size: clamp(5rem, 20vw, 6rem);
+  .header:has(.home-theme) .wordmark {
+    inline-size: 5rem;
   }
-
-  .header__side--start {
-    flex-wrap: wrap;
-  }
-
-  .header__side--start .locale-switcher {
-    flex-basis: 100%;
-  }
-
-  .header__control,
-  .header .menu-btn {
-    flex-shrink: 0;
-    min-inline-size: 2.25rem;
-    min-block-size: 2.75rem;
-    justify-content: center;
-    padding-inline: 0.25rem;
+  .header:has(.home-theme) .header__tools {
+    gap: 0.4rem;
   }
 }

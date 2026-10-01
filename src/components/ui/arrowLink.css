@@ -1,0 +1,126 @@
+/* ===========================================================================
+   Arrow link — a label, and the arrow in a circle beside it.
+   ---------------------------------------------------------------------------
+   Composition and hover after DevUX-creator/dmytro-design; arrow after
+   fonder.studio. Rebuilt on this project's tokens, and without the GSAP the
+   original uses for its entrance. See ArrowLink.tsx.
+   =========================================================================== */
+
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.75rem;
+  max-inline-size: 100%;
+  gap: 0.6rem;
+  color: var(--color-fg-heading);
+  text-decoration: none;
+
+  --mark-size: 2rem;
+}
+
+/* -- The label ------------------------------------------------------------ */
+
+.arrow-link__label {
+  position: relative;
+  display: inline-block;
+  font-size: var(--text-body-xs);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+/* THE UNDERLINE GROWS FROM THE SIDE IT WILL LEAVE BY. Scaled from the right on
+   the way in and released to the left on the way out, so the line sweeps
+   across rather than opening from the middle — which is the whole character of
+   the original, and the reason this is a `scaleX` on a pseudo-element rather
+   than a `text-decoration` that can only appear and disappear. */
+.arrow-link__label::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: -0.3em;
+  block-size: 1px;
+  background-color: currentcolor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+/* -- The circle ----------------------------------------------------------- */
+
+.arrow-link__mark {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  inline-size: var(--mark-size);
+  block-size: var(--mark-size);
+  border-radius: var(--radius-full);
+  /* Inverted against the page: the mark is the one filled thing in the
+     composition, so it has to carry the page's foreground as its ground. */
+  background-color: var(--color-fg-heading);
+  color: var(--color-bg-base);
+  /* The flip is a rotation in depth, so it needs one. */
+  perspective: 600px;
+  transition: transform var(--duration-slow) var(--ease-quint);
+}
+
+.arrow-link__mark svg {
+  inline-size: 45%;
+  block-size: auto;
+}
+
+.arrow-link--large {
+  --mark-size: 3rem;
+  gap: 1rem;
+}
+.arrow-link--large .arrow-link__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+.arrow-link--glass .arrow-link__mark {
+  border: 1px solid color-mix(in srgb, var(--color-fg-heading) 45%, transparent);
+  background: color-mix(in srgb, var(--color-bg-base) 45%, transparent);
+  color: var(--color-fg-heading);
+  backdrop-filter: blur(10px);
+}
+
+/* -- Hover ----------------------------------------------------------------
+   GATED ON A DEVICE THAT HAS A POINTER. A touch browser leaves `:hover` on
+   whatever was last tapped, which would park a link mid-flip. */
+@media (hover: hover) and (pointer: fine) {
+  .arrow-link:hover .arrow-link__label::after,
+  .arrow-link:focus-visible .arrow-link__label::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* TWO FULL TURNS, AS A TRANSITION RATHER THAN A KEYFRAME. The original runs
+     one animation in and a second one back out, which also fires on first
+     paint — the icon spins once on load before anyone has touched it. A
+     transition has no such moment: it rests at 0, goes to 720 on hover, and
+     unwinds on the way out. */
+  .arrow-link:hover .arrow-link__mark,
+  .arrow-link:focus-visible .arrow-link__mark {
+    transform: rotateY(720deg);
+  }
+}
+
+.arrow-link:focus-visible {
+  outline: 2px solid var(--color-ring);
+  outline-offset: 6px;
+  border-radius: var(--radius-sm);
+}
+
+/* The underline still states the hover; the two turns do not. */
+@media (prefers-reduced-motion: reduce) {
+  .arrow-link__mark,
+  .arrow-link__label::after {
+    transition: none;
+  }
+
+  .arrow-link:hover .arrow-link__mark,
+  .arrow-link:focus-visible .arrow-link__mark {
+    transform: none;
+  }
+}

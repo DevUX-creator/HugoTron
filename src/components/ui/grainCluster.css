@@ -1,0 +1,32 @@
+/* ===========================================================================
+   Grain cluster — grains at the vertices, a ribbon between them.
+   ---------------------------------------------------------------------------
+   See GrainCluster.tsx. Both parts are drawn from `currentColor` so the mark
+   inverts with the theme; only their weights differ.
+   =========================================================================== */
+
+.grain-cluster {
+  display: block;
+  inline-size: 2rem;
+  block-size: 2rem;
+  color: var(--color-fg-heading);
+  /* A stroke scales with the box, so the ribbon keeps its proportion at any
+     size the host chooses. */
+  overflow: visible;
+}
+
+/* THE RIBBON IS THE QUIET PART. In the reference it is a pale band under dark
+   grains; what actually carries across is the RATIO between them, not the two
+   colours — so it is the same ink at a fraction of its strength, and it
+   survives the mark being placed on any ground. */
+.grain-cluster__ribbon {
+  stroke: color-mix(in srgb, currentcolor 26%, transparent);
+  /* Sized against the measured grain (ry 2.7), so the ribbon reads as a band
+     the grains sit ON rather than a line they sit beside. */
+  stroke-width: 5.4;
+  fill: none;
+}
+
+.grain-cluster__grain {
+  fill: currentcolor;
+}

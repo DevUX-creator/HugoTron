@@ -1,0 +1,272 @@
+.world-journey {
+  --world-backdrop: var(--color-world-night);
+  --world-progress: 0;
+  --world-copy-out: 1;
+  --orbit-copy-in: 0;
+  --film-copy: 1;
+  position: relative;
+  isolation: isolate;
+  background: var(--world-backdrop);
+  color: var(--color-fg-primary);
+}
+.world__visual {
+  position: absolute;
+  inset: 0 0 auto;
+  block-size: 100svh;
+  min-block-size: 36rem;
+}
+.world-journey .world {
+  background: transparent;
+  pointer-events: none;
+}
+.world-journey .world__identity,
+.world-journey .world__products {
+  pointer-events: auto;
+}
+.world-journey .world__scene,
+.world-journey .world__poster {
+  inset: 0;
+  block-size: 100%;
+}
+.world-journey[data-status="ready"] .world__scene,
+.world-journey[data-status="loading"] .world__scene {
+  opacity: 1;
+}
+html.js .world-journey:not([data-status="unavailable"]) .world__poster {
+  opacity: 0;
+}
+.world-journey[data-enhanced="true"]::after {
+  content: "";
+  display: block;
+  block-size: var(--world-travel, 165svh);
+}
+.world-journey[data-enhanced="true"] .world__visual {
+  position: sticky;
+  inset-block-start: 0;
+}
+.world-journey[data-enhanced="true"] .world {
+  margin-block-start: calc(-1 * max(100svh, 36rem));
+  opacity: var(--world-copy-out);
+}
+.world-journey[data-enhanced="true"] .world__shade {
+  opacity: calc(1 - var(--world-progress) * 0.8);
+}
+
+.world-orbit {
+  position: relative;
+  pointer-events: none;
+}
+html.js .world-journey[data-status="loading"] .world-orbit {
+  display: none;
+}
+.world-orbit__viewport {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  block-size: 100svh;
+  min-block-size: 36rem;
+  padding: clamp(6rem, 11svh, 9rem) max(3rem, 5vw) 3rem;
+  overflow: clip;
+}
+.world-orbit__poster {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--world-backdrop) url("/models/world/orbit-dark.webp") center / cover;
+}
+.world-orbit__heading {
+  position: relative;
+  align-self: center;
+  inline-size: min(100%, 60rem);
+  margin-block: auto clamp(1.25rem, 3svh, 2.5rem);
+  text-align: center;
+  text-shadow: 0 2px 20px var(--world-backdrop);
+}
+.world-orbit__film-poster {
+  inline-size: min(100%, 36rem);
+  margin: 1rem auto 2rem;
+  overflow: hidden;
+  transform: perspective(80rem) rotateX(-5deg);
+}
+.world-orbit__film-poster img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+  aspect-ratio: 1.6;
+  object-fit: cover;
+}
+.world-orbit__film-controls,
+.world-orbit__film-select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.world-orbit__film-controls {
+  margin-block-start: 1rem;
+  pointer-events: auto;
+}
+.world-orbit__film-button.btn,
+.world-orbit__film-pause.btn {
+  min-block-size: 2.75rem;
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--color-fg-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.world-orbit__film-button[aria-pressed="true"],
+.world-orbit__film-button:hover {
+  color: var(--color-fg-primary);
+}
+.world-orbit__film-button::after {
+  content: "";
+  position: absolute;
+  inset: auto 0.75rem 0.3rem;
+  block-size: 1px;
+  background: currentcolor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 300ms;
+}
+.world-orbit__film-button[aria-pressed="true"]::after {
+  transform: scaleX(1);
+}
+.world-orbit__film-controls .btn__fill {
+  display: none;
+}
+.world-orbit__film-pause.btn {
+  padding: 0.75rem;
+  border-inline-start: 1px solid color-mix(in srgb, var(--color-fg-secondary) 25%, transparent);
+}
+.world-orbit__film-pause svg {
+  display: block;
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+.world-journey[data-enhanced="true"] .world-orbit__film-copy {
+  opacity: var(--film-copy);
+}
+.world-journey[data-enhanced="true"] .world-orbit__film-poster {
+  display: none;
+}
+.world-journey:not([data-enhanced="true"]) .world-orbit__film-pause {
+  display: none;
+}
+.world-orbit__eyebrow,
+.world-orbit__note p {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1.7;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-fg-secondary);
+}
+.world-orbit h2 {
+  margin-block: 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4.2vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+}
+/* The title's two lines; the words inside them are inline (they fall away one by one). */
+.world-orbit h2 > span {
+  display: block;
+}
+.world-orbit h2 > span:last-child {
+  color: var(--color-world-accent);
+}
+.world-orbit__lead {
+  max-inline-size: 42rem;
+  min-block-size: 3.3em;
+  margin-inline: auto;
+  color: var(--color-fg-secondary);
+  font-size: clamp(0.8125rem, 1vw, 0.9375rem);
+  line-height: 1.65;
+  text-wrap: balance;
+}
+.world-orbit__foot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  min-block-size: 6rem;
+  margin-block-end: -3rem;
+}
+.world-orbit__foot button,
+.world-orbit__foot a {
+  pointer-events: auto;
+}
+.world-journey[data-enhanced="true"] .world-orbit {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  visibility: hidden;
+}
+.world-journey[data-enhanced="true"] .world-orbit__viewport {
+  position: sticky;
+  inset-block-start: 0;
+}
+.world-journey[data-enhanced="true"] .world-orbit__poster {
+  display: none;
+}
+.world-journey[data-enhanced="true"] .world-orbit__heading,
+.world-journey[data-enhanced="true"] .world-orbit__foot {
+  opacity: var(--orbit-copy-in);
+}
+.world-journey[data-enhanced="true"] .world-orbit__heading {
+  transform: translateY(calc((1 - var(--orbit-copy-in)) * 2rem));
+  filter: blur(calc((1 - var(--orbit-copy-in)) * 5px));
+}
+.world-journey[data-orbit-visible="true"] .world-orbit {
+  visibility: visible;
+}
+
+@media (width < 48rem) {
+  .world-orbit__poster {
+    background-image: url("/models/world/orbit-dark-mobile.webp");
+  }
+  .world-orbit__viewport {
+    padding: 6.5rem 2rem 3rem;
+  }
+  .world-orbit h2 {
+    font-size: clamp(1.7rem, 7vw, 2.8rem);
+  }
+  .world-orbit__foot {
+    gap: 1rem;
+  }
+  .world-orbit__note p {
+    max-inline-size: 15ch;
+    font-size: 0.5625rem;
+  }
+  .world-orbit__foot .arrow-link {
+    font-size: 0.75rem;
+  }
+  .world-orbit__film-controls,
+  .world-orbit__film-select {
+    gap: 0;
+  }
+  .world-orbit__film-button.btn {
+    padding-inline: 0.5rem;
+    font-size: 0.5625rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .world-orbit__film-pause {
+    display: none;
+  }
+  .world-journey[data-enhanced="true"] .world-orbit__heading {
+    transform: none;
+    filter: none;
+  }
+}

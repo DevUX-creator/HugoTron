@@ -1,0 +1,85 @@
+html[data-home-theme="dark"] {
+  --color-bg-base: var(--color-stage-deep);
+  --color-bg-surface: var(--color-stage-surface);
+  --color-bg-muted: var(--color-stage-muted);
+  --color-home-claim-accent: var(--color-grain-light);
+}
+
+html[data-home-theme="light"] {
+  --color-home-claim: var(--color-claim-black);
+  --color-home-claim-accent: var(--color-grain-dark);
+  --color-bg-base: var(--color-paper-100);
+  --color-bg-surface: var(--color-paper-50);
+  --color-bg-muted: var(--color-paper-200);
+  --color-fg-primary: var(--color-ink-800);
+  --color-fg-secondary: var(--color-ink-600);
+  --color-fg-tertiary: var(--color-ink-600);
+  --color-fg-heading: var(--color-ink-900);
+  --color-accent-strong: var(--color-ink-700);
+  --color-border: var(--color-paper-300);
+  --color-border-strong: var(--color-paper-400);
+  --color-ring: var(--color-ink-700);
+  color-scheme: light;
+}
+
+html[data-home-theme="light"] body::before {
+  opacity: 0.13;
+}
+
+.home-theme {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  padding-inline-start: 0.7rem;
+  border-inline-start: 1px solid var(--color-border-strong);
+}
+.home-theme__swatch {
+  position: relative;
+  inline-size: 28px;
+  block-size: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+}
+.home-theme__swatch::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  inline-size: 12px;
+  block-size: 12px;
+  transform: translate(-50%, -50%);
+  border: 1px solid color-mix(in srgb, var(--color-fg-primary) 30%, transparent);
+  border-radius: inherit;
+  background: var(--color-paper-100);
+}
+.home-theme__swatch--dark::after {
+  background: var(--color-ink-900);
+}
+.home-theme__swatch[aria-pressed="true"]::before {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  inline-size: 22px;
+  block-size: 22px;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--color-fg-secondary);
+  border-radius: inherit;
+}
+
+@media (pointer: coarse) {
+  .home-theme__swatch {
+    inline-size: 32px;
+    block-size: 44px;
+  }
+}
+
+@media (width < 26rem) {
+  .home-theme {
+    padding-inline-start: 0.3rem;
+  }
+  .home-theme__swatch {
+    inline-size: 28px;
+  }
+}

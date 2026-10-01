@@ -8,22 +8,28 @@
    =========================================================================== */
 
 .section-block--inverse {
-  --color-bg-base: var(--color-harbor-800);
-  --color-bg-surface: var(--color-harbor-700);
-  --color-bg-muted: var(--color-harbor-900);
+  /* INVERSE NOW MEANS LIGHT. The site's own ground is dark (concept v2), and
+     this class has always meant "the other one" rather than "the dark one" —
+     so it flips to paper. The mechanism is unchanged: re-point the semantic
+     aliases and every child rule follows without being touched. */
+  --section-tag-color: var(--color-accent-strong);
+  --color-bg-base: var(--color-paper-50);
+  --color-bg-surface: var(--color-paper-100);
+  --color-bg-muted: var(--color-paper-200);
 
-  --color-fg-primary: var(--color-paper-50);
-  --color-fg-secondary: var(--color-harbor-100);
-  --color-fg-tertiary: var(--color-harbor-200);
-  --color-fg-heading: var(--color-paper-50);
+  --color-fg-primary: var(--color-ink-900);
+  --color-fg-secondary: var(--color-ink-700);
+  --color-fg-tertiary: var(--color-ink-600);
+  --color-fg-heading: var(--color-ink-900);
 
-  --color-border: var(--color-harbor-700);
-  --color-border-strong: var(--color-harbor-600);
-  --color-ring: var(--color-accent);
+  --color-border: var(--color-paper-200);
+  --color-border-strong: var(--color-paper-300);
+  --color-ring: var(--color-ink-900);
 
-  /* Buttons lighten on this ground rather than darkening — see button.css. */
-  --color-btn-hover: var(--color-paper-50);
-  --color-btn-hover-ink: var(--color-harbor-800);
+  /* Buttons darken on this ground rather than lightening — the reverse of
+     what they do on the page's own dark ground. See button.css. */
+  --color-btn-hover: var(--color-ink-900);
+  --color-btn-hover-ink: var(--color-paper-50);
 
   background-color: var(--color-bg-base);
   color: var(--color-fg-primary);
@@ -35,4 +41,8 @@
 
 .section-block--muted {
   background-color: var(--color-bg-muted);
+}
+
+.section-block--compact-start {
+  padding-block-start: calc(var(--gap-section) * 0.65);
 }

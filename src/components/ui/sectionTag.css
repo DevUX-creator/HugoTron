@@ -1,0 +1,7 @@
+.section-tag {
+  align-self: start;
+}
+
+.section-tag .tag {
+  color: var(--section-tag-color, var(--color-accent-strong));
+}
