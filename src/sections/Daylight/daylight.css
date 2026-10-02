@@ -17,6 +17,7 @@ html[data-world-paper],
   --runway: 170svh;
   position: relative;
   color: var(--color-world-paper-ink);
+  overflow-anchor: none;
 }
 .daylight__fill {
   position: fixed;

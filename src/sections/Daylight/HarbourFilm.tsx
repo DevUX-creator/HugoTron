@@ -15,10 +15,25 @@ export default function HarbourFilm({ ink }: { ink: string }) {
     const media = video.current;
     const group = media?.closest<HTMLElement>("[data-story-group]");
     if (!media || !group) return;
+    let cancelled = false;
+    let pending = false;
+    const shouldPlay = () =>
+      !cancelled && group.dataset.active === "true" && !document.hidden && !reduced;
     const sync = () => {
-      if (group.dataset.active === "true" && !document.hidden && !reduced) {
+      if (shouldPlay()) {
         if (!media.getAttribute("src")) media.src = "/videos/paper-hamburg.mp4";
-        if (media.paused) void media.play().catch(() => {});
+        if (media.paused && !pending) {
+          pending = true;
+          void media.play().then(
+            () => {
+              pending = false;
+              if (!shouldPlay()) media.pause();
+            },
+            () => {
+              pending = false;
+            },
+          );
+        }
       } else media.pause();
     };
     const observer = new MutationObserver(sync);
@@ -26,6 +41,7 @@ export default function HarbourFilm({ ink }: { ink: string }) {
     document.addEventListener("visibilitychange", sync);
     sync();
     return () => {
+      cancelled = true;
       observer.disconnect();
       document.removeEventListener("visibilitychange", sync);
       media.pause();

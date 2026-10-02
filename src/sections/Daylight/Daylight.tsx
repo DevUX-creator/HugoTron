@@ -28,7 +28,9 @@ export default function Daylight() {
       frame = 0;
       const enhanced = !reduced && journey?.dataset.enhanced === "true";
       wrapper.dataset.enhanced = String(enhanced);
-      const height = window.innerHeight;
+      // The runway uses svh. Mobile browser chrome changes innerHeight mid-gesture;
+      // mixing the two made the paper jump when the toolbar returned on reverse scroll.
+      const height = enhanced ? element.clientHeight / RUNWAY : window.innerHeight;
       const top = element.getBoundingClientRect().top;
       const progress = enhanced
         ? clamp((height - top) / (height * RUNWAY))

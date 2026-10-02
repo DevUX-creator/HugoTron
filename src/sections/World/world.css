@@ -113,6 +113,10 @@ html.js .world:not([data-status="unavailable"]) .world__poster {
 .world__cta {
   pointer-events: auto;
 }
+.world__mobile-action.arrow-link,
+.world__switcher {
+  display: none;
+}
 .world__eyebrow {
   margin-block-end: 1.5rem;
   color: var(--color-fg-secondary);
@@ -351,13 +355,16 @@ html.js .world[data-status="ready"] .world__categories {
   position: absolute;
   z-index: 2;
   inset: 6rem max(3rem, 5vw) auto auto;
+  inline-size: 17rem;
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+.world__loading-progress {
+  position: relative;
   display: flex;
   justify-content: space-between;
   gap: 2rem;
-  inline-size: 17rem;
   padding-block-end: 0.5rem;
-  pointer-events: none;
-  transition: opacity 0.5s;
 }
 .world__loading i {
   position: absolute;
@@ -404,12 +411,13 @@ html:not(.js) .world__loading {
 
 @media (width < 48rem) {
   .world__identity {
-    inset: 6.5rem auto auto 2.5rem;
+    inset: calc(var(--header-inset-block) + var(--header-row) + 3rem) auto auto 2.5rem;
   }
   .world {
-    min-block-size: 64rem;
-    block-size: auto;
-    padding: 11.5rem 2.5rem 8rem;
+    --world-content-bottom: 7rem;
+    min-block-size: 36rem;
+    block-size: 100svh;
+    padding: 0;
   }
   .world__scene,
   .world__poster {
@@ -426,41 +434,94 @@ html:not(.js) .world__loading {
     );
   }
   .world__intro {
-    position: relative;
-    inset: auto;
-    inline-size: 100%;
-    max-inline-size: 28rem;
-    gap: 1.5rem;
+    position: absolute;
+    inset: calc(var(--header-inset-block) + var(--header-row) + 8.5rem) 2.5rem
+      var(--world-content-bottom);
+    inline-size: auto;
+    max-inline-size: none;
+    display: block;
+  }
+  .world__cta {
+    position: absolute;
+    inset: auto auto 0 0;
+    max-inline-size: calc(100% - 6.5rem);
+  }
+  .world__desktop-action,
+  .world__categories {
+    display: none;
+  }
+  .world__mobile-action.arrow-link {
+    --mark-size: 2rem;
+    display: inline-flex;
+    gap: 0.625rem;
+    padding: 0.5rem 0;
+    min-block-size: 2.75rem;
+    font-size: 0.75rem;
+  }
+  .world__mobile-action .arrow-link__label {
+    white-space: normal;
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+  }
+  .world__switcher {
+    display: flex;
+    gap: 0.25rem;
+  }
+  .world__switcher .btn {
+    inline-size: 2.75rem;
+    min-block-size: 2.75rem;
+    padding: 0.75rem;
+    border-color: color-mix(in srgb, currentcolor 28%, transparent);
+    background: color-mix(in srgb, var(--world-backdrop) 35%, transparent);
+    backdrop-filter: blur(8px);
+  }
+  .world__switcher svg {
+    display: block;
+    inline-size: 1rem;
+    block-size: 0.75rem;
+  }
+  .world__previous {
+    rotate: 180deg;
   }
   .world__eyebrow {
     margin-block-end: 1rem;
     font-size: 0.625rem;
   }
   .world__title {
-    font-size: clamp(1.5rem, 6.9vw, 3rem);
+    font-size: clamp(1.35rem, 6.3vw, 3rem);
   }
   .world__lead {
-    position: relative;
-    inset: auto;
-    inline-size: 100%;
-    margin-block: 18rem 1.5rem;
+    display: none;
   }
   .world__products {
-    position: relative;
-    inset: auto;
-    inline-size: 100%;
-  }
-  .world__categories button {
-    font-size: 0.875rem;
-    min-block-size: 3rem;
+    position: absolute;
+    inset: auto 2.5rem var(--world-content-bottom) auto;
+    inline-size: auto;
   }
   .world__footer > :last-child {
     max-inline-size: 20ch;
     text-align: end;
   }
   .world__loading {
-    inset: 5rem 2.5rem auto auto;
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    inline-size: auto;
+    display: grid;
+    place-items: center;
+    background: var(--world-backdrop);
     font-size: 0.625rem;
+  }
+  .world__loading-progress {
+    inline-size: min(17rem, calc(100vw - 5rem));
+  }
+  html.js .world[data-status="loading"] .world__loading {
+    pointer-events: auto;
+    touch-action: none;
+  }
+  html[data-world-loading],
+  html[data-world-loading] body {
+    overflow: hidden;
   }
   .world__footer {
     font-size: 0.5625rem;

@@ -45,6 +45,7 @@ export function useStory(root: RefObject<HTMLElement | null>) {
     const paths = element.querySelectorAll<SVGPathElement>(".story__line path");
     const fill = element.querySelector<SVGRectElement>(".story__line-fill");
     const packs = Array.from(element.querySelectorAll<HTMLElement>(".paper-pack"));
+    const visuals = element.querySelector<HTMLElement>(".story__visuals");
     let storyHeight = 0;
     let inView = false;
     let frame = 0;
@@ -58,7 +59,9 @@ export function useStory(root: RefObject<HTMLElement | null>) {
       if (!svg) return;
       const box = element.getBoundingClientRect();
       const width = box.width;
-      const height = element.scrollHeight;
+      // scrollHeight includes this absolute SVG. After a smaller viewport it
+      // retained its old height, leaving an empty screen beyond the footer.
+      const height = element.clientHeight;
       storyHeight = height;
       svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
       svg.style.blockSize = `${height}px`;
@@ -84,7 +87,7 @@ export function useStory(root: RefObject<HTMLElement | null>) {
       if (document.hidden) return;
       if (dirty) {
         dirty = false;
-        const height = innerHeight;
+        const height = visuals?.clientHeight || innerHeight;
         const rootBox = element.getBoundingClientRect();
         inView = rootBox.top < height && rootBox.bottom > 0;
         for (const chapter of chapters) {

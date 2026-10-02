@@ -13,7 +13,8 @@ void main() {
 
 /* The light rises from the bottom; fbm noise breaks its edge into a crisp, torn front. */
 const FRAGMENT = `
-precision mediump float;
+// Pixel-space paper noise exceeds the 16-bit mediump range on mobile GPUs.
+precision highp float;
 uniform float uProgress;
 uniform vec2 uResolution;
 uniform vec3 uColor;
@@ -66,8 +67,8 @@ export function useToneFill(colorVar: string) {
       antialias: false,
       premultipliedAlpha: false,
     });
-    // A failed context still has a simple rising paper wipe and readable chapters.
-    if (!gl) {
+    // A failed context/program still has a rising paper wipe and readable chapters.
+    const fallback = () => {
       element.style.backgroundColor = `var(${colorVar})`;
       draw.current = (progress) => {
         host.dataset.active = String(progress > 0);
@@ -77,7 +78,8 @@ export function useToneFill(colorVar: string) {
         draw.current = () => {};
         element.remove();
       };
-    }
+    };
+    if (!gl) return fallback();
     const compile = (type: number, source: string) => {
       const shader = gl.createShader(type)!;
       gl.shaderSource(shader, source);
@@ -92,6 +94,11 @@ export function useToneFill(colorVar: string) {
     gl.linkProgram(program);
     gl.deleteShader(vertex);
     gl.deleteShader(fragment);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      gl.deleteProgram(program);
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
+      return fallback();
+    }
     gl.useProgram(program);
     const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);

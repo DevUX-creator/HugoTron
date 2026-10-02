@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import ArrowLink from "@/components/ui/ArrowLink";
+import ArrowIcon from "@/components/ui/ArrowIcon";
+import Button from "@/components/ui/Button";
 import { getCategories, getCategory, isSellable } from "@/lib/catalogue";
 import { useHomeTheme } from "@/components/rice/HomeTheme";
 import { useReducedMotion } from "@/lib/useReducedMotion";
@@ -51,6 +53,31 @@ export default function World() {
   const category = shown ? getCategory(shown) : undefined;
   // A chosen type and pack size survive previewing other categories.
   const [choices, setChoices] = useState<Partial<Record<SpecimenId, ProductChoice>>>({});
+
+  const switchProduct = (direction: number) => {
+    setPreview(null);
+    setSelected((current) => {
+      // Include the brand cube so visitors can return to the entrance.
+      const index = current ? LISTED_CATEGORIES.findIndex((item) => item.id === current) + 1 : 0;
+      const next =
+        (index + direction + LISTED_CATEGORIES.length + 1) % (LISTED_CATEGORIES.length + 1);
+      return next === 0 ? null : LISTED_CATEGORIES[next - 1]!.id;
+    });
+  };
+
+  useEffect(() => {
+    if (status !== "loading") return;
+    const mobile = matchMedia("(width < 48rem)");
+    const sync = () => {
+      document.documentElement.toggleAttribute("data-world-loading", mobile.matches);
+    };
+    sync();
+    mobile.addEventListener("change", sync);
+    return () => {
+      mobile.removeEventListener("change", sync);
+      document.documentElement.removeAttribute("data-world-loading");
+    };
+  }, [status]);
 
   // Daylight's hand-off reaches the scene: hotter lines, blur, grain and the falling sheet.
   useEffect(() => worldHandoff.subscribe((value) => scene.current?.setLeave(value)), []);
@@ -183,20 +210,31 @@ export default function World() {
             </span>
           </h1>
           <div className="world__cta world__reveal">
-            {category ? (
-              <WorldPurchase
-                key={category.id}
-                category={category}
-                choice={choices[category.id]}
-                onChoose={(choice) =>
-                  setChoices((current) => ({ ...current, [category.id]: choice }))
-                }
-              />
-            ) : (
-              <ArrowLink href="/range" prefetch={false} size="large" variant="glass">
-                {t("viewProducts")}
-              </ArrowLink>
-            )}
+            <div className="world__desktop-action">
+              {category ? (
+                <WorldPurchase
+                  key={category.id}
+                  category={category}
+                  choice={choices[category.id]}
+                  onChoose={(choice) =>
+                    setChoices((current) => ({ ...current, [category.id]: choice }))
+                  }
+                />
+              ) : (
+                <ArrowLink href="/range" prefetch={false} size="large" variant="glass">
+                  {t("viewProducts")}
+                </ArrowLink>
+              )}
+            </div>
+            <ArrowLink
+              href="/range"
+              prefetch={false}
+              size="large"
+              variant="glass"
+              className="world__mobile-action"
+            >
+              {t("viewProducts")}
+            </ArrowLink>
           </div>
         </div>
         <p className="world__lead world__reveal" aria-live="polite">
@@ -238,15 +276,35 @@ export default function World() {
               ))}
             </ul>
           </nav>
+          <nav className="world__switcher world__reveal" aria-label={t("categoriesLabel")}>
+            {([-1, 1] as const).map((direction) => (
+              <Button
+                key={direction}
+                variant="outline"
+                showArrow={false}
+                aria-label={t(direction === -1 ? "previousProduct" : "nextProduct")}
+                aria-controls="world-title"
+                onClick={() => switchProduct(direction)}
+              >
+                <ArrowIcon className={direction === -1 ? "world__previous" : ""} />
+              </Button>
+            ))}
+          </nav>
         </div>
-        <div className="world__loading" role="status" aria-live="polite">
-          <span>
-            {status === "loading" ? t("loading") : status === "ready" ? t("ready") : t("fallback")}
-          </span>
-          {status === "loading" && (
-            <span aria-hidden="true">{progress.toString().padStart(2, "0")}%</span>
-          )}
-          {status === "loading" && <i style={{ transform: `scaleX(${progress / 100})` }} />}
+        <div className="world__loading" role="status" aria-live="polite" data-lenis-prevent>
+          <div className="world__loading-progress">
+            <span>
+              {status === "loading"
+                ? t("loading")
+                : status === "ready"
+                  ? t("ready")
+                  : t("fallback")}
+            </span>
+            {status === "loading" && (
+              <span aria-hidden="true">{progress.toString().padStart(2, "0")}%</span>
+            )}
+            {status === "loading" && <i style={{ transform: `scaleX(${progress / 100})` }} />}
+          </div>
         </div>
         <footer className="world__footer">
           <p>{t("distribution")}</p>

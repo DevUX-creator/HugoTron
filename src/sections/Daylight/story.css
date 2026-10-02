@@ -197,7 +197,7 @@
   z-index: 1;
   inline-size: 100%;
   pointer-events: none;
-  overflow: visible;
+  overflow: hidden;
 }
 /* -- Chapters and their scrolling text -------------------------------------- */
 
@@ -615,6 +615,7 @@ html:not(.js) .story__line {
   scroll-snap-type: x proximity;
   scrollbar-width: none;
   overscroll-behavior-x: contain;
+  touch-action: pan-x pan-y;
   cursor: grab;
 }
 .paper-story .paper-range__rail::-webkit-scrollbar {
@@ -941,7 +942,7 @@ html.js .paper-buying__path .buying-sketch {
     order: 2;
     inset: auto;
     inline-size: calc(100% + 5rem);
-    block-size: 24rem;
+    block-size: clamp(24rem, 60svh, 36rem);
     margin-inline: -2.5rem;
   }
   .paper-story .paper-contact__info {

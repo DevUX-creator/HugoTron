@@ -108,9 +108,15 @@ try {
   assert.equal(await page.evaluate(() => document.documentElement.dataset.homeTheme), "dark");
   await page.locator(".paper-range .add-to-cart--bar").first().click();
   assert.equal(await page.locator(".header__count").textContent(), "1");
-  await page.locator(".paper-label .arrow-link").click();
+  // The temporary preview gate blocks subpage clicks. Use the installed Next
+  // debug router to keep testing SPA cleanup and the destination content.
+  await page
+    .locator(".paper-label .arrow-link")
+    .evaluate((a) => window.next.router.push(a.getAttribute("href")));
   await page.waitForURL("**/en/private-label");
-  await page.locator(".private-label-page .arrow-link").click();
+  await page
+    .locator(".private-label-page .arrow-link")
+    .evaluate((a) => window.next.router.push(a.getAttribute("href")));
   await page.waitForURL("**/en/enquiry?purpose=label");
   assert.equal(await page.locator('input[name="purpose"][value="label"]').isChecked(), true);
   await context.close();

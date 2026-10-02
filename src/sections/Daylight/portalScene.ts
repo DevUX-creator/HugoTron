@@ -52,6 +52,7 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
   const paperCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
   const paperUniforms = {
     uProgress: { value: 0 },
+    uMobile: { value: 0 },
     uTime: { value: 0 },
     uResolution: { value: new THREE.Vector2(1, 1) },
     uColor: {
@@ -71,7 +72,7 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
       void main() { vUv = uv; gl_Position = vec4(position.xy, 0.0, 1.0); }
     `,
     fragmentShader: `
-      uniform float uProgress, uTime;
+      uniform float uProgress, uTime, uMobile;
       uniform vec2 uResolution;
       uniform vec3 uColor;
       varying vec2 vUv;
@@ -90,6 +91,9 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
         // rectangular canvas edge cutting through the composition.
         edge = max(edge, 0.016 + fbm(vec2(vUv.x * 12.0, 4.1)) * 0.035 - vUv.y);
         edge = max(edge, 0.007 + fbm(vec2(vUv.x * 14.0, 9.2)) * 0.027 - (1.0 - vUv.y));
+        // On a phone the opening continues across the entire width. Desktop
+        // keeps its diagonal composition beside the contact copy.
+        edge -= uMobile * smoothstep(0.25, 1.0, uProgress) * 1.25;
         float pixel = 1.0 / uResolution.y;
         vec2 paper = vUv * uResolution;
         float grain = hash(paper) - 0.5;
@@ -134,6 +138,7 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
     camera.updateProjectionMatrix();
     depth.setSize(renderer.domElement.width, renderer.domElement.height);
     paperUniforms.uResolution.value.set(renderer.domElement.width, renderer.domElement.height);
+    paperUniforms.uMobile.value = innerWidth < 768 ? 1 : 0;
     sculpture.uniforms.resolution.value.set(renderer.domElement.width, renderer.domElement.height);
     sculpture.uniforms.nearClip.value = camera.near;
     sculpture.uniforms.farClip.value = camera.far;

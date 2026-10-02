@@ -131,6 +131,7 @@ export default function PaperProductRail() {
         ref={rail}
         id={id}
         className="paper-range__rail"
+        data-lenis-prevent-touch
         role="region"
         aria-label={t("railLabel")}
         tabIndex={0}

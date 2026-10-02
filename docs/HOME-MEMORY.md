@@ -1,4 +1,78 @@
-# Home memory check — 2026-10-01
+# Home memory check — 2026-10-02
+
+## Current whole-home profile
+
+Production Chromium checks on macOS covered desktop (1512 × 982, DPR 2) and
+mobile emulation (390 × 844, DPR 3). Each spent 30 seconds on the hero, final
+3D film, Hamburg engraving, range engraving and footer, then checked offscreen
+and hidden-tab pauses and three SPA trips to the catalogue and back.
+
+Live JavaScript heap after explicit garbage collection, in MiB:
+
+| Stage                      | Desktop samples       | Mobile emulation samples |
+| -------------------------- | --------------------- | ------------------------ |
+| Hero                       | 10.33 → 10.64 → 10.64 | 9.85 → 10.24 → 10.26     |
+| Final 3D film              | 10.82 → 10.99 → 10.96 | 10.50 → 10.62 → 10.61    |
+| Hamburg film               | 11.68 → 11.69 → 11.70 | 11.35 → 11.35 → 11.36    |
+| Range film                 | 11.73 → 11.73 → 11.74 | 11.38 → 11.39 → 11.39    |
+| Footer                     | 12.17 → 12.42 → 12.42 | 11.81 → 12.06 → 12.56    |
+| Static paper, after footer | 12.35 → 12.35         | 12.01 → 12.01            |
+
+The mobile footer's higher last sample returned to 12.01 MiB in the next paper
+chapter. GPU texture, buffer and program counts stayed constant during each
+dwell. Initial loading now creates two WebGL contexts; the two engraved films
+and footer create theirs only when approached, for at most five. Only the
+visible scene or film renders. All five stop drawing when offscreen or hidden;
+audio suspends when hidden. Leaving home releases all home contexts and video
+sources. No duplicate pending animation callbacks were found.
+
+After three return visits, live heap was 12.07 / 12.55 / 12.59 MiB on desktop
+and 11.88 / 12.21 / 12.40 MiB on mobile emulation. Router and module warm-up
+retain some memory, but old scenes and video sources were released each time.
+These finite checks did not find continuing scene-resource accumulation.
+
+Changes in this review:
+
+- Engraving contexts are created only when a visible video has a decoded frame.
+- Video effects use `requestVideoFrameCallback` instead of uploading the same
+  frame on every display refresh. A decoded-frame check supports older engines.
+  Hamburg uploads fell from about 60/s to 23/s; range uploads now run about 29/s.
+  Existing texture storage is updated with `texSubImage2D`.
+- Playback and rendering stop on pause, visibility changes and unmount. A late
+  Hamburg `play()` promise cannot restart an offscreen video.
+- Mobile loading covers the first scene until model, textures and shader
+  compilation finish, with the existing 20-second fallback. Sound still follows
+  browser autoplay/gesture rules; later films and the footer remain lazy.
+- The paper line measures normal layout height, not its own scroll overflow.
+  Repeated viewport shrinking previously retained about 650 px below the footer.
+- Paper scroll progress uses the same small-viewport height as its CSS runway.
+  The paper shader uses high precision to avoid mobile pixel-noise overflow,
+  and falls back to a plain wipe if compilation fails.
+
+This is **live JS heap, not total tab RAM or GPU memory**. Browser buffers,
+decoded images/video, graphics targets and caches add to the real footprint.
+Active 3D remains GPU work. Mobile emulation and WebKit on macOS do not establish
+frame rate, thermal behaviour or memory limits on physical iOS/Android phones.
+
+Reproduce against a production preview:
+
+```sh
+pnpm build
+pnpm exec next start --hostname localhost --port 3213
+# In separate terminals after the preview is ready:
+node scripts/profile-home-resources.mjs http://localhost:3213 30
+node scripts/profile-home-resources.mjs http://localhost:3213 30 mobile
+node scripts/check-mobile-home.mjs http://localhost:3213
+node scripts/check-mobile-home.mjs http://localhost:3213 webkit
+```
+
+Resource reports are written to `/tmp/hugo-home-resources-{desktop,mobile}.json`.
+The mobile regression covers loading, hero/category controls, an actual Chromium
+touch swipe, reversible paper handoff, toolbar/viewport changes, the page ending,
+full-width footer, and the narrower German layout. WebKit covers the same layout
+and rendering path; automated native touch swiping is tested through Chromium CDP.
+
+## Earlier scene lifecycle review — 2026-10-01
 
 The production home was profiled in Chromium on macOS at 1512 × 982, device
 scale factor 2 (the scene caps rendering at 1.5). Measurements covered an idle

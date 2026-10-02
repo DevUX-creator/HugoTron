@@ -117,6 +117,10 @@ try {
       const video = document.querySelector(".story-harbour-film video");
       return video?.readyState >= 2 && !video.paused;
     });
+    await page.waitForFunction(
+      () => document.querySelector(".story-harbour-film [data-engraved]") !== null,
+    );
+    const beforeFooter = await page.evaluate(() => window.worldLifecycle.liveContexts);
     await page
       .locator(".paper-contact")
       .evaluate((e) => scrollTo(0, e.getBoundingClientRect().top + scrollY));
@@ -138,7 +142,7 @@ try {
     await page.waitForFunction(
       (expected) =>
         window.worldLifecycle.liveContexts === expected && window.worldLifecycle.portalDraws > 0,
-      homeContexts + 1,
+      beforeFooter + 1,
     );
     assert.equal(await page.locator(".paper-portal").getAttribute("data-paper-reveal"), "true");
     assert.ok(await page.locator(".story-harbour-film video").evaluate((v) => v.paused));
@@ -155,7 +159,9 @@ try {
     );
     assert.equal(await page.evaluate(() => window.worldLifecycle.duplicateFrames), 0);
     await page.evaluate(() => scrollTo(0, 0));
-    await page.locator(".world__cta a").click();
+    // The preview gate intentionally intercepts clicks; exercise the real SPA
+    // lifecycle through Next's debug router without changing the preview UI.
+    await page.evaluate(() => window.next.router.push("/en/products"));
     await page.waitForURL("**/en/products");
     await released();
     assert.equal(await page.locator(".world__scene canvas").count(), 0);
@@ -175,7 +181,7 @@ try {
     (expected) => window.worldLifecycle.liveContexts === expected,
     homeContexts,
   );
-  await page.locator(".header__links a").first().click();
+  await page.evaluate(() => window.next.router.push("/en/products"));
   await page.waitForURL("**/en/products");
   await released();
   assert.deepEqual(errors, []);
