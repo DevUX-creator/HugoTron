@@ -20,7 +20,7 @@ export default function PaperContact() {
     <footer
       className="paper-contact"
       data-story-chapter="contact"
-      data-line="85,0.02;58,0.3"
+      data-line="85,0.02;78,0.18;94,0.5;95,0.8;88,1.03"
       id="contact"
       aria-labelledby="paper-contact-title"
     >

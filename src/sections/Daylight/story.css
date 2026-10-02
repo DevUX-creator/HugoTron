@@ -388,11 +388,6 @@ html:not(.js) .story__line {
   justify-items: center;
   gap: 2.5rem;
 }
-.paper-story .paper-range,
-.paper-story .paper-contact {
-  z-index: 2;
-}
-
 /* The same ink language, with room to walk through each composition. */
 .story__group[data-active="true"] {
   visibility: visible;
@@ -552,6 +547,7 @@ html:not(.js) .story__line {
 
 /* A celestial chart reconnects the products to the opening World, in paper and ink. */
 .paper-story .paper-range {
+  z-index: 2;
   isolation: isolate;
   --rail-gutter: max(3rem, 8vw);
 }
@@ -657,6 +653,9 @@ html:not(.js) .story__line {
 
 /* A fibrous opening grows inward from the right edge over the stationary World scene. */
 .paper-story .paper-contact {
+  /* Let the route pass over the portal's paper mask, not disappear at its
+     rectangular canvas edge. Footer waypoints keep it beside the copy. */
+  z-index: 0;
   min-block-size: auto;
   padding-block: calc(var(--home-vh, 1svh) * 6) 8rem;
 }

@@ -111,12 +111,24 @@ export function useStory(root: RefObject<HTMLElement | null>) {
           );
         }
         // A continuous spatial clip has no sampled arc-length steps or trailing dot.
+        // In the final viewport the ink catches up to the page edge, rather
+        // than stopping at the usual reading level above the footer's bottom.
+        const remaining = Math.max(0, rootBox.bottom - innerHeight);
+        const finish = clamp(1 - remaining / height);
+        const easeFinish = finish * finish * (3 - 2 * finish);
+        const readingPosition = height * INK_LEVEL - rootBox.top;
         fill?.setAttribute(
           "height",
           String(
             reduced
               ? storyHeight
-              : Math.max(0, Math.min(storyHeight, height * INK_LEVEL - rootBox.top)),
+              : Math.max(
+                  0,
+                  Math.min(
+                    storyHeight,
+                    readingPosition + (storyHeight - readingPosition) * easeFinish,
+                  ),
+                ),
           ),
         );
       }
@@ -154,6 +166,7 @@ export function useStory(root: RefObject<HTMLElement | null>) {
     layout();
     update();
     window.addEventListener("scroll", scroll, { passive: true });
+    window.addEventListener("resize", scroll);
     document.addEventListener("visibilitychange", scroll);
     window.addEventListener("pointermove", move, { passive: true });
     document.documentElement.addEventListener("pointerleave", leave);
@@ -161,6 +174,7 @@ export function useStory(root: RefObject<HTMLElement | null>) {
       cancelAnimationFrame(frame);
       observer.disconnect();
       window.removeEventListener("scroll", scroll);
+      window.removeEventListener("resize", scroll);
       document.removeEventListener("visibilitychange", scroll);
       window.removeEventListener("pointermove", move);
       document.documentElement.removeEventListener("pointerleave", leave);

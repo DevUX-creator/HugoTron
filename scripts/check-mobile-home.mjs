@@ -123,6 +123,7 @@ try {
     await page.waitForTimeout(100);
     if (index === 0) {
       const purchase = page.locator(".world__purchase");
+      assert.equal(await purchase.locator(".world__explore").isVisible(), false);
       await purchase.getByRole("button", { name: "5 kg", exact: true }).click();
       await purchase.getByRole("button", { name: /Increase quantity/i }).click();
       await purchase.locator(".add-to-cart--link").click();
@@ -220,6 +221,16 @@ try {
         (document.querySelector(".paper-contact").getBoundingClientRect().bottom + scrollY),
     );
     assert.ok(Math.abs(excess) <= 2, `No empty document tail after resize (${height}): ${excess}`);
+    const line = await page.evaluate(() => {
+      const path = document.querySelector(".story__line-ink");
+      return {
+        end: path.getPointAtLength(path.getTotalLength()).y,
+        height: document.querySelector(".paper-story").clientHeight,
+        ink: Number(document.querySelector(".story__line-fill").getAttribute("height")),
+      };
+    });
+    assert.ok(line.end > line.height, "Story line continues through the bottom edge");
+    assert.ok(Math.abs(line.ink - line.height) < 1, "Blue ink reaches the end of the page");
   }
   await page.setViewportSize({ width: 390, height: 844 });
   await page.waitForTimeout(350);

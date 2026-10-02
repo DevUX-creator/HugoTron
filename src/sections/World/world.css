@@ -483,8 +483,7 @@ html:not(.js) .world__loading {
     min-inline-size: 1rem;
   }
   .world__explore {
-    min-block-size: 1.75rem;
-    font-size: 0.75rem;
+    display: none;
   }
   .world__switcher {
     display: flex;
