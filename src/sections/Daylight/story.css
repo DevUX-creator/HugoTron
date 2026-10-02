@@ -335,6 +335,9 @@ html:not(.js) .story__line {
 }
 
 @media (width < 48rem) {
+  .story__line {
+    display: none;
+  }
   .story-chapter {
     min-block-size: calc(var(--home-vh, 1svh) * 170);
     padding-inline: 2.5rem;
