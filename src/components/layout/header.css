@@ -151,9 +151,7 @@
   line-height: 1;
 }
 
-/* Below `lg` the links come out of the bar. They do not have anywhere to go
-   yet — the menu is out while the concept is rebuilt — so this is the state
-   the site is in, not the state it ships in. See concept-v2.md. */
+/* The drawer carries navigation and language controls on narrow screens. */
 @media (width < 64rem) {
   .header nav,
   .header__links,

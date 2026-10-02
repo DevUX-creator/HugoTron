@@ -30,7 +30,11 @@ void main() {
   float fibres = noise(paper * vec2(0.035, 0.6)) - 0.5;
   float pulp = fbm(centred * 3.0) - 0.44;
   vec3 color = uColor + grain * 0.026 + fibres * 0.014 + pulp * 0.022;
-  gl_FragColor = vec4(color, 1.0 - smoothstep(-pixel, pixel, edge));
+  float alpha = 1.0 - smoothstep(-pixel, pixel, edge);
+  if (alpha <= 0.0) discard;
+  // Safari composites the canvas as a premultiplied surface. Empty pixels must
+  // contain no paper colour, otherwise the dark scene acquires a pale veil.
+  gl_FragColor = vec4(color * alpha, alpha);
 }`;
 
 /** Any CSS colour (a token's resolved value) as 0–1 RGB. */
@@ -65,7 +69,7 @@ export function useToneFill(colorVar: string) {
     const gl = element.getContext("webgl", {
       alpha: true,
       antialias: false,
-      premultipliedAlpha: false,
+      premultipliedAlpha: true,
     });
     // A failed context/program still has a rising paper wipe and readable chapters.
     const fallback = () => {

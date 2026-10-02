@@ -210,31 +210,20 @@ export default function World() {
             </span>
           </h1>
           <div className="world__cta world__reveal">
-            <div className="world__desktop-action">
-              {category ? (
-                <WorldPurchase
-                  key={category.id}
-                  category={category}
-                  choice={choices[category.id]}
-                  onChoose={(choice) =>
-                    setChoices((current) => ({ ...current, [category.id]: choice }))
-                  }
-                />
-              ) : (
-                <ArrowLink href="/range" prefetch={false} size="large" variant="glass">
-                  {t("viewProducts")}
-                </ArrowLink>
-              )}
-            </div>
-            <ArrowLink
-              href="/range"
-              prefetch={false}
-              size="large"
-              variant="glass"
-              className="world__mobile-action"
-            >
-              {t("viewProducts")}
-            </ArrowLink>
+            {category ? (
+              <WorldPurchase
+                key={category.id}
+                category={category}
+                choice={choices[category.id]}
+                onChoose={(choice) =>
+                  setChoices((current) => ({ ...current, [category.id]: choice }))
+                }
+              />
+            ) : (
+              <ArrowLink href="/range" prefetch={false} size="large" variant="glass">
+                {t("viewProducts")}
+              </ArrowLink>
+            )}
           </div>
         </div>
         <p className="world__lead world__reveal" aria-live="polite">
@@ -309,7 +298,7 @@ export default function World() {
         <footer className="world__footer">
           <p>{t("distribution")}</p>
           <p>
-            {t("noteLead")} {t("noteEnd")}
+            {t("noteLead")} <span className="world__note-end">{t("noteEnd")}</span>
           </p>
         </footer>
       </section>

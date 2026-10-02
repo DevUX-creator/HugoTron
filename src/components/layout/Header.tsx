@@ -5,7 +5,8 @@ import LocaleSwitcher from "@/components/ui/LocaleSwitcher";
 import SwapLabel from "@/components/ui/SwapLabel";
 import Wordmark from "./Wordmark";
 import BrandLogo from "./BrandLogo";
-import { SearchIcon, AccountIcon } from "./Icons";
+import { AccountIcon } from "./Icons";
+import MobileMenu from "./MobileMenu";
 import CartButton from "@/components/cart/CartButton";
 import SoundToggle from "@/components/sound/SoundToggle";
 import "./header.css";
@@ -68,10 +69,6 @@ export default function Header({
 
         <div className="header__tools">
           {showSoundToggle && <SoundToggle />}
-          <button type="button" className="header__tool" aria-label={t("search")}>
-            <SearchIcon className="header__icon" />
-          </button>
-
           <LocaleSwitcher />
 
           {/* TODO(auth): a real destination once accounts exist. It is a
@@ -82,6 +79,7 @@ export default function Header({
           </button>
 
           <CartButton />
+          <MobileMenu links={links} />
         </div>
       </div>
     </header>

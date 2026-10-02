@@ -190,7 +190,7 @@ export default function PaperStory() {
           <div>
             <p className="paper-caption">{t("range.eyebrow")}</p>
             <h2 id="paper-range-title">{t("range.title")}</h2>
-            <ArrowLink href="/range" prefetch={false} variant="glass">
+            <ArrowLink href="/range" prefetch={false} variant="glass" size="large">
               {t("range.action")}
             </ArrowLink>
           </div>

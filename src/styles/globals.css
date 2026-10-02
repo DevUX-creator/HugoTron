@@ -81,6 +81,12 @@
     animation: grain-drift var(--grain-speed) steps(1) infinite;
   }
 
+  @media (width < 48rem) {
+    body::before {
+      opacity: 0.045;
+    }
+  }
+
   /* STEPS, NOT A SMOOTH TWEEN, and that is the whole difference between grain
      and drift. Interpolating between these positions slides the texture across
      the page, which reads as fog moving; jumping between them re-seats every

@@ -79,21 +79,19 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
       ${PAPER_NOISE}
       void main() {
         vec2 centred = (vUv - 0.5) * vec2(uResolution.x / uResolution.y, 1.0);
-        float torn = fbm(centred * 15.0) * 0.065;
-        // An irregular diagonal front, like the supplied paper sketch: high at
-        // the right, wider toward the lower left, with no oval/hole silhouette.
-        float folds = (noise(vec2(vUv.y * 5.0, 8.1)) - 0.5) * 0.2
-          + (noise(vec2(vUv.y * 19.0, 2.7)) - 0.5) * 0.045;
-        float front = 0.035 + pow(vUv.y, 2.8) * 0.77 + folds + torn;
-        front += (1.0 - smoothstep(0.16, 0.43, vUv.y)) * 0.13;
-        float edge = front - vUv.x + (1.0 - uProgress) * 1.2;
-        // A thin, uneven lower paper lip meets the information row without a
-        // rectangular canvas edge cutting through the composition.
-        edge = max(edge, 0.016 + fbm(vec2(vUv.x * 12.0, 4.1)) * 0.035 - vUv.y);
-        edge = max(edge, 0.007 + fbm(vec2(vUv.x * 14.0, 9.2)) * 0.027 - (1.0 - vUv.y));
-        // On a phone the opening continues across the entire width. Desktop
-        // keeps its diagonal composition beside the contact copy.
-        edge -= uMobile * smoothstep(0.25, 1.0, uProgress) * 1.25;
+        // A broad torn opening with a lower-left tail, inspired by the supplied
+        // silhouette. It reaches the screen edge, but retains its irregular
+        // perimeter even after the mobile reveal finishes.
+        vec2 p = vUv - vec2(0.68, 0.55);
+        p = mat2(0.96, -0.28, 0.28, 0.96) * p;
+        float body = length(p / vec2(mix(0.45, 0.51, uMobile), 0.39)) - 1.0;
+        float tail = length((vUv - vec2(0.24, 0.23)) / vec2(0.29, 0.18)) - 1.0;
+        float join = max(0.36 - abs(body - tail), 0.0) / 0.36;
+        float outline = min(body, tail) - join * join * 0.09;
+        outline += (fbm(vUv * 11.0) - 0.44) * 0.36;
+        outline += (noise(vUv * 47.0) - 0.5) * 0.065;
+        float front = 1.15 - uProgress * 1.4 - vUv.x;
+        float edge = max(outline, front);
         float pixel = 1.0 / uResolution.y;
         vec2 paper = vUv * uResolution;
         float grain = hash(paper) - 0.5;
@@ -102,7 +100,7 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
         vec3 color = uColor + grain * 0.026 + fibres * 0.014 + pulp * 0.022;
         float cover = smoothstep(-pixel, pixel, edge);
         float sceneGrain = hash(paper + floor(uTime * 8.0) * 17.0) * 0.5;
-        gl_FragColor = vec4(mix(vec3(sceneGrain), color, cover), mix(0.028, 1.0, cover));
+        gl_FragColor = vec4(mix(vec3(sceneGrain), color, cover), mix(mix(0.028, 0.01, uMobile), 1.0, cover));
       }
     `,
   });

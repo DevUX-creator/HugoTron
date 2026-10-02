@@ -30,12 +30,7 @@ export default function PaperContact() {
           <p className="paper-caption">{t("eyebrow")}</p>
           <h2 id="paper-contact-title">{t("title")}</h2>
           <div className="paper-contact__actions">
-            <ArrowLink
-              href="/range"
-              prefetch={false}
-              size="large"
-              className="paper-contact__products"
-            >
+            <ArrowLink href="/range" prefetch={false} size="large" variant="glass">
               {range("action")}
             </ArrowLink>
             <ArrowLink href="/enquiry" prefetch={false} variant="glass">

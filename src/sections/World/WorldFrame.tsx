@@ -2,9 +2,11 @@
 
 import { useTranslations } from "next-intl";
 import SoundToggle from "@/components/sound/SoundToggle";
+import { useHomeViewport } from "./useHomeViewport";
 
 /** Page furniture belongs outside either scene so a chapter can never carry it away. */
 export default function WorldFrame() {
+  useHomeViewport();
   const t = useTranslations("world");
   return (
     <>

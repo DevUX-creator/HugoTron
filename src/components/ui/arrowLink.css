@@ -85,6 +85,18 @@
   backdrop-filter: blur(10px);
 }
 
+/* One large action size across the mobile hero, story and contact. */
+@media (width < 48rem) {
+  .arrow-link--large {
+    --mark-size: 2.75rem;
+    gap: 0.75rem;
+  }
+  .arrow-link--large .arrow-link__label {
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+  }
+}
+
 /* -- Hover ----------------------------------------------------------------
    GATED ON A DEVICE THAT HAS A POINTER. A touch browser leaves `:hover` on
    whatever was last tapped, which would park a link mid-flip. */

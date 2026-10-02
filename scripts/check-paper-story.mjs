@@ -46,6 +46,12 @@ try {
     () => document.querySelector(".world-journey")?.dataset.status === "ready",
   );
   await page.waitForTimeout(700);
+  assert.equal(
+    await page.locator(".header__menu").isVisible(),
+    false,
+    "Desktop keeps inline navigation",
+  );
+  assert.equal(await page.getByRole("button", { name: "Search", exact: true }).count(), 0);
   assert.equal(await page.locator(".daylight").getAttribute("data-handoff"), "0.000");
   const identity = await page.locator(".world__identity").boundingBox();
   const track = await page

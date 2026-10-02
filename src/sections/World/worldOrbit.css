@@ -12,7 +12,7 @@
 .world__visual {
   position: absolute;
   inset: 0 0 auto;
-  block-size: 100svh;
+  block-size: calc(var(--home-vh, 1svh) * 100);
   min-block-size: 36rem;
 }
 .world-journey .world {
@@ -38,14 +38,14 @@ html.js .world-journey:not([data-status="unavailable"]) .world__poster {
 .world-journey[data-enhanced="true"]::after {
   content: "";
   display: block;
-  block-size: var(--world-travel, 165svh);
+  block-size: var(--world-travel, calc(var(--home-vh, 1svh) * 165));
 }
 .world-journey[data-enhanced="true"] .world__visual {
   position: sticky;
   inset-block-start: 0;
 }
 .world-journey[data-enhanced="true"] .world {
-  margin-block-start: calc(-1 * max(100svh, 36rem));
+  margin-block-start: calc(-1 * max(calc(var(--home-vh, 1svh) * 100), 36rem));
   opacity: var(--world-copy-out);
 }
 .world-journey[data-enhanced="true"] .world__shade {
@@ -64,9 +64,9 @@ html.js .world-journey[data-status="loading"] .world-orbit {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  block-size: 100svh;
+  block-size: calc(var(--home-vh, 1svh) * 100);
   min-block-size: 36rem;
-  padding: clamp(6rem, 11svh, 9rem) max(3rem, 5vw) 3rem;
+  padding: clamp(6rem, calc(var(--home-vh, 1svh) * 11), 9rem) max(3rem, 5vw) 3rem;
   overflow: clip;
 }
 .world-orbit__poster {
@@ -79,7 +79,7 @@ html.js .world-journey[data-status="loading"] .world-orbit {
   position: relative;
   align-self: center;
   inline-size: min(100%, 60rem);
-  margin-block: auto clamp(1.25rem, 3svh, 2.5rem);
+  margin-block: auto clamp(1.25rem, calc(var(--home-vh, 1svh) * 3), 2.5rem);
   text-align: center;
   text-shadow: 0 2px 20px var(--world-backdrop);
 }

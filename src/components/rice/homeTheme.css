@@ -26,6 +26,12 @@ html[data-home-theme="light"] body::before {
   opacity: 0.13;
 }
 
+@media (width < 48rem) {
+  html[data-home-theme="light"] body::before {
+    opacity: 0.045;
+  }
+}
+
 .home-theme {
   display: flex;
   align-items: center;

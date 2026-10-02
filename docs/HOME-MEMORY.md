@@ -72,6 +72,22 @@ touch swipe, reversible paper handoff, toolbar/viewport changes, the page ending
 full-width footer, and the narrower German layout. WebKit covers the same layout
 and rendering path; automated native touch swiping is tested through Chromium CDP.
 
+### Follow-up mobile layout and compositing checks
+
+The mobile story now keeps its initial small viewport height until the screen
+width changes. In-app browsers can resize even `svh` as their bars move; allowing
+that to reflow every long chapter compounded the movement into visible jumps.
+The regression repeatedly changes height around Hamburg and verifies unchanged
+chapter positions, document height and scroll position. Width/orientation changes
+still remeasure the page; the viewport override is removed when home unmounts.
+
+The paper wipe now uses explicitly premultiplied output and discards uncovered
+pixels, keeping both their RGB and alpha at zero. Chromium and WebKit checks read
+those pixels during forward and reverse handoff to catch the pale overlay seen
+on mobile. The footer retains its torn outline at full reveal on phones.
+The mobile regression also covers the menu, shared CTA sizes, reduced noise and
+buying a selected rice pack from the hero. These changes add no recurring frame loop.
+
 ## Earlier scene lifecycle review — 2026-10-01
 
 The production home was profiled in Chromium on macOS at 1512 × 982, device

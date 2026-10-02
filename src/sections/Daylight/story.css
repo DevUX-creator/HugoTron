@@ -11,7 +11,7 @@
   position: relative;
 }
 .story__pinned > .story-chapter + .story-chapter {
-  margin-block-start: -32svh;
+  margin-block-start: calc(var(--home-vh, 1svh) * -32);
 }
 
 /* -- The pinned picture plane ---------------------------------------------- */
@@ -20,8 +20,8 @@
   position: sticky;
   inset-block-start: 0;
   z-index: 0;
-  block-size: 100svh;
-  margin-block-end: -100svh;
+  block-size: calc(var(--home-vh, 1svh) * 100);
+  margin-block-end: calc(var(--home-vh, 1svh) * -100);
   overflow: clip;
   pointer-events: none;
   /* The engravings live inside the World frame, never under the header or its labels. */
@@ -204,7 +204,7 @@
 .story-chapter {
   position: relative;
   z-index: 2;
-  min-block-size: 190svh;
+  min-block-size: calc(var(--home-vh, 1svh) * 190);
   padding: 0 max(3rem, 8vw);
 }
 .story-chapter h2 {
@@ -259,7 +259,7 @@
 
 /* Source: the statement sits between the columns; the asides follow it up. */
 .paper-story .paper-origin .story-text {
-  padding-block-start: 46svh;
+  padding-block-start: calc(var(--home-vh, 1svh) * 46);
 }
 .paper-story .paper-origin h2 {
   max-inline-size: 12ch;
@@ -271,7 +271,7 @@
   display: flex;
   justify-content: space-between;
   max-inline-size: 46rem;
-  margin: 26svh auto 0;
+  margin: calc(var(--home-vh, 1svh) * 26) auto 0;
 }
 .story-asides p {
   max-inline-size: 17ch;
@@ -307,18 +307,18 @@
   font-size: clamp(3rem, 5vw, 5.5rem);
 }
 .paper-story .paper-fields header {
-  padding-block-start: 55svh;
+  padding-block-start: calc(var(--home-vh, 1svh) * 55);
 }
 .paper-story .paper-fields .story-list {
-  margin-block-start: 45svh;
+  margin-block-start: calc(var(--home-vh, 1svh) * 45);
 }
 
 /* Hamburg: copy on the right, over open water; the facts follow. */
 .paper-story .paper-hamburg header {
-  padding-block-start: 44svh;
+  padding-block-start: calc(var(--home-vh, 1svh) * 44);
 }
 .paper-story .paper-hamburg .story-list {
-  margin-block-start: 43svh;
+  margin-block-start: calc(var(--home-vh, 1svh) * 43);
 }
 
 /* Text kept legible where an engraving passes beneath it. */
@@ -336,7 +336,7 @@ html:not(.js) .story__line {
 
 @media (width < 48rem) {
   .story-chapter {
-    min-block-size: 170svh;
+    min-block-size: calc(var(--home-vh, 1svh) * 170);
     padding-inline: 2.5rem;
   }
   .story-chapter h2,
@@ -353,7 +353,7 @@ html:not(.js) .story__line {
     inset-inline-start: calc(var(--x) * 0.75 - 6%);
   }
   .story-asides {
-    margin-block-start: 18svh;
+    margin-block-start: calc(var(--home-vh, 1svh) * 18);
   }
 }
 
@@ -447,27 +447,27 @@ html:not(.js) .story__line {
 }
 
 .paper-story .paper-fields {
-  min-block-size: 230svh;
+  min-block-size: calc(var(--home-vh, 1svh) * 230);
 }
 .paper-story .paper-fields header.story-text {
-  padding-block-start: 34svh;
+  padding-block-start: calc(var(--home-vh, 1svh) * 34);
   max-inline-size: 55rem;
 }
 .paper-story .paper-fields h2 {
   font-size: clamp(3.5rem, 6.6vw, 7rem);
 }
 .paper-story .paper-fields .story-field-note {
-  margin: 66svh 0 0 12%;
+  margin: calc(var(--home-vh, 1svh) * 66) 0 0 12%;
   max-inline-size: 23ch;
 }
 .story-field-note .story-text__note {
   margin-block-start: 0;
 }
 .paper-story .paper-pakistan {
-  min-block-size: 210svh;
+  min-block-size: calc(var(--home-vh, 1svh) * 210);
 }
 .paper-story .paper-pakistan header {
-  padding-block-start: 47svh;
+  padding-block-start: calc(var(--home-vh, 1svh) * 47);
   max-inline-size: 28rem;
 }
 .paper-story .paper-pakistan h2 {
@@ -475,11 +475,11 @@ html:not(.js) .story__line {
 }
 .story-origin-note {
   margin-inline-start: auto;
-  margin-block-start: 50svh;
+  margin-block-start: calc(var(--home-vh, 1svh) * 50);
   max-inline-size: 28rem;
 }
 .paper-story .paper-hamburg {
-  min-block-size: 210svh;
+  min-block-size: calc(var(--home-vh, 1svh) * 210);
 }
 
 .story-harbour-film {
@@ -502,7 +502,7 @@ html:not(.js) .story__line {
 
 /* The buy paths draw in separately, like three small editorial illustrations. */
 .paper-story .paper-buying {
-  padding-block: 14svh 20svh;
+  padding-block: calc(var(--home-vh, 1svh) * 14) calc(var(--home-vh, 1svh) * 20);
 }
 .paper-story .paper-buying__paths {
   margin-block-start: 6rem;
@@ -547,7 +547,7 @@ html:not(.js) .story__line {
   background: color-mix(in srgb, var(--color-world-paper-light) 15%, transparent);
 }
 .paper-story .paper-label {
-  padding-block: 30svh 15svh;
+  padding-block: calc(var(--home-vh, 1svh) * 30) calc(var(--home-vh, 1svh) * 15);
 }
 
 /* A celestial chart reconnects the products to the opening World, in paper and ink. */
@@ -658,11 +658,11 @@ html:not(.js) .story__line {
 /* A fibrous opening grows inward from the right edge over the stationary World scene. */
 .paper-story .paper-contact {
   min-block-size: auto;
-  padding-block: 6svh 8rem;
+  padding-block: calc(var(--home-vh, 1svh) * 6) 8rem;
 }
 .paper-story .paper-contact__hero {
   position: relative;
-  min-block-size: 78svh;
+  min-block-size: calc(var(--home-vh, 1svh) * 78);
   display: flex;
   align-items: center;
 }
@@ -682,14 +682,6 @@ html:not(.js) .story__line {
   flex-wrap: wrap;
   align-items: center;
   gap: 1.5rem 2.5rem;
-}
-.paper-story .paper-contact__products {
-  padding: 0.9rem 1.3rem;
-  border: 1px solid color-mix(in srgb, currentColor 32%, transparent);
-  background: color-mix(in srgb, var(--color-world-paper-light) 48%, transparent);
-}
-.paper-story .paper-contact__products .arrow-link__label {
-  font-size: 0.9375rem;
 }
 .paper-story .paper-contact__info {
   position: relative;
@@ -841,14 +833,14 @@ html.js .paper-buying__path .buying-sketch {
     clip-path: inset(calc(var(--header-inset-block) + var(--header-row) + 1rem) 24px 5rem);
   }
   .paper-story .paper-fields {
-    min-block-size: 200svh;
+    min-block-size: calc(var(--home-vh, 1svh) * 200);
   }
   .paper-story .paper-pakistan,
   .paper-story .paper-hamburg {
-    min-block-size: 190svh;
+    min-block-size: calc(var(--home-vh, 1svh) * 190);
   }
   .paper-story .paper-fields header.story-text {
-    padding-block-start: 29svh;
+    padding-block-start: calc(var(--home-vh, 1svh) * 29);
   }
   .paper-story .paper-fields h2,
   .paper-story .paper-pakistan h2 {
@@ -856,10 +848,10 @@ html.js .paper-buying__path .buying-sketch {
   }
   .paper-story .paper-pakistan header,
   .paper-story .paper-hamburg header {
-    padding-block-start: 32svh;
+    padding-block-start: calc(var(--home-vh, 1svh) * 32);
   }
   .paper-story .paper-fields .story-field-note {
-    margin-block-start: 68svh;
+    margin-block-start: calc(var(--home-vh, 1svh) * 68);
     margin-inline-start: 0;
     max-inline-size: 24ch;
   }
@@ -934,15 +926,12 @@ html.js .paper-buying__path .buying-sketch {
   .paper-story .paper-contact__actions {
     gap: 1rem;
   }
-  .paper-story .paper-contact__products {
-    padding: 0.65rem 1rem;
-  }
   .paper-story .paper-portal {
     position: relative;
     order: 2;
     inset: auto;
     inline-size: calc(100% + 5rem);
-    block-size: clamp(24rem, 60svh, 36rem);
+    block-size: clamp(24rem, calc(var(--home-vh, 1svh) * 60), 36rem);
     margin-inline: -2.5rem;
   }
   .paper-story .paper-contact__info {

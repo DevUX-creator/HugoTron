@@ -14,7 +14,7 @@ html[data-world-paper],
   --color-bg-base: var(--color-world-paper);
 }
 .daylight {
-  --runway: 170svh;
+  --runway: calc(var(--home-vh, 1svh) * 170);
   position: relative;
   color: var(--color-world-paper-ink);
   overflow-anchor: none;
@@ -48,7 +48,7 @@ html[data-world-paper],
   z-index: 2;
 }
 .daylight[data-enhanced="true"] .paper-story {
-  margin-block-start: -100svh;
+  margin-block-start: calc(var(--home-vh, 1svh) * -100);
 }
 .paper-range h2,
 .paper-contact h2,
@@ -153,7 +153,7 @@ html[data-world-paper],
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  min-block-size: 115svh;
+  min-block-size: calc(var(--home-vh, 1svh) * 115);
   padding-block-end: 15rem;
 }
 .paper-label__copy h2 {
@@ -407,7 +407,7 @@ html[data-world-paper],
   margin-inline-end: auto;
 }
 .private-label-shell {
-  min-block-size: 100svh;
+  min-block-size: calc(var(--home-vh, 1svh) * 100);
   color: var(--color-world-paper-ink);
   background: var(--color-world-paper);
 }
