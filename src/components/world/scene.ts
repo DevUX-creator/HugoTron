@@ -40,6 +40,7 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
   let disposed = false;
   let ready = false;
   let visible = true;
+  let covered = false;
   let reduced = options.reduced;
   let dark = options.dark;
   let frame = 0;
@@ -187,7 +188,7 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
 
   function render(time: number) {
     frame = 0;
-    if (disposed || !visible || document.hidden) return;
+    if (disposed || !visible || covered || document.hidden) return;
     // Use 60 fps while the pointer settles; the ambient scene returns to 30 fps at rest.
     const travelling =
       Math.abs(chapterTarget - chapterProgress) > 0.0001 ||
@@ -386,7 +387,8 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
     if (!reduced) wake();
   }
   function wake() {
-    if (!frame && !disposed && visible && !document.hidden) frame = requestAnimationFrame(render);
+    if (!frame && !disposed && visible && !covered && !document.hidden)
+      frame = requestAnimationFrame(render);
   }
   function resize() {
     width = mount.clientWidth;
@@ -415,7 +417,7 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
   }
   function visibility() {
     lastTime = 0;
-    films.setVisible(visible && !document.hidden);
+    films.setVisible(visible && !covered && !document.hidden);
     if (document.hidden) {
       pointer.set(0, 0);
       pointerActive = false;
@@ -433,7 +435,7 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
   resizeObserver.observe(mount);
   const observer = new IntersectionObserver(([entry]) => {
     visible = entry?.isIntersecting ?? false;
-    films.setVisible(visible && !document.hidden);
+    films.setVisible(visible && !covered && !document.hidden);
     lastTime = 0;
     if (visible) wake();
   });
@@ -610,6 +612,13 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
       installation.uniforms.boost.value = leave;
       atmosphere.setLeave(leave);
       films.setLeave(leave);
+      covered = leave >= 1;
+      mount.dataset.covered = String(covered);
+      films.setVisible(visible && !covered && !document.hidden);
+      if (covered && frame) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
       wake();
     },
     setFilmPosition(value) {

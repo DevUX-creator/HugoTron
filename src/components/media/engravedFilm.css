@@ -1,0 +1,23 @@
+.engraved-film {
+  position: relative;
+  block-size: 100%;
+}
+.engraved-film .film-playlist {
+  block-size: 100%;
+}
+/* The ink layer covers the film once its first frame is engraved. */
+.engraved-film__ink {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 600ms;
+}
+.engraved-film[data-engraved="true"] .engraved-film__ink {
+  opacity: 1;
+}
+.engraved-film .range-reveal__toggle {
+  z-index: 1;
+}

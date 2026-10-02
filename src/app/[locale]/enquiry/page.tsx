@@ -37,14 +37,16 @@ export default async function EnquiryPage({
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ product?: string | string[] }>;
+  searchParams: Promise<{ product?: string | string[]; purpose?: string | string[] }>;
 }) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
   const t = await getTranslations({ locale: locale as Locale, namespace: "enquiry" });
-  const { product: requestedProduct } = await searchParams;
+  const { product: requestedProduct, purpose } = await searchParams;
+  const initialPurpose =
+    purpose === "label" || purpose === "sample" || purpose === "other" ? purpose : "quote";
   const selectedProduct =
     typeof requestedProduct === "string" ? getProduct(requestedProduct) : undefined;
   const productNames = await getTranslations({ locale, namespace: "products" });
@@ -53,7 +55,8 @@ export default async function EnquiryPage({
   return (
     <FormPage eyebrow={t("eyebrow")} title={t("title")} lead={t("lead")}>
       <EnquiryForm
-        key={selectedProduct?.slug ?? "general"}
+        key={`${selectedProduct?.slug ?? "general"}-${initialPurpose}`}
+        initialPurpose={initialPurpose}
         initialProduct={selectedProduct ? productNames(selectedProduct.slug) : ""}
         initialPackSize={selectedProduct ? units(selectedProduct.unit) : ""}
       />

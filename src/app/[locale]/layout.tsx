@@ -9,6 +9,7 @@ import SmoothScroll from "@/components/providers/SmoothScroll";
 import InlineScript from "@/components/providers/InlineScript";
 import Cursor from "@/components/ui/Cursor";
 import CartProvider from "@/components/cart/CartProvider";
+import PreviewGate from "@/components/preview/PreviewGate";
 import CartDrawer from "@/components/cart/CartDrawer";
 import SoundProvider from "@/components/sound/SoundProvider";
 import { HOME_THEME_STORAGE_KEY } from "@/components/rice/themePreference";
@@ -59,6 +60,8 @@ export default async function LocaleLayout({
               <CartProvider>
                 {children}
                 <CartDrawer />
+                {/* TEMPORARY client preview: subpages open a note. Remove to open the site. */}
+                <PreviewGate />
               </CartProvider>
             </SmoothScroll>
           </SoundProvider>

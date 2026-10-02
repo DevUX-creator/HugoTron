@@ -8,7 +8,6 @@ import { getCategories, getCategory, isSellable } from "@/lib/catalogue";
 import { useHomeTheme } from "@/components/rice/HomeTheme";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { useSound } from "@/components/sound/SoundProvider";
-import SoundToggle from "@/components/sound/SoundToggle";
 import type { WorldScene } from "@/components/world/scene";
 import type { SpecimenId } from "@/components/world/specimen";
 import type { ProductChoice } from "@/components/products/useProductChoice";
@@ -147,14 +146,6 @@ export default function World() {
       data-status={status}
       data-enhanced={status === "ready"}
     >
-      <div className="world__frame" aria-hidden="true">
-        <span />
-        <span />
-      </div>
-      <div className="world__identity">
-        <p className="world__kicker world__eyebrow">{t("eyebrow")}</p>
-        <SoundToggle />
-      </div>
       <div className="world__visual">
         <div className="world__poster" aria-hidden="true">
           <picture>

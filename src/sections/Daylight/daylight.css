@@ -1,21 +1,23 @@
-/* ===========================================================================
-   Daylight — the same frame, a new scene. The track overlaps the journey's last
-   pinned screen (the hand-off runway), then holds a pinned stage on which the
-   light scenes change in place. Nothing here scrolls like a page.
-   =========================================================================== */
-
-.daylight {
-  /* Keep --runway in step with RUNWAY in Daylight.tsx and under the journey's endHold. */
-  --runway: 170svh;
-  --scenes: 240svh;
-  position: relative;
-  block-size: calc(var(--runway) + var(--scenes));
-  margin-block-start: calc(-1 * var(--runway));
-  /* While overlapping the journey, the scene beneath stays usable. */
-  pointer-events: none;
+/* One continuous sheet beneath the persistent World frame. */
+html:not(.js):has(.daylight) .header,
+html:not(.js):has(.daylight) .world__identity,
+html:not(.js):has(.daylight) .world__frame {
+  mix-blend-mode: difference;
 }
-
-/* Over the scene and its copy, under the frame (3) and the header. */
+html[data-world-paper],
+.daylight,
+.private-label-shell {
+  --color-fg-primary: var(--color-world-paper-ink);
+  --color-fg-heading: var(--color-world-paper-ink);
+  --color-fg-secondary: color-mix(in srgb, var(--color-world-paper-ink) 80%, transparent);
+  --color-fg-muted: color-mix(in srgb, var(--color-world-paper-ink) 68%, transparent);
+  --color-bg-base: var(--color-world-paper);
+}
+.daylight {
+  --runway: 170svh;
+  position: relative;
+  color: var(--color-world-paper-ink);
+}
 .daylight__fill {
   position: fixed;
   inset: 0;
@@ -28,102 +30,496 @@
 .daylight__fill[data-active="true"] {
   visibility: visible;
 }
-
-.daylight__stage {
-  position: sticky;
-  inset-block-start: 0;
+.daylight__handoff {
+  position: relative;
+}
+.daylight[data-enhanced="true"] .daylight__handoff {
+  /* The paper rises over this distance; the story then begins on the arriving paper. */
+  block-size: var(--runway);
+  margin-block-start: calc(-1 * var(--runway));
+  pointer-events: none;
+}
+.daylight:not([data-enhanced="true"]) {
+  background: var(--color-world-paper);
+}
+.paper-story {
+  position: relative;
   z-index: 2;
-  block-size: 100svh;
-  color: var(--color-ink-800);
 }
-.daylight__statement,
-.daylight__origins {
-  position: absolute;
-  inset: 0;
+.daylight[data-enhanced="true"] .paper-story {
+  margin-block-start: -100svh;
 }
-.daylight[data-scene="none"] .daylight__stage {
-  visibility: hidden;
-}
-.daylight[data-scene="statement"] .daylight__statement,
-.daylight[data-scene="origins"] .daylight__origins {
-  pointer-events: auto;
-}
-
-/* -- Statement --------------------------------------------------------------- */
-
-.daylight__statement {
-  /* Gives way to the map by fading upward out of focus; only the Details slide flies away. */
-  opacity: calc(1 - var(--out, 0));
-  translate: 0 calc(var(--out, 0) * -2.5rem);
-  filter: blur(calc(var(--out, 0) * 8px));
-  display: grid;
-  justify-items: center;
-  align-content: center;
-  gap: 2rem;
-  padding: 8rem max(4rem, 12vw);
-  text-align: center;
-}
-.daylight__eyebrow,
-.daylight__note,
-.daylight__coord {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-ink-600);
-}
-.daylight__words {
-  max-inline-size: 22ch;
+.paper-range h2,
+.paper-contact h2,
+.private-label-page h1 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4.2vw, 4.25rem);
+  font-size: clamp(3.5rem, 6.6vw, 7rem);
   font-weight: 400;
-  line-height: 1.04;
-  letter-spacing: -0.035em;
-  text-transform: uppercase;
-  color: var(--color-ink-900);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
 }
-.daylight__note {
-  max-inline-size: 40ch;
+.paper-caption {
+  margin: 0 0 1.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.paper-point {
+  display: inline-block;
+  inline-size: 5px;
+  block-size: 5px;
+  margin: 0 0.75rem 0.15rem 0;
+  background: var(--color-world-paper-blue);
+  border-radius: 50%;
+}
+.paper-route {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
+  fill: none;
+  stroke: var(--color-world-paper-blue);
+  stroke-width: 0.8px;
+  overflow: visible;
+}
+.paper-route__ghost {
+  stroke: var(--color-ink-600);
+  opacity: 0.38;
+}
+.paper-route__draw {
+  opacity: 0.6;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--route-progress, 1));
+}
+.paper-buying__paths {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-block-start: 3rem;
+}
+.paper-buying__path {
+  padding: 0 2rem 1.5rem;
+  border-inline-start: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  text-decoration: none;
+}
+.paper-buying__path:first-child {
+  padding-inline-start: 0;
+  border: 0;
+}
+.paper-buying__path h3 {
+  font-size: clamp(1.75rem, 2.5vw, 2.75rem);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  margin: 0 0 0.5rem;
+}
+.paper-buying__path p {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin: 0;
+}
+.buying-sketch {
+  display: block;
+  inline-size: min(100%, 17rem);
+  block-size: 10rem;
+  margin-block-end: 1.5rem;
+  stroke: currentColor;
+  stroke-width: 1px;
+  transition: translate 600ms;
+}
+.paper-buying__path:hover .buying-sketch {
+  translate: 0 -8px;
+}
+.paper-buying__action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block-start: 2rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.paper-buying__action svg {
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
+}
+
+.paper-label {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  min-block-size: 115svh;
+  padding-block-end: 15rem;
+}
+.paper-label__copy h2 {
+  font-size: clamp(3rem, 6vw, 6.5rem);
+}
+.paper-label__copy em {
+  color: var(--color-world-paper-blue);
+  font-style: normal;
+}
+.paper-label__note {
+  max-inline-size: 28ch;
+  margin: 2rem 0;
+  font-size: 1rem;
   line-height: 1.7;
 }
-
-/* Hamburg's coordinates on the frame's edges, as on a survey sheet. */
-.daylight__coord {
+.paper-pack {
+  position: relative;
+  inline-size: clamp(12rem, 22vw, 23rem);
+  aspect-ratio: 0.7;
+  justify-self: center;
+  perspective: 1100px;
+}
+.paper-pack[data-settled] {
+  --pack-progress: 1;
+}
+.paper-pack__body {
   position: absolute;
-  inset-block-start: 50%;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    var(--color-world-paper-shadow),
+    var(--color-world-paper-light) 9%,
+    var(--color-world-paper) 37%,
+    var(--color-world-paper-light) 88%,
+    var(--color-world-paper-shadow)
+  );
+  clip-path: polygon(4% 0, 96% 0, 95% 9%, 100% 94%, 94% 100%, 5% 100%, 0 94%, 5% 9%);
+  transform: rotateY(
+      calc(-13deg + var(--pack-progress, 0) * 21deg + var(--paper-pointer-x, 0) * 5deg)
+    )
+    rotateZ(calc(-7deg + var(--pack-progress, 0) * 10deg));
+  box-shadow: inset 0 0 35px color-mix(in srgb, var(--color-world-paper-shadow) 65%, transparent);
 }
-.daylight__coord--lat {
-  inset-inline-start: max(3rem, 5vw);
+.paper-pack__seam {
+  position: absolute;
+  inset: 1.5% 4% auto;
+  block-size: 5%;
+  border-block: 1px solid color-mix(in srgb, currentColor 12%, transparent);
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 3px,
+    color-mix(in srgb, currentColor 8%, transparent) 3px 4px
+  );
 }
-.daylight__coord--lon {
-  inset-inline-end: max(3rem, 5vw);
+.paper-pack__stamp {
+  position: absolute;
+  inset: 28% 12% auto;
+  display: grid;
+  justify-items: center;
+  gap: 1.2rem;
+  text-align: center;
+  color: var(--color-world-paper-blue);
 }
-.daylight[data-scene="origins"] .daylight__coord {
+.paper-pack__stamp svg {
+  inline-size: 100%;
+  block-size: auto;
+}
+.paper-pack__stamp span {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+}
+.paper-pack__stamp--hugo {
+  opacity: min(
+    clamp(0, calc((var(--pack-progress, 0) - 0.1) * 4), 1),
+    clamp(0, calc((0.65 - var(--pack-progress, 0)) * 10), 1)
+  );
+}
+.paper-pack__stamp--yours {
+  opacity: clamp(0, calc((var(--pack-progress, 0) - 0.65) * 6), 1);
+}
+.paper-pack__stamp--yours strong {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.8vw, 2.75rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+}
+.paper-pack__stamp .paper-pack__cross {
+  font-size: 1.5rem;
+}
+.paper-pack__grain {
+  position: absolute;
+  inline-size: 27%;
+  inset: auto 35% 14% auto;
+  opacity: 0.4;
+}
+.paper-pack__fold {
+  position: absolute;
+  inset: auto 0 0;
+  block-size: 8%;
+  background: linear-gradient(
+    175deg,
+    transparent 40%,
+    color-mix(in srgb, var(--color-world-paper-shadow) 75%, transparent) 41%
+  );
+}
+.paper-pack__shadow {
+  position: absolute;
+  z-index: -1;
+  inset: auto 10% -7%;
+  block-size: 10%;
+  border-radius: 50%;
+  background: var(--color-world-paper-shadow);
+  filter: blur(14px);
+  opacity: 0.45;
+}
+
+.paper-range {
+  position: relative;
+  overflow: clip;
+  padding: 15rem max(3rem, 8vw) 9rem;
+}
+.paper-range__intro {
+  display: grid;
+  grid-template-columns: 1fr 0.65fr;
+  align-items: center;
+  gap: 6vw;
+}
+.paper-range__intro h2 {
+  max-inline-size: 9ch;
+  margin-block-end: 2rem;
+}
+.paper-range__film {
+  position: relative;
+  aspect-ratio: 1.4;
+  overflow: hidden;
+  rotate: 3deg;
+}
+.paper-range__film .film-playlist {
+  block-size: 100%;
+}
+.paper-range__film .range-reveal__toggle {
+  position: absolute;
+  inset: auto 1rem 1rem auto;
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  border: 1px solid color-mix(in srgb, var(--color-world-paper-light) 60%, transparent);
+  color: var(--color-world-paper-light);
+  background: color-mix(in srgb, var(--color-world-paper-ink) 65%, transparent);
+  cursor: pointer;
+}
+.paper-range__film .range-reveal__toggle svg {
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+.paper-range__navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block: 4rem 1.5rem;
+}
+.paper-range__navigation .paper-caption {
+  margin: 0;
+}
+.paper-range__navigation > div {
+  display: flex;
+  gap: 0.5rem;
+}
+.paper-range__navigation button {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  color: inherit;
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  background: transparent;
+  cursor: pointer;
+}
+.paper-range__navigation button:hover {
+  background: color-mix(in srgb, var(--color-world-paper-blue) 10%, transparent);
+}
+.paper-range__navigation button span {
+  display: block;
+}
+.paper-range__navigation svg {
+  inline-size: 1.4rem;
+  block-size: 1.4rem;
+}
+.paper-range__rail {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  padding: 0.3rem 0.3rem 1.5rem;
+  margin: -0.3rem;
+}
+.paper-range .range-product {
+  flex: 0 0 clamp(17rem, 25vw, 23rem);
+  scroll-snap-align: start;
+  border-color: color-mix(in srgb, var(--color-world-paper-ink) 22%, transparent);
+  background: color-mix(in srgb, var(--color-world-paper-light) 25%, transparent);
+  box-shadow: none;
+  backdrop-filter: none;
+}
+.paper-range .range-product__top > :first-child {
   visibility: hidden;
 }
-
-/* -- Origins arrives where the statement fell from ----------------------------- */
-
-.daylight__origins {
-  opacity: var(--enter, 0);
-  translate: 0 calc((1 - var(--enter, 0)) * 3rem);
-  filter: blur(calc((1 - var(--enter, 0)) * 8px));
+.paper-range .range-product__image {
+  background: color-mix(in srgb, var(--color-world-paper-light) 40%, transparent);
+}
+.paper-range .range-product__image img {
+  mix-blend-mode: multiply;
+}
+.paper-contact {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  padding: 15rem max(3rem, 8vw) 9rem;
+}
+.paper-contact h2 {
+  max-inline-size: 10ch;
+  margin-block-end: 2.5rem;
+}
+.paper-contact__details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 3rem;
+  margin-block: 4rem;
+  font-size: 0.875rem;
+}
+.paper-contact__details > :last-child {
+  margin-inline-start: auto;
+}
+.paper-contact__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  padding-block-start: 1.5rem;
+  border-block-start: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.paper-contact__bottom > :first-child {
+  margin-inline-end: auto;
+}
+.private-label-shell {
+  min-block-size: 100svh;
+  color: var(--color-world-paper-ink);
+  background: var(--color-world-paper);
+}
+.private-label-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 3rem;
+}
+.private-label-page h1 {
+  font-size: clamp(3rem, 6vw, 6.5rem);
+}
+.private-label-page h1 em {
+  font-style: normal;
+  color: var(--color-world-paper-blue);
+}
+.private-label-page__back {
+  display: inline-block;
+  margin-block-start: 2rem;
+  font-size: 0.75rem;
 }
 
 @media (width < 48rem) {
-  .daylight__statement {
-    padding: 6rem 1.5rem;
+  .paper-range h2,
+  .paper-contact h2 {
+    font-size: clamp(2.8rem, 11vw, 4.5rem);
   }
-  .daylight__coord {
-    inset-block-start: 7rem;
+  .paper-buying__paths {
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-block-start: 2rem;
+  }
+  .paper-buying__path,
+  .paper-buying__path:first-child {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 0.5rem 1.25rem;
+    padding: 1.5rem 0;
+    border: 0;
+    border-block-start: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  }
+  .buying-sketch {
+    inline-size: 100%;
+    block-size: 5rem;
+    grid-row: span 3;
+    margin: 0;
+  }
+  .paper-buying__path h3 {
+    font-size: 1.75rem;
+    margin: 0;
+  }
+  .paper-buying__path p {
+    font-size: 0.8125rem;
+  }
+  .paper-buying__action {
+    margin: 0.5rem 0 0;
+    font-size: 0.625rem;
+  }
+  .paper-label,
+  .private-label-page {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding-block-end: 10rem;
+  }
+  .paper-label__note {
+    font-size: 0.9375rem;
+    margin: 1.5rem 0;
+  }
+  .paper-pack {
+    inline-size: 13rem;
+  }
+  .paper-pack__stamp--yours strong {
+    font-size: 1.8rem;
+  }
+  .paper-range,
+  .paper-contact {
+    padding: 12rem 2.5rem 7rem;
+  }
+  .paper-range__intro {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+  .paper-range__intro h2 {
+    max-inline-size: 11ch;
+  }
+  .paper-range__film {
+    inline-size: 75%;
+    justify-self: end;
+  }
+  .paper-range__navigation {
+    margin-block: 3rem 1rem;
+  }
+  .paper-range__navigation .paper-caption {
+    max-inline-size: 20ch;
+    font-size: 0.625rem;
+  }
+  .paper-range .range-product {
+    flex-basis: min(73vw, 20rem);
+  }
+  .paper-contact__details {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .paper-contact__details > :last-child {
+    margin-inline-start: 0;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .daylight__origins {
+  .paper-pack__body {
+    transform: none;
+  }
+  .paper-buying__path:hover .buying-sketch {
     translate: none;
-    filter: none;
   }
 }

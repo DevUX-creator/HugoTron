@@ -1,0 +1,36 @@
+{
+  "mode": "built-in imagegen",
+  "purpose": "Remove studio backgrounds from catalogue cards",
+  "assets": [
+    {
+      "slug": "kichererbsen-25kg",
+      "prompt": "Use case: background-extraction. Edit the attached product image for a premium web catalogue. Remove ONLY the cream studio background and tabletop; replace it with genuine alpha transparency, including every gap between separate objects and the hanging hole in the saffron pack if present. Preserve the exact product, its shape, colours, camera angle, arrangement, texture and all existing printed labels verbatim. No redesign, no new elements, no checkerboard printed into the image, no opaque backdrop, no halo. Keep every object complete and use a tightly composed portrait canvas with roughly 8% transparent padding around the subject. Output a clean transparent PNG product cutout.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-a319b2a7-bef2-43c1-befc-388b53d81aa5.png",
+      "target": "public/products/kichererbsen-25kg/card-cutout.webp"
+    },
+    {
+      "slug": "premium-negin-safran",
+      "prompt": "Use case: background-extraction. Edit the attached product image for a premium web catalogue. Remove ONLY the cream studio background and tabletop; replace it with genuine alpha transparency, including every gap between separate objects and the hanging hole in the saffron pack if present. Preserve the exact product, its shape, colours, camera angle, arrangement, texture and all existing printed labels verbatim. No redesign, no new elements, no checkerboard printed into the image, no opaque backdrop, no halo. Keep every object complete and use a tightly composed portrait canvas with roughly 8% transparent padding around the subject. Output a clean transparent PNG product cutout.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-43678401-d833-492c-9b28-c0e5e81bda74.png",
+      "target": "public/products/premium-negin-safran/card-cutout.webp"
+    },
+    {
+      "slug": "pistazien-mit-schale",
+      "prompt": "Use case: background-extraction. Edit the attached product image for a premium web catalogue. Remove ONLY the cream studio background and tabletop; replace it with genuine alpha transparency, including every gap between separate objects and the hanging hole in the saffron pack if present. Preserve the exact product, its shape, colours, camera angle, arrangement, texture and all existing printed labels verbatim. No redesign, no new elements, no checkerboard printed into the image, no opaque backdrop, no halo. Keep every object complete and use a tightly composed portrait canvas with roughly 8% transparent padding around the subject. Output a clean transparent PNG product cutout.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-90493227-4089-40fc-9a3e-4db442b12d9a.png",
+      "target": "public/products/pistazien-mit-schale/card-cutout.webp"
+    },
+    {
+      "slug": "pistazienkerne",
+      "prompt": "Use case: background-extraction. Edit the attached product image for a premium web catalogue. Remove ONLY the cream studio background and tabletop; replace it with genuine alpha transparency, including every gap between separate objects and the hanging hole in the saffron pack if present. Preserve the exact product, its shape, colours, camera angle, arrangement, texture and all existing printed labels verbatim. No redesign, no new elements, no checkerboard printed into the image, no opaque backdrop, no halo. Keep every object complete and use a tightly composed portrait canvas with roughly 8% transparent padding around the subject. Output a clean transparent PNG product cutout.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-7776f318-b2a4-45a5-8bc8-62ef54bea18a.png",
+      "target": "public/products/pistazienkerne/card-cutout.webp"
+    },
+    {
+      "slug": "vahdam-earl-grey",
+      "prompt": "Use case: background-extraction. Edit the attached product image for a premium web catalogue. Remove ONLY the cream studio background and tabletop; replace it with genuine alpha transparency, including every gap between separate objects and the hanging hole in the saffron pack if present. Preserve the exact product, its shape, colours, camera angle, arrangement, texture and all existing printed labels verbatim. No redesign, no new elements, no checkerboard printed into the image, no opaque backdrop, no halo. Keep every object complete and use a tightly composed portrait canvas with roughly 8% transparent padding around the subject. Output a clean transparent PNG product cutout.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-b179ef9c-dbd2-4131-80f5-081cae391261.png",
+      "target": "public/products/vahdam-earl-grey/card-cutout.webp"
+    }
+  ]
+}

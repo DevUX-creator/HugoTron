@@ -7,6 +7,7 @@ import { routing } from "@/i18n/routing";
 
 import Header from "@/components/layout/Header";
 import World from "@/sections/World/World";
+import WorldFrame from "@/sections/World/WorldFrame";
 import Daylight from "@/sections/Daylight/Daylight";
 import { HomeThemeProvider } from "@/components/rice/HomeTheme";
 
@@ -30,6 +31,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   return (
     <HomeThemeProvider forcedTheme="dark">
       <Header brandLogo showSoundToggle={false} />
+      <WorldFrame />
       <main>
         <World />
         <Daylight />

@@ -42,9 +42,11 @@ const PURPOSES = ["quote", "sample", "label", "other"] as const;
 export default function EnquiryForm({
   initialProduct = "",
   initialPackSize = "",
+  initialPurpose = "quote",
 }: {
   initialProduct?: string;
   initialPackSize?: string;
+  initialPurpose?: (typeof PURPOSES)[number];
 }) {
   const t = useTranslations("enquiry");
   const locale = useLocale();
@@ -77,13 +79,13 @@ export default function EnquiryForm({
       <fieldset className="form__purpose">
         <legend>{t("purposeLegend")}</legend>
         <div className="form__choices">
-          {PURPOSES.map((purpose, i) => (
+          {PURPOSES.map((purpose) => (
             <label className="form__choice" key={purpose}>
               <input
                 type="radio"
                 name="purpose"
                 value={purpose}
-                defaultChecked={state.values ? state.values.purpose === purpose : i === 0}
+                defaultChecked={(state.values?.purpose ?? initialPurpose) === purpose}
               />
               <span>
                 {t(

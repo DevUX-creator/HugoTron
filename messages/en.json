@@ -358,5 +358,99 @@
     "eyebrow": "From origin to Hamburg",
     "statement": "From the fields where they grow to kitchens across Europe, our ingredients meet in one place: our warehouse in Hamburg.",
     "note": "Held in our own Hamburg warehouse, with deliveries leaving for Europe each week."
+  },
+  "paperStory": {
+    "origin": {
+      "eyebrow": "At the source",
+      "title": "Good things begin here.",
+      "note": "Selected at origin. Brought closer by us.",
+      "annotation": "A world worth discovering",
+      "left": "Selected at origin",
+      "right": "Gathered in Hamburg"
+    },
+    "fields": {
+      "eyebrow": "Closer to the source",
+      "title": "It begins with the land.",
+      "note": "From the fields to the people behind every harvest. Our story starts at origin.",
+      "rice": "Basmati from India and Pakistan",
+      "saffron": "Saffron from Iran",
+      "tea": "Tea from India",
+      "place": "India · Basmati rice"
+    },
+    "hamburg": {
+      "eyebrow": "Our home port",
+      "title": "Gathered in Hamburg.",
+      "stock": "Stocked in Hamburg. Sent across Europe.",
+      "packs": "From 1 kg to a full pallet.",
+      "delivery": "Free delivery in Germany from €29."
+    },
+    "buying": {
+      "eyebrow": "Made for your everyday",
+      "title": "However you buy.",
+      "home": {
+        "title": "At home.",
+        "note": "Good ingredients, a little closer.",
+        "action": "Shop the range"
+      },
+      "kitchen": {
+        "title": "In the kitchen.",
+        "note": "For the people who feed people.",
+        "action": "Talk to us"
+      },
+      "trade": {
+        "title": "In good company.",
+        "note": "Larger quantities. Personal support.",
+        "action": "Discuss your order"
+      }
+    },
+    "label": {
+      "eyebrow": "Private label",
+      "title": "Your name.",
+      "accent": "Our sourcing.",
+      "note": "The same care, with your name on the pack.",
+      "action": "Explore private label",
+      "caption": "One pack. Your possibilities.",
+      "ingredient": "Selected ingredients",
+      "yourLogo": "Your logo",
+      "possibility": "Your next chapter",
+      "pageTitle": "Private label",
+      "pageLead": "Tell us about your product, packaging and quantities. We will work through the possibilities with you.",
+      "enquire": "Start your project",
+      "back": "Back to the Hugo Tron World"
+    },
+    "range": {
+      "eyebrow": "Bring a little of our world into yours",
+      "title": "Good things, within reach.",
+      "action": "View all products",
+      "note": "Explore our full collection",
+      "previous": "Previous products",
+      "next": "Next products",
+      "railLabel": "All Hugo Tron products"
+    },
+    "contact": {
+      "eyebrow": "The next chapter starts with you",
+      "title": "Let’s make it happen.",
+      "action": "Talk to us",
+      "europe": "Europe",
+      "back": "Back to top",
+      "country": "Germany",
+      "productsNav": "Product categories",
+      "businessNav": "Working with Hugo Tron",
+      "business": "Work with us",
+      "enquiry": "Make an enquiry",
+      "legalNav": "Legal information"
+    },
+    "pakistan": {
+      "eyebrow": "The journey continues · Pakistan",
+      "title": "Rooted in care.",
+      "note": "Basmati from Pakistan. Selected with the same care.",
+      "caption": "Selected at origin. Gathered in Hamburg."
+    }
+  },
+  "preview": {
+    "eyebrow": "Preview",
+    "title": "Available on Monday, 5 October.",
+    "body": "We are putting the finishing touches to this page. For now, enjoy the Hugo Tron world on the home page.",
+    "close": "Back to the world"
   }
 }

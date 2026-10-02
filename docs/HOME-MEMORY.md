@@ -48,3 +48,27 @@ asserts that no callback has duplicate pending frames, no old context stays
 active, and old videos are paused with their sources removed. It also checks
 for uncaught page errors. Run it again after changes to scene loading, disposal
 or video ownership.
+
+## Paper story continuation
+
+The paper chapter now owns a second, small WebGL context for the textured wipe.
+It draws only when progress or viewport size changes, with pixel ratio capped
+at 1.25; the illustrations and packaging do not introduce another Three.js scene.
+Both graphics contexts are explicitly released on route changes. The wipe owns
+a fresh canvas per effect setup so React Strict Mode does not reuse a lost context.
+
+A production browser regression confirmed that the World renderer makes no draw
+calls once the paper fully covers it, its films pause, and rendering resumes on
+reverse scroll. Three complete film/catalogue/return cycles released both
+contexts and the old video sources each time. The earlier heap figures above
+belong to the earlier scene profile; they are not a new whole-page memory measurement.
+
+The complementary story check is:
+
+```sh
+node scripts/check-paper-story.mjs http://localhost:3213
+```
+
+It checks the persistent identity, handoff, covered renderer and media, cart,
+private-label enquiry purpose, English/German mobile views, reduced motion,
+no-JavaScript text and no-WebGL fallback.

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { PAPER_NOISE } from "./paperNoise";
 
 const VERTEX = `
 attribute vec2 position;
@@ -16,26 +17,19 @@ precision mediump float;
 uniform float uProgress;
 uniform vec2 uResolution;
 uniform vec3 uColor;
-uniform float uSpread;
 varying vec2 vUv;
-float hash(vec2 p) {
-  return fract(sin(dot(vec3(p, 1.0), vec3(37.1, 61.7, 12.4))) * 3758.5453123);
-}
-float noise(vec2 p) {
-  vec2 i = floor(p);
-  vec2 f = fract(p);
-  f *= f * (3.0 - 2.0 * f);
-  return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),
-    mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);
-}
-float fbm(vec2 p) {
-  return noise(p) * 0.5 + noise(p * 2.0) * 0.25 + noise(p * 4.0) * 0.125;
-}
+${PAPER_NOISE}
 void main() {
   vec2 centred = (vUv - 0.5) * vec2(uResolution.x / uResolution.y, 1.0);
-  float edge = vUv.y - uProgress * 1.2 + fbm(centred * 15.0) * uSpread;
+  float torn = fbm(centred * 15.0) * 0.12;
+  float edge = vUv.y + torn + 0.02 - uProgress * 1.14;
   float pixel = 1.0 / uResolution.y;
-  gl_FragColor = vec4(uColor, 1.0 - smoothstep(-pixel, pixel, edge));
+  vec2 paper = vUv * uResolution;
+  float grain = hash(paper) - 0.5;
+  float fibres = noise(paper * vec2(0.035, 0.6)) - 0.5;
+  float pulp = fbm(centred * 3.0) - 0.44;
+  vec3 color = uColor + grain * 0.026 + fibres * 0.014 + pulp * 0.022;
+  gl_FragColor = vec4(color, 1.0 - smoothstep(-pixel, pixel, edge));
 }`;
 
 /** Any CSS colour (a token's resolved value) as 0–1 RGB. */
@@ -55,17 +49,35 @@ function toRgb(color: string): [number, number, number] {
  * returned `canvas` ref; `draw(progress)` paints only when called, so an idle page costs nothing.
  */
 export function useToneFill(colorVar: string) {
-  const canvas = useRef<HTMLCanvasElement>(null);
+  const canvas = useRef<HTMLDivElement>(null);
   const draw = useRef<(progress: number) => void>(() => {});
 
   useEffect(() => {
-    const element = canvas.current;
-    const gl = element?.getContext("webgl", {
+    const host = canvas.current;
+    if (!host) return;
+    // Own a fresh canvas per setup: Strict Mode may clean up and set up the same host.
+    const element = document.createElement("canvas");
+    element.style.width = "100%";
+    element.style.height = "100%";
+    element.style.display = "block";
+    host.append(element);
+    const gl = element.getContext("webgl", {
       alpha: true,
       antialias: false,
       premultipliedAlpha: false,
     });
-    if (!element || !gl) return;
+    // A failed context still has a simple rising paper wipe and readable chapters.
+    if (!gl) {
+      element.style.backgroundColor = `var(${colorVar})`;
+      draw.current = (progress) => {
+        host.dataset.active = String(progress > 0);
+        element.style.clipPath = `inset(${(1 - progress) * 100}% 0 0)`;
+      };
+      return () => {
+        draw.current = () => {};
+        element.remove();
+      };
+    }
     const compile = (type: number, source: string) => {
       const shader = gl.createShader(type)!;
       gl.shaderSource(shader, source);
@@ -73,9 +85,13 @@ export function useToneFill(colorVar: string) {
       return shader;
     };
     const program = gl.createProgram()!;
-    gl.attachShader(program, compile(gl.VERTEX_SHADER, VERTEX));
-    gl.attachShader(program, compile(gl.FRAGMENT_SHADER, FRAGMENT));
+    const vertex = compile(gl.VERTEX_SHADER, VERTEX);
+    const fragment = compile(gl.FRAGMENT_SHADER, FRAGMENT);
+    gl.attachShader(program, vertex);
+    gl.attachShader(program, fragment);
     gl.linkProgram(program);
+    gl.deleteShader(vertex);
+    gl.deleteShader(fragment);
     gl.useProgram(program);
     const buffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -87,23 +103,23 @@ export function useToneFill(colorVar: string) {
     const progressLocation = uniform("uProgress");
     const resolutionLocation = uniform("uResolution");
     gl.uniform3fv(uniform("uColor"), toRgb(getComputedStyle(element).getPropertyValue(colorVar)));
-    gl.uniform1f(uniform("uSpread"), 0.5);
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-    let last = 0;
+    let last = -1;
     const resize = () => {
-      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      const ratio = Math.min(window.devicePixelRatio || 1, 1.25);
       element.width = Math.round(element.clientWidth * ratio);
       element.height = Math.round(element.clientHeight * ratio);
       gl.viewport(0, 0, element.width, element.height);
       gl.uniform2f(resolutionLocation, element.width, element.height);
-      draw.current(last);
+      const progress = Math.max(0, last);
+      last = -1;
+      draw.current(progress);
     };
     draw.current = (progress: number) => {
+      if (progress === last) return;
       last = progress;
       // Hidden while empty, so the canvas costs nothing before the fill begins.
-      element.dataset.active = String(progress > 0);
+      host.dataset.active = String(progress > 0);
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
       if (progress <= 0) return;
@@ -118,6 +134,8 @@ export function useToneFill(colorVar: string) {
       draw.current = () => {};
       gl.deleteBuffer(buffer);
       gl.deleteProgram(program);
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
+      element.remove();
     };
   }, [colorVar]);
 

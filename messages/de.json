@@ -358,5 +358,99 @@
     "eyebrow": "Vom Ursprung nach Hamburg",
     "statement": "Von den Feldern, auf denen sie wachsen, bis in Küchen in ganz Europa treffen sich unsere Zutaten an einem Ort: in unserem Lager in Hamburg.",
     "note": "In unserem eigenen Hamburger Lager, mit Lieferungen in ganz Europa jede Woche."
+  },
+  "paperStory": {
+    "origin": {
+      "eyebrow": "Am Ursprung",
+      "title": "Hier beginnt das Gute.",
+      "note": "Am Ursprung ausgewählt. Von uns nähergebracht.",
+      "annotation": "Eine Welt zum Entdecken",
+      "left": "Am Ursprung ausgewählt",
+      "right": "In Hamburg vereint"
+    },
+    "fields": {
+      "eyebrow": "Näher am Ursprung",
+      "title": "Alles beginnt auf dem Feld.",
+      "note": "Von den Feldern zu den Menschen hinter jeder Ernte. Unsere Geschichte beginnt am Ursprung.",
+      "rice": "Basmati aus Indien und Pakistan",
+      "saffron": "Safran aus dem Iran",
+      "tea": "Tee aus Indien",
+      "place": "Indien · Basmatireis"
+    },
+    "hamburg": {
+      "eyebrow": "Unser Heimathafen",
+      "title": "In Hamburg vereint.",
+      "stock": "In Hamburg gelagert. Europaweit geliefert.",
+      "packs": "Von 1 kg bis zur ganzen Palette.",
+      "delivery": "Versandfrei in Deutschland ab 29 €."
+    },
+    "buying": {
+      "eyebrow": "Für Ihren Alltag",
+      "title": "So, wie Sie einkaufen.",
+      "home": {
+        "title": "Zu Hause.",
+        "note": "Gute Zutaten, ein Stück näher.",
+        "action": "Sortiment entdecken"
+      },
+      "kitchen": {
+        "title": "In der Küche.",
+        "note": "Für alle, die für andere kochen.",
+        "action": "Sprechen wir darüber"
+      },
+      "trade": {
+        "title": "Im Handel.",
+        "note": "Größere Mengen. Persönlicher Kontakt.",
+        "action": "Bestellung besprechen"
+      }
+    },
+    "label": {
+      "eyebrow": "Private Label",
+      "title": "Ihr Name.",
+      "accent": "Unsere Auswahl.",
+      "note": "Die gleiche Sorgfalt. Ihr Name auf der Verpackung.",
+      "action": "Private Label entdecken",
+      "caption": "Eine Verpackung. Ihre Möglichkeiten.",
+      "ingredient": "Ausgewählte Zutaten",
+      "yourLogo": "Ihr Logo",
+      "possibility": "Ihr nächstes Kapitel",
+      "pageTitle": "Private Label",
+      "pageLead": "Erzählen Sie uns von Ihrem Produkt, Ihrer Verpackung und den gewünschten Mengen. Gemeinsam klären wir die Möglichkeiten.",
+      "enquire": "Projekt anfragen",
+      "back": "Zurück in die Hugo Tron Welt"
+    },
+    "range": {
+      "eyebrow": "Ein Stück unserer Welt für Sie",
+      "title": "Das Gute ist ganz nah.",
+      "action": "Alle Produkte ansehen",
+      "note": "Unser ganzes Sortiment entdecken",
+      "previous": "Vorherige Produkte",
+      "next": "Nächste Produkte",
+      "railLabel": "Alle Produkte von Hugo Tron"
+    },
+    "contact": {
+      "eyebrow": "Das nächste Kapitel beginnt mit Ihnen",
+      "title": "Lassen Sie uns anfangen.",
+      "action": "Kontakt aufnehmen",
+      "europe": "Europa",
+      "back": "Nach oben",
+      "country": "Deutschland",
+      "productsNav": "Produktkategorien",
+      "businessNav": "Mit Hugo Tron zusammenarbeiten",
+      "business": "Zusammenarbeiten",
+      "enquiry": "Anfrage stellen",
+      "legalNav": "Rechtliche Informationen"
+    },
+    "pakistan": {
+      "eyebrow": "Die Reise geht weiter · Pakistan",
+      "title": "Sorgfalt verbindet.",
+      "note": "Basmati aus Pakistan. Mit derselben Sorgfalt ausgewählt.",
+      "caption": "Am Ursprung ausgewählt. In Hamburg vereint."
+    }
+  },
+  "preview": {
+    "eyebrow": "Vorschau",
+    "title": "Ab Montag, 5. Oktober verfügbar.",
+    "body": "Wir legen gerade letzte Hand an diese Seite. Bis dahin entdecken Sie die Hugo Tron Welt auf der Startseite.",
+    "close": "Zurück zur Welt"
   }
 }

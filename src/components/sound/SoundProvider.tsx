@@ -69,9 +69,10 @@ export default function SoundProvider({ children }: { children: ReactNode }) {
   }, [playback, start]);
 
   useEffect(() => {
-    const activate = (event: PointerEvent | KeyboardEvent) => {
+    const activate = (event: PointerEvent | MouseEvent | KeyboardEvent) => {
       if (!event.isTrusted || !readSoundPreference() || automaticAttempted.current) return;
       if (event instanceof PointerEvent && (!event.isPrimary || event.button !== 0)) return;
+      if (event instanceof MouseEvent && event.button !== 0) return;
       if (event instanceof KeyboardEvent && (event.repeat || !["Enter", " "].includes(event.key)))
         return;
       // The mute button's first interaction must silence the preference, never start playback.
@@ -86,12 +87,33 @@ export default function SoundProvider({ children }: { children: ReactNode }) {
         setPlayback("idle");
       }
     });
-    document.addEventListener("pointerup", activate);
-    document.addEventListener("keydown", activate);
+    // Capture phase: a scene, drag or link that stops its event must not swallow the first gesture.
+    document.addEventListener("pointerup", activate, true);
+    document.addEventListener("click", activate, true);
+    document.addEventListener("keydown", activate, true);
+    // A browser that already allows audio here (a returning visitor, a reload) needs no gesture:
+    // an AudioContext created without one starts "running" only when autoplay is permitted.
+    const probe = window.setTimeout(() => {
+      if (!readSoundPreference() || engine.current || automaticAttempted.current) return;
+      try {
+        const candidate = new SoundEngine(() => setPlayback("unavailable"));
+        if (!candidate.allowed) {
+          candidate.dispose();
+          return;
+        }
+        engine.current = candidate;
+        automaticAttempted.current = true;
+        start();
+      } catch {
+        // No audio here; the toggle reports it on the next attempt.
+      }
+    });
     return () => {
+      window.clearTimeout(probe);
       unsubscribe();
-      document.removeEventListener("pointerup", activate);
-      document.removeEventListener("keydown", activate);
+      document.removeEventListener("pointerup", activate, true);
+      document.removeEventListener("click", activate, true);
+      document.removeEventListener("keydown", activate, true);
     };
   }, [start]);
 

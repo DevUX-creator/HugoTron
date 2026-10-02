@@ -15,6 +15,12 @@
    =========================================================================== */
 
 @theme {
+  /* The field-journal chapter: uncoated kraft, with dark blue engraved ink. */
+  --color-world-paper: #d9cdb7;
+  --color-world-paper-light: #e8ddc7;
+  --color-world-paper-shadow: #b1a082;
+  --color-world-paper-ink: #172c3e;
+  --color-world-paper-blue: #254fa0;
   /* -------------------------------------------------------------------------
      COLOUR
      Five ramps generated in OKLCH at fixed perceptual lightness steps, each

@@ -7,8 +7,16 @@ export function flySeed(index: number, seed = 0) {
   return n - Math.floor(n);
 }
 
-/** Splits text into words that each fly away on their own (see flyAway.css). */
-export default function SplitWords({ text, seed = 0 }: { text: string; seed?: number }) {
+/** Keep whole words for wrapping; optionally let their individual letters leave independently. */
+export default function SplitWords({
+  text,
+  seed = 0,
+  letters = false,
+}: {
+  text: string;
+  seed?: number;
+  letters?: boolean;
+}) {
   return text
     .split(/(\s+)/)
     .filter(Boolean)
@@ -18,10 +26,20 @@ export default function SplitWords({ text, seed = 0 }: { text: string; seed?: nu
       ) : (
         <span
           key={index}
-          className="split-word flies"
+          className={letters ? "split-word" : "split-word flies"}
           style={{ "--r": flySeed(index, seed).toFixed(3) } as CSSProperties}
         >
-          {part}
+          {letters
+            ? Array.from(part).map((letter, i) => (
+                <span
+                  key={i}
+                  className="split-letter flies"
+                  style={{ "--r": flySeed(index * 31 + i, seed).toFixed(3) } as CSSProperties}
+                >
+                  {letter}
+                </span>
+              ))
+            : part}
         </span>
       ),
     );

@@ -104,6 +104,7 @@ export const PRODUCTS: readonly Product[] = [
   {
     views: ["front", "angle", "detail"],
     slug: "premium-negin-safran",
+    cardImage: "/products/premium-negin-safran/card-cutout.webp",
     price: 490,
     unit: "g1",
     channel: "shop",
@@ -111,6 +112,7 @@ export const PRODUCTS: readonly Product[] = [
   {
     views: ["front", "angle"],
     slug: "vahdam-earl-grey",
+    cardImage: "/products/vahdam-earl-grey/card-cutout.webp",
     price: 349,
     unit: "pack1",
     channel: "shop",
@@ -118,6 +120,7 @@ export const PRODUCTS: readonly Product[] = [
   {
     views: ["front", "top"],
     slug: "pistazien-mit-schale",
+    cardImage: "/products/pistazien-mit-schale/card-cutout.webp",
     price: null,
     unit: "sack10",
     channel: "wholesale",
@@ -125,6 +128,7 @@ export const PRODUCTS: readonly Product[] = [
   {
     views: ["front", "top"],
     slug: "pistazienkerne",
+    cardImage: "/products/pistazienkerne/card-cutout.webp",
     price: null,
     unit: "sack25",
     channel: "wholesale",
@@ -132,6 +136,7 @@ export const PRODUCTS: readonly Product[] = [
   {
     views: ["front", "top"],
     slug: "kichererbsen-25kg",
+    cardImage: "/products/kichererbsen-25kg/card-cutout.webp",
     price: null,
     unit: "sack25",
     channel: "wholesale",

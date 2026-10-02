@@ -26,6 +26,11 @@ export class SoundEngine {
     this.master.connect(this.context.destination);
   }
 
+  /** True when the browser already lets this page play audio (no gesture needed). */
+  get allowed() {
+    return this.context.state === "running";
+  }
+
   async enable() {
     if (this.disposed) return false;
     const revision = ++this.revision;

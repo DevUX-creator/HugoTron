@@ -1,0 +1,1074 @@
+/* ===========================================================================
+   Paper story — pinned engravings, scrolling text and one ink line.
+
+   Each `.story__group` receives its chapter's progress as `--p` (0 when the
+   chapter enters at the bottom, 1 when it leaves at the top). A layer starts
+   wiping in at its `--a` and out at its `--z`; `in-*` / `out-*` classes pick
+   which edge each wipe travels from. Text is never faded: it scrolls.
+   =========================================================================== */
+
+.story__pinned {
+  position: relative;
+}
+.story__pinned > .story-chapter + .story-chapter {
+  margin-block-start: -32svh;
+}
+
+/* -- The pinned picture plane ---------------------------------------------- */
+
+.story__visuals {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 0;
+  block-size: 100svh;
+  margin-block-end: -100svh;
+  overflow: clip;
+  pointer-events: none;
+  /* The engravings live inside the World frame, never under the header or its labels. */
+  clip-path: inset(
+    calc(var(--header-inset-block) + var(--header-row) + 2rem) max(24px, 2.5vw) 6rem
+  );
+}
+.story__defs {
+  position: absolute;
+}
+.story__group {
+  visibility: hidden;
+  position: absolute;
+  inset: 0;
+}
+
+.story-layer {
+  --walk: clamp(0, calc((var(--p, 0) - 0.55) / 0.24), 1);
+  /* Wipe amounts, eased: 0 hidden → 1 shown, and 0 present → 1 gone. */
+  --in-raw: clamp(0, calc((var(--p, 0) - var(--a, 0)) / 0.16), 1);
+  --out-raw: clamp(0, calc((var(--p, 0) - var(--z, 1)) / 0.14), 1);
+  --in: calc(var(--in-raw) * var(--in-raw) * (3 - 2 * var(--in-raw)));
+  --out: calc(var(--out-raw) * var(--out-raw) * (3 - 2 * var(--out-raw)));
+  --hide-in: calc((1 - var(--in)) * 100%);
+  --hide-out: calc(var(--out) * 100%);
+  /* Inset per edge: one share from the in-wipe, one from the out-wipe. */
+  --t-in: 0%;
+  --r-in: 0%;
+  --b-in: 0%;
+  --l-in: 0%;
+  --t-out: 0%;
+  --r-out: 0%;
+  --b-out: 0%;
+  --l-out: 0%;
+  position: absolute;
+  inset-inline-start: var(--x);
+  inset-block-start: var(--y);
+  inline-size: var(--w);
+  translate: 0 var(--lift, 0%);
+  clip-path: inset(
+    calc(var(--t-in) + var(--t-out)) calc(var(--r-in) + var(--r-out))
+      calc(var(--b-in) + var(--b-out)) calc(var(--l-in) + var(--l-out))
+  );
+}
+/* in-up rises from its base; in-down falls from its top; in-left/right sweep sideways. */
+.in-up {
+  --t-in: var(--hide-in);
+}
+.in-down {
+  --b-in: var(--hide-in);
+}
+.in-right {
+  --r-in: var(--hide-in);
+}
+.in-left {
+  --l-in: var(--hide-in);
+}
+/* out-up leaves upward (its base goes first); out-left sweeps away to the left. */
+.out-up {
+  --b-out: var(--hide-out);
+}
+.out-down {
+  --t-out: var(--hide-out);
+}
+.out-left {
+  --r-out: var(--hide-out);
+}
+.out-right {
+  --l-out: var(--hide-out);
+}
+
+/* Depth: the pointer and the chapter's own progress move nearer layers further. */
+.story-layer__motion {
+  translate: calc(var(--paper-pointer-x, 0) * var(--depth) * 18px)
+    calc(
+      var(--paper-pointer-y, 0) * var(--depth) * 12px + (var(--p, 0.5) - 0.5) * var(--depth) * -60px
+    );
+}
+.story-layer img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+.story-layer--mirror img {
+  scale: -1 1;
+}
+.story-layer--tilt-left {
+  rotate: -4deg;
+}
+.story-layer--tilt-right {
+  rotate: 4deg;
+}
+.story-layer--faint {
+  opacity: 0.45;
+}
+
+/* -- Layers with a life of their own ---------------------------------------- */
+
+/* The ship sails in from the open sea as it is revealed. */
+.story-layer--sail img {
+  translate: calc((1 - var(--in)) * 45%) 0;
+}
+/* The lorry arrives, then drives out of the frame as the chapter ends. */
+.story-layer--drive img {
+  translate: calc((1 - var(--in)) * -30% + var(--out) * 60%) 0;
+}
+
+/* Timed layers wait for the chapter to settle, then join a few seconds apart. */
+.story-layer[data-timed] {
+  --in: 1;
+  --out: 0;
+  opacity: 0;
+  transition: opacity 900ms ease;
+}
+.story__group[data-live="true"] .story-layer[data-timed] {
+  opacity: 1;
+}
+/* The cargo net is lowered from the crane on its rope, then sways. */
+.story-layer--lower img {
+  translate: 0 -55%;
+  transition: translate 2.4s cubic-bezier(0.22, 1, 0.36, 1) 1.2s;
+}
+.story__group[data-live="true"] .story-layer--lower img {
+  translate: 0 0;
+}
+.story__group[data-live="true"] .story-layer--lower .story-layer__motion {
+  animation: story-sway 5.5s ease-in-out 3.6s infinite alternate;
+  transform-origin: 50% 0;
+}
+.story__group[data-live="true"] .story-layer--lower {
+  transition-delay: 1.2s;
+}
+/* Gulls cross the harbour sky, a little later again. */
+.story-layer--flock {
+  transition-delay: 2.4s;
+}
+.story-layer--flock img {
+  translate: -30% 12%;
+  transition: translate 6s cubic-bezier(0.25, 0.8, 0.3, 1) 2.4s;
+}
+.story__group[data-live="true"] .story-layer--flock img {
+  translate: 0 0;
+}
+.story__group[data-live="true"] .story-layer--flock .story-layer__motion {
+  animation: story-drift 9s ease-in-out 8.4s infinite alternate;
+}
+/* Plants move in a faint breeze while in view. */
+.story__group[data-live="true"] .story-layer--sway .story-layer__motion {
+  animation: story-sway 6s ease-in-out infinite alternate;
+  transform-origin: 50% 100%;
+}
+
+@keyframes story-sway {
+  from {
+    rotate: -1.4deg;
+  }
+  to {
+    rotate: 1.4deg;
+  }
+}
+
+@keyframes story-drift {
+  to {
+    transform: translate(4%, -6%);
+  }
+}
+
+/* -- The one ink line ------------------------------------------------------ */
+
+.story__line {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 1;
+  inline-size: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+/* -- Chapters and their scrolling text -------------------------------------- */
+
+.story-chapter {
+  position: relative;
+  z-index: 2;
+  min-block-size: 190svh;
+  padding: 0 max(3rem, 8vw);
+}
+.story-chapter h2 {
+  max-inline-size: 12ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 6.6vw, 7rem);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+.story-text {
+  position: relative;
+  max-inline-size: 30rem;
+}
+.story-text--centre {
+  max-inline-size: 52rem;
+  margin-inline: auto;
+  text-align: center;
+}
+.story-text--right {
+  margin-inline-start: auto;
+}
+.story-text__note {
+  max-inline-size: 30ch;
+  margin: 1.75rem 0 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.story-text--centre .story-text__note {
+  margin-inline: auto;
+}
+.story-text__coords {
+  display: block;
+  margin-block-start: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.story-list {
+  display: grid;
+  gap: 0.6rem;
+  margin-block: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9375rem;
+}
+.story-list p {
+  margin: 0;
+}
+
+/* Source: the statement sits between the columns; the asides follow it up. */
+.paper-story .paper-origin .story-text {
+  padding-block-start: 46svh;
+}
+.paper-story .paper-origin h2 {
+  max-inline-size: 12ch;
+  margin-inline: auto;
+  font-size: clamp(3.5rem, 6.1vw, 6.4rem);
+  text-wrap: balance;
+}
+.story-asides {
+  display: flex;
+  justify-content: space-between;
+  max-inline-size: 46rem;
+  margin: 26svh auto 0;
+}
+.story-asides p {
+  max-inline-size: 17ch;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1.65;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.story-asides p:last-child {
+  text-align: end;
+}
+.story-asides__rule {
+  display: block;
+  inline-size: 2rem;
+  block-size: 1px;
+  margin-block-end: 0.8rem;
+  background: currentColor;
+  opacity: 0.4;
+}
+.story-asides p:last-child .story-asides__rule {
+  margin-inline-start: auto;
+}
+
+/* Fields: copy on the left, past the rice; the list follows a screen later. */
+.paper-story .paper-fields .story-text,
+.paper-story .paper-hamburg .story-text {
+  max-inline-size: min(32rem, 30vw);
+}
+.paper-story .paper-fields h2,
+.paper-story .paper-hamburg h2 {
+  font-size: clamp(3rem, 5vw, 5.5rem);
+}
+.paper-story .paper-fields header {
+  padding-block-start: 55svh;
+}
+.paper-story .paper-fields .story-list {
+  margin-block-start: 45svh;
+}
+
+/* Hamburg: copy on the right, over open water; the facts follow. */
+.paper-story .paper-hamburg header {
+  padding-block-start: 44svh;
+}
+.paper-story .paper-hamburg .story-list {
+  margin-block-start: 43svh;
+}
+
+/* Text kept legible where an engraving passes beneath it. */
+.story-chapter .story-text {
+  text-shadow:
+    0 0 1.5rem var(--color-world-paper),
+    0 0 0.6rem var(--color-world-paper);
+}
+
+/* No JavaScript: the engravings and line have no progress to follow; the text stands alone. */
+html:not(.js) .story__visuals,
+html:not(.js) .story__line {
+  display: none;
+}
+
+@media (width < 48rem) {
+  .story-chapter {
+    min-block-size: 170svh;
+    padding-inline: 2.5rem;
+  }
+  .story-chapter h2,
+  .paper-story .paper-origin h2 {
+    font-size: clamp(2.8rem, 11vw, 4.5rem);
+  }
+  .paper-story .paper-fields .story-text,
+  .paper-story .paper-hamburg .story-text {
+    max-inline-size: none;
+  }
+  .story-layer {
+    /* Engravings take more of a narrow frame, nudged toward its middle. */
+    inline-size: calc(var(--w) * 1.7);
+    inset-inline-start: calc(var(--x) * 0.75 - 6%);
+  }
+  .story-asides {
+    margin-block-start: 18svh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-layer {
+    clip-path: none;
+    opacity: clamp(0, calc(var(--in) - var(--out)), 1);
+  }
+  .story-layer__motion,
+  .story-layer img {
+    translate: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .story-layer[data-timed] {
+    transition: none;
+  }
+}
+
+/* -- Chapters after the pinned plane keep their own layout ------------------ */
+
+.paper-story .paper-buying,
+.paper-story .paper-label {
+  min-block-size: auto;
+  padding-block: 16rem 8rem;
+}
+.paper-story .paper-buying .story-text {
+  margin-block-end: 4rem;
+}
+.paper-story .paper-label__pack {
+  display: grid;
+  justify-items: center;
+  gap: 2.5rem;
+}
+.paper-story .paper-range,
+.paper-story .paper-contact {
+  z-index: 2;
+}
+
+/* The same ink language, with room to walk through each composition. */
+.story__group[data-active="true"] {
+  visibility: visible;
+}
+.story-chapter h2,
+.paper-story .paper-range h2,
+.paper-story .paper-contact h2 {
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.story-text--centre h2 {
+  margin-inline: auto;
+}
+.story-layer--depart-left {
+  transform: translateX(calc(var(--walk) * -32vw)) scale(calc(1 + var(--walk) * 0.16));
+}
+.story-layer--depart-right {
+  transform: translateX(calc(var(--walk) * 32vw)) scale(calc(1 + var(--walk) * 0.16));
+}
+.story-layer--field-left img {
+  clip-path: inset(0 50% 0 0);
+}
+.story-layer--field-right img {
+  clip-path: inset(0 0 0 50%);
+}
+.story-layer--mountains {
+  opacity: 0.65;
+}
+.story-layer--growers[data-timed] {
+  --in: 1;
+  --out: var(--out-raw);
+}
+.story__group[data-live="true"] .story-layer--growers[data-timed] {
+  transition-delay: 1.1s;
+}
+.story-layer--low-cloud {
+  opacity: 0.8;
+}
+.story__line-grey,
+.story__line-ink {
+  fill: none;
+  stroke-width: 1px;
+  stroke-linecap: round;
+}
+.story__line-grey {
+  stroke: var(--color-world-paper-ink);
+  opacity: 0.19;
+}
+.story__line-ink {
+  stroke: var(--color-world-paper-blue);
+  opacity: 0.3;
+}
+
+.paper-story .paper-fields {
+  min-block-size: 230svh;
+}
+.paper-story .paper-fields header.story-text {
+  padding-block-start: 34svh;
+  max-inline-size: 55rem;
+}
+.paper-story .paper-fields h2 {
+  font-size: clamp(3.5rem, 6.6vw, 7rem);
+}
+.paper-story .paper-fields .story-field-note {
+  margin: 66svh 0 0 12%;
+  max-inline-size: 23ch;
+}
+.story-field-note .story-text__note {
+  margin-block-start: 0;
+}
+.paper-story .paper-pakistan {
+  min-block-size: 210svh;
+}
+.paper-story .paper-pakistan header {
+  padding-block-start: 47svh;
+  max-inline-size: 28rem;
+}
+.paper-story .paper-pakistan h2 {
+  font-size: clamp(3.5rem, 5.8vw, 6rem);
+}
+.story-origin-note {
+  margin-inline-start: auto;
+  margin-block-start: 50svh;
+  max-inline-size: 28rem;
+}
+.paper-story .paper-hamburg {
+  min-block-size: 210svh;
+}
+
+.story-harbour-film {
+  --x: -5%;
+  --y: 35%;
+  --w: 70%;
+  --a: 0.15;
+  --z: 0.76;
+  --depth: 0.4;
+  mix-blend-mode: multiply;
+}
+.story-harbour-film video,
+.story-harbour-film .engraved-film__ink {
+  display: block;
+  inline-size: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  mask-image: radial-gradient(ellipse at center, var(--color-claim-black) 46%, transparent 72%);
+}
+
+/* The buy paths draw in separately, like three small editorial illustrations. */
+.paper-story .paper-buying {
+  padding-block: 14svh 20svh;
+}
+.paper-story .paper-buying__paths {
+  margin-block-start: 6rem;
+  gap: 1.5rem;
+}
+.paper-story .paper-buying__path {
+  position: relative;
+  padding: 1.5rem 2rem 2rem;
+  border: 0;
+  border-block: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+}
+.paper-story .paper-buying__path:first-child {
+  padding-inline-start: 2rem;
+  border-block: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+}
+.paper-story .paper-buying__path::before {
+  content: "";
+  position: absolute;
+  inset: -1px auto auto 0;
+  inline-size: 12px;
+  block-size: 12px;
+  border-block-start: 1px solid currentColor;
+  border-inline-start: 1px solid currentColor;
+}
+.paper-story .paper-buying__path:nth-child(2) {
+  margin-block: 4rem -4rem;
+}
+.paper-story .paper-buying__path:nth-child(3) {
+  margin-block: 8rem -8rem;
+}
+.paper-story .paper-buying__path h3 {
+  text-transform: uppercase;
+  font-size: clamp(1.4rem, 2.3vw, 2.3rem);
+}
+.paper-story .paper-buying__path .buying-sketch {
+  translate: calc(var(--paper-pointer-x, 0) * 7px) calc(var(--paper-pointer-y, 0) * 5px);
+}
+.paper-story .paper-buying__path:hover .buying-sketch {
+  translate: calc(var(--paper-pointer-x, 0) * 7px) -10px;
+}
+.paper-story .paper-buying__path:hover {
+  background: color-mix(in srgb, var(--color-world-paper-light) 15%, transparent);
+}
+.paper-story .paper-label {
+  padding-block: 30svh 15svh;
+}
+
+/* A celestial chart reconnects the products to the opening World, in paper and ink. */
+.paper-story .paper-range {
+  isolation: isolate;
+  --rail-gutter: max(3rem, 8vw);
+}
+.paper-story .paper-universe {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: clip;
+  pointer-events: none;
+  opacity: 0.8;
+}
+.paper-story .paper-universe > svg {
+  inline-size: 100%;
+  block-size: 100%;
+  translate: calc(var(--paper-pointer-x, 0) * -12px) calc(var(--paper-pointer-y, 0) * -8px);
+}
+.paper-story .paper-universe__rocks {
+  color: var(--color-world-paper-ink);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1px;
+  opacity: 0.55;
+}
+.paper-story .paper-universe__rocks > g:nth-child(odd) {
+  animation: paper-rock-float 9s ease-in-out infinite alternate;
+}
+.paper-story .paper-universe__rocks > g:nth-child(even) {
+  animation: paper-rock-float 12s ease-in-out -4s infinite alternate-reverse;
+}
+
+@keyframes paper-rock-float {
+  to {
+    translate: 0 -14px;
+  }
+}
+.paper-story .paper-universe__stars {
+  stroke: var(--color-world-paper-ink);
+  stroke-width: 0.7px;
+  opacity: 0.38;
+}
+.paper-story .paper-range__film {
+  aspect-ratio: 16 / 9;
+  inline-size: 100%;
+  border-radius: 0;
+  rotate: none;
+  box-shadow: none;
+}
+.paper-story .paper-range__intro {
+  position: relative;
+  grid-template-columns: 1.2fr 1fr;
+}
+.paper-story .paper-range__intro h2 {
+  max-inline-size: 14ch;
+}
+.paper-story .paper-range__rail {
+  inline-size: calc(100% + var(--rail-gutter) * 2);
+  margin-inline: calc(-1 * var(--rail-gutter));
+  padding: 1.5rem var(--rail-gutter) 2rem;
+  gap: clamp(2rem, 4vw, 4rem);
+  scroll-padding-inline: var(--rail-gutter);
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+  cursor: grab;
+}
+.paper-story .paper-range__rail::-webkit-scrollbar {
+  display: none;
+}
+.paper-story .paper-range__rail[data-dragging] {
+  scroll-snap-type: none;
+  cursor: grabbing;
+  user-select: none;
+}
+.paper-story .paper-range__rail img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.paper-story .paper-range__navigation button:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.paper-story .paper-range .range-product {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+.paper-story .paper-range .range-product__image {
+  overflow: visible;
+  background: transparent;
+  block-size: clamp(15rem, 29vw, 24rem);
+}
+.paper-story .paper-range .range-product__image img {
+  object-fit: contain;
+  padding: 0;
+  transition: translate 450ms;
+}
+.paper-story .paper-range .range-product:hover .range-product__image img {
+  translate: 0 -6px;
+}
+
+/* A fibrous opening grows inward from the right edge over the stationary World scene. */
+.paper-story .paper-contact {
+  min-block-size: auto;
+  padding-block: 6svh 8rem;
+}
+.paper-story .paper-contact__hero {
+  position: relative;
+  min-block-size: 78svh;
+  display: flex;
+  align-items: center;
+}
+.paper-story .paper-contact__copy {
+  position: relative;
+  z-index: 1;
+  max-inline-size: 53%;
+  padding-block: 7rem;
+}
+.paper-story .paper-contact h2 {
+  max-inline-size: 10ch;
+  margin-block-end: 2.5rem;
+  font-size: clamp(3.5rem, 6.6vw, 7rem);
+}
+.paper-story .paper-contact__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem 2.5rem;
+}
+.paper-story .paper-contact__products {
+  padding: 0.9rem 1.3rem;
+  border: 1px solid color-mix(in srgb, currentColor 32%, transparent);
+  background: color-mix(in srgb, var(--color-world-paper-light) 48%, transparent);
+}
+.paper-story .paper-contact__products .arrow-link__label {
+  font-size: 0.9375rem;
+}
+.paper-story .paper-contact__info {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1.35fr;
+  gap: 3rem;
+  padding-block: 4rem;
+  border-block-start: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+}
+.paper-story .paper-contact__brand {
+  display: inline-flex;
+  margin-block-end: 1.75rem;
+}
+.paper-story .paper-contact__brand svg {
+  inline-size: 11rem;
+  block-size: auto;
+}
+.paper-story .paper-contact address {
+  display: flex;
+  flex-direction: column;
+  font-style: normal;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+.paper-story .paper-contact address strong {
+  font-weight: 500;
+  margin-block-end: 0.3rem;
+}
+.paper-story .paper-contact__info h3 {
+  margin: 0 0 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.paper-story .paper-contact__nav ul {
+  display: grid;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.paper-story .paper-contact__nav a,
+.paper-story .paper-contact__reach > a {
+  font-size: 0.9375rem;
+  text-decoration: none;
+  text-underline-offset: 0.3em;
+}
+.paper-story .paper-contact__nav a:hover,
+.paper-story .paper-contact__reach > a:hover {
+  text-decoration: underline;
+}
+.paper-story .paper-contact__reach {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.75rem;
+}
+.paper-story .paper-contact__reach h3 {
+  margin-block-end: 0.75rem;
+}
+.paper-story .paper-contact__reach .paper-caption {
+  margin-block: 1.25rem 0;
+}
+.paper-story .paper-contact__bottom {
+  position: relative;
+  align-items: center;
+  font-size: 0.6875rem;
+}
+.paper-story .paper-contact__bottom nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.paper-story .paper-contact__bottom a {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 44px;
+}
+.paper-story .paper-portal {
+  position: absolute;
+  inset: 0 min(-3rem, -8vw) 0 auto;
+  inline-size: 58vw;
+  pointer-events: auto;
+}
+.paper-story .paper-portal__opening {
+  position: absolute;
+  inset: 0;
+  background: var(--color-world-night);
+  /* Static fallback only; the ready scene paints its own torn paper mask. */
+  clip-path: polygon(88% 0, 100% 0, 100% 96%, 8% 96%, 9% 72%, 29% 42%, 58% 17%);
+}
+.paper-story .paper-portal[data-paper-reveal="true"] .paper-portal__opening {
+  clip-path: none;
+}
+html.js .paper-portal:not([data-ready="true"], [data-fallback="true"]) .paper-portal__opening {
+  visibility: hidden;
+}
+.paper-story .paper-portal__canvas {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+}
+.paper-story .paper-portal[data-ready="true"] .paper-portal__canvas {
+  opacity: 1;
+}
+.paper-story .paper-portal__canvas canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.paper-story .paper-portal__fallback {
+  position: absolute;
+  inset: 34%;
+  display: grid;
+  place-items: center;
+  color: var(--color-world-neon-hot);
+  font-family: var(--font-display);
+  font-size: clamp(0.5rem, 1vw, 1rem);
+  border: 1px solid var(--color-world-neon);
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-world-surface) 36%, transparent),
+    color-mix(in srgb, var(--color-world-neon) 21%, transparent)
+  );
+  transform: rotate(-12deg) skewY(5deg);
+}
+.paper-story .paper-portal[data-ready="true"] .paper-portal__fallback {
+  visibility: hidden;
+}
+
+.paper-story .paper-hamburg .story-text,
+.paper-story .paper-pakistan header {
+  max-inline-size: min(38rem, 36vw);
+}
+
+html.js .story-chapter header h2 {
+  --text-in: clamp(0, calc((var(--p, 0) - 0.12) / 0.13), 1);
+  clip-path: inset(-0.16em -0.12em calc((1 - var(--text-in)) * 100% - 0.14em) -0.12em);
+  translate: 0 calc((1 - var(--text-in)) * 25px);
+}
+html.js .paper-buying__path .buying-sketch {
+  clip-path: inset(0 calc(clamp(0, (0.32 - var(--p, 0)) / 0.16, 1) * 100%) 0 0);
+}
+
+@media (width < 48rem) {
+  .story__visuals {
+    clip-path: inset(calc(var(--header-inset-block) + var(--header-row) + 1rem) 24px 5rem);
+  }
+  .paper-story .paper-fields {
+    min-block-size: 200svh;
+  }
+  .paper-story .paper-pakistan,
+  .paper-story .paper-hamburg {
+    min-block-size: 190svh;
+  }
+  .paper-story .paper-fields header.story-text {
+    padding-block-start: 29svh;
+  }
+  .paper-story .paper-fields h2,
+  .paper-story .paper-pakistan h2 {
+    font-size: clamp(2.8rem, 11vw, 4.5rem);
+  }
+  .paper-story .paper-pakistan header,
+  .paper-story .paper-hamburg header {
+    padding-block-start: 32svh;
+  }
+  .paper-story .paper-fields .story-field-note {
+    margin-block-start: 68svh;
+    margin-inline-start: 0;
+    max-inline-size: 24ch;
+  }
+  .story-layer--field-left,
+  .story-layer--field-right {
+    inset-inline-start: -50%;
+    inline-size: 200%;
+    inset-block-start: 48%;
+  }
+  .story-layer--mountains {
+    inset-block-start: 43%;
+  }
+  .story-layer--growers {
+    inset-inline-start: 67%;
+    inset-block-start: 64%;
+    inline-size: 22%;
+  }
+  [data-story-group="pakistan"] .story-layer--depart-left {
+    inset-block-start: 55%;
+  }
+  .story-harbour-film {
+    inset-inline-start: -34%;
+    inline-size: 150%;
+    inset-block-start: 50%;
+  }
+  [data-story-group="hamburg"] .story-layer--flock {
+    inset-block-start: 40%;
+  }
+  .paper-story .paper-buying {
+    padding-block: 8rem;
+  }
+  .paper-story .paper-buying__paths {
+    gap: 2rem;
+    margin-block-start: 3rem;
+  }
+  .paper-story .paper-buying__path,
+  .paper-story .paper-buying__path:first-child {
+    padding: 1.5rem 1rem;
+  }
+  .paper-story .paper-buying__path:nth-child(2),
+  .paper-story .paper-buying__path:nth-child(3) {
+    margin-block: 0;
+  }
+  .paper-story .paper-label {
+    padding-block: 6rem 4rem;
+  }
+  .paper-story .paper-range {
+    padding-block-start: 9rem;
+    --rail-gutter: 2.5rem;
+  }
+  .paper-story .paper-range__intro {
+    grid-template-columns: 1fr;
+  }
+  .paper-story .paper-range .range-product__image {
+    block-size: 19rem;
+  }
+  .paper-story .paper-contact {
+    padding-block: 4rem 5rem;
+  }
+  .paper-story .paper-contact__hero {
+    min-block-size: auto;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .paper-story .paper-contact__copy {
+    max-inline-size: none;
+    padding-block: 4rem 2rem;
+  }
+  .paper-story .paper-contact h2 {
+    font-size: clamp(2.8rem, 11vw, 4.5rem);
+  }
+  .paper-story .paper-contact__actions {
+    gap: 1rem;
+  }
+  .paper-story .paper-contact__products {
+    padding: 0.65rem 1rem;
+  }
+  .paper-story .paper-portal {
+    position: relative;
+    order: 2;
+    inset: auto;
+    inline-size: calc(100% + 5rem);
+    block-size: 24rem;
+    margin-inline: -2.5rem;
+  }
+  .paper-story .paper-contact__info {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem 1.5rem;
+    padding-block: 3rem;
+  }
+  .paper-story .paper-contact__company,
+  .paper-story .paper-contact__reach {
+    grid-column: 1 / -1;
+  }
+  .paper-story .paper-contact__bottom {
+    gap: 0.5rem 1.5rem;
+  }
+  .paper-story .paper-contact__bottom > span {
+    inline-size: 100%;
+  }
+  .paper-story .paper-contact__bottom nav {
+    gap: 1rem;
+  }
+  .paper-story .paper-hamburg .story-text,
+  .paper-story .paper-pakistan header {
+    max-inline-size: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-layer--depart-left,
+  .story-layer--depart-right {
+    transform: none;
+  }
+  html.js .story-chapter header h2,
+  html.js .paper-buying__path .buying-sketch {
+    clip-path: none;
+    translate: none;
+  }
+  .paper-story .paper-portal__canvas {
+    transition: none;
+  }
+  .paper-story .paper-range .range-product__image img,
+  .paper-story .paper-range .range-product:hover .range-product__image img {
+    transition: none;
+    translate: none;
+  }
+  .paper-story .paper-universe > svg {
+    translate: none;
+  }
+}
+
+/* Feather the field into the page; keep the frame itself crisp. */
+.story__group[data-story-group="fields"] {
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 16%,
+    var(--color-claim-black) 25% 77%,
+    transparent 91%
+  );
+}
+.story__group[data-story-group="fields"][data-live="true"] .story-layer--mountains {
+  opacity: 0.65;
+  transition-delay: 0.35s;
+}
+.story__group[data-live="true"] .story-layer--growers .story-layer__motion,
+.story__group[data-story-group="fields"][data-live="true"]
+  .story-layer--mountains
+  .story-layer__motion {
+  animation: story-ink-in 1.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.story__group[data-live="true"] .story-layer--growers .story-layer__motion {
+  animation-delay: 1.1s;
+}
+
+@keyframes story-ink-in {
+  from {
+    clip-path: inset(100% 0 0);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story__group[data-live="true"] .story-layer--growers .story-layer__motion,
+  .story__group[data-story-group="fields"][data-live="true"]
+    .story-layer--mountains
+    .story-layer__motion {
+    animation: none;
+  }
+}
+
+/* The three ways to buy drift past each other at their own pace, Son Daven style. */
+.paper-buying__path {
+  --drift: 0;
+  --turn: 0;
+  translate: calc(var(--paper-pointer-x, 0) * var(--turn) * 4px)
+    calc((var(--p, 0.5) - 0.5) * var(--drift) * 1px);
+  rotate: calc((var(--p, 0.5) - 0.5) * var(--turn) * 1deg);
+}
+.paper-buying__path:nth-child(1) {
+  --drift: -260;
+  --turn: -4;
+}
+.paper-buying__path:nth-child(2) {
+  --drift: 120;
+  --turn: 3;
+}
+.paper-buying__path:nth-child(3) {
+  --drift: -40;
+  --turn: -2;
+}
+.paper-buying__path .buying-sketch {
+  translate: calc(var(--paper-pointer-x, 0) * -10px) calc(var(--paper-pointer-y, 0) * -6px);
+}
+
+@media (width < 48rem) {
+  .paper-buying__path:nth-child(n) {
+    --drift: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-story .paper-universe__rocks > g {
+    animation: none;
+  }
+  .paper-buying__path,
+  .paper-buying__path .buying-sketch {
+    translate: none;
+    rotate: none;
+  }
+}

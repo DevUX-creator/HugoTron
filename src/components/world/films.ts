@@ -196,8 +196,8 @@ export function createWorldFilms(
         const arrival =
           panel.index === 0 ? entering : THREE.MathUtils.smootherstep(relative + 1, 0.22, 1);
         // Leaving the journey, the last sheet takes the same flight it takes between slides,
-        // a beat after the words, and is gone before the paper covers the frame.
-        const flight = reduced ? 0 : THREE.MathUtils.clamp(leave * 1.8 - 0.3, 0, 1);
+        // alongside the lettering and the first edge of paper.
+        const flight = reduced ? 0 : THREE.MathUtils.clamp(leave * 1.35, 0, 1);
         const departure = Math.max(THREE.MathUtils.smootherstep(relative, 0.02, 0.96), flight);
         const fade = Math.min(
           1 - THREE.MathUtils.smoothstep(relative, 0.58, 0.96),

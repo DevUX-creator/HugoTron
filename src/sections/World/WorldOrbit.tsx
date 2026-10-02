@@ -45,6 +45,7 @@ export default function WorldOrbit({
             <h2 id="world-orbit-title">
               <span>
                 <SplitWords
+                  letters
                   seed={2}
                   text={
                     film.id === "rice-fields" ? t("titleLead") : t(`films.${film.id}.titleLead`)
@@ -53,6 +54,7 @@ export default function WorldOrbit({
               </span>
               <span>
                 <SplitWords
+                  letters
                   seed={3}
                   text={
                     film.id === "rice-fields" ? t("titleAccent") : t(`films.${film.id}.titleAccent`)

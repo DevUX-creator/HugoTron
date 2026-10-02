@@ -1,0 +1,49 @@
+{
+  "mode": "built-in image_gen",
+  "assets": [
+    {
+      "name": "field",
+      "prompt": "Use case: illustration-story. Asset type: isolated transparent PNG layer for a premium food sourcing website, composited over kraft paper with other engraving layers. Style: very fine 19th century copperplate etching, delicate dark warm graphite ink crosshatching, authentic hand engraved strokes and abundant negative space, no color, no heavy shadows, no lettering or watermark. Background must be truly transparent alpha; all unprinted areas between ink lines transparent, no opaque white paper rectangle. Keep the entire illustration visible with generous empty alpha border. Subject: expansive low rice paddy landscape seen at standing human eye level. Long gently curving rows of slender ripe basmati rice receding to a very low vanishing point; narrow winding earthen path passes through the middle so we could walk forward. Left and right foreground rice clumps more detailed. Wide horizontal composition 1536x1024 with drawing concentrated in lower half. No people, no buildings, no trees, no mountains, no sky or clouds, no floating island or rocky foundation. Fields are an independent near-ground layer, fading to sparse linework at the horizon.",
+      "source": "content/_source/images/paper-world/field.png",
+      "output": "public/images/paper-world/field.webp"
+    },
+    {
+      "name": "mountains",
+      "prompt": "Use case: illustration-story. Asset type: isolated transparent PNG layer for a premium food sourcing website, composited over kraft paper with other engraving layers. Style: very fine 19th century copperplate etching, delicate dark warm graphite ink crosshatching, authentic hand engraved strokes and abundant negative space, no color, no heavy shadows, no lettering or watermark. Background must be truly transparent alpha; all unprinted areas between ink lines transparent, no opaque white paper rectangle. Keep the entire illustration visible with generous empty alpha border. Subject: one wide distant South Asian foothill mountain range, an airy panoramic silhouette with three overlapping low ridges, fine contour hatching and light mist in valleys. Very sparse pale ink, no dark mass. Wide 1536x1024 image, mountains occupy a thin band through center. Isolated mountains only, no fields, people, buildings, sun, clouds, paper or rectangular ground. Must feel distant, atmospheric and understated.",
+      "source": "content/_source/images/paper-world/mountains.png",
+      "output": "public/images/paper-world/mountains.webp"
+    },
+    {
+      "name": "growers",
+      "prompt": "Use case: illustration-story. Asset type: isolated transparent PNG layer for a premium food sourcing website, composited over kraft paper with other engraving layers. Style: very fine 19th century copperplate etching, delicate dark warm graphite ink crosshatching, authentic hand engraved strokes and abundant negative space, no color, no heavy shadows, no lettering or watermark. Background must be truly transparent alpha; all unprinted areas between ink lines transparent, no opaque white paper rectangle. Keep the entire illustration visible with generous empty alpha border. Subject: a small dignified group of two adult South Asian agricultural workers, one standing carrying a small sheaf of long-stemmed rice, the other slightly leaning to inspect a rice stalk in their hand. Natural modest cotton rural work clothes, faces small with no caricature. Full length figures, side-by-side spaced out, eye-level view, a few short ground marks at their feet only. No landscape, mountains, fields, tools or extra scenery. 1024x1024 square composition. They should feel like small delicate figures from a botanical travel engraving, not large portrait illustrations.",
+      "source": "content/_source/images/paper-world/growers.png",
+      "output": "public/images/paper-world/growers.webp"
+    }
+  ],
+  "hamburg": {
+    "provider": "OpenArt",
+    "model": "wan2-7",
+    "mode": "text2video",
+    "historyId": "pAmkQQAMuFzV0Rj5QlXJ",
+    "params": {
+      "prompt": "A premium editorial animated copperplate engraving of Hamburg's historic Speicherstadt harbour. One uninterrupted locked-off wide composition, 16:9. Delicate dark graphite ink hatch lines, antique etching illustration on a perfectly plain pale ivory background. Entire harbour is a single isolated vignette occupying the central 70 percent; blank ivory space on every edge, no rectangular picture border. Gabled brick warehouses on the left, one elegant harbour crane on the right, fine drawn canal water in foreground. A small cargo boat glides very slowly through the water, fine hand-engraved ripples gently flow, two tiny seabirds coast above. Architecture stays absolutely stable. Slight animation only inside the engraving, refined living illustration, calm unhurried premium food sourcing brand. The hatching and pencil marks retain exceptional detail and are stable from frame to frame. No camera motion or zoom. A seamless-feeling five second shot with delicate cyclical water movement. Monochrome dark warm-grey ink, no colour fills, no photographic textures, no text, no letters, no logos, no people closeups, no glowing lights, no 3D, no modern infographic symbols.",
+      "negativePrompt": "photorealism, saturated colors, watercolor washes, full-frame scenery, typography, cartoon, camera movement, shaking buildings, changing architecture, heavy shadows, flicker",
+      "resolution": "1080p",
+      "duration": 5,
+      "aspectRatio": "16:9",
+      "videoCount": 1,
+      "enablePromptExpansion": false,
+      "autoEnhancePrompt": false
+    },
+    "credits": 175,
+    "output": "/videos/paper-hamburg.mp4",
+    "web": {
+      "width": 1280,
+      "height": 720,
+      "fps": 24,
+      "duration": 5,
+      "audio": false,
+      "bytes": 1397503
+    }
+  }
+}
