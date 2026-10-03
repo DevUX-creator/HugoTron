@@ -189,16 +189,17 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
     target.set(0, 0);
   };
   const updateReveal = () => {
-    // Begin only once the opening itself enters view; arrive before it reaches
-    // the centre. Read scroll directly, with no delayed or time-based slide.
-    const box = element.getBoundingClientRect();
-    const progress = reduced
-      ? 1
-      : THREE.MathUtils.clamp(
-          (innerHeight * 0.84 - box.top) / Math.min(innerHeight * 0.6, box.height * 0.85),
-          0,
-          1,
-        );
+    // Mobile keeps the finished opening as it scrolls into view. Desktop
+    // uncovers it from the side and finishes before it reaches the centre.
+    let progress = 1;
+    if (!reduced && innerWidth >= 768) {
+      const box = element.getBoundingClientRect();
+      progress = THREE.MathUtils.clamp(
+        (innerHeight * 0.84 - box.top) / Math.min(innerHeight * 0.6, box.height * 0.85),
+        0,
+        1,
+      );
+    }
     paperUniforms.uProgress.value = progress * progress * (3 - 2 * progress);
     element.dataset.reveal = progress.toFixed(3);
     wake();
