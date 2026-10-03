@@ -554,6 +554,35 @@ html:not(.js) .story__line {
   isolation: isolate;
   --rail-gutter: max(3rem, 8vw);
 }
+.paper-sourcing {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-block-start: 5rem;
+  padding-block-start: 2rem;
+  border-block-start: 1px solid color-mix(in srgb, currentcolor 22%, transparent);
+}
+.paper-sourcing > div {
+  max-inline-size: 38rem;
+}
+.paper-sourcing h3 {
+  margin-block-end: 1rem;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.3vw, 3.5rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+}
+.paper-sourcing p:not(.paper-caption) {
+  max-inline-size: 52ch;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+}
+.paper-sourcing > .arrow-link {
+  flex: none;
+}
 .paper-story .paper-universe {
   position: absolute;
   inset: 0;
@@ -833,6 +862,12 @@ html.js .paper-buying__path .buying-sketch {
 @media (width < 48rem) {
   .story__visuals {
     clip-path: inset(calc(var(--header-inset-block) + var(--header-row) + 1rem) 24px 5rem);
+  }
+  .paper-sourcing {
+    flex-direction: column;
+    align-items: start;
+    gap: 1.5rem;
+    margin-block-start: 3rem;
   }
   .paper-story .paper-fields {
     min-block-size: calc(var(--home-vh, 1svh) * 200);

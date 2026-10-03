@@ -245,7 +245,7 @@
     "eyebrow": "Die Welt von Hugo Tron",
     "titleLead": "Eine Welt guter",
     "titleAccent": "Zutaten.",
-    "lead": "Von Zutaten für jeden Tag bis zum internationalen Handel. Entdecken Sie unser Sortiment, verbunden durch Hamburg.",
+    "lead": "Ihr Partner für Beschaffung, Import und Distribution. Lebensmittel und Rohstoffe, verbunden durch Hamburg.",
     "viewProducts": "Alle Produkte ansehen",
     "loading": "Unsere Welt öffnet sich",
     "ready": "Unsere Welt ist bereit",
@@ -363,18 +363,51 @@
     "note": "In unserem eigenen Hamburger Lager, mit Lieferungen in ganz Europa jede Woche."
   },
   "paperStory": {
+    "mobile": {
+      "source": {
+        "eyebrow": "Am Ursprung",
+        "title": "Hier beginnt das Gute.",
+        "note": "Ihr Partner für Beschaffung und Versorgung. Vom Ursprung zu Ihrem Unternehmen."
+      },
+      "land": {
+        "eyebrow": "Näher am Ursprung",
+        "title": "Alles beginnt auf dem Feld.",
+        "note": "Die Zutaten, die Sie brauchen. Nach Ihren Anforderungen ausgewählt."
+      },
+      "india": {
+        "eyebrow": "Indien · Reis",
+        "title": "Basmati aus Indien.",
+        "note": "Von der passenden Sorte bis zur benötigten Menge."
+      },
+      "pakistan": {
+        "eyebrow": "Die Reise geht weiter · Pakistan",
+        "title": "Sorgfalt verbindet.",
+        "note": "Basmati aus Pakistan. Durch uns mit Ihrem Markt verbunden."
+      },
+      "hamburg": {
+        "eyebrow": "Unser Heimathafen",
+        "title": "In Hamburg vereint.",
+        "note": "Import, Lagerung und Distribution. Lieferung an Unternehmen in ganz Deutschland."
+      }
+    },
+    "sourcing": {
+      "eyebrow": "Lebensmittel & Rohstoffe",
+      "title": "Mehr als ein Sortiment.",
+      "note": "Reis, Nüsse, Trockenfrüchte, Gewürze, Safran und Hülsenfrüchte. Sie suchen etwas anderes? Wir beschaffen nach Ihren Anforderungen – für Europa und internationale Märkte.",
+      "action": "Beschaffung besprechen"
+    },
     "origin": {
       "eyebrow": "Am Ursprung",
       "title": "Hier beginnt das Gute.",
       "note": "Am Ursprung ausgewählt. Von uns nähergebracht.",
-      "annotation": "Eine Welt zum Entdecken",
+      "annotation": "Ihr Partner für Beschaffung & Versorgung",
       "left": "Am Ursprung ausgewählt",
       "right": "In Hamburg vereint"
     },
     "fields": {
       "eyebrow": "Näher am Ursprung",
       "title": "Alles beginnt auf dem Feld.",
-      "note": "Von den Feldern zu den Menschen hinter jeder Ernte. Unsere Geschichte beginnt am Ursprung.",
+      "note": "Nach Ihren Anforderungen ausgewählt – von der Produktsorte bis zur Bestellmenge. Unsere Geschichte beginnt am Ursprung.",
       "rice": "Basmati aus Indien und Pakistan",
       "saffron": "Safran aus dem Iran",
       "tea": "Tee aus Indien",
@@ -383,9 +416,9 @@
     "hamburg": {
       "eyebrow": "Unser Heimathafen",
       "title": "In Hamburg vereint.",
-      "stock": "In Hamburg gelagert. Europaweit geliefert.",
-      "packs": "Von 1 kg bis zur ganzen Palette.",
-      "delivery": "Versandfrei in Deutschland ab 29 €."
+      "stock": "Der Import ist erst der Anfang.",
+      "packs": "Lagerung und Distribution in ganz Deutschland.",
+      "delivery": "Versorgung für Einzelhandel, Großhandel und Unternehmen."
     },
     "buying": {
       "eyebrow": "Für Ihren Alltag",
@@ -402,7 +435,7 @@
       },
       "trade": {
         "title": "Im Handel.",
-        "note": "Größere Mengen. Persönlicher Kontakt.",
+        "note": "Beschaffung großer Mengen, Import und Distribution. Ein Partner an Ihrer Seite.",
         "action": "Bestellung besprechen"
       }
     },
@@ -410,7 +443,7 @@
       "eyebrow": "Private Label",
       "title": "Ihr Name.",
       "accent": "Unsere Auswahl.",
-      "note": "Die gleiche Sorgfalt. Ihr Name auf der Verpackung.",
+      "note": "Produkte, Verpackung und Import – abgestimmt auf Ihre Marke.",
       "action": "Private Label entdecken",
       "caption": "Eine Verpackung. Ihre Möglichkeiten.",
       "ingredient": "Ausgewählte Zutaten",

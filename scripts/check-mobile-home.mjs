@@ -188,8 +188,8 @@ try {
   });
 
   await page
-    .locator(".paper-hamburg")
-    .evaluate((e) => scrollTo(0, e.getBoundingClientRect().top + scrollY - 80));
+    .locator(".mobile-story")
+    .evaluate((e) => scrollTo(0, e.getBoundingClientRect().top + scrollY + e.clientHeight * 0.85));
   await page.waitForTimeout(400);
   const chapterMetrics = () =>
     page.evaluate(() => ({
@@ -221,16 +221,7 @@ try {
         (document.querySelector(".paper-contact").getBoundingClientRect().bottom + scrollY),
     );
     assert.ok(Math.abs(excess) <= 2, `No empty document tail after resize (${height}): ${excess}`);
-    const line = await page.evaluate(() => {
-      const path = document.querySelector(".story__line-ink");
-      return {
-        end: path.getPointAtLength(path.getTotalLength()).y,
-        height: document.querySelector(".paper-story").clientHeight,
-        ink: Number(document.querySelector(".story__line-fill").getAttribute("height")),
-      };
-    });
-    assert.ok(line.end > line.height, "Story line continues through the bottom edge");
-    assert.ok(Math.abs(line.ink - line.height) < 1, "Blue ink reaches the end of the page");
+    assert.equal(await page.locator(".story__line").isVisible(), false);
   }
   await page.setViewportSize({ width: 390, height: 844 });
   await page.waitForTimeout(350);

@@ -239,8 +239,13 @@ try {
     await wait(1500);
   }
   await dwell("world-film");
-  await chapter(".paper-hamburg");
-  await dwell("harbour");
+  if (mobile)
+    await page.locator(".mobile-story").evaluate((e) => {
+      const height = e.querySelector(".mobile-story__stage").clientHeight;
+      scrollTo(0, e.getBoundingClientRect().top + scrollY + height * 4);
+    });
+  else await chapter(".paper-hamburg");
+  await dwell(mobile ? "harbour-still" : "harbour");
   await chapter(".paper-range__film");
   await dwell("range-film");
   await chapter(".paper-contact");

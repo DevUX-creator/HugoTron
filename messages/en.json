@@ -245,7 +245,7 @@
     "eyebrow": "The Hugo Tron world",
     "titleLead": "A world of good",
     "titleAccent": "ingredients.",
-    "lead": "From everyday ingredients to global trade. Discover our products, connected through Hamburg.",
+    "lead": "Your partner for sourcing, importing and distribution. Food products and raw materials, connected through Hamburg.",
     "viewProducts": "View all products",
     "loading": "Opening our world",
     "ready": "Our world is ready",
@@ -363,18 +363,51 @@
     "note": "Held in our own Hamburg warehouse, with deliveries leaving for Europe each week."
   },
   "paperStory": {
+    "mobile": {
+      "source": {
+        "eyebrow": "At the source",
+        "title": "Good things begin here.",
+        "note": "Your sourcing and supply partner. From origin to your business."
+      },
+      "land": {
+        "eyebrow": "Closer to the source",
+        "title": "It begins with the land.",
+        "note": "The ingredients you need. Selected around your requirements."
+      },
+      "india": {
+        "eyebrow": "India · Rice",
+        "title": "Basmati from India.",
+        "note": "From the right variety to the volume you need."
+      },
+      "pakistan": {
+        "eyebrow": "The journey continues · Pakistan",
+        "title": "Rooted in care.",
+        "note": "Basmati from Pakistan. Connected to your market through us."
+      },
+      "hamburg": {
+        "eyebrow": "Our home port",
+        "title": "Gathered in Hamburg.",
+        "note": "Import, warehousing and distribution. Delivering to businesses across Germany."
+      }
+    },
+    "sourcing": {
+      "eyebrow": "Food products & raw materials",
+      "title": "Beyond the range.",
+      "note": "Rice, nuts, dried fruits, spices, saffron and pulses. Looking for something else? We source around your requirements, for Europe and international markets.",
+      "action": "Discuss sourcing"
+    },
     "origin": {
       "eyebrow": "At the source",
       "title": "Good things begin here.",
       "note": "Selected at origin. Brought closer by us.",
-      "annotation": "A world worth discovering",
+      "annotation": "Your sourcing & supply partner",
       "left": "Selected at origin",
       "right": "Gathered in Hamburg"
     },
     "fields": {
       "eyebrow": "Closer to the source",
       "title": "It begins with the land.",
-      "note": "From the fields to the people behind every harvest. Our story starts at origin.",
+      "note": "Selected around your requirements, from product type to order volume. Our story starts at origin.",
       "rice": "Basmati from India and Pakistan",
       "saffron": "Saffron from Iran",
       "tea": "Tea from India",
@@ -383,9 +416,9 @@
     "hamburg": {
       "eyebrow": "Our home port",
       "title": "Gathered in Hamburg.",
-      "stock": "Stocked in Hamburg. Sent across Europe.",
-      "packs": "From 1 kg to a full pallet.",
-      "delivery": "Free delivery in Germany from €29."
+      "stock": "Importing is only the beginning.",
+      "packs": "Warehousing and distribution across Germany.",
+      "delivery": "Supply for retailers, wholesalers and businesses."
     },
     "buying": {
       "eyebrow": "Made for your everyday",
@@ -402,7 +435,7 @@
       },
       "trade": {
         "title": "In good company.",
-        "note": "Larger quantities. Personal support.",
+        "note": "Bulk sourcing, imports and distribution. One partner beside you.",
         "action": "Discuss your order"
       }
     },
@@ -410,7 +443,7 @@
       "eyebrow": "Private label",
       "title": "Your name.",
       "accent": "Our sourcing.",
-      "note": "The same care, with your name on the pack.",
+      "note": "Products, packaging and imports, shaped around your brand.",
       "action": "Explore private label",
       "caption": "One pack. Your possibilities.",
       "ingredient": "Selected ingredients",

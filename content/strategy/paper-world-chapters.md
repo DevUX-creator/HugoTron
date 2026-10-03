@@ -9,8 +9,8 @@ fixed frame, original cube and transition renderer remain unchanged.
 3. **Pakistan** — a separate, quieter origin scene. Only the established basmati origin is
    named; no supplier, farm ownership, certification or new provenance is implied.
 4. **Hamburg** — a generated living engraving of the harbour, with static sacks and birds.
-   Decorative illustration, not footage of an actual Hugo Tron property. Existing packing
-   and delivery facts follow the headline.
+   Decorative illustration, not footage of an actual Hugo Tron property. Import, warehousing
+   and distribution to businesses in Germany follow the headline.
 5. **However you buy** — three staggered framed illustrations: home, kitchen and trade.
 6. **Private label** — the existing changing pack and enquiry route.
 7. **The collection** — a rectangular film above all catalogue products in an unframed,
@@ -26,6 +26,25 @@ fixed frame, original cube and transition renderer remain unchanged.
 The grey route remains visible ahead; a blue spatial clip follows the scroll position.
 There is no endpoint dot, sampled arc-length stepping, or trailing scroll interpolation.
 Titles remain real text and scroll naturally. Pointer parallax settles and stops.
+
+## Mobile and positioning update — 3 October
+
+On phones, source → land → Indian basmati → Pakistani basmati → Hamburg are five focused
+compositions. Each has a title, brief note and static illustration below; native scrolling
+moves the whole composition. There are no independently animated illustration layers or
+Hamburg video effect on mobile. Reduced motion and no JavaScript use normal document flow.
+The line stays hidden on mobile; the footer cube retains its fully revealed torn edge.
+On desktop the moving footer reveal edge is also curved and fibrous, with stable spatial
+noise for reverse scrolling. The canvas becomes visible only after a masked frame has
+rendered, avoiding a brief rectangular entrance. The finished opening is unchanged.
+
+The [client's positioning](client-positioning-2026-10-03.md) is threaded through sourcing,
+Hamburg, trade and private-label copy. A compact “Beyond the range” invitation follows the
+catalogue for additional foods and raw materials. It leads to a sourcing enquiry without
+implying that all those products are currently stocked. The existing shop stays intact.
+
+Rendering measurements and reproduction steps are in
+[the mobile story performance note](../../docs/MOBILE-STORY-PERFORMANCE.md).
 
 ## Media and resource lifetime
 

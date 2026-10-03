@@ -15,6 +15,7 @@ import PaperPack from "./PaperPack";
 import PaperContact from "./PaperContact";
 import PaperProductRail from "./PaperProductRail";
 import PaperUniverse from "./PaperUniverse";
+import MobileStory from "./MobileStory";
 
 const FILMS = [WORLD_FILMS[1]!];
 
@@ -40,6 +41,8 @@ export default function PaperStory() {
         <path className="story__line-grey" />
         <path className="story__line-ink" clipPath={`url(#${lineClip})`} />
       </svg>
+
+      <MobileStory />
 
       <div className="story__pinned">
         <StoryVisuals />
@@ -199,6 +202,20 @@ export default function PaperStory() {
           </div>
         </div>
         <PaperProductRail />
+        <div className="paper-sourcing">
+          <div>
+            <p className="paper-caption">{t("sourcing.eyebrow")}</p>
+            <h3>{t("sourcing.title")}</h3>
+            <p>{t("sourcing.note")}</p>
+          </div>
+          <ArrowLink
+            href={{ pathname: "/enquiry", query: { purpose: "quote" } }}
+            prefetch={false}
+            variant="glass"
+          >
+            {t("sourcing.action")}
+          </ArrowLink>
+        </div>
       </section>
 
       <PaperContact />

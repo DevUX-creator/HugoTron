@@ -24,10 +24,12 @@ export default function Daylight() {
     const html = document.documentElement;
     const journey = document.querySelector<HTMLElement>(".world-journey");
     let frame = 0;
+    let lastProgress = -1;
     const update = () => {
       frame = 0;
       const enhanced = !reduced && journey?.dataset.enhanced === "true";
-      wrapper.dataset.enhanced = String(enhanced);
+      if (wrapper.dataset.enhanced !== String(enhanced))
+        wrapper.dataset.enhanced = String(enhanced);
       // The runway uses svh. Mobile browser chrome changes innerHeight mid-gesture;
       // mixing the two made the paper jump when the toolbar returned on reverse scroll.
       const height = enhanced ? element.clientHeight / RUNWAY : window.innerHeight;
@@ -35,6 +37,10 @@ export default function Daylight() {
       const progress = enhanced
         ? clamp((height - top) / (height * RUNWAY))
         : Number(top < height * 0.55);
+      // Once the sheet has arrived, later story scrolls must not keep mutating
+      // the document's theme and transition styles on every frame.
+      if (progress === lastProgress) return;
+      lastProgress = progress;
       // Letter, film and material share the same start and finish, in either scroll direction.
       html.style.setProperty("--leave", progress.toFixed(4));
       worldHandoff.set(progress);

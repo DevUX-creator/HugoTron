@@ -138,8 +138,8 @@ try {
       () => document.querySelector(".daylight")?.dataset.enhanced === "false",
     );
     for (const selector of [
-      ".paper-origin",
-      ".paper-hamburg",
+      '[data-mobile-chapter="source"]',
+      '[data-mobile-chapter="hamburg"]',
       ".paper-buying",
       ".paper-label",
       ".paper-range",
@@ -155,7 +155,7 @@ try {
       assert.ok(await page.locator(`${selector} h2`).isVisible());
     }
     await page
-      .locator(".paper-origin")
+      .locator('[data-mobile-chapter="source"]')
       .evaluate((e) => scrollTo(0, e.getBoundingClientRect().top + scrollY));
     await page.screenshot({ path: `/tmp/hugo-paper-${locale}-mobile-reduced.png` });
     await page.close();
@@ -165,8 +165,11 @@ try {
     viewport: { width: 390, height: 844 },
   });
   await nojs.goto(`${base}/en`);
-  await nojs.locator(".paper-origin").scrollIntoViewIfNeeded();
-  assert.equal(await nojs.locator(".paper-origin h2").textContent(), "Good things begin here.");
+  await nojs.locator('[data-mobile-chapter="source"]').scrollIntoViewIfNeeded();
+  assert.equal(
+    await nojs.locator('[data-mobile-chapter="source"] h2').textContent(),
+    "Good things begin here.",
+  );
   assert.ok(await nojs.locator(".paper-label .arrow-link").isVisible());
   await nojs.close();
   const noGl = await browser.newPage({ viewport: { width: 390, height: 844 } });
@@ -181,11 +184,11 @@ try {
     () => document.querySelector(".world-journey")?.dataset.status === "unavailable",
   );
   await noGl
-    .locator(".paper-origin")
+    .locator(".mobile-story")
     .evaluate((e) => scrollTo(0, e.getBoundingClientRect().top + scrollY));
   await noGl.waitForFunction(() => document.documentElement.hasAttribute("data-world-paper"));
   assert.equal(await noGl.locator(".daylight").getAttribute("data-enhanced"), "false");
-  assert.ok(await noGl.locator(".paper-origin h2").isVisible());
+  assert.ok(await noGl.locator('[data-mobile-chapter="source"] h2').isVisible());
   await noGl.close();
   assert.deepEqual(errors, []);
   console.log(

@@ -90,7 +90,16 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
         float outline = min(body, tail) - join * join * 0.09;
         outline += (fbm(vUv * 11.0) - 0.44) * 0.36;
         outline += (noise(vUv * 47.0) - 0.5) * 0.065;
+        // The moving front must be torn too; a straight x cutoff exposed a
+        // vertical blade during the reveal despite the organic final outline.
+        // Fixed spatial noise keeps the edge stable when scrolling backwards.
         float front = 1.15 - uProgress * 1.4 - vUv.x;
+        if (uProgress > 0.0 && uProgress < 1.0) {
+          float sweep = sin(vUv.y * 5.7 + 0.8) * 0.1;
+          float tear = (fbm(vUv.yx * vec2(3.1, 2.7)) - 0.44) * 0.27;
+          tear += (noise(vUv * 43.0) - 0.5) * 0.045;
+          front += (sweep + tear) * sin(uProgress * 3.14159265);
+        }
         float edge = max(outline, front);
         float pixel = 1.0 / uResolution.y;
         vec2 paper = vUv * uResolution;
@@ -118,6 +127,7 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
   rockMesh.material.envMap = environment.texture;
   rockMesh.material.envMapIntensity = 0.35;
   scene.add(rocks.group);
+  let assetsLoaded = false;
   let disposed = false,
     visible = false,
     pointerActive = false,
@@ -164,6 +174,12 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
     renderer.autoClear = false;
     renderer.render(paperScene, paperCamera);
     renderer.autoClear = true;
+    // Expose only a completed, paper-masked frame, never the blank rectangular
+    // canvas between asset readiness and its first render.
+    if (assetsLoaded && element.dataset.ready !== "true") {
+      element.dataset.paperReveal = "true";
+      element.dataset.ready = "true";
+    }
     if (!reduced) frame = requestAnimationFrame(render);
   };
   function wake() {
@@ -218,8 +234,7 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
   sculpture.update(elapsed, true, true, pointer);
   void sculpture.assetsReady.then(() => {
     if (!disposed) {
-      element.dataset.ready = "true";
-      element.dataset.paperReveal = "true";
+      assetsLoaded = true;
       wake();
     }
   });

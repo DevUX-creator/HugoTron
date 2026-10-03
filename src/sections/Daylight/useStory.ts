@@ -46,6 +46,21 @@ export function useStory(root: RefObject<HTMLElement | null>) {
     const fill = element.querySelector<SVGRectElement>(".story__line-fill");
     const packs = Array.from(element.querySelectorAll<HTMLElement>(".paper-pack"));
     const visuals = element.querySelector<HTMLElement>(".story__visuals");
+    const mobile = matchMedia("(width < 48rem)");
+    const property = (node: HTMLElement, key: string, value: string) => {
+      if (node.style.getPropertyValue(key) !== value) node.style.setProperty(key, value);
+    };
+    const data = (node: HTMLElement, key: string, value: boolean) => {
+      if (node.dataset[key] !== String(value)) node.dataset[key] = String(value);
+    };
+    let measured: {
+      chapter: HTMLElement;
+      top: number;
+      height: number;
+      group: HTMLElement | undefined;
+    }[] = [];
+    let packPositions: { pack: HTMLElement; top: number }[] = [];
+    let viewport = 0;
     let storyHeight = 0;
     let inView = false;
     let frame = 0;
@@ -63,12 +78,23 @@ export function useStory(root: RefObject<HTMLElement | null>) {
       // retained its old height, leaving an empty screen beyond the footer.
       const height = element.clientHeight;
       storyHeight = height;
-      svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
-      svg.style.blockSize = `${height}px`;
+      viewport = mobile.matches
+        ? parseFloat(getComputedStyle(element).getPropertyValue("--home-vh")) * 100 || innerHeight
+        : visuals?.clientHeight || innerHeight;
       const points: [number, number][] = [];
+      measured = [];
       for (const chapter of chapters) {
-        const top = chapter.getBoundingClientRect().top - box.top;
+        const bounds = chapter.getBoundingClientRect();
+        if (!bounds.width) continue;
+        const top = bounds.top - box.top;
         const span = chapter.offsetHeight;
+        measured.push({
+          chapter,
+          top,
+          height: span,
+          group: groups.get(chapter.dataset.storyChapter!),
+        });
+        if (mobile.matches) continue;
         for (const pair of (chapter.dataset.line ?? "").split(";")) {
           const [px, py] = pair.split(",").map(Number);
           if (px === undefined || py === undefined || Number.isNaN(px) || Number.isNaN(py))
@@ -76,9 +102,22 @@ export function useStory(root: RefObject<HTMLElement | null>) {
           points.push([(px / 100) * width, top + py * span]);
         }
       }
-      const d = smoothPath(points);
-      paths.forEach((path) => path.setAttribute("d", d));
-      fill?.setAttribute("width", String(width));
+      packPositions = packs.map((pack) => ({
+        pack,
+        top: pack.getBoundingClientRect().top - box.top,
+      }));
+      if (mobile.matches) {
+        for (const group of groups.values()) {
+          data(group, "active", false);
+          data(group, "live", false);
+        }
+      } else {
+        svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+        svg.style.blockSize = `${height}px`;
+        const d = smoothPath(points);
+        paths.forEach((path) => path.setAttribute("d", d));
+        fill?.setAttribute("width", String(width));
+      }
       dirty = true;
     };
 
@@ -87,27 +126,29 @@ export function useStory(root: RefObject<HTMLElement | null>) {
       if (document.hidden) return;
       if (dirty) {
         dirty = false;
-        const height = visuals?.clientHeight || innerHeight;
+        const height = viewport;
         const rootBox = element.getBoundingClientRect();
         inView = rootBox.top < height && rootBox.bottom > 0;
-        for (const chapter of chapters) {
-          const box = chapter.getBoundingClientRect();
-          const progress = clamp((height - box.top) / (box.height + height));
-          const name = chapter.dataset.storyChapter!;
-          chapter.style.setProperty("--p", progress.toFixed(4));
-          chapter.dataset.visible = String(box.top < height * 0.9 && box.bottom > 0);
-          const group = groups.get(name);
+        // Read chapter positions together when layout changes. Reading each
+        // rectangle after the previous style write forced repeated style work.
+        for (const { chapter, top, height: span, group } of measured) {
+          const y = rootBox.top + top;
+          const progress = clamp((height - y) / (span + height));
+          property(chapter, "--p", progress.toFixed(4));
+          data(chapter, "visible", y < height * 0.9 && y + span > 0);
           if (!group) continue;
-          group.style.setProperty("--p", progress.toFixed(4));
-          group.dataset.active = String(progress > 0.06 && progress < 0.94);
+          property(group, "--p", progress.toFixed(4));
+          data(group, "active", progress > 0.06 && progress < 0.94);
           // Timed layers join a moment after the chapter settles into view.
-          group.dataset.live = String(progress > 0.28 && progress < 0.82);
+          data(group, "live", progress > 0.28 && progress < 0.82);
         }
-        for (const pack of packs) {
-          const box = pack.getBoundingClientRect();
-          pack.style.setProperty(
+        for (const { pack, top } of packPositions) {
+          property(
+            pack,
             "--pack-progress",
-            reduced ? "1" : clamp((height * 0.85 - box.top) / (height * 0.9)).toFixed(4),
+            reduced
+              ? "1"
+              : clamp((height * 0.85 - (rootBox.top + top)) / (height * 0.9)).toFixed(4),
           );
         }
         // A continuous spatial clip has no sampled arc-length steps or trailing dot.
@@ -117,25 +158,26 @@ export function useStory(root: RefObject<HTMLElement | null>) {
         const finish = clamp(1 - remaining / height);
         const easeFinish = finish * finish * (3 - 2 * finish);
         const readingPosition = height * INK_LEVEL - rootBox.top;
-        fill?.setAttribute(
-          "height",
-          String(
-            reduced
-              ? storyHeight
-              : Math.max(
-                  0,
-                  Math.min(
-                    storyHeight,
-                    readingPosition + (storyHeight - readingPosition) * easeFinish,
+        if (!mobile.matches)
+          fill?.setAttribute(
+            "height",
+            String(
+              reduced
+                ? storyHeight
+                : Math.max(
+                    0,
+                    Math.min(
+                      storyHeight,
+                      readingPosition + (storyHeight - readingPosition) * easeFinish,
+                    ),
                   ),
-                ),
-          ),
-        );
+            ),
+          );
       }
       x += (targetX - x) * 0.075;
       y += (targetY - y) * 0.075;
-      element.style.setProperty("--paper-pointer-x", x.toFixed(4));
-      element.style.setProperty("--paper-pointer-y", y.toFixed(4));
+      property(element, "--paper-pointer-x", x.toFixed(4));
+      property(element, "--paper-pointer-y", y.toFixed(4));
       if (Math.abs(targetX - x) + Math.abs(targetY - y) > 0.002)
         frame = requestAnimationFrame(update);
     };
@@ -151,7 +193,7 @@ export function useStory(root: RefObject<HTMLElement | null>) {
       wake();
     };
     const move = (event: PointerEvent) => {
-      if (reduced || !inView || event.pointerType !== "mouse") return;
+      if (mobile.matches || reduced || !inView || event.pointerType !== "mouse") return;
       targetX = (event.clientX / innerWidth) * 2 - 1;
       targetY = (event.clientY / innerHeight) * 2 - 1;
       wake();
@@ -163,6 +205,7 @@ export function useStory(root: RefObject<HTMLElement | null>) {
     // The story's own height changes as images and fonts load; the line follows.
     const observer = new ResizeObserver(resize);
     observer.observe(element);
+    mobile.addEventListener("change", resize);
     layout();
     update();
     window.addEventListener("scroll", scroll, { passive: true });
@@ -173,6 +216,7 @@ export function useStory(root: RefObject<HTMLElement | null>) {
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
+      mobile.removeEventListener("change", resize);
       window.removeEventListener("scroll", scroll);
       window.removeEventListener("resize", scroll);
       document.removeEventListener("visibilitychange", scroll);

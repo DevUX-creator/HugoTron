@@ -1,5 +1,10 @@
 # Home memory check — 2026-10-02
 
+The 3 October mobile story revision replaces the mobile Hamburg film with a static
+illustration and reduces scroll-driven updates. See
+[MOBILE-STORY-PERFORMANCE.md](MOBILE-STORY-PERFORMANCE.md) for that comparison; the heap
+samples below describe the 2 October build.
+
 ## Current whole-home profile
 
 Production Chromium checks on macOS covered desktop (1512 × 982, DPR 2) and
