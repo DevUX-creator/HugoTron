@@ -11,7 +11,7 @@ describe("cart contract", () => {
     ]);
   });
   it("rejects quote-only and unknown products", () => {
-    for (const productId of ["kichererbsen-25kg", "missing-product"]) {
+    for (const productId of ["kichererbsen-25kg", "ginger", "almonds-cashews", "missing-product"]) {
       expect(changeCart([], { type: "add", productId, quantity: 1 })).toEqual([]);
     }
   });

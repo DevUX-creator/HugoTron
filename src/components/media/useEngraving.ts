@@ -25,6 +25,7 @@ uniform vec3 uInk;
 uniform vec3 uPaper;
 uniform float uWeight;
 uniform float uCross;
+uniform float uStrength;
 varying vec2 vUv;
 
 float luma(vec2 uv) {
@@ -50,6 +51,8 @@ void main() {
   float edge = abs(luma(uv + vec2(texel.x, 0.0)) - luma(uv - vec2(texel.x, 0.0)))
     + abs(luma(uv + vec2(0.0, texel.y)) - luma(uv - vec2(0.0, texel.y)));
   ink = max(ink, smoothstep(0.08, 0.22, edge) * 0.9 * uWeight);
+  // A softer treatment retains tonal detail underneath the engraved lines.
+  ink = mix(shade * 0.72, ink, uStrength);
   gl_FragColor = vec4(mix(uPaper, uInk, ink), 1.0);
 }`;
 
@@ -78,7 +81,8 @@ export function useEngraving(
     weight = 1,
     cross = 1,
     pitchPx = 5,
-  }: { weight?: number; cross?: number; pitchPx?: number } = {},
+    strength = 1,
+  }: { weight?: number; cross?: number; pitchPx?: number; strength?: number } = {},
 ) {
   useEffect(() => {
     const element = root.current;
@@ -111,7 +115,7 @@ export function useEngraving(
         decoded === undefined ? video.currentTime === lastTime : decoded === lastDecoded;
       if (!dirty && video === lastVideo && sameFrame) return;
       // No context, texture or drawing buffer is allocated until a visible film has a frame.
-      renderer ??= createEngravingSurface(element, { weight, cross, pitchPx });
+      renderer ??= createEngravingSurface(element, { weight, cross, pitchPx, strength });
       if (!renderer) {
         failed = true;
         stop();
@@ -202,13 +206,18 @@ export function useEngraving(
       }
       renderer?.dispose();
     };
-  }, [root, selector, weight, cross, pitchPx]);
+  }, [root, selector, weight, cross, pitchPx, strength]);
 }
 
-/** Owns one video texture and one lazily created context; visual shader is unchanged. */
+/** Owns one video texture and one lazily created context. */
 function createEngravingSurface(
   element: HTMLElement,
-  { weight, cross, pitchPx }: { weight: number; cross: number; pitchPx: number },
+  {
+    weight,
+    cross,
+    pitchPx,
+    strength,
+  }: { weight: number; cross: number; pitchPx: number; strength: number },
 ) {
   const surface = document.createElement("canvas");
   surface.className = "engraved-film__ink";
@@ -262,6 +271,7 @@ function createEngravingSurface(
   const pitch = uniform("uPitch");
   gl.uniform1f(uniform("uWeight"), weight);
   gl.uniform1f(uniform("uCross"), cross);
+  gl.uniform1f(uniform("uStrength"), strength);
   let sourceWidth = 0,
     sourceHeight = 0,
     sized = false;

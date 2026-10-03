@@ -54,15 +54,25 @@
     object-fit: contain;
   }
   .mobile-story__column {
-    inset: 0 42% 6% -10%;
+    inset: 0 57% -2% -10%;
+    rotate: -4deg;
   }
   .mobile-story__column--right {
-    inset: 0 -10% 6% 42%;
+    inset: 15% -9% 0 61%;
     scale: -1 1;
+    rotate: 3deg;
   }
   .mobile-story__cloud {
-    inset: 60% -4% 0;
-    opacity: 0.75;
+    inset: 7% -8% 51% 38%;
+    opacity: 0.8;
+  }
+  .mobile-story__cloud--low {
+    inset: 66% 31% -3% -6%;
+    opacity: 0.6;
+  }
+  .mobile-story__source-horizon {
+    inset: 46% 13% 12% 12%;
+    opacity: 0.32;
   }
   .mobile-story__mountains {
     inset: 0 0 35%;
@@ -74,11 +84,35 @@
   .mobile-story__growers {
     inset: 50% 15% 7% 60%;
   }
+  .mobile-story__field-rice {
+    inset: 38% 74% 0 -2%;
+  }
   .mobile-story__rice {
     inset: 0 -4% 5% 30%;
   }
   .mobile-story__sacks {
     inset: 45% 38% 0 -4%;
+  }
+  .mobile-story__rice-horizon {
+    inset: 6% 33% 42% -8%;
+    opacity: 0.35;
+  }
+  .mobile-story__island {
+    inset: 10% 1% 8% -5%;
+  }
+  .mobile-story__island-cloud {
+    inset: 0 -4% 60% 34%;
+    opacity: 0.65;
+  }
+  .mobile-story__island-rice {
+    inset: 54% -5% -2% 69%;
+  }
+  .mobile-story__harbour {
+    inset: 12% -4% 0;
+  }
+  .mobile-story__gulls {
+    inset: 4% 9% 69% 50%;
+    opacity: 0.65;
   }
   .mobile-story[data-enhanced="true"] {
     block-size: calc(var(--home-vh, 1svh) * 500);

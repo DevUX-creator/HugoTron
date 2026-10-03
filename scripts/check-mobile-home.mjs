@@ -99,7 +99,13 @@ try {
   await menu.click();
   assert.equal(await page.locator(".mobile-menu").isVisible(), true);
   assert.equal(await page.locator(".mobile-menu__nav a").count(), 6);
-  assert.equal(await page.locator(".mobile-menu__categories a").count(), 6);
+  assert.equal(await page.locator(".mobile-menu__categories a").count(), 8);
+  assert.ok(
+    await page.locator(".mobile-menu__categories").getByText("Nuts & dried fruits").isVisible(),
+  );
+  assert.ok(
+    await page.locator(".mobile-menu__categories").getByText("Spices", { exact: true }).isVisible(),
+  );
   await page.screenshot({ path: `/tmp/hugo-mobile-${engine}-menu.png` });
   await page.keyboard.press("Escape");
   assert.equal(await page.locator(".mobile-menu").isVisible(), false);

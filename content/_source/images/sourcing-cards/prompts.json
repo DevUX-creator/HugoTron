@@ -1,0 +1,42 @@
+{
+  "tool": "built-in image_gen",
+  "purpose": "Illustrative ingredient cutouts for enquiry-only sourcing selections; not supplier product photography.",
+  "images": [
+    {
+      "slug": "almonds-cashews",
+      "prompt": "Use case: product-mockup. Generate one premium e-commerce ingredient cutout photograph, a modest loosely arranged pile of natural whole unpeeled almonds and ivory cashew nuts together, with a few separated pieces. Asset for Hugo Tron food sourcing product card on a warm paper website. No packaging or text. True transparent alpha background, not a checkerboard. Entire pile contained within image, generous 15 percent clear margins. Slightly elevated front three-quarter studio angle, natural diffused upper-left daylight, sharp intricate food textures, realistic natural warm brown and ivory colours. Small contact shadow only, no ground surface, no bowl, no hands, no backdrop. Square image. The ingredients should form an elegant low still-life composition, not an airborne explosion.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-3f8eeda1-a56b-4063-80e6-0f31c89de290.png",
+      "output": "public/products/almonds-cashews/selection-cutout.webp"
+    },
+    {
+      "slug": "hazelnuts-walnuts",
+      "prompt": "Use case: product-mockup. Generate one premium e-commerce ingredient cutout photograph for the Hugo Tron food sourcing website on warm paper. True transparent alpha background, not a checkerboard. Square composition with the whole subject visible and 15 percent clear margins. Slightly elevated front three-quarter studio angle, natural diffused upper-left daylight, intricate sharp realistic food textures and natural colours. A modest elegant low still life, not flying. Only tiny contact shadow, no ground surface, bowl, packaging, labels, text, hands, brand or backdrop. Subject: a small arrangement of shelled golden walnut halves and brown whole hazelnuts, with two hazelnuts in natural shells, detailed fresh dry textures.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-4ca4aab2-161a-440e-b22e-e3a172152fb7.png",
+      "output": "public/products/hazelnuts-walnuts/selection-cutout.webp"
+    },
+    {
+      "slug": "dried-fruits",
+      "prompt": "Use case: product-mockup. Generate one premium e-commerce ingredient cutout photograph for the Hugo Tron food sourcing website on warm paper. True transparent alpha background, not a checkerboard. Square composition with the whole subject visible and 15 percent clear margins. Slightly elevated front three-quarter studio angle, natural diffused upper-left daylight, intricate sharp realistic food textures and natural colours. A modest elegant low still life, not flying. Only tiny contact shadow, no ground surface, bowl, packaging, labels, text, hands, brand or backdrop. Subject: a small loosely arranged selection of dried fruit, warm amber apricots, a few dark raisins and two dark brown dates, uncoated natural textures. Illustrative assortment, no packaging.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-8753cb0c-6e9e-467c-bfac-595f79f2acdd.png",
+      "output": "public/products/dried-fruits/selection-cutout.webp"
+    },
+    {
+      "slug": "ginger",
+      "prompt": "Use case: product-mockup. Generate one premium e-commerce ingredient cutout photograph for the Hugo Tron food sourcing website on warm paper. True transparent alpha background, not a checkerboard. Square composition with the whole subject visible and 15 percent clear margins. Slightly elevated front three-quarter studio angle, natural diffused upper-left daylight, intricate sharp realistic food textures and natural colours. A modest elegant low still life, not flying. Only tiny contact shadow, no ground surface, bowl, packaging, labels, text, hands, brand or backdrop. Subject: two natural tan fresh ginger roots with one small clean sliced cross-section in front, warm earthy textures.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-9f90f978-bdd7-48ae-a0d1-e86af069fe7e.png",
+      "output": "public/products/ginger/selection-cutout.webp"
+    },
+    {
+      "slug": "cinnamon-cardamom",
+      "prompt": "Use case: product-mockup. Generate one premium e-commerce ingredient cutout photograph for the Hugo Tron food sourcing website on warm paper. True transparent alpha background, not a checkerboard. Square composition with the whole subject visible and 15 percent clear margins. Slightly elevated front three-quarter studio angle, natural diffused upper-left daylight, intricate sharp realistic food textures and natural colours. A modest elegant low still life, not flying. Only tiny contact shadow, no ground surface, bowl, packaging, labels, text, hands, brand or backdrop. Subject: three warm brown cinnamon quills diagonally arranged beside a modest scattering of green cardamom pods, one pod open with a few dark seeds.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-031ecc7d-245f-4e38-9d7a-01092038d663.png",
+      "output": "public/products/cinnamon-cardamom/selection-cutout.webp"
+    },
+    {
+      "slug": "white-mung-beans",
+      "prompt": "Use case: product-mockup. Generate one premium e-commerce ingredient cutout photograph for the Hugo Tron food sourcing website on warm paper. True transparent alpha background, not a checkerboard. Square composition with the whole subject visible and 15 percent clear margins. Slightly elevated front three-quarter studio angle, natural diffused upper-left daylight, intricate sharp realistic food textures and natural colours. A modest elegant low still life, not flying. Only tiny contact shadow, no ground surface, bowl, packaging, labels, text, hands, brand or backdrop. Subject: a small loose collection of dry ivory white beans on one side and dry green mung beans on the other, several separate pieces, naturally shaped and matte, uncooked.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-407e4bd7-4aa6-4c2a-a647-7003396456dc.png",
+      "output": "public/products/white-mung-beans/selection-cutout.webp"
+    }
+  ]
+}

@@ -21,9 +21,15 @@ export type ProductSlug =
   | "rote-linsen-25kg"
   | "gelbe-spalterbsen-25kg"
   | "kidneybohnen-25kg"
-  | "bulgur-25kg";
+  | "bulgur-25kg"
+  | "almonds-cashews"
+  | "hazelnuts-walnuts"
+  | "dried-fruits"
+  | "ginger"
+  | "cinnamon-cardamom"
+  | "white-mung-beans";
 
-export type UnitKey = "kg1" | "kg5" | "g1" | "pack1" | "sack25" | "sack10";
+export type UnitKey = "kg1" | "kg5" | "g1" | "pack1" | "sack25" | "sack10" | "onRequest";
 
 export type Product = {
   slug: ProductSlug;
@@ -36,8 +42,9 @@ export type Product = {
    * lines as zero-price, out-of-stock products with an email address in the
    * name (see content/strategy/audit.md §2). Here the channel decides whether
    * a card offers a cart or a quote, and nothing has to be faked.
+   * Sourcing selections have no confirmed pack size, price or stock promise.
    */
-  channel: "shop" | "wholesale";
+  channel: "shop" | "wholesale" | "sourcing";
   /** Matches the "Neu" ribbon the live shop puts on these. */
   isNew?: boolean;
   /**
@@ -177,4 +184,23 @@ export const PRODUCTS: readonly Product[] = [
     unit: "sack25",
     channel: "wholesale",
   },
+  // Client-confirmed sourcing scope, 3 October 2026. The images illustrate the
+  // ingredients; these are enquiry selections, not priced retail pack variants.
+  ...(
+    [
+      "almonds-cashews",
+      "hazelnuts-walnuts",
+      "dried-fruits",
+      "ginger",
+      "cinnamon-cardamom",
+      "white-mung-beans",
+    ] as const
+  ).map((slug) => ({
+    slug,
+    views: ["selection-cutout"],
+    cardImage: `/products/${slug}/selection-cutout.webp`,
+    price: null,
+    unit: "onRequest" as const,
+    channel: "sourcing" as const,
+  })),
 ] as const;

@@ -109,7 +109,9 @@ export default function MobileStory() {
                     name="source-column"
                     className="mobile-story__column mobile-story__column--right"
                   />
+                  <Art name="mountains" className="mobile-story__source-horizon" />
                   <Art name="source-cloud" className="mobile-story__cloud" />
+                  <Art name="source-cloud" className="mobile-story__cloud--low" />
                 </>
               )}
               {chapter === "land" && (
@@ -117,16 +119,29 @@ export default function MobileStory() {
                   <Art name="mountains" className="mobile-story__mountains" />
                   <Art name="field" className="mobile-story__field" />
                   <Art name="growers" className="mobile-story__growers" />
+                  <Art name="rice" className="mobile-story__field-rice" />
                 </>
               )}
               {chapter === "india" && (
                 <>
                   <Art name="rice" className="mobile-story__rice" />
                   <Art name="sacks" className="mobile-story__sacks" />
+                  <Art name="mountains" className="mobile-story__rice-horizon" />
                 </>
               )}
-              {chapter === "pakistan" && <Art name="origins" />}
-              {chapter === "hamburg" && <Art name="hamburg" />}
+              {chapter === "pakistan" && (
+                <>
+                  <Art name="origins" className="mobile-story__island" />
+                  <Art name="source-cloud" className="mobile-story__island-cloud" />
+                  <Art name="rice" className="mobile-story__island-rice" />
+                </>
+              )}
+              {chapter === "hamburg" && (
+                <>
+                  <Art name="hamburg" className="mobile-story__harbour" />
+                  <Art name="gulls" className="mobile-story__gulls" />
+                </>
+              )}
             </div>
           </section>
         ))}

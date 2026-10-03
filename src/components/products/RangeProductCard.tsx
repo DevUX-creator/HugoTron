@@ -33,8 +33,10 @@ export default function RangeProductCard({ product, index }: { product: Product;
           fill
           sizes="(max-width: 767px) 260px, 368px"
         />
-        {product.channel === "wholesale" && (
-          <span className="range-product__badge">{t("badgeWholesale")}</span>
+        {product.channel !== "shop" && (
+          <span className="range-product__badge">
+            {t(product.channel === "sourcing" ? "badgeSourcing" : "badgeWholesale")}
+          </span>
         )}
       </div>
       <h3 id={`range-product-${product.slug}`}>{name}</h3>
@@ -43,7 +45,7 @@ export default function RangeProductCard({ product, index }: { product: Product;
       ) : (
         <>
           <div className="range-product__meta">
-            <p>{t("requestPrice")}</p>
+            <p>{t(product.channel === "sourcing" ? "toSpecification" : "requestPrice")}</p>
           </div>
           <EnquireLink product={product} name={name} className="range-product__enquiry" />
         </>

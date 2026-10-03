@@ -98,7 +98,13 @@
     "rote-linsen-25kg": "Red lentils, 25 kg sack",
     "gelbe-spalterbsen-25kg": "Yellow split peas, 25 kg sack",
     "kidneybohnen-25kg": "Kidney beans, 25 kg sack",
-    "bulgur-25kg": "Bulgur, 25 kg sack"
+    "bulgur-25kg": "Bulgur, 25 kg sack",
+    "almonds-cashews": "Almonds & cashews",
+    "hazelnuts-walnuts": "Hazelnuts & walnuts",
+    "dried-fruits": "Dried fruits",
+    "ginger": "Ginger",
+    "cinnamon-cardamom": "Cinnamon & cardamom",
+    "white-mung-beans": "White beans & mung beans"
   },
   "cart": {
     "quantity": "Quantity",
@@ -123,7 +129,9 @@
     "added": "Added to cart",
     "addedNamed": "{product} added to your cart",
     "limitReached": "Maximum quantity added",
-    "checkout": "Request order"
+    "checkout": "Request order",
+    "badgeSourcing": "Sourced for you",
+    "toSpecification": "To your specification"
   },
   "units": {
     "kg1": "1 kg",
@@ -131,7 +139,8 @@
     "pack1": "pack",
     "kg5": "5 kg",
     "sack25": "25 kg sack",
-    "sack10": "10 kg sack"
+    "sack10": "10 kg sack",
+    "onRequest": "Packs to order"
   },
   "homeStory": {
     "buying": {
@@ -284,7 +293,9 @@
     "saffronSide": "Premium Negin saffron, deep red threads for colour, aroma and flavour, sold by the gram.",
     "pistachiosSide": "Pistachios in shell and as kernels, for retail and trade, supplied in sacks on request.",
     "pulsesSide": "Chickpeas in 25 kg sacks for kitchens, wholesale and food production.",
-    "grainsSide": "Grains and trading lines sourced to order. Tell us what you need and we will quote."
+    "grainsSide": "Grains and trading lines sourced to order. Tell us what you need and we will quote.",
+    "nuts": "Nuts & dried fruits",
+    "spices": "Spices"
   },
   "catalogue": {
     "title": "Our products.",
@@ -299,7 +310,9 @@
       "tea": "Tea for everyday rituals. Discover our current selection.",
       "saffron": "Premium Negin saffron, in a 1 g pack.",
       "pulses": "Pulses for professional kitchens and trade. Enquire about quantities and supply.",
-      "grains": "Wheat and other grains for commodity trading. Tell us the specification, quantity and destination you have in mind."
+      "grains": "Wheat and other grains for commodity trading. Tell us the specification, quantity and destination you have in mind.",
+      "nuts": "Almonds, cashews, hazelnuts, walnuts and dried fruits, sourced around your requirements.",
+      "spices": "Ginger, cinnamon, cardamom and other spices. Tell us the variety, quantity and packaging you need."
     }
   },
   "checkout": {

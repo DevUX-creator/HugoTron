@@ -2,24 +2,74 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { getProducts } from "@/lib/catalogue";
+import { getProducts, type ProductSlug } from "@/lib/catalogue";
 import RangeProductCard from "@/components/products/RangeProductCard";
 import ArrowIcon from "@/components/ui/ArrowIcon";
 
-const PRODUCTS = getProducts();
+// Show the breadth of the range before repeating pack sizes of the same rice.
+const FEATURED: readonly ProductSlug[] = [
+  "pardis-1121-basmati-indien",
+  "pistazien-mit-schale",
+  "almonds-cashews",
+  "cinnamon-cardamom",
+  "premium-negin-safran",
+  "kichererbsen-25kg",
+  "hazelnuts-walnuts",
+  "ginger",
+  "dried-fruits",
+  "white-mung-beans",
+];
+const products = getProducts();
+const PRODUCTS = [
+  ...FEATURED.flatMap((slug) => products.filter((product) => product.slug === slug)),
+  ...products.filter((product) => !FEATURED.includes(product.slug)),
+];
 
 /** Native touch/trackpad scrolling, with mouse drag and keyboard-accessible paging. */
 export default function PaperProductRail() {
   const t = useTranslations("paperStory.range");
   const rail = useRef<HTMLDivElement>(null);
+  const cancelGlide = useRef(() => {});
   const id = useId();
   const [ends, setEnds] = useState({ start: true, end: false });
   useEffect(() => {
     const element = rail.current;
     if (!element) return;
     let frame = 0;
-    let drag: { pointer: number; x: number; left: number; moved: boolean } | undefined;
+    let glide = 0;
+    let drag:
+      | {
+          pointer: number;
+          x: number;
+          left: number;
+          moved: boolean;
+          lastX: number;
+          time: number;
+          velocity: number;
+        }
+      | undefined;
     let suppressClick = false;
+    const stopGlide = () => {
+      cancelAnimationFrame(glide);
+      glide = 0;
+    };
+    cancelGlide.current = stopGlide;
+    const coast = (speed: number) => {
+      let previous = performance.now();
+      let velocity = Math.max(-2.4, Math.min(2.4, speed));
+      const tick = (now: number) => {
+        glide = 0;
+        if (document.hidden) return;
+        const delta = Math.min(now - previous, 32);
+        previous = now;
+        const before = element.scrollLeft;
+        element.scrollLeft += velocity * delta;
+        velocity *= Math.exp(-delta / 220);
+        if (Math.abs(velocity) > 0.02 && Math.abs(element.scrollLeft - before) > 0.1)
+          glide = requestAnimationFrame(tick);
+      };
+      glide = requestAnimationFrame(tick);
+    };
     const update = () => {
       frame = 0;
       const start = element.scrollLeft < 2;
@@ -32,6 +82,7 @@ export default function PaperProductRail() {
       if (!frame) frame = requestAnimationFrame(update);
     };
     const down = (event: PointerEvent) => {
+      stopGlide();
       if (
         event.pointerType !== "mouse" ||
         event.button !== 0 ||
@@ -39,7 +90,15 @@ export default function PaperProductRail() {
       )
         return;
       suppressClick = false;
-      drag = { pointer: event.pointerId, x: event.clientX, left: element.scrollLeft, moved: false };
+      drag = {
+        pointer: event.pointerId,
+        x: event.clientX,
+        left: element.scrollLeft,
+        moved: false,
+        lastX: event.clientX,
+        time: event.timeStamp,
+        velocity: 0,
+      };
     };
     const move = (event: PointerEvent) => {
       if (!drag || drag.pointer !== event.pointerId) return;
@@ -51,14 +110,26 @@ export default function PaperProductRail() {
         element.dataset.dragging = "true";
       }
       event.preventDefault();
+      const velocity = (drag.lastX - event.clientX) / Math.max(8, event.timeStamp - drag.time);
+      drag.velocity = drag.velocity * 0.3 + velocity * 0.7;
+      drag.lastX = event.clientX;
+      drag.time = event.timeStamp;
       element.scrollLeft = drag.left - distance;
     };
-    const up = () => {
-      if (drag?.moved) suppressClick = true;
-      if (drag && element.hasPointerCapture(drag.pointer))
-        element.releasePointerCapture(drag.pointer);
+    const up = (event?: PointerEvent) => {
+      const released = drag;
       drag = undefined;
+      if (released?.moved) suppressClick = true;
+      if (released && element.hasPointerCapture(released.pointer))
+        element.releasePointerCapture(released.pointer);
       delete element.dataset.dragging;
+      if (
+        released?.moved &&
+        event?.type === "pointerup" &&
+        event.timeStamp - released.time < 100 &&
+        !matchMedia("(prefers-reduced-motion: reduce)").matches
+      )
+        coast(released.velocity);
     };
     const click = (event: MouseEvent) => {
       if (!suppressClick) return;
@@ -81,9 +152,13 @@ export default function PaperProductRail() {
     element.addEventListener("lostpointercapture", up);
     element.addEventListener("click", click, true);
     element.addEventListener("dragstart", preventImageDrag);
+    element.addEventListener("wheel", stopGlide, { passive: true });
+    document.addEventListener("visibilitychange", stopGlide);
     schedule();
     return () => {
       cancelAnimationFrame(frame);
+      stopGlide();
+      cancelGlide.current = () => {};
       resize.disconnect();
       element.removeEventListener("scroll", schedule);
       element.removeEventListener("pointerdown", down);
@@ -94,11 +169,14 @@ export default function PaperProductRail() {
       element.removeEventListener("lostpointercapture", up);
       element.removeEventListener("click", click, true);
       element.removeEventListener("dragstart", preventImageDrag);
+      element.removeEventListener("wheel", stopGlide);
+      document.removeEventListener("visibilitychange", stopGlide);
     };
   }, []);
   const page = (direction: number) => {
     const element = rail.current;
     if (!element) return;
+    cancelGlide.current();
     const card = element.querySelector<HTMLElement>(".range-product");
     const step = (card?.offsetWidth ?? 320) + parseFloat(getComputedStyle(element).columnGap);
     element.scrollBy({
@@ -132,6 +210,7 @@ export default function PaperProductRail() {
         id={id}
         className="paper-range__rail"
         data-lenis-prevent-touch
+        data-lenis-prevent-horizontal
         role="region"
         aria-label={t("railLabel")}
         tabIndex={0}

@@ -48,6 +48,8 @@ const pathnames = {
   "/range/saffron": { de: "/sortiment/safran", en: "/products/saffron" },
   "/range/pulses": { de: "/sortiment/huelsenfruechte", en: "/products/pulses" },
   "/range/grains": { de: "/sortiment/getreide", en: "/products/grains" },
+  "/range/nuts": { de: "/sortiment/nuesse", en: "/products/nuts" },
+  "/range/spices": { de: "/sortiment/gewuerze", en: "/products/spices" },
   "/range/[slug]": { de: "/sortiment/[slug]", en: "/products/[slug]" },
   "/product/[slug]": { de: "/produkt/[slug]", en: "/product/[slug]" },
   "/wholesale": { de: "/grosshandel", en: "/wholesale" },

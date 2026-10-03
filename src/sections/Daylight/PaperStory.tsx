@@ -14,7 +14,7 @@ import "./story.css";
 import PaperPack from "./PaperPack";
 import PaperContact from "./PaperContact";
 import PaperProductRail from "./PaperProductRail";
-import PaperUniverse from "./PaperUniverse";
+import PaperUniverse, { PaperRangeRock } from "./PaperUniverse";
 import MobileStory from "./MobileStory";
 
 const FILMS = [WORLD_FILMS[1]!];
@@ -190,15 +190,16 @@ export default function PaperStory() {
       >
         <PaperUniverse />
         <div className="paper-range__intro">
-          <div>
+          <div className="paper-range__heading">
             <p className="paper-caption">{t("range.eyebrow")}</p>
             <h2 id="paper-range-title">{t("range.title")}</h2>
             <ArrowLink href="/range" prefetch={false} variant="glass" size="large">
               {t("range.action")}
             </ArrowLink>
+            <PaperRangeRock />
           </div>
           <div className="paper-range__film">
-            <EngravedFilm films={FILMS} />
+            <EngravedFilm films={FILMS} weight={0.7} cross={0.35} strength={0.5} pitchPx={3.5} />
           </div>
         </div>
         <PaperProductRail />

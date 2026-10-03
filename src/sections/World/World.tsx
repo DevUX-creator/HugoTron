@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import ArrowLink from "@/components/ui/ArrowLink";
 import ArrowIcon from "@/components/ui/ArrowIcon";
 import Button from "@/components/ui/Button";
-import { getCategories, getCategory, isSellable } from "@/lib/catalogue";
+import { getCategories, isSellable } from "@/lib/catalogue";
 import { useHomeTheme } from "@/components/rice/HomeTheme";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { useSound } from "@/components/sound/SoundProvider";
@@ -20,9 +20,10 @@ import { revealWorldChapter, scrollToWorldFilm, useWorldJourney } from "./useWor
 import "./world.css";
 
 /** What can be bought in the shop comes first; wholesale-only ranges follow in their usual order. */
-const LISTED_CATEGORIES = [...getCategories()].sort(
-  (a, b) => Number(isSellable(b)) - Number(isSellable(a)),
-);
+// The catalogue can grow independently of the hero's six existing 3D specimens.
+const LISTED_CATEGORIES = getCategories()
+  .filter((category) => category.id !== "nuts" && category.id !== "spices")
+  .sort((a, b) => Number(isSellable(b)) - Number(isSellable(a)));
 
 /** The brand entrance. The established rice experience has its own category route. */
 export default function World() {
@@ -50,7 +51,7 @@ export default function World() {
   const [preview, setPreview] = useState<SpecimenId | null>(null);
   const shown = preview ?? selected;
   const shownRef = useRef(shown);
-  const category = shown ? getCategory(shown) : undefined;
+  const category = LISTED_CATEGORIES.find((item) => item.id === shown);
   // A chosen type and pack size survive previewing other categories.
   const [choices, setChoices] = useState<Partial<Record<SpecimenId, ProductChoice>>>({});
 

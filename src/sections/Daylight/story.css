@@ -622,7 +622,8 @@ html:not(.js) .story__line {
 }
 .paper-story .paper-range__film {
   aspect-ratio: 16 / 9;
-  inline-size: 100%;
+  inline-size: 92%;
+  justify-self: end;
   border-radius: 0;
   rotate: none;
   box-shadow: none;
@@ -634,13 +635,34 @@ html:not(.js) .story__line {
 .paper-story .paper-range__intro h2 {
   max-inline-size: 14ch;
 }
+.paper-range__heading {
+  position: relative;
+}
+.paper-range__rock {
+  position: absolute;
+  inset: auto 1rem 1rem auto;
+  inline-size: 4rem;
+  block-size: auto;
+  fill: none;
+  stroke: var(--color-world-paper-ink);
+  color: var(--color-world-paper-ink);
+  stroke-width: 0.6px;
+  opacity: 0.5;
+  rotate: -20deg;
+  translate: calc(var(--paper-pointer-x, 0) * -5px) calc(var(--paper-pointer-y, 0) * -3px);
+  pointer-events: none;
+}
+.paper-story .paper-range__navigation {
+  margin-block-start: clamp(4.5rem, 8vw, 8rem);
+}
 .paper-story .paper-range__rail {
   inline-size: calc(100% + var(--rail-gutter) * 2);
   margin-inline: calc(-1 * var(--rail-gutter));
   padding: 1.5rem var(--rail-gutter) 2rem;
   gap: clamp(2rem, 4vw, 4rem);
   scroll-padding-inline: var(--rail-gutter);
-  scroll-snap-type: x proximity;
+  /* Native touch/trackpad inertia should finish freely, without a snap correction. */
+  scroll-snap-type: none;
   scrollbar-width: none;
   overscroll-behavior-x: contain;
   touch-action: pan-x pan-y;
@@ -668,6 +690,8 @@ html:not(.js) .story__line {
   background: transparent;
   backdrop-filter: none;
   box-shadow: none;
+  scroll-snap-align: none;
+  contain: layout style;
 }
 .paper-story .paper-range .range-product__image {
   overflow: visible;
@@ -942,11 +966,34 @@ html.js .paper-buying__path .buying-sketch {
   .paper-story .paper-range__intro {
     grid-template-columns: 1fr;
   }
+  .paper-story .paper-range__film {
+    inline-size: 92%;
+    justify-self: center;
+  }
+  .paper-range__rock {
+    inset: auto -0.25rem 3.5rem auto;
+    inline-size: 3rem;
+  }
+  .paper-story .paper-range__navigation {
+    margin-block-start: 5.5rem;
+  }
+  .paper-story .paper-range__rail {
+    padding-block-start: 0.5rem;
+  }
+  .paper-story .paper-range .range-product {
+    flex-basis: min(74vw, 18rem);
+    inline-size: min(74vw, 18rem);
+    gap: 0.6rem;
+  }
   .paper-story .paper-range .range-product__image {
-    block-size: 19rem;
+    block-size: clamp(7rem, calc(var(--home-vh, 1svh) * 30 - 5rem), 13rem);
+  }
+  .paper-story .paper-range .range-product h3 {
+    font-size: 1rem;
   }
   .paper-story .paper-contact {
-    padding-block: 4rem 5rem;
+    /* Legal links must clear the persistent frame, including the phone's safe area. */
+    padding-block: 4rem calc(9rem + env(safe-area-inset-bottom));
   }
   .paper-story .paper-contact__hero {
     min-block-size: auto;

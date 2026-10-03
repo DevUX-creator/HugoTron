@@ -26,15 +26,12 @@ const ROCKS = [
     path: "M0 18 22 0 58 10 62 44 26 56 4 44Z",
     facets: "M22 0 30 26 58 10M30 26 62 44M30 26 4 44",
   },
-  {
-    x: 640,
-    y: 210,
-    scale: 1,
-    turn: -30,
-    path: "M0 16 20 0 48 8 52 34 22 44Z",
-    facets: "M20 0 26 20 48 8M26 20 22 44M26 20 52 34",
-  },
 ] as const;
+
+const RANGE_ROCK = {
+  path: "M0 16 20 0 48 8 52 34 22 44Z",
+  facets: "M20 0 26 20 48 8M26 20 22 44M26 20 52 34",
+};
 
 /** A few small crosses and floating rocks behind the products. Nothing crosses the cards. */
 export default function PaperUniverse() {
@@ -73,5 +70,29 @@ export default function PaperUniverse() {
         </g>
       </svg>
     </div>
+  );
+}
+
+/** Anchored beside the range heading so the background's crop cannot put it on the CTA. */
+export function PaperRangeRock() {
+  const hatch = useId();
+  const rock = RANGE_ROCK;
+  return (
+    <svg className="paper-range__rock" viewBox="-5 -5 65 58" aria-hidden="true">
+      <defs>
+        <pattern
+          id={hatch}
+          width="4"
+          height="4"
+          patternUnits="userSpaceOnUse"
+          patternTransform="rotate(28)"
+        >
+          <path d="M0 0V4" stroke="currentColor" strokeWidth="0.5" />
+        </pattern>
+      </defs>
+      <path d={rock.path} fill={`url(#${hatch})`} />
+      <path d={rock.path} />
+      <path d={rock.facets} />
+    </svg>
   );
 }

@@ -98,7 +98,13 @@
     "rote-linsen-25kg": "Rote Linsen, 25-kg-Sack",
     "gelbe-spalterbsen-25kg": "Gelbe Spalterbsen, 25-kg-Sack",
     "kidneybohnen-25kg": "Kidneybohnen, 25-kg-Sack",
-    "bulgur-25kg": "Bulgur, 25-kg-Sack"
+    "bulgur-25kg": "Bulgur, 25-kg-Sack",
+    "almonds-cashews": "Mandeln & Cashewkerne",
+    "hazelnuts-walnuts": "Haselnüsse & Walnüsse",
+    "dried-fruits": "Trockenfrüchte",
+    "ginger": "Ingwer",
+    "cinnamon-cardamom": "Zimt & Kardamom",
+    "white-mung-beans": "Weiße Bohnen & Mungbohnen"
   },
   "cart": {
     "quantity": "Menge",
@@ -123,7 +129,9 @@
     "added": "Hinzugefügt",
     "addedNamed": "{product} zum Warenkorb hinzugefügt",
     "limitReached": "Maximale Menge erreicht",
-    "checkout": "Bestellung anfragen"
+    "checkout": "Bestellung anfragen",
+    "badgeSourcing": "Für Sie beschafft",
+    "toSpecification": "Nach Ihren Anforderungen"
   },
   "units": {
     "kg1": "1 kg",
@@ -131,7 +139,8 @@
     "pack1": "Packung",
     "kg5": "5 kg",
     "sack25": "25-kg-Sack",
-    "sack10": "10-kg-Sack"
+    "sack10": "10-kg-Sack",
+    "onRequest": "Packung nach Bedarf"
   },
   "homeStory": {
     "buying": {
@@ -284,7 +293,9 @@
     "saffronSide": "Premium-Negin-Safran, tiefrote Fäden für Farbe, Aroma und Geschmack, grammweise erhältlich.",
     "pistachiosSide": "Pistazien mit Schale und als Kerne, für Handel und Gastronomie, auf Anfrage im Sack.",
     "pulsesSide": "Kichererbsen im 25-kg-Sack für Küchen, Großhandel und Lebensmittelproduktion.",
-    "grainsSide": "Getreide und Handelsware nach Bedarf beschafft. Sagen Sie uns, was Sie brauchen, und wir erstellen ein Angebot."
+    "grainsSide": "Getreide und Handelsware nach Bedarf beschafft. Sagen Sie uns, was Sie brauchen, und wir erstellen ein Angebot.",
+    "nuts": "Nüsse & Trockenfrüchte",
+    "spices": "Gewürze"
   },
   "catalogue": {
     "title": "Unser Sortiment.",
@@ -299,7 +310,9 @@
       "tea": "Tee für die täglichen Rituale. Entdecken Sie unsere aktuelle Auswahl.",
       "saffron": "Premium Negin Safran in der 1-g-Packung.",
       "pulses": "Hülsenfrüchte für professionelle Küchen und Handel. Fragen Sie Mengen und Belieferung an.",
-      "grains": "Weizen und weitere Getreidearten für den Rohstoffhandel. Teilen Sie uns die gewünschte Spezifikation, Menge und den Bestimmungsort mit."
+      "grains": "Weizen und weitere Getreidearten für den Rohstoffhandel. Teilen Sie uns die gewünschte Spezifikation, Menge und den Bestimmungsort mit.",
+      "nuts": "Mandeln, Cashewkerne, Haselnüsse, Walnüsse und Trockenfrüchte – nach Ihren Anforderungen beschafft.",
+      "spices": "Ingwer, Zimt, Kardamom und weitere Gewürze. Nennen Sie uns Sorte, Menge und gewünschte Verpackung."
     }
   },
   "checkout": {

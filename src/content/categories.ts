@@ -18,6 +18,12 @@ export const PRODUCT_CATEGORIES = [
     href: "/range/pistachios",
     products: ["pistazien-mit-schale", "pistazienkerne"],
   },
+  {
+    id: "nuts",
+    href: "/range/nuts",
+    products: ["almonds-cashews", "hazelnuts-walnuts", "dried-fruits"],
+  },
+  { id: "spices", href: "/range/spices", products: ["ginger", "cinnamon-cardamom"] },
   { id: "tea", href: "/range/tea", products: ["vahdam-earl-grey"] },
   { id: "saffron", href: "/range/saffron", products: ["premium-negin-safran"] },
   {
@@ -28,6 +34,7 @@ export const PRODUCT_CATEGORIES = [
       "rote-linsen-25kg",
       "gelbe-spalterbsen-25kg",
       "kidneybohnen-25kg",
+      "white-mung-beans",
     ],
   },
   { id: "grains", href: "/range/grains", products: ["bulgur-25kg"] },
