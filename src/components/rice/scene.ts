@@ -34,6 +34,7 @@ export interface RiceScene {
   setSlow: (value: boolean) => void;
   setReducedMotion: (value: boolean) => void;
   setScrollProgress: (value: number) => void;
+  setCovered: (value: boolean) => void;
   brushWithKey: (x: number, z: number) => void;
   dispose: () => void;
 }
@@ -100,6 +101,7 @@ export function createRiceScene(
     surfaceTexture?: { src: string; fallback?: string };
   } = {},
 ): RiceScene {
+  let covered = false;
   const renderer = new THREE.WebGLRenderer({
     antialias: true,
     alpha: true,
@@ -474,7 +476,7 @@ export function createRiceScene(
 
   function render(now: number) {
     frame = 0;
-    if (disposed || !visible || document.hidden || contextLost || !surfaceReady) return;
+    if (disposed || covered || !visible || document.hidden || contextLost || !surfaceReady) return;
     const delta = lastTime ? Math.min((now - lastTime) / 1000, 0.25) : 0;
     lastTime = now;
     const previousEntrance = entranceProgress;
@@ -616,7 +618,7 @@ export function createRiceScene(
   }
 
   function wake() {
-    if (!frame && !disposed && visible && !document.hidden && !contextLost)
+    if (!frame && !disposed && !covered && visible && !document.hidden && !contextLost)
       frame = requestAnimationFrame(render);
   }
 
@@ -862,6 +864,13 @@ export function createRiceScene(
 
   return {
     toss,
+    setCovered(value) {
+      covered = value;
+      if (covered) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      } else wake();
+    },
     brushWithKey(x, z) {
       // Arrow keys follow screen directions even when the orbit ends at another heading.
       keyboardFrame.copy(arrangement.quaternion).invert();
@@ -966,6 +975,9 @@ export function createRiceScene(
       key.shadow.dispose();
       rice.dispose();
       renderer.dispose();
+      // Category navigation discards this canvas. Release its GPU context now,
+      // including transmission buffers, instead of waiting for browser GC.
+      renderer.forceContextLoss();
       renderer.domElement.remove();
       brushSurface.remove();
     },

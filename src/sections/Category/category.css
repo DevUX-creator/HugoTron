@@ -1,0 +1,861 @@
+/* ===========================================================================
+   Category pages — the home's world, hand-off and paper story, centred, in
+   each range's colours. `--cat-night` is the 3D backdrop; the range's accent
+   replaces the home's blue ink through `--color-world-paper-blue` (on <main>).
+   Story primitives (layers, wipes, line) come from sections/Daylight/story.css.
+   =========================================================================== */
+
+.category:focus {
+  outline: none;
+}
+
+/* -- The world: opening, every quantity, hand-off ---------------------------- */
+
+.category-world {
+  --world-backdrop: var(--cat-night);
+  --intro-out: 0;
+  --quantity-in: 0;
+  --leave: 0;
+  position: relative;
+  block-size: calc(var(--home-vh, 1svh) * 420);
+  color: var(--color-world-paper-light);
+}
+.category-world__stage {
+  position: sticky;
+  inset-block-start: 0;
+  block-size: calc(var(--home-vh, 1svh) * 100);
+  min-block-size: 0;
+  overflow: clip;
+  background: var(--cat-night);
+}
+.category-world__scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+.category-world[data-status="ready"] .category-world__scene {
+  opacity: 1;
+}
+.category-world__scene canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.category-world__shade {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse 70% 60% at 50% 46%,
+      transparent 45%,
+      color-mix(in srgb, var(--cat-night) 70%, transparent)
+    ),
+    linear-gradient(0deg, var(--cat-night), transparent 34%),
+    linear-gradient(180deg, color-mix(in srgb, var(--cat-night) 70%, transparent), transparent 22%);
+  pointer-events: none;
+}
+.category-world[data-status="unavailable"] .category-world__shade {
+  background: radial-gradient(
+    ellipse 55% 50% at 50% 46%,
+    color-mix(in srgb, var(--color-world-paper-blue) 38%, var(--cat-night)),
+    var(--cat-night) 72%
+  );
+}
+
+.category-crumbs,
+.category-hero__eyebrow,
+.category-hero__scroll,
+.category-hero__services span {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* The opening: breadcrumb above, the title centred beneath the ingredient. */
+.category-hero {
+  position: absolute;
+  inset: 0;
+  opacity: calc(1 - var(--intro-out));
+  translate: 0 calc(var(--intro-out) * -6svh);
+  filter: blur(calc(var(--intro-out) * 6px));
+}
+.category-crumbs {
+  position: absolute;
+  inset: calc(var(--header-inset-block) + var(--header-row) + 3.5rem) auto auto 50%;
+  translate: -50% 0;
+}
+.category-crumbs ol {
+  display: flex;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  white-space: nowrap;
+}
+.category-crumbs li + li::before {
+  content: "/";
+  margin-inline-end: 0.6rem;
+  opacity: 0.5;
+}
+.category-crumbs a {
+  color: inherit;
+  opacity: 0.7;
+  text-decoration: none;
+}
+.category-crumbs a:hover,
+.category-crumbs a:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
+}
+.category-hero__intro {
+  position: absolute;
+  inset: auto 0 11.5rem;
+  display: grid;
+  justify-items: center;
+  padding-inline: 2rem;
+  text-align: center;
+}
+.category-hero__eyebrow {
+  margin: 0 0 1.25rem;
+  opacity: 0.75;
+}
+.category-hero__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5vw, 5.4rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.category-hero__title > span {
+  display: block;
+}
+.category-hero__title > span:last-child {
+  color: color-mix(in srgb, var(--color-world-paper-blue) 45%, var(--color-world-paper-light));
+}
+.category-hero__lead {
+  position: absolute;
+  inset: calc(var(--header-inset-block) + var(--header-row) + 3.5rem) max(3rem, 5vw) auto auto;
+  inline-size: clamp(16rem, 21vw, 21rem);
+  margin: 0;
+  font-size: clamp(0.8125rem, 0.9vw, 0.9375rem);
+  line-height: 1.65;
+  text-align: start;
+  opacity: 0.85;
+}
+.category-hero__short {
+  display: none;
+}
+.category-hero__services {
+  position: absolute;
+  inset: auto 0 7.25rem;
+  display: flex;
+  justify-content: center;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+}
+.category-hero__services li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding-block: 0.6rem;
+  border-block-start: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+}
+.category-hero__services span {
+  opacity: 0.6;
+}
+.category-hero__scroll {
+  position: absolute;
+  inset: auto auto 3.1rem 50%;
+  translate: -50% 0;
+  opacity: 0.55;
+}
+
+/* Every quantity: the title over the ingredient, buying left, supply right. */
+.category-quantity {
+  position: absolute;
+  inset: 0;
+  opacity: var(--quantity-in);
+  translate: 0 calc((1 - var(--quantity-in)) * 5svh);
+  pointer-events: none;
+}
+.category-quantity[inert] {
+  visibility: hidden;
+}
+.category-quantity > * {
+  pointer-events: auto;
+}
+.category-quantity__head {
+  position: absolute;
+  inset: calc(var(--header-inset-block) + var(--header-row) + 3rem) 0 auto;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+.category-quantity h2 {
+  text-transform: uppercase;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 8.5vw, 9.5rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+}
+.category-quantity__buy {
+  position: absolute;
+  inset: auto auto 7.25rem max(4rem, 6vw);
+  inline-size: min(25rem, 32vw);
+  padding: 1.5rem;
+  border: 1px solid color-mix(in srgb, var(--color-world-paper-light) 18%, transparent);
+  background: color-mix(in srgb, var(--cat-night) 55%, transparent);
+  backdrop-filter: blur(14px);
+}
+/* The page is the range; the purchase panel need not link back to it. */
+.category-quantity .world__explore {
+  display: none;
+}
+.category-quantity__supply {
+  position: absolute;
+  inset: auto max(4rem, 6vw) 7.25rem auto;
+  inline-size: clamp(14rem, 20vw, 19rem);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+.category-quantity__supply p {
+  margin: 0;
+  opacity: 0.8;
+}
+.category-quantity__supply .category-quantity__supply-title {
+  margin-block-end: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+  opacity: 1;
+}
+
+/* -- The story on paper ---------------------------------------------------- */
+
+.category-story {
+  --color-fg-heading: var(--color-world-paper-ink);
+  --color-fg-primary: var(--color-world-paper-ink);
+  position: relative;
+  z-index: 2;
+  margin-block-start: calc(var(--home-vh, 1svh) * -100);
+  color: var(--color-world-paper-ink);
+}
+.category-story h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+/* Centred editorial chapters. Each illustration is local to its chapter, so
+   reverse scroll and mobile never need to reconstruct a pinned picture plane. */
+.category-chapter {
+  min-block-size: calc(var(--home-vh, 1svh) * 120);
+  padding: calc(var(--home-vh, 1svh) * 27) max(3rem, 6vw) 12rem;
+  isolation: isolate;
+}
+.category-chapter > header {
+  z-index: 1;
+  max-inline-size: min(44rem, 49%);
+  margin-inline: auto;
+  padding: 0;
+  text-align: center;
+}
+.story-chapter.category-chapter h2 {
+  max-inline-size: 15ch;
+  margin-inline: auto;
+  padding-block: 0.08em;
+  font-size: clamp(2.8rem, 4.7vw, 5.6rem);
+  text-transform: uppercase;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+.category-chapter .story-text__note {
+  max-inline-size: 35ch;
+  margin-inline: auto;
+  font-size: clamp(0.9375rem, 1.1vw, 1.125rem);
+}
+.category-art {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: clip;
+}
+.category-art figure {
+  position: absolute;
+  margin: 0;
+  translate: calc(var(--paper-pointer-x, 0) * var(--art-depth, 1) * 13px)
+    calc((var(--p, 0.5) - 0.5) * var(--art-depth, 1) * -95px + var(--paper-pointer-y, 0) * 9px);
+}
+.category-art img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+.category-art__botanical {
+  --art-depth: 1.2;
+  inset: 14% auto auto 5%;
+  inline-size: 23%;
+  rotate: -8deg;
+}
+.category-art__landscape {
+  --art-depth: -0.55;
+  inset: 37% 1% auto auto;
+  inline-size: 30%;
+  rotate: 3deg;
+}
+.category-art__orbit {
+  position: absolute;
+  inset: 15% 3% auto;
+  inline-size: 94%;
+  stroke: var(--color-world-paper-blue);
+  stroke-width: 0.65px;
+  opacity: 0.18;
+}
+.category-chapter--horizon {
+  min-block-size: calc(var(--home-vh, 1svh) * 132);
+  padding-block-start: calc(var(--home-vh, 1svh) * 16);
+}
+.category-chapter--horizon .category-art__landscape {
+  inset: 34% auto auto 50%;
+  inline-size: 58%;
+  margin-inline-start: -29%;
+  rotate: -2deg;
+}
+.category-chapter--horizon .category-art__botanical {
+  inset: 27% 3% auto auto;
+  inline-size: 15%;
+  rotate: 12deg;
+}
+.category-chapter--offset > header {
+  margin-inline-start: 31%;
+}
+.category-chapter--offset .category-art__botanical {
+  inset: 35% 2% auto auto;
+  inline-size: 19%;
+  rotate: 9deg;
+}
+.category-chapter--offset .category-art__landscape {
+  inset: 25% auto auto 2%;
+  inline-size: 34%;
+  rotate: -4deg;
+}
+.category-facts {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+.category-facts li {
+  max-inline-size: 20ch;
+  padding-block-start: 0.75rem;
+  border-block-start: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+}
+/* One short reveal on entry; the remaining movement follows the user's scroll. */
+html.js .category-chapter > header {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 700ms ease,
+    transform 850ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+html.js .category-chapter[data-visible="true"] > header {
+  opacity: 1;
+  transform: none;
+}
+.paper-story.category-story .category-assortment {
+  padding: 7rem max(3rem, 8vw) 6rem;
+  --rail-gutter: max(3rem, 8vw);
+}
+.category-assortment > header {
+  max-inline-size: 45rem;
+}
+.category-assortment h2 {
+  font-size: clamp(3rem, 6.2vw, 6rem);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.category-assortment__film {
+  position: relative;
+  inline-size: min(100%, 54rem);
+  aspect-ratio: 16 / 9;
+  margin: 4rem auto 0;
+  overflow: hidden;
+}
+.category-assortment .paper-range__rail {
+  display: flex;
+  overflow-x: auto;
+}
+.category-variety__mark {
+  position: relative;
+  block-size: clamp(15rem, 29vw, 24rem);
+}
+.category-variety__mark img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+
+/* Ways to work together: cards that stack as they pin, after Son Daven's benefits. */
+.category-ways {
+  position: relative;
+  z-index: 2;
+  padding: 26svh max(3rem, 8vw) 12svh;
+}
+.category-ways h2,
+.category-faq h2,
+.category-cta h2 {
+  font-size: clamp(3rem, 5.6vw, 6rem);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.category-ways__stack {
+  display: grid;
+  gap: 24svh;
+  max-inline-size: 72rem;
+  margin: 10svh auto 0;
+  padding: 0;
+  list-style: none;
+}
+.category-way {
+  position: sticky;
+  inset-block-start: calc(
+    var(--header-inset-block) + var(--header-row) + 3rem + var(--i) * 1.75rem
+  );
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 3rem;
+  min-block-size: min(34rem, 62svh);
+  padding: clamp(1.5rem, 3vw, 3rem);
+  border: 1px solid color-mix(in srgb, var(--color-world-paper-ink) 18%, transparent);
+  background: var(--color-world-paper-light);
+  box-shadow: 0 -1.5rem 3rem -2rem color-mix(in srgb, var(--color-world-paper-ink) 35%, transparent);
+}
+.category-way__copy {
+  display: grid;
+  justify-items: start;
+  gap: 1.25rem;
+}
+.category-way__index {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-world-paper-blue);
+}
+.category-way h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.4vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.category-way p {
+  max-inline-size: 34ch;
+  margin: 0;
+  line-height: 1.6;
+}
+.category-way__art {
+  display: grid;
+  place-items: center;
+}
+.category-way__art img {
+  inline-size: 100%;
+  max-block-size: 26rem;
+  block-size: auto;
+  object-fit: contain;
+}
+
+/* Questions and the last word, centred on one column. */
+.category-faq {
+  position: relative;
+  z-index: 2;
+  padding: 18svh max(3rem, 8vw) 8svh;
+}
+.category-faq__list {
+  max-inline-size: 52rem;
+  margin: 4rem auto 0;
+  border-block-start: 1px solid color-mix(in srgb, var(--color-world-paper-ink) 25%, transparent);
+}
+.category-faq details {
+  border-block-end: 1px solid color-mix(in srgb, var(--color-world-paper-ink) 25%, transparent);
+}
+.category-faq summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  min-block-size: 4.5rem;
+  cursor: pointer;
+  list-style: none;
+}
+.category-faq summary::-webkit-details-marker {
+  display: none;
+}
+.category-faq summary::after {
+  content: "+";
+  flex: none;
+  font-size: 1.5rem;
+  color: var(--color-world-paper-blue);
+  transition: rotate 300ms;
+}
+.category-faq details[open] summary::after {
+  rotate: 45deg;
+}
+.category-faq summary:focus-visible {
+  outline: 2px solid var(--color-world-paper-blue);
+  outline-offset: 4px;
+}
+.category-faq h3 {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+  font-weight: 500;
+}
+.category-faq details p {
+  max-inline-size: 60ch;
+  margin: 0 0 1.75rem;
+  line-height: 1.65;
+}
+.category-cta {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 1.5rem;
+  padding: 18svh max(3rem, 8vw) 14svh;
+  text-align: center;
+}
+.category-cta h2 {
+  max-inline-size: 14ch;
+}
+.category-cta .story-text__note {
+  margin: 0;
+}
+
+/* -- No JavaScript, smaller screens, phones and reduced motion --------------- */
+
+/* Without script nothing pins: the opening, the quantity and the story stand in order. */
+html:not(.js) .category-world {
+  block-size: auto;
+}
+html:not(.js) .category-world__stage {
+  position: relative;
+  block-size: auto;
+  min-block-size: 0;
+  overflow: visible;
+}
+html:not(.js) .category-hero,
+html:not(.js) .category-quantity {
+  position: relative;
+  min-block-size: 100svh;
+  opacity: 1;
+  translate: none;
+  filter: none;
+}
+html:not(.js) .category-quantity {
+  visibility: visible;
+}
+html:not(.js) .category-story {
+  margin-block-start: 0;
+  background: var(--color-world-paper);
+}
+html:not(.js) .category-chapter,
+html:not(.js) .category-chapter header {
+  min-block-size: 0;
+  padding-block: 4rem;
+}
+
+@media (width < 64rem) {
+  /* The summary moves under the title; the services return in "ways to work together". */
+  .category-hero__intro {
+    inset-block-end: 13rem;
+  }
+  .category-hero__lead {
+    inset: auto 2rem 3.5rem;
+    inline-size: auto;
+    max-inline-size: 36rem;
+    margin-inline: auto;
+    text-align: center;
+  }
+  .category-hero__services,
+  .category-hero__scroll {
+    display: none;
+  }
+  .category-quantity__buy {
+    inline-size: min(25rem, 44vw);
+  }
+  .category-way {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .category-way__art img {
+    max-block-size: 14rem;
+  }
+}
+
+@media (width < 48rem) {
+  .category-crumbs {
+    inset-block-start: calc(var(--header-inset-block) + var(--header-row) + 7rem);
+    inline-size: calc(100% - 5rem);
+  }
+  .category-crumbs ol {
+    justify-content: center;
+  }
+  .category-crumbs li {
+    flex-shrink: 0;
+  }
+  .category-crumbs li:last-child {
+    flex-shrink: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .category-hero__intro {
+    inset-block-end: 12.5rem;
+  }
+  .category-hero__intro > .category-hero__eyebrow {
+    display: none;
+  }
+  .category-hero__title {
+    font-size: clamp(2rem, 9.5vw, 3.2rem);
+  }
+  .category-hero__lead {
+    inset: auto 1.5rem 2.25rem;
+    font-size: 0.8125rem;
+  }
+  .category-ways h2,
+  .category-faq h2,
+  .category-cta h2 {
+    font-size: clamp(2.2rem, 9.5vw, 3.4rem);
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+  .category-quantity__head {
+    padding-inline: 2.5rem;
+    inset-block-start: calc(var(--header-inset-block) + var(--header-row) + 7rem);
+  }
+  .category-quantity h2 {
+    font-size: clamp(2.8rem, 15vw, 4.5rem);
+  }
+  .category-quantity__buy {
+    inset: auto 1.5rem 2rem;
+    inline-size: auto;
+    padding: 1.1rem;
+  }
+  .category-quantity__supply {
+    display: none;
+  }
+  .category-chapter,
+  .category-chapter--horizon {
+    min-block-size: 0;
+    padding: 7rem 2.5rem 3rem;
+  }
+  .category-chapter > header,
+  .category-chapter--offset > header {
+    max-inline-size: none;
+    margin-inline: auto;
+    padding: 0;
+  }
+  .story-chapter.category-chapter h2 {
+    font-size: clamp(2.05rem, 8.8vw, 3.4rem);
+  }
+  .category-art {
+    position: relative;
+    min-block-size: 18rem;
+    margin-block-start: 2rem;
+    overflow: visible;
+  }
+  .category-chapter {
+    display: flex;
+    flex-direction: column;
+  }
+  .category-chapter > header {
+    order: -1;
+  }
+  .category-art figure {
+    translate: none;
+  }
+  .category-art .category-art__botanical {
+    inset: 0 auto auto -4%;
+    inline-size: 34%;
+    rotate: -7deg;
+  }
+  .category-art .category-art__landscape {
+    inset: 22% -3% auto auto;
+    inline-size: 78%;
+    margin: 0;
+    rotate: 2deg;
+  }
+  .category-art__orbit {
+    inset-block-start: 12%;
+  }
+  .category-facts {
+    font-size: 0.625rem;
+  }
+  .paper-story.category-story .category-assortment {
+    padding: 6rem 2.5rem 3rem;
+    --rail-gutter: 2.5rem;
+  }
+  .category-assortment h2 {
+    font-size: clamp(2.3rem, 10vw, 3.5rem);
+  }
+  .category-variety__mark {
+    block-size: clamp(7rem, calc(var(--home-vh, 1svh) * 30 - 5rem), 13rem);
+  }
+  .category-ways,
+  .category-faq,
+  .category-cta {
+    padding-inline: 1.5rem;
+  }
+  .category-ways__stack {
+    gap: 8svh;
+  }
+  .category-way {
+    min-block-size: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .category-world__scene,
+  .category-faq summary::after {
+    transition: none;
+  }
+  .category-art figure {
+    translate: none;
+  }
+  html.js .category-chapter > header {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .category-hero {
+    filter: none;
+    translate: none;
+  }
+}
+
+/* Product interaction stays in the open part of the scene, away from the buy panel. */
+.category-hero,
+.category-quantity {
+  pointer-events: none;
+}
+.category-hero a,
+.category-quantity > * {
+  pointer-events: auto;
+}
+.category-interaction {
+  position: absolute;
+  z-index: 1;
+  inset: 30% max(4rem, 6vw) auto auto;
+  max-inline-size: 15rem;
+  opacity: calc(1 - var(--leave));
+}
+.category-interaction button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-block-size: 44px;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-align: start;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}
+.category-interaction button > span {
+  display: grid;
+  flex: none;
+  place-items: center;
+  inline-size: 2.25rem;
+  block-size: 2.25rem;
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-radius: 50%;
+  font-size: 1.25rem;
+  transition:
+    rotate 450ms,
+    border-color 450ms;
+}
+.category-interaction button:hover > span {
+  rotate: 90deg;
+  border-color: currentColor;
+}
+.category-interaction p {
+  margin: 0.5rem 0 0 3rem;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  opacity: 0.65;
+}
+.category[data-category="rice"] .category-world__scene {
+  background: radial-gradient(
+    ellipse at 50% 42%,
+    var(--color-cat-rice-glow) 0%,
+    var(--color-cat-rice-shade) 46%,
+    transparent 72%
+  );
+}
+.category-world__scene .rice-brush-surface {
+  position: absolute;
+  inset: 0;
+  touch-action: none;
+}
+.category-world__scene .rice-brush-surface[hidden] {
+  display: none;
+}
+
+@media (width < 48rem) {
+  .category-interaction {
+    inset: calc(var(--header-inset-block) + var(--header-row) + 11.5rem) auto auto 50%;
+    translate: -50% 0;
+    inline-size: max-content;
+    max-inline-size: 80%;
+  }
+  .category-interaction p {
+    display: none;
+  }
+  .category-hero__summary {
+    display: none;
+  }
+  .category-hero__short {
+    display: inline;
+  }
+  .category-hero__lead {
+    inset: auto 2.5rem 7rem;
+    font-size: 0.75rem;
+  }
+  .category-hero__intro {
+    inset-block-end: 12rem;
+  }
+  .category-quantity__buy {
+    inset: auto 2.5rem 7rem;
+    padding: 0.85rem;
+  }
+  .category-quantity__buy .world__segment button {
+    padding-inline: 0.4rem;
+    font-size: 0.6875rem;
+  }
+  .category-quantity h2 {
+    font-size: clamp(1.7rem, 8.4vw, 2.8rem);
+  }
+}

@@ -85,29 +85,36 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
         vec2 p = vUv - vec2(0.68, 0.55);
         p = mat2(0.96, -0.28, 0.28, 0.96) * p;
         float body = length(p / vec2(mix(0.45, 0.51, uMobile), 0.39)) - 1.0;
-        float tail = length((vUv - vec2(0.24, 0.23)) / vec2(0.29, 0.18)) - 1.0;
+        float tail = length((vUv - vec2(0.26, 0.23)) / vec2(0.22, 0.18)) - 1.0;
         float join = max(0.36 - abs(body - tail), 0.0) / 0.36;
         float outline = min(body, tail) - join * join * 0.09;
-        outline += (fbm(vUv * 11.0) - 0.44) * 0.36;
-        outline += (noise(vUv * 47.0) - 0.5) * 0.065;
-        // The moving front must be torn too; a straight x cutoff exposed a
-        // vertical blade during the reveal despite the organic final outline.
-        // Fixed spatial noise keeps the edge stable when scrolling backwards.
-        float front = 1.15 - uProgress * 1.4 - vUv.x;
-        if (uProgress > 0.0 && uProgress < 1.0) {
-          float sweep = sin(vUv.y * 5.7 + 0.8) * 0.1;
-          float tear = (fbm(vUv.yx * vec2(3.1, 2.7)) - 0.44) * 0.27;
-          tear += (noise(vUv * 43.0) - 0.5) * 0.045;
-          front += (sweep + tear) * sin(uProgress * 3.14159265);
+        outline += (fbm(vUv * 8.0) - 0.44) * 0.48;
+        outline += (noise(vUv * 47.0) - 0.5) * 0.075;
+        // Paper opens in uneven pockets from the screen edge. A warped radial
+        // field grows into the finished silhouette instead of clipping it with
+        // an x-axis blade. Spatial noise makes reverse scrolling deterministic.
+        float edge = outline;
+        // The extra reveal field is unnecessary once open, and never runs on mobile.
+        if (uProgress < 0.9999) {
+          vec2 warp = vec2(
+            fbm(vUv * 4.2 + 7.3) - 0.44,
+            fbm(vUv.yx * 5.1 + 19.0) - 0.44
+          );
+          vec2 growth = (vUv - vec2(1.18, 0.56) + warp * 0.31) / vec2(1.0, 0.74);
+          float front = length(growth) - mix(-0.08, 1.85, uProgress);
+          front += (noise(vUv * 33.0) - 0.5) * 0.06;
+          edge = max(outline, front);
         }
-        float edge = max(outline, front);
         float pixel = 1.0 / uResolution.y;
         vec2 paper = vUv * uResolution;
         float grain = hash(paper) - 0.5;
         float fibres = noise(paper * vec2(0.035, 0.6)) - 0.5;
         float pulp = fbm(centred * 3.0) - 0.44;
         vec3 color = uColor + grain * 0.026 + fibres * 0.014 + pulp * 0.022;
-        float cover = smoothstep(-pixel, pixel, edge);
+        // Fine fibres dissolve ahead of the edge; the scene itself stays sharp.
+        float feather = max(pixel * 1.5, 0.004 + noise(vUv * 81.0) * 0.006);
+        float cover = smoothstep(-feather, feather, edge);
+        color -= exp(-abs(edge) * 75.0) * 0.025;
         float sceneGrain = hash(paper + floor(uTime * 8.0) * 17.0) * 0.5;
         gl_FragColor = vec4(mix(vec3(sceneGrain), color, cover), mix(mix(0.028, 0.01, uMobile), 1.0, cover));
       }

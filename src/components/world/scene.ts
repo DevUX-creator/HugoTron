@@ -4,7 +4,7 @@ import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { createWorldAtmosphere } from "./atmosphere";
 import { createCoreInstallation } from "./installationCore";
-import { createSpecimen, type SpecimenId } from "./specimen";
+import { createSpecimen, type IngredientId } from "./specimen";
 import { createCubeEnvironment } from "./cubeEnvironment";
 import { WORLD_DEPTH, createWorldJourneyRig, worldCameraFov } from "./journey";
 import { createWorldRocks } from "./rocks";
@@ -18,7 +18,9 @@ export type WorldScene = {
   setLeave: (value: number) => void;
   setFilmPosition: (position: number) => void;
   setFilmsPaused: (paused: boolean) => void;
-  setCategory: (id: SpecimenId | null) => void;
+  setCategory: (id: IngredientId | null) => void;
+  setProductProgress: (progress: number) => void;
+  activateProduct: () => void;
   setDark: (dark: boolean) => void;
   setReducedMotion: (reduced: boolean) => void;
   dispose: () => void;
@@ -33,6 +35,8 @@ type Options = {
   onHover?: () => void;
   onChapterProgress?: (value: number) => void;
   onFilmProgress?: (value: number) => void;
+  /** Category-only staging. The home keeps its existing light and motion. */
+  presentation?: IngredientId;
 };
 
 /** A single renderer, with a capped ambient loop that rests offscreen or with reduced motion. */
@@ -56,8 +60,19 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
   let filmTarget = 0;
   let filmPosition = 0;
   let publishedFilm = -1;
-  let category: SpecimenId | null = null;
-  let visibleCategory: SpecimenId | null = null;
+  let category: IngredientId | null = null;
+  let visibleCategory: IngredientId | null = null;
+  let productTarget = 0;
+  let productProgress = 0;
+  const productLight = {
+    rice: { tint: 0xdce8ff, tree: 1.2, turn: 0.0 },
+    pistachios: { tint: 0xd6e6bd, tree: 1.7, turn: -0.18 },
+    spices: { tint: 0xf1d1b2, tree: 1.3, turn: 0.16 },
+    saffron: { tint: 0xe4c4e1, tree: 1.35, turn: -0.12 },
+    pulses: { tint: 0xc9e0d9, tree: 1.55, turn: 0.12 },
+    tea: { tint: 0xc2dbcd, tree: 1.9, turn: -0.24 },
+    grains: { tint: 0xe9d9b4, tree: 1.45, turn: 0.22 },
+  }[options.presentation ?? "rice"];
   let width = mount.clientWidth;
   let height = mount.clientHeight;
   const abort = new AbortController();
@@ -114,6 +129,12 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
   treeLight.position.set(1.1, 5.8, -3.2);
   treeLight.target.position.set(-1.35, 2.9, -4.13);
   scene.add(treeLight, treeLight.target);
+  if (options.presentation) {
+    fill.color.setHex(productLight.tint);
+    treeLight.color.setHex(productLight.tint);
+    treeLight.angle = Math.PI * 0.08;
+    key.position.x += productLight.turn * 5;
+  }
   const courtyard = new THREE.Group();
   courtyard.name = "Courtyard_architecture";
   scene.add(courtyard);
@@ -202,6 +223,9 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
     const delta = Math.min((time - (lastTime || time)) / 1000, 0.05);
     lastTime = time;
     if (!reduced) motionTime += delta;
+    productProgress = reduced
+      ? productTarget
+      : THREE.MathUtils.damp(productProgress, productTarget, 5, delta);
     // Fast wheel/trackpad gestures still leave time to see the dive. Native scroll
     // remains free; the camera and its copy settle together, at a bounded speed.
     chapterProgress = reduced
@@ -256,6 +280,11 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
     const response = ease * (mobile ? 0.55 : 1) * (1 - sweep * 0.95);
     orbit.setFromVector3(orbitOffset.copy(position).sub(target));
     orbit.theta += driftX * 0.145 * response;
+    if (options.presentation) {
+      orbit.theta += productLight.turn * productProgress;
+      orbit.phi -= productProgress * 0.075;
+      orbit.radius *= 1 - productProgress * 0.075;
+    }
     orbit.phi += driftY * 0.12 * response;
     orbit.radius += (driftY * 0.58 + (driftX * driftX + driftY * driftY) * 0.18) * response;
     position.copy(orbitOffset.setFromSpherical(orbit)).add(target);
@@ -285,6 +314,10 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
     courtyard.position.z = -withdrawal * 4;
     courtyard.visible = courtyardPresence > 0;
     for (const material of materialBases.keys()) material.opacity = courtyardPresence;
+    if (options.presentation) {
+      specimen.setInteraction(productProgress, smoothed, pointerActive);
+      installation.particles.rotation.y = productLight.turn;
+    }
     specimen.update(motionTime, delta, reduced, installation.collapse < 0.75);
     specimen.group.rotation.set(smoothed.y * 0.25, smoothed.x * 0.45, 0);
     installation.updateHover(
@@ -322,7 +355,9 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
       THREE.MathUtils.lerp(dark ? 70 : 180, 24, chapter) *
       (0.96 + Math.sin(motionTime * 0.26 + 1.4) * 0.08);
     bounce.intensity = dark ? 8 : 45;
-    treeLight.intensity = ready ? (dark ? 40 : 30) * (1 - chapter) : 0;
+    treeLight.intensity = ready
+      ? (dark ? 40 : 30) * (1 - chapter) * (options.presentation ? productLight.tree : 1)
+      : 0;
     atmosphere.render(scene, camera, focusDistance, motionTime, arrival);
     films.update(
       motionTime,
@@ -370,6 +405,12 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
         corePresence: installation.uniforms.coreFormed.value.toFixed(3),
         rocksVisible: String(rocks.group.visible),
         cameraFov: camera.fov.toFixed(2),
+        ...(options.presentation
+          ? {
+              productProgress: productProgress.toFixed(3),
+              productInteraction: specimen.interaction.toFixed(3),
+            }
+          : {}),
       };
       for (const [key, value] of Object.entries(diagnostics)) {
         if (mount.dataset[key] !== value) mount.dataset[key] = value;
@@ -566,7 +607,7 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
     // Ingredients are built, uploaded and compiled here, behind the loader, so the first
     // selection never stalls. Compilation gathers its objects synchronously, so they are
     // revealed only for the length of that call.
-    for (const texture of specimen.prepare()) renderer.initTexture(texture);
+    for (const texture of specimen.prepare(options.presentation)) renderer.initTexture(texture);
     // The scene renders into the atmosphere's target, untoned; programs differ from the canvas's.
     specimen.reveal(true);
     rocks.prepare();
@@ -602,6 +643,14 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
     if (!disposed) options.onError();
   });
   return {
+    setProductProgress(value) {
+      productTarget = THREE.MathUtils.clamp(value, 0, 1);
+      wake();
+    },
+    activateProduct() {
+      specimen.activate();
+      wake();
+    },
     setChapterProgress(value) {
       chapterTarget = THREE.MathUtils.clamp(value, 0, 1);
       publishedChapter = -1;

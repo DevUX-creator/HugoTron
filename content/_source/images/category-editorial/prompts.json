@@ -1,0 +1,126 @@
+{
+  "tool": "built-in image_gen",
+  "purpose": "Original illustrative category artwork, not photographs of supplier facilities or stock.",
+  "images": [
+    {
+      "name": "rice-botanical",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Portrait composition: an elegantly arching mature basmati rice panicle with slender leaves and hanging long grains, one smaller panicle, and a small handful of uncooked extra-long rice grains near the base. Airy, detailed, no soil pedestal.",
+      "output": "public/images/category-editorial/rice-botanical.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-685482f9-59e6-4c27-9e09-a3e9ecfff481.png",
+      "width": 867,
+      "height": 1300
+    },
+    {
+      "name": "rice-landscape",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Wide landscape composition: a graceful curved series of flooded rice terraces seen from an elevated oblique view, reflecting narrow irrigation channels, a tiny unbranded wooden harvesting basket on the nearest bank, two fine distant hill contours. Fade the landscape into sparse etching at its outer edges; a floating vignette, no horizon rectangle.",
+      "output": "public/images/category-editorial/rice-landscape.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-72c9559b-cf5e-470e-809e-23a574d9d483.png",
+      "width": 1100,
+      "height": 733
+    },
+    {
+      "name": "nuts-botanical",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Portrait composition: one gently curved pistachio tree branch with compound leaves and a natural cluster of pistachio fruits, accompanied by three split beige pistachio shells revealing wrinkled kernels and a single almond below. Keep branch and kernels readable, spacious and true to nature.",
+      "output": "public/images/category-editorial/nuts-botanical.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-15c31ba0-01d7-474c-9835-b6f742b9d4a8.png",
+      "width": 867,
+      "height": 1300
+    },
+    {
+      "name": "nuts-orchard",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Wide landscape composition: three sculptural mature pistachio orchard trees with twisted trunks, carefully rendered bark and sparse airy foliage, receding orchard rows, a small shallow woven harvest basket with unshelled nuts at their roots. Softly dissolving stippled earth vignette, no rectangular background.",
+      "output": "public/images/category-editorial/nuts-orchard.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-fd780467-cfeb-4d3e-a844-d6178343deec.png",
+      "width": 1100,
+      "height": 733
+    },
+    {
+      "name": "spices-botanical",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Portrait composition: a botanical still life of cinnamon leaves and three cinnamon quills, a thin curving stem with cardamom pods, and a small textured ginger rhizome. Delicately intertwine the botanical stems into an airy arc; recognizable ingredients, not decorative flowers.",
+      "output": "public/images/category-editorial/spices-botanical.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-f9f82ea1-a5c5-4c9b-93c2-30473b7dd58e.png",
+      "width": 867,
+      "height": 1300
+    },
+    {
+      "name": "spices-study",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Wide composition: an elegant antique botanical preparation study, a small stone mortar and pestle off to one side, two cinnamon bark curls, an open cardamom pod with a few seeds and a cut ginger section, precise engraving and generous negative space between specimens. No tabletop rectangle.",
+      "output": "public/images/category-editorial/spices-study.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-31ef26b2-8f2e-4e83-9b94-ba26090bd970.png",
+      "width": 1100,
+      "height": 733
+    },
+    {
+      "name": "saffron-botanical",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Portrait composition: three botanically accurate Crocus sativus flowers with slender grasslike leaves, graceful open petals and three long stigmas per flower, with a few isolated saffron threads near the base. All monochrome blue-grey engraved ink, no heavy purple colour fill.",
+      "output": "public/images/category-editorial/saffron-botanical.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-8f3d2dc0-6cc4-4df0-a5fe-685443bf0b91.png",
+      "width": 867,
+      "height": 1300
+    },
+    {
+      "name": "saffron-study",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Wide composition: a delicate harvesting still life of one open saffron crocus beside a small traditional shallow sieve holding a tiny pinch of separated saffron threads, fine long curved threads in foreground. Exquisite filament detail and light hatching, no hands or people.",
+      "output": "public/images/category-editorial/saffron-study.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-1d9b2b06-3377-49ed-8487-5c71e22b9e0d.png",
+      "width": 1100,
+      "height": 733
+    },
+    {
+      "name": "pulses-botanical",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Portrait composition: an elegant bean vine with fine climbing tendrils, natural leaves, two closed pods and one opened pod with visible beans. At the base a few loose chickpeas, lentils and white beans, botanical proportions and delicate airy linework.",
+      "output": "public/images/category-editorial/pulses-botanical.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-1fd235a3-7cb9-4faa-a7ec-8a1db138574e.png",
+      "width": 867,
+      "height": 1300
+    },
+    {
+      "name": "pulses-study",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Wide composition: three shallow traditional woven sorting trays seen from an elevated angle, each with a small quantity of different dry legumes — chickpeas, lentils and beans — a modest scattering between trays and a fine vine curving around one edge. Light texture, no labels, no table or floor plane.",
+      "output": "public/images/category-editorial/pulses-study.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-16300ab5-d1b3-4a75-af69-1955af6af32c.png",
+      "width": 1100,
+      "height": 733
+    },
+    {
+      "name": "tea-botanical",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Portrait composition: two arching Camellia sinensis tea sprigs with pointed finely serrated leaves, new tender buds and one small open five-petalled tea flower. A few curled dried loose leaves below. Botanical atlas realism, elegant curves and open spaces.",
+      "output": "public/images/category-editorial/tea-botanical.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-1bacd750-a1ce-4b54-817d-38092c0c8ae6.png",
+      "width": 867,
+      "height": 1300
+    },
+    {
+      "name": "tea-garden",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Wide landscape composition: beautifully curved tea garden rows wrapping a small sloped hill, one textured wicker leaf basket in foreground and a single small tea bush to the side, sparse delicate etched distant ridge. Airy floating landscape vignette fading into clean transparency, no rectangular background.",
+      "output": "public/images/category-editorial/tea-garden.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-4df25e81-4650-44b6-8169-83e6cd9be992.png",
+      "width": 1100,
+      "height": 733
+    },
+    {
+      "name": "raw-materials-botanical",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Portrait composition: an elegant small sheaf of wheat and barley ears with individual awns, a few loose cereal grains and a clean small scientific glass sample vial without label or lid markings. Fine agricultural atlas engraving, airy and premium.",
+      "output": "public/images/category-editorial/raw-materials-botanical.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-8350c160-5974-40b4-8d20-cf8363ad3e31.png",
+      "width": 867,
+      "height": 1300
+    },
+    {
+      "name": "raw-materials-mill",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Wide composition: a finely engraved traditional mill stone beside a compact row of grain silos in the distance, with wheat ears leaning in foreground and a thin implied transport route connecting the objects. Accurate mechanical linework, restrained detail, isolated vignette without background rectangle.",
+      "output": "public/images/category-editorial/raw-materials-mill.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-14d585a0-d82d-4b3f-aa35-70409bf77c93.png",
+      "width": 1100,
+      "height": 733
+    },
+    {
+      "name": "logistics",
+      "prompt": "Use case: illustration-story. Asset: premium Hugo Tron food sourcing website, a standalone decorative illustration for a paper story chapter. Draw an exquisite fine copperplate engraving, hand-etched hatching and delicate stippling, realistic natural proportions, dark desaturated blue-grey ink (#253c49) with subtle warm graphite shading. Museum botanical atlas quality, restrained and sophisticated. Genuine transparent alpha background; no paper rectangle, no white background, no text, letters, numbers, logos, border, labels or captions. Fully contain all objects with clear outer margins. This is original editorial art, not a photo and not a collage of stock images. The subject must be isolated so it can float over the website paper. Wide composition: a refined line engraving of a compact European brick warehouse with three loading bays, a few neat unbranded sacks and blank cartons, one small container ship in a distant separate vignette, linked by a graceful thin curved route. No city landmarks, flags, place names, labels, writing or logos. Airy shipping atlas illustration.",
+      "output": "public/images/category-editorial/logistics.webp",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-905ca340-271f-4111-a3d0-1bed036f6b77.png",
+      "width": 1100,
+      "height": 733
+    }
+  ]
+}

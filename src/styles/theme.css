@@ -16,8 +16,12 @@
 
 @theme {
   /* The field-journal chapter: uncoated kraft, with dark blue engraved ink. */
+  --color-cat-rice-glow: #26353a;
+  --color-cat-rice-shade: #101a22;
   --color-world-paper: #d9cdb7;
   --color-world-paper-light: #e8ddc7;
+  /* The wholesale hall's daylight haze, after the palace reference. */
+  --color-hall-haze: #6c737c;
   --color-world-paper-shadow: #b1a082;
   --color-world-paper-ink: #172c3e;
   --color-world-paper-blue: #254fa0;
@@ -197,6 +201,21 @@
   --color-world-accent: #b8cee8;
   /* The scene's light streams, for 2D surfaces that continue them (the Origins map). */
   --color-world-neon: #2f7bff;
+  /* Category pages: each range's hero night and accent ink, within the home's paper system. */
+  --color-cat-rice-night: #0f1710;
+  --color-cat-rice-accent: #4f6f2f;
+  --color-cat-nuts-night: #14140a;
+  --color-cat-nuts-accent: #6b7326;
+  --color-cat-spices-night: #1a0e09;
+  --color-cat-spices-accent: #a04623;
+  --color-cat-saffron-night: #170911;
+  --color-cat-saffron-accent: #a1213a;
+  --color-cat-pulses-night: #171009;
+  --color-cat-pulses-accent: #94622a;
+  --color-cat-tea-night: #0a1611;
+  --color-cat-tea-accent: #2c6448;
+  --color-cat-raw-night: #0a1320;
+  --color-cat-raw-accent: #254fa0;
   --color-world-neon-hot: #b4dcff;
   --color-world-surface: #152c47;
   --color-world-day: #e9e5db;

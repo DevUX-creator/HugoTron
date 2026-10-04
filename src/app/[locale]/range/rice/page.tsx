@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { getCategoryStory } from "@/content/categoryStories";
+import CategoryPage, { categoryMetadata } from "@/sections/Category/CategoryPage";
 
-import Header from "@/components/layout/Header";
-import Opening from "@/sections/Opening/Opening";
-import PaperChapter from "@/sections/PaperChapter/PaperChapter";
-import { HomeThemeProvider, HomeThemeSwitcher } from "@/components/rice/HomeTheme";
+const story = getCategoryStory("rice")!;
 
 export async function generateMetadata({
   params,
@@ -17,23 +15,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
-  const t = await getTranslations({ locale, namespace: "world" });
-  return { title: t("riceMetaTitle"), description: t("riceMetaDescription") };
+  return categoryMetadata(story, locale);
 }
 
-/** Preserve the rice experience as a category beneath Products. */
+/** Rice, on the shared category story (sections/Category), like every other range. */
 export default async function RicePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
-
-  return (
-    <HomeThemeProvider>
-      <Header brandControl={<HomeThemeSwitcher />} />
-      <main>
-        <Opening />
-        <PaperChapter />
-      </main>
-    </HomeThemeProvider>
-  );
+  return <CategoryPage story={story} locale={locale} />;
 }

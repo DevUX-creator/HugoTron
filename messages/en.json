@@ -501,5 +501,342 @@
     "title": "Available on Monday, 5 October.",
     "body": "We are putting the finishing touches to this page. For now, enjoy the Hugo Tron world on the home page.",
     "close": "Back to the world"
+  },
+  "category": {
+    "eyebrow": "Hugo Tron · Sourcing & supply",
+    "breadcrumbLabel": "Breadcrumb",
+    "home": "Home",
+    "products": "Products",
+    "servicesLabel": "What we do",
+    "services": {
+      "import": "Import in volume",
+      "label": "Private label",
+      "distribution": "Distribution in Germany"
+    },
+    "sceneLabel": "A slowly turning 3D illustration of {category}.",
+    "scroll": "Scroll to discover",
+    "imageNeeded": "Illustration in progress",
+    "quantity": {
+      "eyebrow": "From a single pack to large volumes",
+      "title": "Every quantity.",
+      "onRequest": "Supplied on request",
+      "supplyTitle": "Supplied from Hamburg.",
+      "supplyNote": "Stored in Germany and delivered to B2B customers throughout Germany, Europe and international markets."
+    },
+    "reveal": {
+      "left": "Our",
+      "right": "range.",
+      "lead": "In our range today and on request: {category}, sourced at origin and supplied from Hamburg.",
+      "label": "{category}: products"
+    },
+    "variety": {
+      "badge": "On request"
+    },
+    "ways": {
+      "eyebrow": "Working with us",
+      "title": "Three ways to work together.",
+      "wholesale": {
+        "title": "Import & wholesale",
+        "note": "We import {category} in large volumes for wholesalers and companies, to your specification.",
+        "action": "Request an offer"
+      },
+      "label": {
+        "title": "Private label",
+        "note": "We source and import {category} to your requirements and supply it under your own brand.",
+        "action": "Explore private label"
+      },
+      "sourcing": {
+        "title": "Sourcing & supply partner",
+        "note": "For wholesalers: we source products beyond our range, including ones not listed here, and supply them.",
+        "action": "Discuss sourcing"
+      }
+    },
+    "import": {
+      "eyebrow": "Sourcing & import",
+      "title": "Sourced at origin. Imported in volume.",
+      "note": "We source {category} for wholesalers and companies and import it into Europe in large volumes, to your specification."
+    },
+    "distribution": {
+      "eyebrow": "Warehousing & distribution",
+      "title": "Stored in Germany. Delivered to your business.",
+      "note": "Our work does not stop at import. We store, distribute and deliver to B2B customers throughout Germany.",
+      "facts": {
+        "one": "Warehousing in Germany",
+        "two": "Distribution to wholesalers and companies",
+        "three": "Delivery throughout the German market"
+      }
+    },
+    "faq": {
+      "eyebrow": "Questions",
+      "title": "Good to know.",
+      "q1": "Does Hugo Tron supply {category} wholesale?",
+      "a1": "Yes. Hugo Tron is an importer, supplier and distributor for wholesalers and companies, and can source and import {category} in large volumes.",
+      "q2": "Can you source varieties that are not listed here?",
+      "a2": "Yes. We source and import to our customers’ requirements, including products and varieties that are not shown on the website.",
+      "q3": "Do you offer private label?",
+      "a3": "Yes. We source and import products to your specification and supply them under your own brand.",
+      "q4": "Do you deliver within Germany?",
+      "a4": "Yes. We manage warehousing, distribution and delivery to B2B customers throughout Germany, and work with partners in European and international markets."
+    },
+    "cta": {
+      "eyebrow": "Beyond the range",
+      "title": "Looking for something else?",
+      "note": "Tell us the product, quality and volume you need, including raw materials for the food industry. We will source it.",
+      "action": "Request a sourcing offer"
+    },
+    "rice": {
+      "name": "Rice",
+      "inText": "rice",
+      "titleLead": "Rice,",
+      "titleAccent": "sourced for Europe.",
+      "lead": "Hugo Tron imports and supplies rice for wholesalers and companies: basmati from India and Pakistan today, further types on request. In retail packs or large volumes, under your own label, and delivered to B2B customers throughout Germany.",
+      "seoTitle": "Rice importer & B2B supplier — basmati in bulk and private label | Hugo Tron",
+      "seoDescription": "Basmati rice from India and Pakistan for wholesalers and companies: import in large volumes, private label and distribution throughout Germany. Request an offer from Hugo Tron, Hamburg.",
+      "chapters": {
+        "land": {
+          "eyebrow": "Where it grows",
+          "title": "Long grain, from the source.",
+          "note": "Our basmati comes from India and Pakistan: Pardis and Aladdin, in 1 kg and 5 kg packs."
+        },
+        "origins": {
+          "eyebrow": "Two origins",
+          "title": "India and Pakistan.",
+          "note": "Pardis from India, Aladdin from Pakistan: two basmati lines, selected with the same care."
+        }
+      },
+      "varieties": {
+        "more": {
+          "name": "Further rice types",
+          "note": "Sourced to your requirements"
+        }
+      },
+      "interaction": "Move the grains",
+      "interactionHint": "Scroll closer. Brush across the rice.",
+      "shortLead": "Basmati from India and Pakistan. Retail packs, bulk supply and private label."
+    },
+    "nuts": {
+      "name": "Nuts & dried fruits",
+      "inText": "nuts and dried fruits",
+      "titleLead": "Nuts & dried fruits,",
+      "titleAccent": "from orchard to order.",
+      "lead": "Hugo Tron sources and imports nuts and dried fruits (pistachios, almonds, cashews, hazelnuts, walnuts and other varieties) for wholesalers and companies, in large volumes or under your own label, with distribution throughout Germany.",
+      "seoTitle": "Nuts & dried fruits wholesale — pistachios, almonds, cashews | Hugo Tron",
+      "seoDescription": "Pistachios, almonds, cashews, hazelnuts, walnuts and dried fruits for wholesalers and companies: import in large volumes, private label and distribution throughout Germany.",
+      "chapters": {
+        "orchard": {
+          "eyebrow": "Where it grows",
+          "title": "From the orchard.",
+          "note": "Pistachios in shell and as kernels are in our range today. Almonds, cashews, hazelnuts, walnuts and dried fruits are sourced on request."
+        },
+        "harvest": {
+          "eyebrow": "Shelled or in shell",
+          "title": "Pistachios, by the sack.",
+          "note": "In shell or as kernels, for wholesalers and the food industry."
+        }
+      },
+      "varieties": {
+        "almonds": {
+          "name": "Almonds",
+          "note": "On request"
+        },
+        "cashews": {
+          "name": "Cashews",
+          "note": "On request"
+        },
+        "hazelnuts": {
+          "name": "Hazelnuts",
+          "note": "On request"
+        },
+        "walnuts": {
+          "name": "Walnuts",
+          "note": "On request"
+        },
+        "driedFruits": {
+          "name": "Dried fruits",
+          "note": "On request"
+        }
+      },
+      "interaction": "Open the shells",
+      "interactionHint": "Move across the pistachios.",
+      "shortLead": "Pistachios, nuts and dried fruits. Sourced for your business, supplied in your quantities."
+    },
+    "spices": {
+      "name": "Spices",
+      "inText": "spices",
+      "titleLead": "Spices,",
+      "titleAccent": "sourced to specification.",
+      "lead": "Hugo Tron sources and imports spices (ginger, cinnamon, cardamom and a wide range of others) for wholesalers and the food industry, in large volumes or under your own label, with distribution throughout Germany.",
+      "seoTitle": "Spices importer & wholesale supplier — ginger, cinnamon, cardamom | Hugo Tron",
+      "seoDescription": "Ginger, cinnamon, cardamom and many more spices for wholesalers and the food industry: sourcing, import in large volumes, private label and distribution throughout Germany.",
+      "chapters": {
+        "market": {
+          "eyebrow": "Sourcing",
+          "title": "A wide range, one partner.",
+          "note": "Ginger, cinnamon and cardamom, and many more varieties, sourced to your specification."
+        },
+        "botanicals": {
+          "eyebrow": "Root, bark and pod",
+          "title": "Ginger, cinnamon, cardamom.",
+          "note": "And many more, sourced for wholesalers and the food industry."
+        }
+      },
+      "varieties": {
+        "ginger": {
+          "name": "Ginger",
+          "note": "On request"
+        },
+        "cinnamon": {
+          "name": "Cinnamon",
+          "note": "On request"
+        },
+        "cardamom": {
+          "name": "Cardamom",
+          "note": "On request"
+        },
+        "more": {
+          "name": "A wide range of spices",
+          "note": "Sourced to your specification"
+        }
+      },
+      "interaction": "Stir the botanicals",
+      "interactionHint": "A gentle movement reveals their shape.",
+      "shortLead": "Ginger, cinnamon, cardamom and beyond. Sourced to match your range."
+    },
+    "saffron": {
+      "name": "Saffron",
+      "inText": "saffron",
+      "titleLead": "Saffron,",
+      "titleAccent": "thread by thread.",
+      "lead": "Hugo Tron supplies Premium Negin saffron from Iran in 1 g packs, and sources saffron in larger volumes and under private label for wholesalers and companies, with distribution throughout Germany.",
+      "seoTitle": "Saffron supplier — Premium Negin saffron, wholesale & private label | Hugo Tron",
+      "seoDescription": "Premium Negin saffron from Iran in 1 g packs, plus larger volumes and private label for wholesalers and companies, with distribution throughout Germany.",
+      "chapters": {
+        "field": {
+          "eyebrow": "Where it grows",
+          "title": "From the crocus flower.",
+          "note": "Saffron is the dried stigma of the saffron crocus, picked by hand."
+        },
+        "thread": {
+          "eyebrow": "Where it grows",
+          "title": "Thread by thread.",
+          "note": "Negin is a premium grade of saffron from Iran, made of long, deep-red threads."
+        }
+      },
+      "varieties": {
+        "more": {
+          "name": "Larger volumes",
+          "note": "On request, also as private label"
+        }
+      },
+      "interaction": "Follow the threads",
+      "interactionHint": "Move across to separate the filaments.",
+      "shortLead": "Selected saffron, from fine threads to your finished range."
+    },
+    "pulses": {
+      "name": "Pulses & legumes",
+      "inText": "pulses and legumes",
+      "titleLead": "Pulses & legumes,",
+      "titleAccent": "by the sack.",
+      "lead": "Hugo Tron imports and supplies pulses and legumes (chickpeas, kidney beans, white beans, lentils, red lentils, split peas, mung beans and more) in 25 kg sacks and large volumes for wholesalers and industry, with distribution throughout Germany.",
+      "seoTitle": "Pulses & legumes wholesale — chickpeas, lentils, beans in 25 kg sacks | Hugo Tron",
+      "seoDescription": "Chickpeas, lentils, red lentils, kidney beans, white beans, split peas and mung beans for wholesalers and industry: import in large volumes and distribution throughout Germany.",
+      "chapters": {
+        "fields": {
+          "eyebrow": "Where it grows",
+          "title": "Grown in open fields.",
+          "note": "Chickpeas, beans, lentils, split peas and mung beans: the pulses and legumes we source for wholesalers and companies."
+        },
+        "sacks": {
+          "eyebrow": "Where it grows",
+          "title": "Stock lines and imports to order.",
+          "note": "Chickpeas in 25 kg sacks are a stock line. Other pulses and legumes are imported to order."
+        }
+      },
+      "varieties": {
+        "whiteBeans": {
+          "name": "White beans",
+          "note": "On request"
+        },
+        "lentils": {
+          "name": "Lentils",
+          "note": "On request"
+        },
+        "mungBeans": {
+          "name": "Mung beans",
+          "note": "On request"
+        }
+      },
+      "interaction": "Set them in motion",
+      "interactionHint": "Move across for a soft ripple.",
+      "shortLead": "Chickpeas, beans and lentils. Reliable supply, from sacks to larger volumes."
+    },
+    "tea": {
+      "name": "Tea",
+      "inText": "tea",
+      "titleLead": "Tea,",
+      "titleAccent": "from the garden.",
+      "lead": "Hugo Tron supplies Vahdam Earl Grey pyramid tea bags and sources further teas for wholesalers and companies on request, with distribution throughout Germany.",
+      "seoTitle": "Tea supplier — Vahdam Earl Grey and teas on request | Hugo Tron",
+      "seoDescription": "Vahdam Earl Grey pyramid tea bags, and further teas sourced on request for wholesalers and companies, with distribution throughout Germany.",
+      "chapters": {
+        "garden": {
+          "eyebrow": "Where it grows",
+          "title": "From the tea garden.",
+          "note": "Vahdam is a tea house from India. Its Earl Grey is in our range today."
+        },
+        "leaf": {
+          "eyebrow": "Leaf to cup",
+          "title": "Further teas on request.",
+          "note": "Tell us the tea, grade and pack you need. We source it and deliver throughout Germany."
+        }
+      },
+      "varieties": {
+        "more": {
+          "name": "Further teas",
+          "note": "On request"
+        }
+      },
+      "interaction": "A breath through the leaves",
+      "interactionHint": "Move across and watch them turn.",
+      "shortLead": "From leaf to cup. Earl Grey today, further teas sourced for your range."
+    },
+    "raw-materials": {
+      "name": "Raw materials & food products",
+      "inText": "food raw materials",
+      "titleLead": "Raw materials,",
+      "titleAccent": "sourced to specification.",
+      "lead": "Beyond finished products, Hugo Tron sources and imports raw materials and other food products for the food industry into Europe, including products that are not listed on this website, and distributes them throughout Germany.",
+      "seoTitle": "Food raw materials sourcing & import for the food industry | Hugo Tron",
+      "seoDescription": "Raw materials and food products for the food industry, sourced and imported into Europe to your specification, including products not listed online. Distribution throughout Germany.",
+      "chapters": {
+        "mill": {
+          "eyebrow": "For the food industry",
+          "title": "Raw materials for production.",
+          "note": "Grains such as bulgur, ingredients and raw materials for food producers, in large volumes."
+        },
+        "bulk": {
+          "eyebrow": "What we source",
+          "title": "Whatever your production needs.",
+          "note": "Tell us the product, specification and volume. We source it through our network."
+        }
+      },
+      "varieties": {
+        "ingredients": {
+          "name": "Raw materials for the food industry",
+          "note": "To your specification"
+        },
+        "requested": {
+          "name": "Products not listed",
+          "note": "Sourced on request"
+        }
+      },
+      "interaction": "Follow the grain",
+      "interactionHint": "Move across the flowing grain.",
+      "shortLead": "Ingredients for industry. Sourced to your specification and volume."
+    },
+    "skip": "Skip to main content",
+    "selection": {
+      "title": "Find your selection."
+    }
   }
 }

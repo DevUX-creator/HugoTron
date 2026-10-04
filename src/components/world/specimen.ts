@@ -11,6 +11,8 @@ import {
 } from "@/components/rice/vessel";
 
 export type SpecimenId = "rice" | "pistachios" | "tea" | "saffron" | "pulses" | "grains";
+/** Every ingredient this module can serve; `spices` appears on the category pages only. */
+export type IngredientId = SpecimenId | "spices";
 
 type Colour = [number, number, number];
 type Sample = { point: [number, number, number]; colour: Colour };
@@ -115,7 +117,20 @@ function pistachioGeometry() {
     const colour = mix([0.42, 0.6, 0.18], [0.46, 0.2, 0.24], Math.max(0, skin - 0.45) * 1.8);
     return { point: [x, (t - 0.5) * length * 1.75 + 0.004, z], colour };
   });
-  const geometry = mergeGeometries([shell(1), shell(-1), kernel], false)!;
+  const parts = [shell(1), shell(-1), kernel];
+  parts.forEach((part, index) =>
+    part.setAttribute(
+      "shellSide",
+      new THREE.Float32BufferAttribute(
+        new Float32Array(part.getAttribute("position").count).fill(
+          index === 0 ? 1 : index === 1 ? -1 : 0,
+        ),
+        1,
+      ),
+    ),
+  );
+  const geometry = mergeGeometries(parts, false)!;
+  parts.forEach((part) => part.dispose());
   return geometry;
 }
 
@@ -203,6 +218,25 @@ function wheatGeometry() {
   });
 }
 
+/** A green cardamom pod: a plump three-ridged spindle with fine lengthwise ribs. */
+function cardamomGeometry() {
+  const length = 0.07;
+  return surface(26, 30, (t, angle) => {
+    const profile = Math.pow(Math.sin(t * Math.PI), 0.55) * (1 - Math.pow(t, 6) * 0.4);
+    // Three soft lobes and many fine ribs.
+    const lobes = 1 + Math.cos(angle * 3) * 0.1 + Math.cos(angle * 18) * 0.025;
+    const x = Math.cos(angle) * 0.019 * profile * lobes;
+    const z = Math.sin(angle) * 0.019 * profile * lobes;
+    const tip = Math.pow(Math.max(0, (t - 0.85) / 0.15), 2);
+    const colour = mix(
+      mix([0.55, 0.62, 0.36], [0.43, 0.5, 0.27], noise(t * 7, angle * 2, 4)),
+      [0.36, 0.33, 0.2],
+      tip,
+    );
+    return { point: [x, (t - 0.5) * length, z], colour };
+  });
+}
+
 /** World units per unit of the rice page's dish, so the dish spans about the cube's width. */
 const DISH = 0.3;
 
@@ -216,7 +250,7 @@ type CloudRecipe = {
 };
 
 /** Every other ingredient floats as one hero piece ringed by a tilted orbit. */
-const CLOUDS: Record<Exclude<SpecimenId, "rice">, CloudRecipe> = {
+const CLOUDS: Record<Exclude<IngredientId, "rice">, CloudRecipe> = {
   pistachios: {
     geometry: pistachioGeometry,
     count: 90,
@@ -237,6 +271,11 @@ const CLOUDS: Record<Exclude<SpecimenId, "rice">, CloudRecipe> = {
     geometry: wheatGeometry,
     count: 190,
     material: { roughness: 0.48, clearcoat: 0.12, clearcoatRoughness: 0.4 },
+  },
+  spices: {
+    geometry: cardamomGeometry,
+    count: 150,
+    material: { roughness: 0.62, sheen: 0.25, sheenColor: 0xd8e2a8 },
   },
 };
 const RING_RADIUS = 0.56;
@@ -261,7 +300,7 @@ type Orbiter = {
 };
 
 type Serving = {
-  id: SpecimenId;
+  id: IngredientId;
   /** Only rice is served in a dish; the other ingredients are a floating cloud alone. */
   dish: THREE.Group | null;
   heap: THREE.InstancedMesh | null;
@@ -294,7 +333,7 @@ export function createSpecimen(small: boolean) {
   fill.position.set(0.6, -0.1, 0.8);
   group.add(light, fill);
 
-  const servings = new Map<SpecimenId, Serving>();
+  const servings = new Map<IngredientId, Serving>();
   let environment: THREE.Texture | null = null;
   const ceramic = ceramicMaps();
   const ceramicMaterial = new THREE.MeshPhysicalMaterial({
@@ -319,6 +358,13 @@ export function createSpecimen(small: boolean) {
   const up = new THREE.Vector3(0, 1, 0);
   const direction = new THREE.Vector3();
   const tint = new THREE.Color();
+  let interactive = false;
+  let explore = 0;
+  let active = false;
+  let impulse = 0;
+  let touch = 0;
+  const cursor = new THREE.Vector2();
+  const opening = { value: 0 };
 
   function riceMaterial() {
     // The rice page's starch texture and kernel material, unchanged.
@@ -346,7 +392,7 @@ export function createSpecimen(small: boolean) {
     });
   }
 
-  function buildCloud(id: Exclude<SpecimenId, "rice">): Serving {
+  function buildCloud(id: Exclude<IngredientId, "rice">): Serving {
     const recipe = CLOUDS[id];
     const random = seeded(4000 + id.length * 97 + id.charCodeAt(0));
     const geometry = recipe.geometry();
@@ -357,6 +403,33 @@ export function createSpecimen(small: boolean) {
       envMapIntensity: 0.25,
       ...recipe.material,
     });
+    if (id === "pistachios") {
+      material.onBeforeCompile = (shader) => {
+        shader.uniforms.uShellOpen = opening;
+        shader.vertexShader = `attribute float shellSide;\nuniform float uShellOpen;\n${shader.vertexShader}`;
+        shader.vertexShader = shader.vertexShader.replace(
+          "#include <begin_vertex>",
+          `
+          #include <begin_vertex>
+          float hingeAngle = shellSide * uShellOpen * 0.72;
+          float cs = cos(hingeAngle), sn = sin(hingeAngle);
+          vec2 shellPosition = vec2(transformed.y + 0.062, transformed.z);
+          transformed.y = cs * shellPosition.x - sn * shellPosition.y - 0.062;
+          transformed.z = sn * shellPosition.x + cs * shellPosition.y;
+          if (shellSide == 0.0) transformed.y += uShellOpen * 0.014;
+        `,
+        );
+        shader.vertexShader = shader.vertexShader.replace(
+          "#include <beginnormal_vertex>",
+          `
+          #include <beginnormal_vertex>
+          float na = shellSide * uShellOpen * 0.72;
+          objectNormal.yz = mat2(cos(na), sin(na), -sin(na), cos(na)) * objectNormal.yz;
+        `,
+        );
+      };
+      material.customProgramCacheKey = () => "hugo-pistachio-hinge-v1";
+    }
     const count = Math.round(recipe.count * (small ? 0.6 : 1));
     const ring = new THREE.InstancedMesh(geometry, material, count);
     ring.name = `Hugo_specimen_${id}`;
@@ -506,18 +579,30 @@ export function createSpecimen(small: boolean) {
   }
 
   const ALL: readonly SpecimenId[] = ["rice", "pistachios", "tea", "saffron", "pulses", "grains"];
-  function build(id: SpecimenId) {
+  function build(id: IngredientId) {
     return servings.get(id) ?? (id === "rice" ? buildRice() : buildCloud(id));
   }
 
   return {
     group,
+    get interaction() {
+      return touch;
+    },
+    setInteraction(progress: number, pointer: THREE.Vector2, hovering: boolean) {
+      interactive = true;
+      explore = progress;
+      cursor.copy(pointer);
+      active = hovering && Math.abs(pointer.x) < 0.6 && Math.abs(pointer.y) < 0.55;
+    },
+    activate() {
+      impulse = 1;
+    },
     /**
      * Builds every serving up front, behind the loading screen, so a first selection only has to
      * show objects that already exist rather than paint textures and fill thousands of instances.
      */
-    prepare() {
-      ALL.forEach(build);
+    prepare(only?: IngredientId) {
+      (only ? [only] : ALL).forEach(build);
       const textures = new Set<THREE.Texture>();
       group.traverse((object) => {
         if (!(object instanceof THREE.Mesh)) return;
@@ -534,7 +619,7 @@ export function createSpecimen(small: boolean) {
         if (serving.dish) serving.dish.visible = shown;
       }
     },
-    select(id: SpecimenId | null) {
+    select(id: IngredientId | null) {
       for (const serving of servings.values()) serving.target = serving.id === id ? 1 : 0;
       if (id) build(id).target = 1;
     },
@@ -550,6 +635,17 @@ export function createSpecimen(small: boolean) {
     },
     /** `wait` holds a new dish back while the cube is still folding away. */
     update(time: number, delta: number, reduced: boolean, wait: boolean) {
+      impulse *= Math.exp(-delta * 0.8);
+      touch = reduced
+        ? 0
+        : THREE.MathUtils.damp(touch, Math.max(active ? 1 : 0, impulse), 4, delta);
+      opening.value = interactive && !reduced ? touch : 0;
+      if (interactive)
+        orbit.rotation.set(
+          0.42 - explore * 0.25,
+          cursor.x * touch * 0.13,
+          -0.18 + cursor.y * touch * 0.1,
+        );
       let rice = 0;
       let cloud = 0;
       for (const serving of servings.values()) {
@@ -594,6 +690,31 @@ export function createSpecimen(small: boolean) {
               Math.sin(time * 0.7 + orbiter.phase) * 0.015,
             Math.sin(angle) * orbiter.radius * reach,
           );
+          if (interactive && !reduced && !serving.dish) {
+            const response = touch * (index === 0 ? 0.45 : 1);
+            const drift = Math.sin(time * 0.55 + orbiter.phase);
+            if (serving.id === "pistachios") {
+              position.multiplyScalar(1 + explore * 0.2 + response * 0.18);
+              position.y += response * 0.06 * drift;
+            } else if (serving.id === "tea") {
+              position.y += drift * (0.08 + response * 0.2) + explore * orbiter.height;
+              position.x += cursor.x * response * 0.12;
+            } else if (serving.id === "saffron") {
+              position.x *= 1 + explore * 0.45 + response * 0.45;
+              position.y += Math.sin(angle * 2 + time * 0.4) * response * 0.12;
+            } else if (serving.id === "pulses") {
+              const distance = Math.hypot(position.x - cursor.x * 0.8, position.z + cursor.y * 0.8);
+              const wave = Math.exp(-distance * 3) * response;
+              position.y += wave * 0.2;
+              position.x += (position.x - cursor.x * 0.8) * wave * 0.28;
+            } else if (serving.id === "spices") {
+              position.y += Math.cos(angle * 2 + time * 0.2) * (explore * 0.1 + response * 0.14);
+              position.z *= 1 + response * 0.28;
+            } else {
+              position.y += Math.sin(angle * 3 - time * 0.7) * (explore * 0.1 + response * 0.15);
+              position.x *= 1 + explore * 0.2;
+            }
+          }
           quaternion.setFromAxisAngle(
             orbiter.axis,
             orbiter.phase + time * orbiter.spin + (1 - local) * 5,

@@ -501,5 +501,342 @@
     "title": "Ab Montag, 5. Oktober verfügbar.",
     "body": "Wir legen gerade letzte Hand an diese Seite. Bis dahin entdecken Sie die Hugo Tron Welt auf der Startseite.",
     "close": "Zurück zur Welt"
+  },
+  "category": {
+    "eyebrow": "Hugo Tron · Beschaffung & Versorgung",
+    "breadcrumbLabel": "Brotkrümelnavigation",
+    "home": "Startseite",
+    "products": "Sortiment",
+    "servicesLabel": "Was wir tun",
+    "services": {
+      "import": "Import in großen Mengen",
+      "label": "Private Label",
+      "distribution": "Distribution in Deutschland"
+    },
+    "sceneLabel": "Eine sich langsam drehende 3D-Illustration: {category}.",
+    "scroll": "Zum Entdecken scrollen",
+    "imageNeeded": "Illustration in Arbeit",
+    "quantity": {
+      "eyebrow": "Von der einzelnen Packung bis zu großen Mengen",
+      "title": "Jede Menge.",
+      "onRequest": "Auf Anfrage",
+      "supplyTitle": "Aus Hamburg geliefert.",
+      "supplyNote": "In Deutschland gelagert und an B2B-Kunden in ganz Deutschland, Europa und auf internationalen Märkten geliefert."
+    },
+    "reveal": {
+      "left": "Unser",
+      "right": "Sortiment.",
+      "lead": "Heute im Sortiment und auf Anfrage: {category}, am Ursprung beschafft und aus Hamburg geliefert.",
+      "label": "{category}: Produkte"
+    },
+    "variety": {
+      "badge": "Auf Anfrage"
+    },
+    "ways": {
+      "eyebrow": "Zusammenarbeit",
+      "title": "Drei Wege der Zusammenarbeit.",
+      "wholesale": {
+        "title": "Import & Großhandel",
+        "note": "Wir importieren {category} in großen Mengen für Großhändler und Unternehmen, nach Ihrer Spezifikation.",
+        "action": "Angebot anfragen"
+      },
+      "label": {
+        "title": "Private Label",
+        "note": "Wir beschaffen und importieren {category} nach Ihren Anforderungen und liefern unter Ihrer eigenen Marke.",
+        "action": "Private Label entdecken"
+      },
+      "sourcing": {
+        "title": "Beschaffungs- & Lieferpartner",
+        "note": "Für Großhändler: Wir beschaffen Produkte über unser Sortiment hinaus, auch nicht gelistete, und liefern sie.",
+        "action": "Beschaffung besprechen"
+      }
+    },
+    "import": {
+      "eyebrow": "Beschaffung & Import",
+      "title": "Am Ursprung beschafft. In großen Mengen importiert.",
+      "note": "Wir beschaffen {category} für Großhändler und Unternehmen und importieren nach Europa, in großen Mengen und nach Ihrer Spezifikation."
+    },
+    "distribution": {
+      "eyebrow": "Lagerung & Distribution",
+      "title": "In Deutschland gelagert. Zu Ihrem Unternehmen geliefert.",
+      "note": "Unsere Arbeit endet nicht beim Import. Wir lagern, verteilen und liefern an B2B-Kunden in ganz Deutschland.",
+      "facts": {
+        "one": "Lagerung in Deutschland",
+        "two": "Distribution an Großhändler und Unternehmen",
+        "three": "Lieferung im gesamten deutschen Markt"
+      }
+    },
+    "faq": {
+      "eyebrow": "Fragen",
+      "title": "Gut zu wissen.",
+      "q1": "Liefert Hugo Tron {category} im Großhandel?",
+      "a1": "Ja. Hugo Tron ist Importeur, Lieferant und Distributor für Großhändler und Unternehmen und kann {category} in großen Mengen beschaffen und importieren.",
+      "q2": "Können Sie auch Sorten beschaffen, die hier nicht aufgeführt sind?",
+      "a2": "Ja. Wir beschaffen und importieren nach den Anforderungen unserer Kunden, auch Produkte und Sorten, die nicht auf der Website stehen.",
+      "q3": "Bieten Sie Private Label an?",
+      "a3": "Ja. Wir beschaffen und importieren Produkte nach Ihrer Spezifikation und liefern sie unter Ihrer eigenen Marke.",
+      "q4": "Liefern Sie innerhalb Deutschlands?",
+      "a4": "Ja. Wir übernehmen Lagerung, Distribution und Lieferung an B2B-Kunden in ganz Deutschland und arbeiten mit Partnern in europäischen und internationalen Märkten."
+    },
+    "cta": {
+      "eyebrow": "Über das Sortiment hinaus",
+      "title": "Sie suchen etwas anderes?",
+      "note": "Nennen Sie uns Produkt, Qualität und Menge, auch Rohstoffe für die Lebensmittelindustrie. Wir beschaffen es.",
+      "action": "Beschaffungsangebot anfragen"
+    },
+    "rice": {
+      "name": "Reis",
+      "inText": "Reis",
+      "titleLead": "Reis,",
+      "titleAccent": "für Europa beschafft.",
+      "lead": "Hugo Tron importiert und liefert Reis für Großhändler und Unternehmen: heute Basmati aus Indien und Pakistan, weitere Sorten auf Anfrage. In Haushaltspackungen oder großen Mengen, unter Ihrer eigenen Marke und mit Lieferung an B2B-Kunden in ganz Deutschland.",
+      "seoTitle": "Reis-Importeur & B2B-Lieferant – Basmati in Großmengen und Private Label | Hugo Tron",
+      "seoDescription": "Basmati-Reis aus Indien und Pakistan für Großhändler und Unternehmen: Import in großen Mengen, Private Label und Distribution in ganz Deutschland. Angebot bei Hugo Tron, Hamburg, anfragen.",
+      "chapters": {
+        "land": {
+          "eyebrow": "Wo es wächst",
+          "title": "Langkorn, vom Ursprung.",
+          "note": "Unser Basmati kommt aus Indien und Pakistan: Pardis und Aladdin, in 1-kg- und 5-kg-Packungen."
+        },
+        "origins": {
+          "eyebrow": "Zwei Ursprünge",
+          "title": "Indien und Pakistan.",
+          "note": "Pardis aus Indien, Aladdin aus Pakistan: zwei Basmati-Linien, mit derselben Sorgfalt ausgewählt."
+        }
+      },
+      "varieties": {
+        "more": {
+          "name": "Weitere Reissorten",
+          "note": "Nach Ihren Anforderungen beschafft"
+        }
+      },
+      "interaction": "Die Körner bewegen",
+      "interactionHint": "Näher scrollen. Über den Reis streichen.",
+      "shortLead": "Basmati aus Indien und Pakistan. Einzelpackungen, Großmengen und Private Label."
+    },
+    "nuts": {
+      "name": "Nüsse & Trockenfrüchte",
+      "inText": "Nüsse und Trockenfrüchte",
+      "titleLead": "Nüsse & Trockenfrüchte,",
+      "titleAccent": "vom Hain zur Bestellung.",
+      "lead": "Hugo Tron beschafft und importiert Nüsse und Trockenfrüchte (Pistazien, Mandeln, Cashews, Haselnüsse, Walnüsse und weitere Sorten) für Großhändler und Unternehmen, in großen Mengen oder unter Ihrer eigenen Marke, mit Distribution in ganz Deutschland.",
+      "seoTitle": "Nüsse & Trockenfrüchte im Großhandel – Pistazien, Mandeln, Cashews | Hugo Tron",
+      "seoDescription": "Pistazien, Mandeln, Cashews, Haselnüsse, Walnüsse und Trockenfrüchte für Großhändler und Unternehmen: Import in großen Mengen, Private Label und Distribution in ganz Deutschland.",
+      "chapters": {
+        "orchard": {
+          "eyebrow": "Wo es wächst",
+          "title": "Aus dem Hain.",
+          "note": "Pistazien mit Schale und als Kerne sind heute im Sortiment. Mandeln, Cashews, Haselnüsse, Walnüsse und Trockenfrüchte beschaffen wir auf Anfrage."
+        },
+        "harvest": {
+          "eyebrow": "Mit oder ohne Schale",
+          "title": "Pistazien im Sack.",
+          "note": "Mit Schale oder als Kerne, für Großhandel und Lebensmittelindustrie."
+        }
+      },
+      "varieties": {
+        "almonds": {
+          "name": "Mandeln",
+          "note": "Auf Anfrage"
+        },
+        "cashews": {
+          "name": "Cashews",
+          "note": "Auf Anfrage"
+        },
+        "hazelnuts": {
+          "name": "Haselnüsse",
+          "note": "Auf Anfrage"
+        },
+        "walnuts": {
+          "name": "Walnüsse",
+          "note": "Auf Anfrage"
+        },
+        "driedFruits": {
+          "name": "Trockenfrüchte",
+          "note": "Auf Anfrage"
+        }
+      },
+      "interaction": "Die Schalen öffnen",
+      "interactionHint": "Über die Pistazien bewegen.",
+      "shortLead": "Pistazien, Nüsse und Trockenfrüchte. Für Ihr Unternehmen und Ihren Bedarf beschafft."
+    },
+    "spices": {
+      "name": "Gewürze",
+      "inText": "Gewürze",
+      "titleLead": "Gewürze,",
+      "titleAccent": "nach Spezifikation beschafft.",
+      "lead": "Hugo Tron beschafft und importiert Gewürze (Ingwer, Zimt, Kardamom und viele weitere) für Großhändler und die Lebensmittelindustrie, in großen Mengen oder unter Ihrer eigenen Marke, mit Distribution in ganz Deutschland.",
+      "seoTitle": "Gewürz-Importeur & Großhandelslieferant – Ingwer, Zimt, Kardamom | Hugo Tron",
+      "seoDescription": "Ingwer, Zimt, Kardamom und viele weitere Gewürze für Großhändler und die Lebensmittelindustrie: Beschaffung, Import in großen Mengen, Private Label und Distribution in ganz Deutschland.",
+      "chapters": {
+        "market": {
+          "eyebrow": "Beschaffung",
+          "title": "Große Auswahl, ein Partner.",
+          "note": "Ingwer, Zimt und Kardamom sowie viele weitere Sorten, nach Ihrer Spezifikation beschafft."
+        },
+        "botanicals": {
+          "eyebrow": "Wurzel, Rinde und Kapsel",
+          "title": "Ingwer, Zimt, Kardamom.",
+          "note": "Und viele mehr, beschafft für Großhandel und Lebensmittelindustrie."
+        }
+      },
+      "varieties": {
+        "ginger": {
+          "name": "Ingwer",
+          "note": "Auf Anfrage"
+        },
+        "cinnamon": {
+          "name": "Zimt",
+          "note": "Auf Anfrage"
+        },
+        "cardamom": {
+          "name": "Kardamom",
+          "note": "Auf Anfrage"
+        },
+        "more": {
+          "name": "Viele weitere Gewürze",
+          "note": "Nach Ihrer Spezifikation beschafft"
+        }
+      },
+      "interaction": "Die Gewürze bewegen",
+      "interactionHint": "Eine sanfte Bewegung zeigt ihre Form.",
+      "shortLead": "Ingwer, Zimt, Kardamom und mehr. Passend zu Ihrem Sortiment beschafft."
+    },
+    "saffron": {
+      "name": "Safran",
+      "inText": "Safran",
+      "titleLead": "Safran,",
+      "titleAccent": "Faden für Faden.",
+      "lead": "Hugo Tron liefert Premium-Negin-Safran aus dem Iran in 1-g-Packungen und beschafft Safran in größeren Mengen und als Private Label für Großhändler und Unternehmen, mit Distribution in ganz Deutschland.",
+      "seoTitle": "Safran-Lieferant – Premium-Negin-Safran, Großhandel & Private Label | Hugo Tron",
+      "seoDescription": "Premium-Negin-Safran aus dem Iran in 1-g-Packungen sowie größere Mengen und Private Label für Großhändler und Unternehmen, mit Distribution in ganz Deutschland.",
+      "chapters": {
+        "field": {
+          "eyebrow": "Wo es wächst",
+          "title": "Aus der Krokusblüte.",
+          "note": "Safran sind die getrockneten Narben des Safrankrokus, von Hand gepflückt."
+        },
+        "thread": {
+          "eyebrow": "Wo es wächst",
+          "title": "Faden für Faden.",
+          "note": "Negin ist eine Premium-Qualität von Safran aus dem Iran, aus langen, tiefroten Fäden."
+        }
+      },
+      "varieties": {
+        "more": {
+          "name": "Größere Mengen",
+          "note": "Auf Anfrage, auch als Private Label"
+        }
+      },
+      "interaction": "Den Fäden folgen",
+      "interactionHint": "Darüber bewegen und die Fäden auffächern.",
+      "shortLead": "Ausgewählter Safran. Von feinen Fäden bis in Ihr Sortiment."
+    },
+    "pulses": {
+      "name": "Hülsenfrüchte",
+      "inText": "Hülsenfrüchte",
+      "titleLead": "Hülsenfrüchte,",
+      "titleAccent": "im Sack.",
+      "lead": "Hugo Tron importiert und liefert Hülsenfrüchte (Kichererbsen, Kidneybohnen, weiße Bohnen, Linsen, rote Linsen, Spalterbsen, Mungbohnen und mehr) in 25-kg-Säcken und großen Mengen für Großhandel und Industrie, mit Distribution in ganz Deutschland.",
+      "seoTitle": "Hülsenfrüchte im Großhandel – Kichererbsen, Linsen, Bohnen im 25-kg-Sack | Hugo Tron",
+      "seoDescription": "Kichererbsen, Linsen, rote Linsen, Kidneybohnen, weiße Bohnen, Spalterbsen und Mungbohnen für Großhandel und Industrie: Import in großen Mengen und Distribution in ganz Deutschland.",
+      "chapters": {
+        "fields": {
+          "eyebrow": "Wo es wächst",
+          "title": "Auf offenen Feldern gewachsen.",
+          "note": "Kichererbsen, Bohnen, Linsen, Spalterbsen und Mungbohnen: die Hülsenfrüchte, die wir für Großhändler und Unternehmen beschaffen."
+        },
+        "sacks": {
+          "eyebrow": "Wo es wächst",
+          "title": "Lagerware und Import auf Bestellung.",
+          "note": "Kichererbsen im 25-kg-Sack führen wir als Lagerware. Weitere Hülsenfrüchte importieren wir auf Bestellung."
+        }
+      },
+      "varieties": {
+        "whiteBeans": {
+          "name": "Weiße Bohnen",
+          "note": "Auf Anfrage"
+        },
+        "lentils": {
+          "name": "Linsen",
+          "note": "Auf Anfrage"
+        },
+        "mungBeans": {
+          "name": "Mungbohnen",
+          "note": "Auf Anfrage"
+        }
+      },
+      "interaction": "In Bewegung setzen",
+      "interactionHint": "Darüber bewegen – wie eine sanfte Welle.",
+      "shortLead": "Kichererbsen, Bohnen und Linsen. Zuverlässig geliefert, vom Sack bis zur Großmenge."
+    },
+    "tea": {
+      "name": "Tee",
+      "inText": "Tee",
+      "titleLead": "Tee,",
+      "titleAccent": "aus dem Garten.",
+      "lead": "Hugo Tron liefert Vahdam Earl Grey in Pyramidenbeuteln und beschafft weitere Tees auf Anfrage für Großhändler und Unternehmen, mit Distribution in ganz Deutschland.",
+      "seoTitle": "Tee-Lieferant – Vahdam Earl Grey und Tees auf Anfrage | Hugo Tron",
+      "seoDescription": "Vahdam Earl Grey in Pyramidenbeuteln sowie weitere Tees auf Anfrage für Großhändler und Unternehmen, mit Distribution in ganz Deutschland.",
+      "chapters": {
+        "garden": {
+          "eyebrow": "Wo es wächst",
+          "title": "Aus dem Teegarten.",
+          "note": "Vahdam ist ein Teehaus aus Indien. Sein Earl Grey ist heute in unserem Sortiment."
+        },
+        "leaf": {
+          "eyebrow": "Vom Blatt zur Tasse",
+          "title": "Weitere Tees auf Anfrage.",
+          "note": "Nennen Sie uns Tee, Qualität und Verpackung. Wir beschaffen ihn und liefern in ganz Deutschland."
+        }
+      },
+      "varieties": {
+        "more": {
+          "name": "Weitere Tees",
+          "note": "Auf Anfrage"
+        }
+      },
+      "interaction": "Ein Hauch durch die Blätter",
+      "interactionHint": "Darüber bewegen und die Blätter wenden.",
+      "shortLead": "Vom Blatt bis zur Tasse. Earl Grey und weitere Tees für Ihr Sortiment."
+    },
+    "raw-materials": {
+      "name": "Rohstoffe & Lebensmittel",
+      "inText": "Lebensmittelrohstoffe",
+      "titleLead": "Rohstoffe,",
+      "titleAccent": "nach Spezifikation beschafft.",
+      "lead": "Über Fertigprodukte hinaus beschafft und importiert Hugo Tron Rohstoffe und weitere Lebensmittel für die Lebensmittelindustrie nach Europa, auch Produkte, die nicht auf dieser Website stehen, und verteilt sie in ganz Deutschland.",
+      "seoTitle": "Lebensmittelrohstoffe beschaffen & importieren für die Industrie | Hugo Tron",
+      "seoDescription": "Rohstoffe und Lebensmittel für die Lebensmittelindustrie, nach Ihrer Spezifikation beschafft und nach Europa importiert, auch Produkte, die nicht online stehen. Distribution in ganz Deutschland.",
+      "chapters": {
+        "mill": {
+          "eyebrow": "Für die Lebensmittelindustrie",
+          "title": "Rohstoffe für die Produktion.",
+          "note": "Getreide wie Bulgur, Zutaten und Rohstoffe für Lebensmittelhersteller, in großen Mengen."
+        },
+        "bulk": {
+          "eyebrow": "Was wir beschaffen",
+          "title": "Was Ihre Produktion braucht.",
+          "note": "Nennen Sie uns Produkt, Spezifikation und Menge. Wir beschaffen es über unser Netzwerk."
+        }
+      },
+      "varieties": {
+        "ingredients": {
+          "name": "Rohstoffe für die Lebensmittelindustrie",
+          "note": "Nach Ihrer Spezifikation"
+        },
+        "requested": {
+          "name": "Nicht aufgeführte Produkte",
+          "note": "Auf Anfrage beschafft"
+        }
+      },
+      "interaction": "Dem Korn folgen",
+      "interactionHint": "Über das fließende Getreide bewegen.",
+      "shortLead": "Zutaten für die Industrie. Nach Ihrer Spezifikation und in Ihrer Menge."
+    },
+    "skip": "Zum Hauptinhalt springen",
+    "selection": {
+      "title": "Ihre Auswahl."
+    }
   }
 }

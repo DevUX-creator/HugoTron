@@ -34,6 +34,15 @@ export function categoryProducts(category: ProductCategory): Product[] {
     .filter((product): product is Product => product !== undefined);
 }
 
+/** Broader editorial ranges can combine existing catalogue groups without duplicate cards. */
+export function productsForCategories(...ids: (string | undefined)[]): Product[] {
+  const products = ids.flatMap((id) => {
+    const category = id ? getCategory(id) : undefined;
+    return category ? categoryProducts(category) : [];
+  });
+  return [...new Map(products.map((product) => [product.slug, product])).values()];
+}
+
 /** Sold online at a fixed price; everything else is quoted on enquiry. */
 export function isPurchasable(product: Product): boolean {
   return product.channel === "shop" && product.price !== null;

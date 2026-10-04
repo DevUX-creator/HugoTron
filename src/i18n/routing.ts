@@ -50,6 +50,7 @@ const pathnames = {
   "/range/grains": { de: "/sortiment/getreide", en: "/products/grains" },
   "/range/nuts": { de: "/sortiment/nuesse", en: "/products/nuts" },
   "/range/spices": { de: "/sortiment/gewuerze", en: "/products/spices" },
+  "/range/raw-materials": { de: "/sortiment/rohstoffe", en: "/products/raw-materials" },
   "/range/[slug]": { de: "/sortiment/[slug]", en: "/products/[slug]" },
   "/product/[slug]": { de: "/produkt/[slug]", en: "/product/[slug]" },
   "/wholesale": { de: "/grosshandel", en: "/wholesale" },
