@@ -5,7 +5,7 @@ import type { Locale } from "@/i18n/routing";
 import Header from "@/components/layout/Header";
 import { HomeThemeProvider } from "@/components/rice/HomeTheme";
 import WorldFrame from "@/sections/World/WorldFrame";
-import { productsForCategories, isPurchasable, productImage } from "@/lib/catalogue";
+import { productsForCategories, isPurchasable, productImage } from "@/commerce/catalogue";
 import type { CategoryStory } from "@/content/categoryStories";
 import {
   ORGANIZATION_ID,

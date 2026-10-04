@@ -10,7 +10,8 @@ function fakeSource() {
     disconnect: vi.fn(),
     start: vi.fn(),
     stop: vi.fn(),
-    onended: null,
+    playbackRate: { setTargetAtTime: vi.fn() },
+    onended: null as (() => void) | null,
   };
 }
 
@@ -77,6 +78,69 @@ afterEach(() => {
 });
 
 describe("sound lifecycle", () => {
+  it("loads vehicle audio on demand, starts once, then loops with speed and stops on release", async () => {
+    await engine.enable();
+    expect(fetch).toHaveBeenCalledTimes(5);
+    engine.setVehicle(true);
+    await vi.advanceTimersByTimeAsync(0);
+    expect(FakeContext.current.gains[1]!.gain.linearRampToValueAtTime).toHaveBeenLastCalledWith(
+      0,
+      10.35,
+    );
+    expect(fetch).toHaveBeenCalledTimes(7);
+    const starter = FakeContext.current.sources.at(-1)!;
+    expect(starter.loop).toBe(false);
+    starter.onended?.();
+    const running = FakeContext.current.sources.at(-1)!;
+    expect(running.loop).toBe(true);
+    engine.setVehicle(true, 2);
+    expect(FakeContext.current.sources.at(-1)).toBe(running);
+    expect(running.playbackRate.setTargetAtTime).toHaveBeenLastCalledWith(1.18, 10, 0.3);
+    engine.setVehicle(false);
+    expect(FakeContext.current.gains[1]!.gain.linearRampToValueAtTime).toHaveBeenLastCalledWith(
+      0.45,
+      11.2,
+    );
+    expect(running.stop).toHaveBeenCalledWith(10.3);
+    running.onended?.();
+    engine.setVehicle(true);
+    expect(FakeContext.current.sources.at(-1)!.loop).toBe(true);
+    expect(fetch).toHaveBeenCalledTimes(7);
+    engine.setVisible(false);
+    expect(FakeContext.current.sources.at(-1)!.stop).toHaveBeenCalled();
+    engine.disable();
+    const count = FakeContext.current.sources.length;
+    engine.setVisible(true);
+    engine.setVehicle(true);
+    expect(FakeContext.current.sources).toHaveLength(count);
+  });
+
+  it("does not download car audio while muted or play stale driving after a slow load", async () => {
+    engine.setVehicle(true);
+    expect(fetch).not.toHaveBeenCalled();
+    engine.setVehicle(false);
+    await engine.enable();
+    let release!: (value: ReturnType<typeof response>) => void;
+    const pending = new Promise<ReturnType<typeof response>>((resolve) => {
+      release = resolve;
+    });
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(() => pending),
+    );
+    engine.setVehicle(true);
+    engine.setVehicle(false);
+    release(response());
+    await vi.advanceTimersByTimeAsync(0);
+    expect(FakeContext.current.sources).toHaveLength(1);
+    engine.setVehicle(true);
+    const starter = FakeContext.current.sources.at(-1)!;
+    engine.dispose();
+    expect(starter.stop).toHaveBeenCalled();
+    expect(starter.disconnect).toHaveBeenCalled();
+    expect(FakeContext.current.close).toHaveBeenCalledOnce();
+  });
+
   it("downloads nothing and ignores cues before enable, then reuses decoded assets", async () => {
     engine.play("product");
     expect(fetch).not.toHaveBeenCalled();

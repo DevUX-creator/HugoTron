@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { getPathname } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { COMPANY, CONTACT } from "@/content/site";
@@ -21,6 +22,38 @@ export function alternates(href: Href, locale: Locale) {
   for (const other of routing.locales) languages[other] = absoluteUrl(href, other);
   languages["x-default"] = absoluteUrl(href, "de");
   return { canonical: absoluteUrl(href, locale), languages };
+}
+
+/**
+ * Title, description, canonical, hreflang and the share card for one indexable page. The share
+ * image comes from app/[locale]/opengraph-image.tsx.
+ */
+export function pageMetadata({
+  title,
+  description,
+  href,
+  locale,
+}: {
+  title: string;
+  description?: string;
+  href: Href;
+  locale: Locale;
+}): Metadata {
+  const links = alternates(href, locale);
+  return {
+    title,
+    description,
+    alternates: links,
+    openGraph: {
+      type: "website",
+      siteName: "Hugo Tron",
+      title,
+      description,
+      url: links.canonical,
+      locale: locale === "de" ? "de_DE" : "en_GB",
+    },
+    twitter: { card: "summary_large_image", title, description },
+  };
 }
 
 /** The organisation every page's structured data refers to, by `@id`. */

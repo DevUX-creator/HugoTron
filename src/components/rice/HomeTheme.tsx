@@ -59,10 +59,10 @@ export function HomeThemeProvider({
   forcedTheme,
 }: {
   children: ReactNode;
-  forcedTheme?: "dark";
+  forcedTheme?: "dark" | "light";
 }) {
   const preference = useSyncExternalStore(subscribeTheme, readTheme, serverTheme);
-  const dark = forcedTheme === "dark" || preference;
+  const dark = forcedTheme ? forcedTheme === "dark" : preference;
   useLayoutEffect(() => {
     const root = document.documentElement;
     // Read the saved value even during the initial server-snapshot hydration pass.

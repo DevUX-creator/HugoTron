@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState, type ComponentProps } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { getCategories } from "@/lib/catalogue";
+import { getCategories } from "@/commerce/catalogue";
 import { useScrollLock } from "@/components/providers/SmoothScroll";
 import LocaleSwitcher from "@/components/ui/LocaleSwitcher";
 import ArrowIcon from "@/components/ui/ArrowIcon";

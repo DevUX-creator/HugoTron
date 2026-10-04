@@ -1,8 +1,8 @@
 "use client";
 
-import { getProducts, type ProductSlug } from "@/lib/catalogue";
-import RangeProductCard from "@/components/products/RangeProductCard";
-import ProductRail from "@/components/products/ProductRail";
+import { getProducts, type ProductSlug } from "@/commerce/catalogue";
+import RangeProductCard from "@/components/commerce/products/RangeProductCard";
+import ProductRail from "@/components/commerce/products/ProductRail";
 
 // Show the breadth of the range before repeating pack sizes of the same rice.
 const FEATURED: readonly ProductSlug[] = [

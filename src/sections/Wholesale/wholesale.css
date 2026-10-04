@@ -33,18 +33,38 @@
 .hall__shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    0deg,
-    color-mix(in srgb, var(--hall-backdrop) 76%, transparent),
-    transparent 52%
-  );
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--hall-backdrop) 88%, transparent),
+      color-mix(in srgb, var(--hall-backdrop) 62%, transparent) 10rem,
+      transparent 21rem
+    ),
+    linear-gradient(
+      0deg,
+      color-mix(in srgb, var(--hall-backdrop) 76%, transparent),
+      transparent 52%
+    );
   pointer-events: none;
 }
 .hall-chapter {
   --shown: 0;
   position: absolute;
-  inset: auto auto 18% max(3.5rem, 6vw);
-  inline-size: min(31rem, 40vw);
+  inset: auto auto 14% max(3.5rem, 6vw);
+  inline-size: min(38rem, 46vw);
+  padding: clamp(1.5rem, 2.4vw, 2.5rem);
+  border: 1px solid color-mix(in srgb, var(--color-world-paper-light) 19%, transparent);
+  background: linear-gradient(
+    125deg,
+    color-mix(in srgb, var(--color-world-paper-light) 6%, transparent),
+    color-mix(in srgb, var(--hall-backdrop) 55%, transparent) 55%
+  );
+  -webkit-backdrop-filter: blur(14px) saturate(0.8);
+  backdrop-filter: blur(14px) saturate(0.8);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--color-world-paper-light) 7%, transparent),
+    0 1.5rem 4rem color-mix(in srgb, var(--hall-backdrop) 16%, transparent);
+
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -57,19 +77,54 @@
 .hall-chapter[data-shown="false"] {
   visibility: hidden;
 }
-.hall-chapter--intro {
-  inset-block-end: 14%;
-  inline-size: min(38rem, 46vw);
+.hall[data-entering] .hall-chapter {
+  opacity: 0;
+  translate: 0 -1rem;
+  filter: blur(6px);
+  pointer-events: none;
+  transition:
+    opacity 450ms ease,
+    translate 600ms ease,
+    filter 600ms ease;
 }
-.hall-chapter--range,
+.hall-chapter::before {
+  content: "";
+  position: absolute;
+  inset: -1px -1px auto auto;
+  inline-size: 0.75rem;
+  aspect-ratio: 1;
+  background: color-mix(in srgb, var(--color-world-paper-light) 45%, transparent);
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+.hall-chapter--audience,
+.hall-chapter--process,
 .hall-chapter--door {
   inset-inline: auto max(3.5rem, 6vw);
 }
-.hall-chapter--door {
-  inset-block-end: 24%;
-}
 .hall__crumbs {
-  margin-block-end: 1.5rem;
+  position: absolute;
+  z-index: 2;
+  inset: calc(var(--header-inset-block) + var(--header-row) + 4rem) max(3.5rem, 6vw) auto auto;
+  margin: 0;
+}
+.hall__card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  inline-size: 100%;
+  min-block-size: 5rem;
+  gap: 1rem;
+}
+.hall__card-head .hall__eyebrow {
+  max-inline-size: 15ch;
+  line-height: 1.65;
+}
+.hall__illustration {
+  inline-size: clamp(9rem, 15vw, 14rem);
+  block-size: auto;
+  margin-block: -1.25rem -0.5rem;
+  opacity: 0.82;
+  pointer-events: none;
 }
 .hall__crumbs ol {
   display: flex;
@@ -95,7 +150,7 @@
 }
 .hall__crumbs,
 .hall__eyebrow,
-.hall__cards span,
+.hall__steps span,
 .hall__legal {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
@@ -120,7 +175,7 @@
   hyphens: auto;
 }
 .hall__title {
-  font-size: clamp(2.8rem, 4.4vw, 5.5rem);
+  font-size: clamp(2.6rem, 3.65vw, 4.5rem);
 }
 .hall__title > span {
   display: block;
@@ -130,7 +185,7 @@
   color: color-mix(in srgb, var(--hall-neon) 18%, var(--color-world-paper-light));
 }
 .hall-chapter h2 {
-  font-size: clamp(2.4rem, 3.6vw, 4.4rem);
+  font-size: clamp(2.2rem, 3.2vw, 4rem);
 }
 .hall__lead,
 .hall__note {
@@ -143,40 +198,51 @@
 .hall-chapter .arrow-link {
   margin-block-start: 0.4rem;
 }
-.hall__cards {
+/* Compact ruled lists stay inside the shared illustrated card. */
+.hall__audience,
+.hall__steps {
   display: grid;
   gap: 0;
   inline-size: 100%;
-  margin: 0.25rem 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
-.hall__cards li {
+.hall__audience li,
+.hall__steps li {
   display: grid;
   gap: 0.4rem;
   padding-block: 1rem;
   border-block-start: 1px solid color-mix(in srgb, var(--color-world-paper-light) 24%, transparent);
 }
-.hall__cards h3 {
+.hall__audience h3,
+.hall__steps h3 {
   margin: 0;
   font-family: var(--font-display);
   font-size: clamp(1.2rem, 1.55vw, 1.6rem);
   font-weight: 400;
   letter-spacing: -0.02em;
 }
-.hall__cards p {
+.hall__audience p,
+.hall__steps p {
   margin: 0;
-  max-inline-size: 40ch;
+  max-inline-size: 34ch;
   font-size: 0.875rem;
   line-height: 1.5;
   opacity: 0.83;
 }
-.hall__cards--steps {
-  grid-template-columns: 1fr 1fr;
+.hall__steps {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0 1.5rem;
 }
-.hall__cards--steps span {
+.hall__steps li {
+  position: relative;
+  align-content: start;
+  padding-block-start: 1.5rem;
+}
+.hall__steps span {
   color: color-mix(in srgb, var(--hall-neon) 45%, var(--color-world-paper-light));
+  margin-block-end: 0.5rem;
 }
 .hall__legal {
   position: absolute;
@@ -198,23 +264,47 @@
 
 @media (width < 48rem) {
   .hall__shade {
-    background: linear-gradient(
-      0deg,
-      var(--hall-backdrop),
-      color-mix(in srgb, var(--hall-backdrop) 60%, transparent) 36%,
-      transparent 72%
-    );
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--hall-backdrop) 92%, transparent),
+        color-mix(in srgb, var(--hall-backdrop) 72%, transparent) 9rem,
+        transparent 19rem
+      ),
+      linear-gradient(
+        0deg,
+        var(--hall-backdrop),
+        color-mix(in srgb, var(--hall-backdrop) 60%, transparent) 36%,
+        transparent 72%
+      );
   }
   .hall-chapter {
-    inset: auto 2.5rem 7.25rem;
+    inset: auto 2rem 7.25rem;
     inline-size: auto;
     gap: 0.9rem;
+    padding: 1rem;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
   }
   .hall__crumbs {
-    margin-block-end: 0.4rem;
+    inset: calc(var(--header-inset-block) + var(--header-row) + 5.4rem) 2.5rem auto;
+    font-size: 0.6rem;
+  }
+  .hall__crumbs ol {
+    justify-content: flex-end;
+  }
+  .hall__card-head {
+    min-block-size: 3rem;
+  }
+  .hall__card-head .hall__eyebrow {
+    font-size: 0.625rem;
+  }
+  .hall__illustration {
+    inline-size: 8.75rem;
+    margin-block: -0.75rem;
   }
   .hall__title {
-    font-size: clamp(2.2rem, 8.9vw, 3.5rem);
+    font-size: clamp(2rem, 8.4vw, 3.25rem);
   }
   .hall-chapter h2 {
     font-size: clamp(2rem, 8.6vw, 3.4rem);
@@ -224,19 +314,30 @@
     font-size: 0.875rem;
     line-height: 1.55;
   }
-  .hall__cards li {
+  .hall__audience li,
+  .hall__steps li {
     padding-block: 0.65rem;
   }
-  .hall__cards p {
+  .hall__audience p,
+  .hall__steps p {
     font-size: 0.8125rem;
   }
-  .hall__cards--steps {
-    gap: 0 1rem;
+  .hall__steps {
+    grid-template-columns: 1fr;
+    gap: 0;
   }
-  .hall__cards--steps h3 {
+  .hall__steps li {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 0.75rem;
+  }
+  .hall__steps span {
+    display: none;
+  }
+  .hall__steps h3 {
+    overflow-wrap: anywhere;
     font-size: 1.05rem;
   }
-  .hall__cards--steps p {
+  .hall__steps p {
     font-size: 0.75rem;
     line-height: 1.45;
   }
@@ -255,14 +356,29 @@
   .hall-chapter h2 {
     font-size: clamp(2rem, 4.5vw, 3.6rem);
   }
-  .hall__cards li {
+  .hall__audience li,
+  .hall__steps li {
     padding-block: 0.5rem;
   }
+  .hall-chapter--audience h2,
   .hall-chapter--process h2 {
     font-size: clamp(1.65rem, 4.5vw, 2.4rem);
   }
-  .hall__crumbs {
-    display: none;
+  .hall__audience p {
+    font-size: 0.75rem;
+    line-height: 1.45;
+  }
+  .hall__audience li {
+    padding-block: 0.35rem;
+  }
+  .hall__audience h3 {
+    font-size: 1.125rem;
+  }
+  .hall__card-head {
+    min-block-size: 2.75rem;
+  }
+  .hall__illustration {
+    inline-size: 7rem;
   }
 }
 

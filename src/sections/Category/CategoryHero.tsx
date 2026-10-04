@@ -3,11 +3,11 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { getCategory } from "@/lib/catalogue";
+import { getCategory } from "@/commerce/catalogue";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import SplitWords, { flySeed } from "@/animations/SplitWords";
-import EnquireLink from "@/components/products/EnquireLink";
-import type { ProductChoice } from "@/components/products/useProductChoice";
+import EnquireLink from "@/components/commerce/products/EnquireLink";
+import type { ProductChoice } from "@/components/commerce/products/useProductChoice";
 import WorldPurchase from "@/sections/World/WorldPurchase";
 import { useToneFill } from "@/sections/Daylight/useToneFill";
 import type { CategoryStory } from "@/content/categoryStories";
@@ -108,7 +108,6 @@ export default function CategoryHero({ story }: { story: CategoryStory }) {
       first.toggleAttribute("inert", introOut > 0.6);
       second.toggleAttribute("inert", quantityIn < 0.4 || handoff > 0.6);
       mount.current?.toggleAttribute("inert", handoff > 0.6);
-      element.querySelector(".category-interaction")?.toggleAttribute("inert", handoff > 0.6);
       motion.current = { explore, leave: handoff };
       scene.current?.setExplore(explore);
       draw.current(handoff);
@@ -140,33 +139,10 @@ export default function CategoryHero({ story }: { story: CategoryStory }) {
           <div
             ref={mount}
             className="category-world__scene"
-            tabIndex={story.scene === "rice" ? 0 : undefined}
             role="img"
             aria-label={t("sceneLabel", { category: copy("inText") })}
-            onKeyDown={(event) => {
-              const directions: Record<string, [number, number]> = {
-                ArrowLeft: [-1, 0],
-                ArrowRight: [1, 0],
-                ArrowUp: [0, -1],
-                ArrowDown: [0, 1],
-              };
-              const direction = directions[event.key];
-              if (direction && motion.current.explore > 0.85 && scene.current?.nudge) {
-                event.preventDefault();
-                scene.current.nudge(...direction);
-              }
-            }}
           />
           <div className="category-world__shade" aria-hidden="true" />
-          {status === "ready" && !reduced && (
-            <div className="category-interaction">
-              <button type="button" onClick={() => scene.current?.activate()}>
-                <span aria-hidden="true">+</span>
-                {copy("interaction")}
-              </button>
-              <p>{copy("interactionHint")}</p>
-            </div>
-          )}
 
           <section ref={intro} className="category-hero" aria-labelledby="category-title">
             <nav className="category-crumbs" aria-label={t("breadcrumbLabel")}>
@@ -187,19 +163,11 @@ export default function CategoryHero({ story }: { story: CategoryStory }) {
               <h1 id="category-title" className="category-hero__title">
                 <span>{copy("titleLead")}</span> <span>{copy("titleAccent")}</span>
               </h1>
+              <p className="category-hero__lead">
+                <span className="category-hero__summary">{copy("lead")}</span>
+                <span className="category-hero__short">{copy("shortLead")}</span>
+              </p>
             </div>
-            <p className="category-hero__lead">
-              <span className="category-hero__summary">{copy("lead")}</span>
-              <span className="category-hero__short">{copy("shortLead")}</span>
-            </p>
-            <ul className="category-hero__services" aria-label={t("servicesLabel")}>
-              {(["import", "label", "distribution"] as const).map((service, index) => (
-                <li key={service}>
-                  <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                  {t(`services.${service}`)}
-                </li>
-              ))}
-            </ul>
             <span className="category-hero__scroll" aria-hidden="true">
               {t("scroll")}
             </span>
@@ -217,6 +185,15 @@ export default function CategoryHero({ story }: { story: CategoryStory }) {
               <h2 id="category-quantity-title">
                 <SplitWords text={t("quantity.title")} seed={5} letters />
               </h2>
+              {status === "ready" && !reduced && (
+                <div className="category-interaction flies" style={fly(3)}>
+                  <button type="button" onClick={() => scene.current?.activate()}>
+                    <span aria-hidden="true">+</span>
+                    {copy("interaction")}
+                  </button>
+                  <p>{copy("interactionHint")}</p>
+                </div>
+              )}
             </header>
             <div className="category-quantity__buy flies" style={fly(1)}>
               {category ? (

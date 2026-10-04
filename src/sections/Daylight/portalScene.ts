@@ -5,6 +5,23 @@ import { PAPER_NOISE } from "./paperNoise";
 import { createWorldRocks } from "@/components/world/rocks";
 import { WORLD_DEPTH } from "@/components/world/journey";
 
+/**
+ * How the footer's paper opens once scrolled to: like water soaking through, it never stops
+ * but its pace keeps changing (surges and slow seeps from layered waves), and it eases to rest
+ * at the end. TEAR_SECONDS is the average time to open fully.
+ */
+const TEAR_SECONDS = 9;
+function seepSpeed(seconds: number, opened: number) {
+  const surge =
+    1 +
+    0.55 * Math.sin(seconds * 1.3 + 1) +
+    0.35 * Math.sin(seconds * 2.9 + 2.1) +
+    0.2 * Math.sin(seconds * 5.3 + 0.4);
+  // Water slows as it spreads thin: the last stretch settles rather than snapping shut.
+  const settle = opened > 0.82 ? Math.max(0.18, (1 - opened) / 0.18) : 1;
+  return (Math.max(0.12, surge) / TEAR_SECONDS) * settle;
+}
+
 /** Reuses the brand object, never the GLB landscape or the full World render pipeline. */
 export async function createPortalScene(element: HTMLElement, reduced: boolean) {
   const host = element.querySelector<HTMLElement>(".paper-portal__canvas")!;
@@ -94,15 +111,22 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
         // field grows into the finished silhouette instead of clipping it with
         // an x-axis blade. Spatial noise makes reverse scrolling deterministic.
         float edge = outline;
+        float opening = 1.0 - uProgress;
+        float front = 1.0;
         // The extra reveal field is unnecessary once open, and never runs on mobile.
         if (uProgress < 0.9999) {
+          // The opening spreads like water soaking into paper: its front drifts and
+          // meanders over time, some areas seep ahead while others lag, and all of it
+          // meets the finished silhouette at the end.
+          float flow = uTime * 0.12;
           vec2 warp = vec2(
-            fbm(vUv * 4.2 + 7.3) - 0.44,
-            fbm(vUv.yx * 5.1 + 19.0) - 0.44
+            fbm(vUv * 4.2 + 7.3 + vec2(flow, -flow * 0.7)) - 0.44,
+            fbm(vUv.yx * 5.1 + 19.0 + vec2(-flow * 0.6, flow)) - 0.44
           );
-          vec2 growth = (vUv - vec2(1.18, 0.56) + warp * 0.31) / vec2(1.0, 0.74);
-          float front = length(growth) - mix(-0.08, 1.85, uProgress);
-          front += (noise(vUv * 33.0) - 0.5) * 0.06;
+          vec2 growth = (vUv - vec2(1.18, 0.56) + warp * 0.38) / vec2(1.0, 0.74);
+          float seep = (fbm(vUv * 2.4 + vec2(3.1, flow * 0.5)) - 0.44) * 0.75 * sin(uProgress * 3.14159);
+          front = length(growth) - mix(-0.08, 1.85, uProgress) - seep;
+          front += (noise(vUv * 33.0 + flow * 2.0) - 0.5) * 0.05;
           edge = max(outline, front);
         }
         float pixel = 1.0 / uResolution.y;
@@ -112,9 +136,12 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
         float pulp = fbm(centred * 3.0) - 0.44;
         vec3 color = uColor + grain * 0.026 + fibres * 0.014 + pulp * 0.022;
         // Fine fibres dissolve ahead of the edge; the scene itself stays sharp.
-        float feather = max(pixel * 1.5, 0.004 + noise(vUv * 81.0) * 0.006);
+        // A soft, wet front while it spreads; the finished tear keeps its crisp fibres.
+        float feather = max(pixel * 1.5, 0.004 + noise(vUv * 81.0) * 0.006) + opening * 0.014;
         float cover = smoothstep(-feather, feather, edge);
         color -= exp(-abs(edge) * 75.0) * 0.025;
+        // Damp paper just ahead of the spreading front.
+        color -= exp(-max(front, 0.0) * 22.0) * 0.07 * opening * step(0.0, front);
         float sceneGrain = hash(paper + floor(uTime * 8.0) * 17.0) * 0.5;
         gl_FragColor = vec4(mix(vec3(sceneGrain), color, cover), mix(mix(0.028, 0.01, uMobile), 1.0, cover));
       }
@@ -143,6 +170,14 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
     elapsed = 8;
   const pointer = new THREE.Vector2(),
     target = new THREE.Vector2();
+  // The tear's own clock: 0 closed, 1 fully open.
+  let revealTarget = 0;
+  let revealValue = 0;
+  let revealClock = 0;
+  const showReveal = () => {
+    paperUniforms.uProgress.value = revealValue;
+    element.dataset.reveal = revealValue.toFixed(3);
+  };
   const resize = () => {
     // Layout dimensions stay full-sized throughout the reveal. Transformed bounding
     // rectangles previously allocated a tiny canvas and stretched it into a blur.
@@ -169,6 +204,15 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
     sculpture.update(elapsed, true, reduced, pointer);
     sculpture.updateHover(camera, pointer, pointerActive, reduced, delta);
     paperUniforms.uTime.value = reduced ? 0 : elapsed;
+    if (revealTarget === 1 && revealValue < 1) {
+      revealClock += delta;
+      revealValue = Math.min(1, revealValue + delta * seepSpeed(revealClock, revealValue));
+      showReveal();
+    } else if (revealTarget === 0 && revealValue > 0) {
+      revealValue = Math.max(0, revealValue - delta / 1.2);
+      revealClock = 0;
+      showReveal();
+    }
     rocks.update(reduced ? 8 : elapsed * 0.65, 1);
     sculpture.particles.visible = false;
     scene.overrideMaterial = depthMaterial;
@@ -212,19 +256,26 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
     target.set(0, 0);
   };
   const updateReveal = () => {
-    // Mobile keeps the finished opening as it scrolls into view. Desktop
-    // uncovers it from the side and finishes before it reaches the centre.
-    let progress = 1;
-    if (!reduced && innerWidth >= 768) {
-      const box = element.getBoundingClientRect();
-      progress = THREE.MathUtils.clamp(
-        (innerHeight * 0.84 - box.top) / Math.min(innerHeight * 0.6, box.height * 0.85),
-        0,
-        1,
-      );
+    // Mobile keeps the finished opening as it scrolls into view. On desktop, scrolling
+    // only starts the tear: it then opens at its own pace over REVEAL_SECONDS, however
+    // fast the page moves, and closes again once the footer has left below the fold.
+    if (reduced || innerWidth < 768) {
+      revealTarget = 1;
+      revealValue = 1;
+      showReveal();
+      return;
     }
-    paperUniforms.uProgress.value = progress * progress * (3 - 2 * progress);
-    element.dataset.reveal = progress.toFixed(3);
+    const top = element.getBoundingClientRect().top;
+    if (top < innerHeight * 0.84) revealTarget = 1;
+    else if (top > innerHeight) {
+      revealTarget = 0;
+      // Out of sight the scene is paused; close it now so the next visit replays the tear.
+      if (top > innerHeight * 1.2) {
+        revealValue = 0;
+        revealClock = 0;
+        showReveal();
+      }
+    }
     wake();
   };
   element.addEventListener("pointermove", move);

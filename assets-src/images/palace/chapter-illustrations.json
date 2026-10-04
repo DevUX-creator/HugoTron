@@ -1,0 +1,29 @@
+{
+  "tool": "image_gen.imagegen",
+  "assets": [
+    {
+      "name": "business-orbit",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-23b68ca6-e403-4db0-a704-e3531a0709ae.png",
+      "prompt": "Use case: illustration-story. Asset type: decorative illustration for a premium dark navy wholesale website's small glass card header. Create ONE original isolated engraved illustration. Subject: Three blank food packaging formats arranged as one compact still life: an upright paper sack, a plain sealed pouch and a small wooden shipping crate. No text or labels. Style: fine ivory-white ink copperplate engraving, rich delicate crosshatching, elegant realistic object proportions, hand-drawn editorial etching. Mostly light ivory lines and highlights, subtle grey crosshatching; no black silhouette masses. A single very thin pale ice-blue elliptical orbit curls around the still life with two tiny star-like glints, no dominant glow. Wide 3:2 composition, objects centered, generous transparent breathing room around all edges; object group occupies roughly 80% of width and 75% of height. TRUE transparent RGBA background, no opaque backdrop, no checkerboard drawn into image, no scene, no landscape, no panel, no border, no shadow rectangle, no words, no watermark. The asset must read cleanly at 160–220 pixels wide on a dark glass surface.",
+      "output": "public/images/wholesale/business-orbit.webp"
+    },
+    {
+      "name": "sourcing-orbit",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-354d6b16-afa9-464b-b412-29259efa342e.png",
+      "prompt": "Use case: illustration-story. Asset type: decorative illustration for a premium dark navy wholesale website's small glass card header. Create ONE original isolated engraved illustration. Subject: An antique navigational compass beside a small tied grain sack and a single stalk of wheat. One compact still life symbolising sourcing ingredients. Style: fine ivory-white ink copperplate engraving, rich delicate crosshatching, elegant realistic object proportions, hand-drawn editorial etching. Mostly light ivory lines and highlights, subtle grey crosshatching; no black silhouette masses. A single very thin pale ice-blue elliptical orbit curls around the still life with two tiny star-like glints, no dominant glow. Wide 3:2 composition, objects centered, generous transparent breathing room around all edges; object group occupies roughly 80% of width and 75% of height. TRUE transparent RGBA background, no opaque backdrop, no checkerboard drawn into image, no scene, no landscape, no panel, no border, no shadow rectangle, no words, no watermark. The asset must read cleanly at 160–220 pixels wide on a dark glass surface.",
+      "output": "public/images/wholesale/sourcing-orbit.webp"
+    },
+    {
+      "name": "order-orbit",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-f494f151-0fc6-4faf-91f1-f6690dd6ad21.png",
+      "prompt": "Use case: illustration-story. Asset type: decorative illustration for a premium dark navy wholesale website's small glass card header. Create ONE original isolated engraved illustration. Subject: A folded purchase document with faint non-letter ruled lines, a fountain pen and a small wooden parcel, arranged together as a compact still life. Absolutely no readable text, digits or fake letters. Style: fine ivory-white ink copperplate engraving, rich delicate crosshatching, elegant realistic object proportions, hand-drawn editorial etching. Mostly light ivory lines and highlights, subtle grey crosshatching; no black silhouette masses. A single very thin pale ice-blue elliptical orbit curls around the still life with two tiny star-like glints, no dominant glow. Wide 3:2 composition, objects centered, generous transparent breathing room around all edges; object group occupies roughly 80% of width and 75% of height. TRUE transparent RGBA background, no opaque backdrop, no checkerboard drawn into image, no scene, no landscape, no panel, no border, no shadow rectangle, no words, no watermark. The asset must read cleanly at 160–220 pixels wide on a dark glass surface.",
+      "output": "public/images/wholesale/order-orbit.webp"
+    },
+    {
+      "name": "delivery-orbit",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-0ee9307e-b578-4cce-9a8f-fc1e80eefad7.png",
+      "prompt": "Use case: illustration-story. Asset type: decorative illustration for a premium dark navy wholesale website's small glass card header. Create ONE original isolated engraved illustration. Subject: A compact European delivery truck with a simple box cargo body, parked beside one wooden pallet and two shipping boxes. Three-quarter view, a compact connected composition. No branding or text. Style: fine ivory-white ink copperplate engraving, rich delicate crosshatching, elegant realistic object proportions, hand-drawn editorial etching. Mostly light ivory lines and highlights, subtle grey crosshatching; no black silhouette masses. A single very thin pale ice-blue elliptical orbit curls around the still life with two tiny star-like glints, no dominant glow. Wide 3:2 composition, objects centered, generous transparent breathing room around all edges; object group occupies roughly 80% of width and 75% of height. TRUE transparent RGBA background, no opaque backdrop, no checkerboard drawn into image, no scene, no landscape, no panel, no border, no shadow rectangle, no words, no watermark. The asset must read cleanly at 160–220 pixels wide on a dark glass surface.",
+      "output": "public/images/wholesale/delivery-orbit.webp"
+    }
+  ]
+}

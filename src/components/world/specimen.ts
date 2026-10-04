@@ -285,6 +285,10 @@ type Piece = {
   rotation: THREE.Quaternion;
   scale: number;
   delay: number;
+  /** Where a brushing hand has pushed this kernel, eased back to rest. */
+  offset: THREE.Vector3;
+  /** How high it jumps when the dish is tossed. */
+  hop: number;
 };
 
 type Orbiter = {
@@ -365,6 +369,61 @@ export function createSpecimen(small: boolean) {
   let touch = 0;
   const cursor = new THREE.Vector2();
   const opening = { value: 0 };
+  // Brushing the rice: the pointer's ray meets the top of the heap, in the dish's own space.
+  let ray: THREE.Ray | null = null;
+  let brushing = 0;
+  let disturbed = false;
+  const brush = new THREE.Vector2();
+  const localRay = new THREE.Ray();
+  const inverse = new THREE.Matrix4();
+  const heapTop = new THREE.Plane(new THREE.Vector3(0, 1, 0), -riceSurface(0, 0));
+  const hit = new THREE.Vector3();
+  const goal = new THREE.Vector3();
+
+  /** Kernels part around the hand and pile at the edge of its path, then settle back. */
+  function brushRice(serving: Serving, delta: number, time: number, reduced: boolean) {
+    const dish = serving.dish!;
+    let target = 0;
+    if (interactive && !reduced && ray && active) {
+      dish.updateWorldMatrix(true, false);
+      localRay.copy(ray).applyMatrix4(inverse.copy(dish.matrixWorld).invert());
+      // The heap is domed: meet its top first, then settle onto the height under that point.
+      heapTop.constant = -riceSurface(0, 0);
+      for (let pass = 0; pass < 3 && localRay.intersectPlane(heapTop, hit); pass++) {
+        const u = hit.x / 2.4;
+        const v = hit.z / 1.2;
+        heapTop.constant = -riceSurface(Math.min(1, Math.hypot(u, v)), Math.atan2(v, u));
+      }
+      if (localRay.intersectPlane(heapTop, hit) && (hit.x / 2.1) ** 2 + (hit.z / 1.25) ** 2 < 1) {
+        brush.set(hit.x, hit.z);
+        target = 1;
+      }
+    }
+    brushing = THREE.MathUtils.damp(brushing, target, target ? 10 : 3, delta);
+    const toss = reduced ? 0 : impulse;
+    if (brushing < 0.002 && toss < 0.002 && !disturbed) return;
+    let moving = false;
+    serving.pieces.forEach((piece, index) => {
+      const dx = piece.position.x - brush.x;
+      const dz = piece.position.z - brush.y;
+      const distance = Math.max(Math.hypot(dx, dz), 0.0001);
+      // A furrow about a hand wide: kernels part from its centre and ride up into a ridge.
+      const push = Math.exp(-((distance / 0.36) ** 2)) * brushing;
+      const rim = Math.exp(-(((distance - 0.5) / 0.16) ** 2)) * brushing;
+      goal.set(
+        (dx / distance) * push * 0.38,
+        rim * 0.11 - push * 0.06 + toss * piece.hop * Math.abs(Math.sin(time * 7 + index)),
+        (dz / distance) * push * 0.38,
+      );
+      piece.offset.lerp(goal, 1 - Math.exp(-delta * (push > 0.05 ? 16 : 5)));
+      if (piece.offset.lengthSq() > 1e-8) moving = true;
+      position.copy(piece.position).add(piece.offset);
+      scale.setScalar(piece.scale);
+      serving.heap!.setMatrixAt(index, matrix.compose(position, piece.rotation, scale));
+    });
+    serving.heap!.instanceMatrix.needsUpdate = true;
+    disturbed = moving;
+  }
 
   function riceMaterial() {
     // The rice page's starch texture and kernel material, unchanged.
@@ -509,6 +568,8 @@ export function createSpecimen(small: boolean) {
         scale: (0.9 + random() * 0.22) / DISH,
         // Deeper pieces land first, so the heap builds up from the bottom of the dish.
         delay: layer * 0.55 + random() * 0.45,
+        offset: new THREE.Vector3(),
+        hop: (0.1 + random() * 0.26) * (1 - layer * 0.6),
       });
       tint.setRGB(1, 0.95 + random() * 0.04, 0.82 + random() * 0.12, THREE.SRGBColorSpace);
       tint.multiplyScalar(0.66 + random() * 0.28);
@@ -588,8 +649,18 @@ export function createSpecimen(small: boolean) {
     get interaction() {
       return touch;
     },
-    setInteraction(progress: number, pointer: THREE.Vector2, hovering: boolean) {
+    /** How strongly the rice is being brushed, 0–1 (inspection only). */
+    get brushing() {
+      return brushing;
+    },
+    setInteraction(
+      progress: number,
+      pointer: THREE.Vector2,
+      hovering: boolean,
+      pointerRay?: THREE.Ray,
+    ) {
       interactive = true;
+      ray = pointerRay ?? null;
       explore = progress;
       cursor.copy(pointer);
       active = hovering && Math.abs(pointer.x) < 0.6 && Math.abs(pointer.y) < 0.55;
@@ -671,12 +742,14 @@ export function createSpecimen(small: boolean) {
             : THREE.MathUtils.smoothstep(presence, 0, 1);
           serving.dish.scale.setScalar(DISH * Math.max(0.001, rise));
           serving.dish.position.set(0, -0.28 - (1 - rise) * 0.3 + Math.sin(time * 0.6) * 0.012, 0);
-          serving.dish.rotation.set(0.5, -0.45 + Math.sin(time * 0.18) * 0.3, 0);
+          // Its slow sway stops while it is being looked into and brushed.
+          const sway = interactive ? 1 - explore : 1;
+          serving.dish.rotation.set(0.5, -0.45 + Math.sin(time * 0.18) * 0.3 * sway, 0);
           // Kernels fall in while entering; once settled the heap is static and costs nothing.
           if (entering && (!serving.settled || before !== presence)) {
             pour(serving);
             serving.settled = presence === 1;
-          }
+          } else if (serving.settled && interactive) brushRice(serving, delta, time, reduced);
         }
         // A floating cloud bursts from its centre in every direction, height included.
         const lift = serving.dish ? 1 : 0;

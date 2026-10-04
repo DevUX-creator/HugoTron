@@ -7,5 +7,5 @@ import { routing } from "./routing";
  * apply the locale prefix and the translated pathname map automatically.
  * ESLint enforces this (see eslint.config.mjs).
  */
-export const { Link, permanentRedirect, usePathname, useRouter, getPathname } =
+export const { Link, redirect, permanentRedirect, usePathname, useRouter, getPathname } =
   createNavigation(routing);

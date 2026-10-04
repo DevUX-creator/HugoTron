@@ -1,0 +1,253 @@
+/* Contact: quick channels beside one form, in the account's paper style. */
+.contact {
+  max-inline-size: 72rem;
+  margin-inline: auto;
+}
+.contact__head {
+  display: grid;
+  gap: 0.75rem;
+  max-inline-size: 40rem;
+  padding-block-end: 2.25rem;
+}
+.contact__head h1 {
+  font-size: clamp(2.6rem, 5vw, 4.5rem);
+}
+.contact__head p:last-child {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--commerce-muted);
+}
+.contact__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 18rem) minmax(0, 1fr);
+  align-items: start;
+  gap: 3rem;
+}
+.contact__aside {
+  position: sticky;
+  inset-block-start: calc(var(--header-inset-block) + var(--header-row) + 2rem);
+}
+.contact__panel {
+  padding: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+/* Quick contact */
+.quick-contact {
+  display: grid;
+  gap: 1.5rem;
+}
+.quick-contact ul {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-block-start: 1px solid var(--commerce-line);
+}
+.quick-contact li a {
+  display: grid;
+  gap: 0.2rem;
+  padding-block: 0.85rem;
+  border-block-end: 1px solid var(--commerce-line);
+  color: inherit;
+  text-decoration: none;
+  transition: padding 400ms var(--commerce-ease);
+}
+.quick-contact li a:hover {
+  padding-inline-start: 0.5rem;
+}
+.quick-contact li a:focus-visible {
+  outline: 2px solid var(--commerce-accent);
+  outline-offset: 2px;
+}
+.quick-contact__label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--commerce-muted);
+}
+.quick-contact__value {
+  font-size: 1rem;
+}
+.quick-contact address {
+  display: grid;
+  gap: 0.2rem;
+  font-style: normal;
+  line-height: 1.5;
+}
+.quick-contact > p {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--commerce-muted);
+}
+
+/* The form: topics as tabs, then the fields of the chosen topic. */
+.contact-form {
+  display: grid;
+  gap: 1.5rem;
+}
+.contact-form fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.contact-form legend {
+  margin-block-end: 0.6rem;
+  font-size: 0.8125rem;
+  color: var(--commerce-muted);
+}
+.contact-form__topics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--commerce-line);
+}
+.contact-form__topic {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-block-size: 3rem;
+  padding: 0.5rem;
+  color: var(--commerce-muted);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color 300ms,
+    color 300ms;
+}
+.contact-form__topic + .contact-form__topic {
+  border-inline-start: 1px solid var(--commerce-line);
+}
+.contact-form__topic input,
+.contact-form__chip input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.contact-form__topic:has(input:checked) {
+  background: var(--commerce-ink);
+  color: var(--color-world-paper-light);
+  font-weight: 600;
+}
+.contact-form__topic:has(input:focus-visible),
+.contact-form__chip:has(input:focus-visible) {
+  outline: 2px solid var(--commerce-accent);
+  outline-offset: 2px;
+}
+.contact-form__intro {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--commerce-muted);
+}
+.contact-form__purposes > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.contact-form__chip {
+  position: relative;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--commerce-line);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition:
+    background-color 300ms,
+    border-color 300ms,
+    color 300ms;
+}
+.contact-form__chip:has(input:checked) {
+  border-color: var(--commerce-ink);
+  background: var(--commerce-ink);
+  color: var(--color-world-paper-light);
+}
+.contact-form__section {
+  display: grid;
+  gap: 1.25rem;
+  animation: contact-section-in 500ms var(--commerce-ease) both;
+}
+/* Only the chosen topic's intro and fields show; works before JavaScript loads. */
+.contact-form:has([name="topic"][value="enquiry"]:checked)
+  :is(.contact-form__intro, .contact-form__section):not([data-topic="enquiry"]),
+.contact-form:has([name="topic"][value="order"]:checked)
+  :is(.contact-form__intro, .contact-form__section):not([data-topic="order"]),
+.contact-form:has([name="topic"][value="general"]:checked)
+  :is(.contact-form__intro, .contact-form__section):not([data-topic="general"]) {
+  display: none;
+}
+.contact-form__required {
+  font-size: 0.75rem;
+  color: var(--commerce-accent);
+}
+.contact-form__trap {
+  position: absolute;
+  inset-inline-start: -100vw;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: hidden;
+}
+.contact-form__submit {
+  justify-self: start;
+  min-inline-size: 14rem;
+}
+.contact-form__privacy {
+  margin: -0.5rem 0 0;
+  font-size: 0.8125rem;
+  color: var(--commerce-muted);
+}
+
+@keyframes contact-section-in {
+  from {
+    opacity: 0;
+    translate: 0 0.4rem;
+  }
+}
+
+@media (width < 56rem) {
+  .contact__layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  /* On phones the quick channels come first: a tap on WhatsApp beats any form. */
+  .contact__aside {
+    position: static;
+  }
+  .quick-contact ul {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    border: 0;
+  }
+  .quick-contact li a {
+    padding: 0.7rem 0.8rem;
+    border: 1px solid var(--commerce-line);
+    background: var(--commerce-card);
+  }
+  .quick-contact li a:hover {
+    padding-inline-start: 0.8rem;
+  }
+  .quick-contact__value {
+    overflow: hidden;
+    font-size: 0.875rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .quick-contact address,
+  .quick-contact > p {
+    display: none;
+  }
+}
+
+@media (width < 30rem) {
+  .contact-form__topic {
+    font-size: 0.8125rem;
+  }
+  .contact-form__submit {
+    justify-self: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .contact-form__section {
+    animation: none;
+  }
+}

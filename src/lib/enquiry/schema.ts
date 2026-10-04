@@ -17,8 +17,19 @@ import { z } from "zod";
  * The caps are not really validation — they bound what a stranger can post.
  * A Server Action is reachable by direct POST, not only through our own UI.
  */
+/**
+ * The contact page's topics. `enquiry` (prices, samples, private label) is the main one and
+ * the default; `order` is help with an existing order; `general` is everything else. The
+ * provider receives the topic, so each can be routed to the right inbox.
+ */
+export const CONTACT_TOPICS = ["enquiry", "order", "general"] as const;
+export type ContactTopic = (typeof CONTACT_TOPICS)[number];
+
 export const enquirySchema = z.object({
+  topic: z.enum(CONTACT_TOPICS).catch("enquiry"),
   purpose: z.enum(["quote", "sample", "label", "other"]).catch("other"),
+  /** For the `order` topic: the reference from the confirmation (HT-…). */
+  orderReference: z.string().max(40),
   product: z.string().max(200),
   quantity: z.string().max(200),
   packSize: z.string().max(200),
@@ -51,7 +62,9 @@ export function readField(formData: FormData, key: string): string {
 /** Every key the schema expects, read out of a submitted form. */
 export function readEnquiry(formData: FormData): Record<string, unknown> {
   return {
+    topic: formData.get("topic") ?? "enquiry",
     purpose: formData.get("purpose") ?? "other",
+    orderReference: readField(formData, "orderReference"),
     product: readField(formData, "product"),
     quantity: readField(formData, "quantity"),
     packSize: readField(formData, "packSize"),

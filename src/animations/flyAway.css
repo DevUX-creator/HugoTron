@@ -25,6 +25,13 @@
   display: inline-block;
 }
 
+/* Phones: a blur per letter is a filtered layer per letter. Fading and moving reads the same. */
+@media (width < 48rem) {
+  .flies {
+    filter: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .flies {
     translate: none;

@@ -21,7 +21,12 @@ import {
 
 type Status = "off" | "armed" | "loading" | "on" | "unavailable";
 type Playback = "idle" | "loading" | "on" | "unavailable";
-type SoundContextValue = { status: Status; toggle: () => void; play: (cue: SoundCue) => void };
+type SoundContextValue = {
+  status: Status;
+  toggle: () => void;
+  play: (cue: SoundCue) => void;
+  setVehicle: (moving: boolean, speed?: number) => void;
+};
 const SoundContext = createContext<SoundContextValue | null>(null);
 const serverPreference = () => true;
 
@@ -29,6 +34,7 @@ const serverPreference = () => true;
 export default function SoundProvider({ children }: { children: ReactNode }) {
   const engine = useRef<SoundEngine | null>(null);
   const automaticAttempted = useRef(false);
+  const vehicle = useRef({ moving: false, speed: 1 });
   const preferred = useSyncExternalStore(
     subscribeSoundPreference,
     readSoundPreference,
@@ -37,10 +43,15 @@ export default function SoundProvider({ children }: { children: ReactNode }) {
   const [playback, setPlayback] = useState<Playback>("idle");
   const status: Status = !preferred ? "off" : playback === "idle" ? "armed" : playback;
   const play = useCallback((cue: SoundCue) => engine.current?.play(cue), []);
+  const setVehicle = useCallback((moving: boolean, speed = 1) => {
+    vehicle.current = { moving, speed };
+    engine.current?.setVehicle(moving, speed);
+  }, []);
   const start = useCallback(() => {
     try {
       engine.current ??= new SoundEngine(() => setPlayback("unavailable"));
       const current = engine.current;
+      current.setVehicle(vehicle.current.moving, vehicle.current.speed);
       if (current.enabled) return;
       current.setVisible(!document.hidden);
       setPlayback("loading");
@@ -73,7 +84,25 @@ export default function SoundProvider({ children }: { children: ReactNode }) {
       if (!event.isTrusted || !readSoundPreference() || automaticAttempted.current) return;
       if (event instanceof PointerEvent && (!event.isPrimary || event.button !== 0)) return;
       if (event instanceof MouseEvent && event.button !== 0) return;
-      if (event instanceof KeyboardEvent && (event.repeat || !["Enter", " "].includes(event.key)))
+      if (event instanceof KeyboardEvent) {
+        const driving =
+          ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key) &&
+          document.querySelector(".delivery-map") &&
+          !(
+            event.target instanceof Element &&
+            event.target.closest(
+              "input, textarea, select, a, [contenteditable], [role='tab'], [role='dialog']",
+            )
+          );
+        if (event.repeat || (!["Enter", " "].includes(event.key) && !driving)) return;
+      }
+      if (
+        event.type === "pointerdown" &&
+        !(
+          event.target instanceof Element &&
+          event.target.closest(".delivery-map__canvas, [data-drive]")
+        )
+      )
         return;
       // The mute button's first interaction must silence the preference, never start playback.
       if (event.target instanceof Element && event.target.closest(".sound-toggle")) return;
@@ -89,6 +118,7 @@ export default function SoundProvider({ children }: { children: ReactNode }) {
     });
     // Capture phase: a scene, drag or link that stops its event must not swallow the first gesture.
     document.addEventListener("pointerup", activate, true);
+    document.addEventListener("pointerdown", activate, true);
     document.addEventListener("click", activate, true);
     document.addEventListener("keydown", activate, true);
     // A browser that already allows audio here (a returning visitor, a reload) needs no gesture:
@@ -112,6 +142,7 @@ export default function SoundProvider({ children }: { children: ReactNode }) {
       window.clearTimeout(probe);
       unsubscribe();
       document.removeEventListener("pointerup", activate, true);
+      document.removeEventListener("pointerdown", activate, true);
       document.removeEventListener("click", activate, true);
       document.removeEventListener("keydown", activate, true);
     };
@@ -158,7 +189,10 @@ export default function SoundProvider({ children }: { children: ReactNode }) {
     };
   }, [play]);
 
-  const value = useMemo(() => ({ status, toggle, play }), [status, toggle, play]);
+  const value = useMemo(
+    () => ({ status, toggle, play, setVehicle }),
+    [status, toggle, play, setVehicle],
+  );
   return <SoundContext value={value}>{children}</SoundContext>;
 }
 

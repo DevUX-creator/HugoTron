@@ -142,7 +142,7 @@ export default function PaperStory() {
               key={kind}
               className="paper-buying__path"
               href={
-                kind === "home" ? "/range" : { pathname: "/enquiry", query: { purpose: "quote" } }
+                kind === "home" ? "/range" : { pathname: "/contact", query: { purpose: "quote" } }
               }
               prefetch={false}
             >
@@ -210,7 +210,7 @@ export default function PaperStory() {
             <p>{t("sourcing.note")}</p>
           </div>
           <ArrowLink
-            href={{ pathname: "/enquiry", query: { purpose: "quote" } }}
+            href={{ pathname: "/contact", query: { purpose: "quote" } }}
             prefetch={false}
             variant="glass"
           >

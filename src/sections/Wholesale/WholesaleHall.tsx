@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import ArrowLink from "@/components/ui/ArrowLink";
-import { DoorFlood, useDoorTransition } from "@/components/transition/DoorTransition";
+import { useScrollLock } from "@/components/providers/SmoothScroll";
+import { DoorArrival, DoorFlood, useDoorTransition } from "@/components/transition/DoorTransition";
 import type { HallScene } from "@/components/hall/types";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
@@ -23,17 +25,17 @@ const CHAPTERS = [
   { key: "audience", from: 0.17, to: 0.33 },
   { key: "range", from: 0.38, to: 0.56 },
   { key: "process", from: 0.6, to: 0.78 },
-  { key: "door", from: 0.84, to: 1.01 },
+  { key: "door", from: 0.84, to: 1.04 },
 ] as const;
 
-/** The door opens over the last stretch; at the very end the visitor walks through it. */
+/** The walk ends at a slightly open door. Only the explicit link continues to Private Label. */
 const DOOR_FROM = 0.88;
 const DOOR_TO = 0.97;
-const THROUGH = 0.995;
+const DOOR_PEEK = 0.18;
 
 /**
  * Wholesale as a place: a walk down the hall along the neon trails, the copy appearing at its
- * stations, to a door that opens onto the next location, Delivery. All copy is in the HTML;
+ * stations, to a door that opens onto the next location, Private Label. All copy is in the HTML;
  * without script or with reduced motion the chapters simply stand one after another.
  */
 export default function WholesaleHall() {
@@ -45,13 +47,27 @@ export default function WholesaleHall() {
   const preferences = useRef({ reduced });
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [entering, setEntering] = useState(false);
+  const enteringRef = useRef(false);
+  const { lock, unlock } = useScrollLock();
   const reading = reduced || failed;
   const motion = useRef({ progress: 0, door: 0 });
   const { go, leaving } = useDoorTransition();
-  const leave = useRef(go);
+  const navigate = useRef(go);
   useEffect(() => {
-    leave.current = go;
+    navigate.current = go;
   }, [go]);
+
+  useEffect(() => {
+    if (!entering) return;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    lock();
+    return () => {
+      document.body.style.overflow = overflow;
+      unlock();
+    };
+  }, [entering, lock, unlock]);
 
   useEffect(() => {
     const element = mount.current;
@@ -110,17 +126,16 @@ export default function WholesaleHall() {
       return;
     }
     let frame = 0;
-    // Returning from Delivery restores the scroll to the door just after mount; the door only
-    // leads on once the visitor has walked back up the hall and down to it again.
-    let armed = false;
-    const mountedAt = performance.now();
     const update = () => {
       frame = 0;
+      if (enteringRef.current) return;
       const stage = element.querySelector<HTMLElement>(".hall__stage")!;
       const distance = Math.max(1, element.offsetHeight - stage.clientHeight);
       const progress = clamp(-element.getBoundingClientRect().top / distance);
-      if (progress < 0.9 && performance.now() - mountedAt > 800) armed = true;
-      motion.current = { progress, door: smooth((progress - DOOR_FROM) / (DOOR_TO - DOOR_FROM)) };
+      motion.current = {
+        progress,
+        door: smooth((progress - DOOR_FROM) / (DOOR_TO - DOOR_FROM)) * DOOR_PEEK,
+      };
       scene.current?.setProgress(progress);
       scene.current?.setDoor(motion.current.door);
       element.style.setProperty("--walk", progress.toFixed(4));
@@ -133,22 +148,15 @@ export default function WholesaleHall() {
         node.toggleAttribute("inert", shown < 0.5);
         node.dataset.shown = String(shown > 0.001);
       }
-      if (armed && progress >= THROUGH) {
-        armed = false;
-        leave.current("/delivery");
-      }
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
     };
     update();
-    // A visit that starts up the hall arms the door without waiting for a scroll.
-    const arming = window.setTimeout(schedule, 850);
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
     return () => {
       cancelAnimationFrame(frame);
-      window.clearTimeout(arming);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
@@ -162,32 +170,34 @@ export default function WholesaleHall() {
         data-ready={ready || undefined}
         data-reading={reading || undefined}
         data-failed={failed || undefined}
+        data-entering={entering || undefined}
+        aria-busy={entering || leaving || undefined}
         style={{ "--runway": RUNWAY } as CSSProperties}
       >
         <div className="hall__stage">
           <div ref={mount} className="hall__scene" role="img" aria-label={t("sceneLabel")} />
           <div className="hall__shade" aria-hidden="true" />
+          <nav className="hall__crumbs" aria-label={t("breadcrumbLabel")}>
+            <ol>
+              <li>
+                <Link href="/">{t("home")}</Link>
+              </li>
+              <li aria-current="page">{t("name")}</li>
+            </ol>
+          </nav>
 
           <section
             className="hall-chapter hall-chapter--intro"
             data-chapter="intro"
             aria-labelledby="wholesale-title"
           >
-            <nav className="hall__crumbs" aria-label={t("breadcrumbLabel")}>
-              <ol>
-                <li>
-                  <Link href="/">{t("home")}</Link>
-                </li>
-                <li aria-current="page">{t("name")}</li>
-              </ol>
-            </nav>
-            <p className="hall__eyebrow">{t("intro.eyebrow")}</p>
+            <CardHeading eyebrow={t("intro.eyebrow")} image="cargo-orbit" priority />
             <h1 id="wholesale-title" className="hall__title">
               <span>{t("intro.titleLead")}</span> <span>{t("intro.titleAccent")}</span>
             </h1>
             <p className="hall__lead">{t("intro.lead")}</p>
             <ArrowLink
-              href={{ pathname: "/enquiry", query: { purpose: "quote" } }}
+              href={{ pathname: "/contact", query: { purpose: "quote" } }}
               prefetch={false}
               variant="glass"
               size="large"
@@ -201,9 +211,9 @@ export default function WholesaleHall() {
             data-chapter="audience"
             aria-labelledby="wholesale-audience"
           >
-            <p className="hall__eyebrow">{t("audience.eyebrow")}</p>
+            <CardHeading eyebrow={t("audience.eyebrow")} image="business-orbit" />
             <h2 id="wholesale-audience">{t("audience.title")}</h2>
-            <ul className="hall__cards">
+            <ul className="hall__audience">
               {(["wholesalers", "industry", "companies"] as const).map((key) => (
                 <li key={key}>
                   <h3>{t(`audience.${key}.title`)}</h3>
@@ -218,7 +228,7 @@ export default function WholesaleHall() {
             data-chapter="range"
             aria-labelledby="wholesale-range"
           >
-            <p className="hall__eyebrow">{t("range.eyebrow")}</p>
+            <CardHeading eyebrow={t("range.eyebrow")} image="sourcing-orbit" />
             <h2 id="wholesale-range">{t("range.title")}</h2>
             <p className="hall__note">{t("range.note")}</p>
             <ArrowLink href="/range" variant="glass" size="large" prefetch={false}>
@@ -231,9 +241,9 @@ export default function WholesaleHall() {
             data-chapter="process"
             aria-labelledby="wholesale-process"
           >
-            <p className="hall__eyebrow">{t("process.eyebrow")}</p>
+            <CardHeading eyebrow={t("process.eyebrow")} image="order-orbit" />
             <h2 id="wholesale-process">{t("process.title")}</h2>
-            <ol className="hall__cards hall__cards--steps">
+            <ol className="hall__steps">
               {(["request", "offer", "confirm", "deliver"] as const).map((key, index) => (
                 <li key={key}>
                   <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
@@ -249,14 +259,15 @@ export default function WholesaleHall() {
             data-chapter="door"
             aria-labelledby="wholesale-door"
           >
-            <p className="hall__eyebrow">{t("door.eyebrow")}</p>
+            <CardHeading eyebrow={t("door.eyebrow")} image="business-orbit" />
             <h2 id="wholesale-door">{t("door.title")}</h2>
             <p className="hall__note">{t("door.note")}</p>
             <ArrowLink
-              href="/delivery"
+              href="/private-label"
               variant="glass"
               size="large"
               prefetch={false}
+              aria-disabled={entering || leaving || undefined}
               onClick={(event) => {
                 if (
                   event.metaKey ||
@@ -267,7 +278,17 @@ export default function WholesaleHall() {
                 )
                   return;
                 event.preventDefault();
-                go("/delivery");
+                if (enteringRef.current || leaving) return;
+                if (
+                  reading ||
+                  !ready ||
+                  !scene.current?.enterDoor(() => navigate.current("/private-label"))
+                ) {
+                  go("/private-label");
+                  return;
+                }
+                enteringRef.current = true;
+                setEntering(true);
               }}
             >
               {t("door.action")}
@@ -275,12 +296,43 @@ export default function WholesaleHall() {
           </section>
 
           <nav className="hall__legal" aria-label={t("legalLabel")}>
-            <a href="https://www.hugo-tron.com/impressum">{t("imprint")}</a>
-            <a href="https://www.hugo-tron.com/datenschutz">{t("privacy")}</a>
+            <Link href="/imprint" prefetch={false}>
+              {t("imprint")}
+            </Link>
+            <Link href="/privacy" prefetch={false}>
+              {t("privacy")}
+            </Link>
           </nav>
         </div>
       </div>
       <DoorFlood active={leaving} />
+      <DoorArrival ready={ready || failed} />
     </>
+  );
+}
+
+/** One illustration treatment across all five cards; the surrounding copy stays semantic HTML. */
+function CardHeading({
+  eyebrow,
+  image,
+  priority = false,
+}: {
+  eyebrow: string;
+  image: string;
+  priority?: boolean;
+}) {
+  return (
+    <div className="hall__card-head">
+      <p className="hall__eyebrow">{eyebrow}</p>
+      <Image
+        className="hall__illustration"
+        src={`/images/wholesale/${image}.webp`}
+        width={960}
+        height={640}
+        alt=""
+        sizes="(max-width: 767px) 140px, 220px"
+        loading={priority ? "eager" : "lazy"}
+      />
+    </div>
   );
 }

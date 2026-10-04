@@ -3,17 +3,17 @@ import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { Link } from "@/i18n/navigation";
 import Header from "@/components/layout/Header";
-import ArrowLink from "@/components/ui/ArrowLink";
-import PaperPack from "@/sections/Daylight/PaperPack";
-import { PaperRoute } from "@/sections/Daylight/PaperArt";
-import "@/sections/Daylight/daylight.css";
+import { HomeThemeProvider } from "@/components/rice/HomeTheme";
+import WorldFrame from "@/sections/World/WorldFrame";
+import LabelRoom from "@/sections/PrivateLabel/LabelRoom";
+import { alternates } from "@/lib/seo";
+import "@/sections/World/world.css";
+import "@/sections/PrivateLabel/privateLabel.css";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
-
 export async function generateMetadata({
   params,
 }: {
@@ -21,10 +21,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
-  const t = await getTranslations({ locale, namespace: "paperStory.label" });
-  return { title: t("pageTitle"), description: t("pageLead") };
+  const t = await getTranslations({ locale, namespace: "labelRoom" });
+  return {
+    title: t("seoTitle"),
+    description: t("seoDescription"),
+    alternates: alternates("/private-label", locale),
+  };
 }
-
 export default async function PrivateLabelPage({
   params,
 }: {
@@ -33,30 +36,17 @@ export default async function PrivateLabelPage({
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
-  const t = await getTranslations("paperStory.label");
+  const t = await getTranslations("labelRoom");
   return (
-    <div className="private-label-shell" id="top">
-      <Header brandLogo />
-      <main className="paper-scene private-label-page">
-        <PaperRoute />
-        <div>
-          <p className="paper-caption">{t("eyebrow")}</p>
-          <h1>
-            {t("title")}
-            <br />
-            <em>{t("accent")}</em>
-          </h1>
-          <p className="paper-label__note">{t("pageLead")}</p>
-          <ArrowLink href={{ pathname: "/enquiry", query: { purpose: "label" } }} variant="glass">
-            {t("enquire")}
-          </ArrowLink>
-          <br />
-          <Link href="/" className="private-label-page__back">
-            {t("back")}
-          </Link>
-        </div>
-        <PaperPack settled />
+    <HomeThemeProvider forcedTheme="dark">
+      <a className="skip-link" href="#main">
+        {t("skip")}
+      </a>
+      <Header brandLogo showSoundToggle={false} />
+      <WorldFrame />
+      <main id="main" tabIndex={-1}>
+        <LabelRoom />
       </main>
-    </div>
+    </HomeThemeProvider>
   );
 }

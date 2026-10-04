@@ -67,7 +67,7 @@ export default function BuyingOptions() {
               <Copy>
                 <p className="buying__body">{t("kitchenBody")}</p>
               </Copy>
-              <ArrowLink href="/enquiry">{t("kitchenCta")}</ArrowLink>
+              <ArrowLink href="/contact">{t("kitchenCta")}</ArrowLink>
             </div>
           </article>
           <div className="buying__paths">
@@ -83,7 +83,7 @@ export default function BuyingOptions() {
                 <Copy>
                   <p className="buying__body">{t(`${key}Body`)}</p>
                 </Copy>
-                <ArrowLink href={key === "trade" ? "/enquiry" : "/range"}>
+                <ArrowLink href={key === "trade" ? "/contact" : "/range"}>
                   {t(`${key}Cta`)}
                 </ArrowLink>
               </article>

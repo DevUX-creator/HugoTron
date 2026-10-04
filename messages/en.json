@@ -129,9 +129,11 @@
     "added": "Added to cart",
     "addedNamed": "{product} added to your cart",
     "limitReached": "Maximum quantity added",
-    "checkout": "Request order",
+    "checkout": "Checkout",
     "badgeSourcing": "Sourced for you",
-    "toSpecification": "To your specification"
+    "toSpecification": "To your specification",
+    "perKg": "{price} / kg",
+    "priceTerms": "incl. VAT, plus shipping"
   },
   "units": {
     "kg1": "1 kg",
@@ -156,38 +158,14 @@
       "homeTitle": "The same quality. A smaller bag.",
       "homeBody": "Bring our range into your own kitchen, with rice from 1 kg, saffron and tea in convenient packs.",
       "homeCta": "Explore the products"
-    },
-    "contact": {
-      "eyebrow": "Let’s talk food",
-      "title": "Your next order starts with a conversation.",
-      "lead": "Have a product or sourcing question? Email our Hamburg office and tell us what you’re looking for.",
-      "cta": "Get in touch",
-      "productGallery": "Order from our range",
-      "order": "Order",
-      "country": "Germany",
-      "navigation": "Footer navigation",
-      "signoff": "Food import & wholesale · Hamburg",
-      "backTop": "Back to top",
-      "navSite": "Site",
-      "navLegal": "Legal",
-      "cookies": "Cookies",
-      "enquiry": "Enquiry",
-      "memberAlt": "Mitglied im Händlerbund",
-      "memberNote": "Legal texts supplied and kept current by the Händlerbund legal service."
     }
   },
   "enquiry": {
-    "metaTitle": "Enquiry — Hugo Tron",
-    "metaDescription": "Tell us the product, quantity and destination. We come back with availability and a price.",
-    "eyebrow": "Enquiry",
-    "title": "Tell us what you’re looking for.",
-    "lead": "The more of this you fill in, the faster we can come back with availability and a price. Only your email address is required.",
     "purposeLegend": "What do you need?",
     "purposeQuote": "A wholesale quote",
     "purposeSample": "A sample",
     "purposeLabel": "Private label",
     "purposeOther": "Something else",
-    "groupOrder": "What you need",
     "groupYou": "How to reach you",
     "product": "Product",
     "productHint": "Basmati, chickpeas, pistachios, saffron…",
@@ -198,13 +176,10 @@
     "postcode": "Delivery postcode",
     "postcodeHint": "Country and postcode is enough",
     "date": "Needed by",
-    "message": "Anything else",
-    "messageHint": "Grades you are comparing, certification you need, how often you reorder.",
     "name": "Name",
     "company": "Company",
     "email": "Email",
     "phone": "Phone",
-    "submit": "Send enquiry",
     "sending": "Sending…",
     "successTitle": "Thank you — that’s with us.",
     "successBody": "We read every enquiry in Hamburg and answer within one working day. If it is urgent, call {phone}.",
@@ -313,47 +288,12 @@
       "grains": "Wheat and other grains for commodity trading. Tell us the specification, quantity and destination you have in mind.",
       "nuts": "Almonds, cashews, hazelnuts, walnuts and dried fruits, sourced around your requirements.",
       "spices": "Ginger, cinnamon, cardamom and other spices. Tell us the variety, quantity and packaging you need."
+    },
+    "sourcing": {
+      "badge": "Sourced for you",
+      "title": "Something else?",
+      "note": "To your specification"
     }
-  },
-  "checkout": {
-    "metaTitle": "Order request — Hugo Tron",
-    "metaDescription": "Send your order. We confirm availability and delivery, then invoice you.",
-    "eyebrow": "Order request",
-    "title": "Your order, paid by invoice.",
-    "lead": "Send us your order. We check availability and delivery, confirm by email and invoice you. Nothing is charged online.",
-    "summaryTitle": "Your order",
-    "quantityLine": "{count} × {unit}",
-    "subtotal": "Subtotal",
-    "invoiceNote": "Prices from our current catalogue. Delivery costs and the final amount are confirmed on your invoice.",
-    "empty": "Your cart is empty, so there is nothing to order yet.",
-    "browse": "Browse our products",
-    "groupContact": "Who is ordering",
-    "groupBilling": "Billing and delivery address",
-    "name": "Name",
-    "company": "Company",
-    "email": "Email",
-    "phone": "Phone",
-    "vatId": "VAT ID",
-    "vatIdHint": "For trade buyers, so we can invoice correctly.",
-    "street": "Street and number",
-    "postcode": "Postcode",
-    "city": "City",
-    "country": "Country",
-    "countryDefault": "Germany",
-    "notes": "Notes",
-    "notesHint": "A different delivery address, a delivery window, anything we should know.",
-    "submit": "Send order request",
-    "sending": "Sending…",
-    "successTitle": "Thank you, your order request is with us.",
-    "successReference": "Your reference: {reference}.",
-    "successBody": "We confirm availability and delivery by email and send your invoice. Nothing has been charged. Questions? Call {phone}.",
-    "errorEmail": "Please give an email address we can confirm the order to.",
-    "errorDetails": "Please fill in your name and the full billing address.",
-    "errorCart": "Your cart changed or has an item we cannot sell online. Please check it and try again.",
-    "errorRate": "Too many requests from this connection. Please try again shortly, or email {email}.",
-    "errorGeneric": "Something went wrong at our end. Please email your order to {email}.",
-    "required": "required",
-    "optional": "optional"
   },
   "origins": {
     "eyebrow": "Where it comes from",
@@ -487,7 +427,10 @@
       "businessNav": "Working with Hugo Tron",
       "business": "Work with us",
       "enquiry": "Make an enquiry",
-      "legalNav": "Legal information"
+      "legalNav": "Legal information",
+      "email": "Email",
+      "phone": "Phone",
+      "form": "Contact form →"
     },
     "pakistan": {
       "eyebrow": "The journey continues · Pakistan",
@@ -507,12 +450,6 @@
     "breadcrumbLabel": "Breadcrumb",
     "home": "Home",
     "products": "Products",
-    "servicesLabel": "What we do",
-    "services": {
-      "import": "Import in volume",
-      "label": "Private label",
-      "distribution": "Distribution in Germany"
-    },
     "sceneLabel": "A slowly turning 3D illustration of {category}.",
     "scroll": "Scroll to discover",
     "imageNeeded": "Illustration in progress",
@@ -528,9 +465,6 @@
       "right": "range.",
       "lead": "In our range today and on request: {category}, sourced at origin and supplied from Hamburg.",
       "label": "{category}: products"
-    },
-    "variety": {
-      "badge": "On request"
     },
     "ways": {
       "eyebrow": "Working with us",
@@ -604,12 +538,6 @@
           "note": "Pardis from India, Aladdin from Pakistan: two basmati lines, selected with the same care."
         }
       },
-      "varieties": {
-        "more": {
-          "name": "Further rice types",
-          "note": "Sourced to your requirements"
-        }
-      },
       "interaction": "Move the grains",
       "interactionHint": "Scroll closer. Brush across the rice.",
       "shortLead": "Basmati from India and Pakistan. Retail packs, bulk supply and private label."
@@ -632,28 +560,6 @@
           "eyebrow": "Shelled or in shell",
           "title": "Pistachios, by the sack.",
           "note": "In shell or as kernels, for wholesalers and the food industry."
-        }
-      },
-      "varieties": {
-        "almonds": {
-          "name": "Almonds",
-          "note": "On request"
-        },
-        "cashews": {
-          "name": "Cashews",
-          "note": "On request"
-        },
-        "hazelnuts": {
-          "name": "Hazelnuts",
-          "note": "On request"
-        },
-        "walnuts": {
-          "name": "Walnuts",
-          "note": "On request"
-        },
-        "driedFruits": {
-          "name": "Dried fruits",
-          "note": "On request"
         }
       },
       "interaction": "Open the shells",
@@ -680,24 +586,6 @@
           "note": "And many more, sourced for wholesalers and the food industry."
         }
       },
-      "varieties": {
-        "ginger": {
-          "name": "Ginger",
-          "note": "On request"
-        },
-        "cinnamon": {
-          "name": "Cinnamon",
-          "note": "On request"
-        },
-        "cardamom": {
-          "name": "Cardamom",
-          "note": "On request"
-        },
-        "more": {
-          "name": "A wide range of spices",
-          "note": "Sourced to your specification"
-        }
-      },
       "interaction": "Stir the botanicals",
       "interactionHint": "A gentle movement reveals their shape.",
       "shortLead": "Ginger, cinnamon, cardamom and beyond. Sourced to match your range."
@@ -720,12 +608,6 @@
           "eyebrow": "Where it grows",
           "title": "Thread by thread.",
           "note": "Negin is a premium grade of saffron from Iran, made of long, deep-red threads."
-        }
-      },
-      "varieties": {
-        "more": {
-          "name": "Larger volumes",
-          "note": "On request, also as private label"
         }
       },
       "interaction": "Follow the threads",
@@ -752,20 +634,6 @@
           "note": "Chickpeas in 25 kg sacks are a stock line. Other pulses and legumes are imported to order."
         }
       },
-      "varieties": {
-        "whiteBeans": {
-          "name": "White beans",
-          "note": "On request"
-        },
-        "lentils": {
-          "name": "Lentils",
-          "note": "On request"
-        },
-        "mungBeans": {
-          "name": "Mung beans",
-          "note": "On request"
-        }
-      },
       "interaction": "Set them in motion",
       "interactionHint": "Move across for a soft ripple.",
       "shortLead": "Chickpeas, beans and lentils. Reliable supply, from sacks to larger volumes."
@@ -788,12 +656,6 @@
           "eyebrow": "Leaf to cup",
           "title": "Further teas on request.",
           "note": "Tell us the tea, grade and pack you need. We source it and deliver throughout Germany."
-        }
-      },
-      "varieties": {
-        "more": {
-          "name": "Further teas",
-          "note": "On request"
         }
       },
       "interaction": "A breath through the leaves",
@@ -820,16 +682,6 @@
           "note": "Tell us the product, specification and volume. We source it through our network."
         }
       },
-      "varieties": {
-        "ingredients": {
-          "name": "Raw materials for the food industry",
-          "note": "To your specification"
-        },
-        "requested": {
-          "name": "Products not listed",
-          "note": "Sourced on request"
-        }
-      },
       "interaction": "Follow the grain",
       "interactionHint": "Move across the flowing grain.",
       "shortLead": "Ingredients for industry. Sourced to your specification and volume."
@@ -852,58 +704,58 @@
     "privacy": "Privacy",
     "intro": {
       "eyebrow": "Hugo Tron · Wholesale",
-      "titleLead": "Wholesale,",
-      "titleAccent": "in every volume.",
-      "lead": "Your partner for sourcing, importing and supply. From ingredients to raw materials, built around the volumes your business needs.",
-      "action": "Request wholesale prices"
+      "titleLead": "Food supply,",
+      "titleAccent": "at your scale.",
+      "lead": "Sourcing, importing and distribution for wholesalers and food businesses.",
+      "action": "Discuss your requirements"
     },
     "audience": {
-      "eyebrow": "Who we supply",
-      "title": "Built for B2B.",
+      "eyebrow": "Who we work with",
+      "title": "For your business.",
       "wholesalers": {
-        "title": "Wholesalers",
-        "note": "Your sourcing and supply partner, including for products beyond our range."
+        "title": "Wholesale",
+        "note": "Food products in the volumes your business needs."
       },
       "industry": {
-        "title": "Food industry",
-        "note": "Raw materials and ingredients, sourced to your specification."
+        "title": "Food production",
+        "note": "Ingredients and raw materials to your specification."
       },
       "companies": {
-        "title": "Companies",
-        "note": "Large volumes, or private label under your own brand."
+        "title": "Your own brand",
+        "note": "Sourcing and packaging with private label options."
       }
     },
     "range": {
-      "eyebrow": "Sourcing & private label",
-      "title": "Your brief. Our network.",
-      "note": "Rice, nuts, spices, saffron, pulses and food industry raw materials. Explore our range, or talk to us about sourcing and private label requirements beyond it.",
-      "action": "Explore the range"
+      "eyebrow": "Beyond our catalogue",
+      "title": "You specify. We source.",
+      "note": "Need a product we don’t list? Tell us the ingredient, volume and packaging. We’ll work with you on sourcing and import.",
+      "action": "Explore our products"
     },
     "process": {
       "eyebrow": "How it works",
-      "title": "From request to delivery.",
+      "title": "One partner. Every step.",
       "request": {
-        "title": "Request",
-        "note": "Tell us the product, specification and volume."
+        "title": "Your brief",
+        "note": "Product, specification and volume."
       },
       "offer": {
-        "title": "Offer",
-        "note": "We prepare an offer for your quantities."
+        "title": "Our offer",
+        "note": "A quote built around your needs."
       },
       "confirm": {
-        "title": "Confirmation",
-        "note": "You confirm the order; we invoice it."
+        "title": "Your order",
+        "note": "Agree the details and confirm."
       },
       "deliver": {
         "title": "Delivery",
-        "note": "Throughout Germany, and to European and international markets."
+        "note": "Storage, distribution and delivery."
       }
     },
     "door": {
-      "eyebrow": "Next location",
-      "title": "Delivery.",
-      "note": "Warehousing, distribution and delivery, behind this door.",
-      "action": "Open the door"
+      "eyebrow": "Private Label",
+      "title": "Your brand. Our sourcing.",
+      "note": "Build your own range with sourcing, import and packaging shaped around your business.",
+      "action": "Explore Private Label"
     }
   },
   "delivery": {
@@ -922,7 +774,536 @@
       "germany": "Delivery to B2B customers nationwide",
       "international": "European & international markets"
     },
-    "action": "Plan a delivery",
-    "back": "Back to the wholesale hall"
+    "action": "Plan your delivery",
+    "back": "Back to the wholesale hall",
+    "map": {
+      "pageTitle": "Delivery from Hamburg throughout Germany",
+      "label": "An interactive map of Germany, with a delivery van starting from Hamburg.",
+      "country": "GERMANY",
+      "base": "HUGO TRON · OUR BASE",
+      "note": "Based in Hamburg. Connected to Germany.",
+      "interaction": {
+        "ready": "Start from Hamburg. Your trail follows you.",
+        "driving": "Exploring Germany",
+        "arrived": "Ready when you are",
+        "outside": "Choose a point inside Germany",
+        "controls": "Map controls",
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out",
+        "reset": "Restart from Hamburg",
+        "keyboard": "Interactive delivery map. Arrow keys steer the van freely. Hold the direction buttons on touch screens. A blue trail follows your drive and the current region lights up. Drag to pan, pinch or scroll to zoom. Click inside Germany to follow a road. Home restarts; Escape stops a trip.",
+        "steering": "Drive the delivery van",
+        "up": "Drive north",
+        "down": "Drive south",
+        "left": "Drive west",
+        "right": "Drive east",
+        "speed": "Driving speed: {speed}×. Click to change.",
+        "currentRegion": "Current region",
+        "tipKeyboard": "Use your arrow keys to drive. Drag the map to explore.",
+        "tipTouch": "Hold the arrow buttons below to drive.",
+        "dismissTip": "Dismiss driving tip"
+      },
+      "regions": {
+        "DE-SN": "Saxony",
+        "DE-BY": "Bavaria",
+        "DE-RP": "Rhineland-Palatinate",
+        "DE-SL": "Saarland",
+        "DE-SH": "Schleswig-Holstein",
+        "DE-NI": "Lower Saxony",
+        "DE-NW": "North Rhine-Westphalia",
+        "DE-BW": "Baden-Württemberg",
+        "DE-BB": "Brandenburg",
+        "DE-MV": "Mecklenburg-Western Pomerania",
+        "DE-HB": "Bremen",
+        "DE-HH": "Hamburg",
+        "DE-HE": "Hesse",
+        "DE-TH": "Thuringia",
+        "DE-ST": "Saxony-Anhalt",
+        "DE-BE": "Berlin"
+      },
+      "game": {
+        "title": "Delivery run",
+        "complete": "All delivered",
+        "time": "Delivery time",
+        "retry": "Retry the delivery run",
+        "progress": "{count} / {total} stops",
+        "finished": "All deliveries complete in {time}.",
+        "intro": "Collect all {total} delivery stops. Follow the numbered arrow."
+      }
+    },
+    "topicsLabel": "Delivery information",
+    "legalLabel": "Legal",
+    "imprint": "Imprint",
+    "privacy": "Privacy",
+    "topics": {
+      "coverage": {
+        "label": "From Hamburg",
+        "lead": "From Hamburg.",
+        "accent": "To your door.",
+        "body": "Warehousing, distribution and supply for businesses throughout Germany."
+      },
+      "timing": {
+        "label": "Delivery rhythm",
+        "lead": "On the move.",
+        "accent": "Every week.",
+        "body": "Deliveries run several times a week. We agree the timing for your order with you."
+      },
+      "quantity": {
+        "label": "Your quantity",
+        "lead": "Your quantity.",
+        "accent": "Your needs.",
+        "body": "No minimum order quantity. Smaller orders may be grouped with nearby deliveries, adding a few days."
+      },
+      "costs": {
+        "label": "Delivery costs",
+        "lead": "Clear costs.",
+        "accent": "Agreed ahead.",
+        "body": "Delivery is generally free. Distance may add a charge; we confirm transport costs with you beforehand."
+      }
+    }
+  },
+  "commerce": {
+    "skip": "Skip to content",
+    "products": {
+      "metaTitle": "Our products — buy online or enquire | Hugo Tron",
+      "metaDescription": "Basmati rice, saffron, tea, nuts, pulses and spices from Hugo Tron, Hamburg: buy retail packs online, request wholesale prices for larger volumes.",
+      "title": "Our products",
+      "lead": "Buy retail packs online and pay securely, or ask for wholesale prices on larger volumes. Delivered from Hamburg.",
+      "filterLabel": "Filter by category",
+      "all": "All",
+      "count": "{count, plural, one {# product} other {# products}}",
+      "storiesEyebrow": "Behind the range",
+      "storiesTitle": "Read about our products"
+    },
+    "cart": {
+      "title": "Your cart",
+      "count": "{count, plural, one {# item} other {# items}}",
+      "estimatedTotal": "Estimated total",
+      "taxesLater": "Taxes included. Shipping is calculated at checkout.",
+      "viewCart": "View cart",
+      "browse": "Browse products",
+      "secure": "Secure checkout",
+      "methodsLabel": "Accepted payment methods",
+      "voucherLabel": "Voucher code",
+      "voucherApply": "Apply",
+      "voucherApplied": "Voucher",
+      "voucherRemove": "Remove",
+      "noteLabel": "Note to your order (optional)",
+      "notePlaceholder": "Delivery instructions, a gift message…",
+      "emptyTitle": "Your cart is empty",
+      "emptyBody": "Add something from our range and it will wait for you here."
+    },
+    "summary": {
+      "title": "Order summary",
+      "quantity": "Quantity {count}",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "shippingLater": "Calculated at checkout",
+      "free": "Free",
+      "discount": "Voucher {code}",
+      "estimatedTotal": "Estimated total",
+      "total": "Total",
+      "vatIncluded": "Including {amount} VAT",
+      "shippingOnRequest": "Depends on destination",
+      "totalExclShipping": "Total excl. shipping"
+    },
+    "checkout": {
+      "title": "Checkout",
+      "backToCart": "Back to cart",
+      "emptyTitle": "Nothing to check out yet",
+      "emptyBody": "Your cart is empty. Add products to place an order.",
+      "browse": "Browse products",
+      "steps": {
+        "contact": "Contact",
+        "delivery": "Delivery",
+        "payment": "Payment",
+        "review": "Review & place order"
+      },
+      "edit": "Edit",
+      "editStep": "Edit {step}",
+      "reviewCart": "Review your cart",
+      "signedInAs": "Signed in as {email}",
+      "email": "Email",
+      "emailHint": "For your order confirmation and delivery updates.",
+      "continueAsGuest": "Continue as guest",
+      "accountRequiredTitle": "Please sign in to order",
+      "accountRequired": "Orders are placed from a customer account. Sign in, or create one in a minute.",
+      "haveAccount": "Have an account, or want one?",
+      "signIn": "Sign in",
+      "createAccount": "Create account",
+      "deliveryMethod": "Delivery method",
+      "continueToPayment": "Continue to payment",
+      "paymentMethod": "Payment",
+      "billingAddress": "Billing address",
+      "billingSame": "Same as delivery address",
+      "continueToReview": "Continue to review",
+      "reviewIntro": "Please check the details above, then place your order.",
+      "shipTo": "Ship to",
+      "note": "Note to your order (optional)",
+      "terms": "I have read the <terms>terms and conditions</terms> and the <withdrawal>cancellation policy</withdrawal>, and the <privacy>privacy policy</privacy>.",
+      "placeOrder": "Place order and pay",
+      "placing": "Placing your order…",
+      "legalLabel": "Legal information",
+      "cancellationPolicy": "Cancellation policy",
+      "termsLink": "Terms",
+      "privacyLink": "Privacy",
+      "previewTitle": "Checkout preview",
+      "previewBody": "This is a demonstration. No real order or payment will be processed."
+    },
+    "shipping": {
+      "standard": {
+        "name": "Delivery"
+      },
+      "days": "{from}–{to} working days",
+      "freeFrom": "Free from {amount}",
+      "free": "Free",
+      "onRequest": "On request",
+      "onRequestNote": "Cost depends on destination and service. Delivery is generally free; for longer distances we confirm any charge with you before dispatch."
+    },
+    "payment": {
+      "methods": {
+        "card": {
+          "name": "Credit or debit card",
+          "note": "Mastercard, Visa, American Express, Maestro",
+          "short": "Card"
+        },
+        "paypal": {
+          "name": "PayPal",
+          "note": "You will be taken to PayPal to pay.",
+          "short": "PayPal"
+        },
+        "applePay": {
+          "name": "Apple Pay",
+          "note": "Pay with Face ID or Touch ID.",
+          "short": "Apple Pay"
+        },
+        "klarna": {
+          "name": "Klarna",
+          "note": "Pay now, later or in instalments with Klarna.",
+          "short": "Klarna"
+        },
+        "prepayment": {
+          "name": "Bank transfer (prepayment)",
+          "note": "We ship once your transfer has arrived.",
+          "short": "Transfer"
+        }
+      },
+      "card": {
+        "number": "Card number",
+        "numberPlaceholder": "1234 1234 1234 1234",
+        "expiry": "Expiry date",
+        "expiryPlaceholder": "MM / YY",
+        "cvc": "Security code (CVC)",
+        "cvcPlaceholder": "3–4 digits",
+        "holder": "Name on card",
+        "holderPlaceholder": "Full name"
+      },
+      "hostedCard": "You will enter your card details on our payment provider’s secure checkout after reviewing your order.",
+      "previewCard": "Card payment is simulated in this preview. Do not enter real payment details."
+    },
+    "address": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "company": "Company",
+      "street": "Street and number",
+      "addition": "Apartment, floor, c/o",
+      "postcode": "Postcode",
+      "city": "City",
+      "country": "Country",
+      "phone": "Phone",
+      "optional": "(optional)"
+    },
+    "countries": {
+      "DE": "Germany",
+      "AT": "Austria",
+      "NL": "Netherlands",
+      "BE": "Belgium",
+      "LU": "Luxembourg",
+      "FR": "France",
+      "DK": "Denmark",
+      "PL": "Poland",
+      "CZ": "Czechia"
+    },
+    "errors": {
+      "required": "Please fill in this field.",
+      "invalid": "Please check this entry.",
+      "invalidTitle": "Some details need another look",
+      "invalidEmail": "Please enter a valid email address.",
+      "choosePayment": "Please choose how you would like to pay.",
+      "cardIncomplete": "Please complete your card details.",
+      "acceptTerms": "Please confirm that you have read the terms and the cancellation policy.",
+      "signInRequired": "Please sign in or create an account to continue.",
+      "signInRequiredTitle": "Sign-in needed",
+      "cartChanged": "Some items in your cart are no longer available online. Please review your cart.",
+      "cartChangedTitle": "Your cart has changed",
+      "voucherInvalid": "This voucher code is not valid for your order.",
+      "voucherInvalidTitle": "Voucher not accepted",
+      "paymentDeclined": "Your payment was not accepted and nothing was charged. Please try again or choose another method.",
+      "paymentDeclinedTitle": "Payment declined",
+      "rateLimited": "Too many attempts. Please wait a few minutes and try again.",
+      "rateLimitedTitle": "Please wait a moment",
+      "generic": "Something went wrong on our side. Please try again, or contact us if it keeps happening.",
+      "genericTitle": "Something went wrong",
+      "signInFailed": "Email or password is not correct.",
+      "passwordShort": "Your password needs at least 8 characters.",
+      "emailTaken": "An account with this email already exists. Sign in instead?",
+      "unavailableTitle": "We’re here to help",
+      "unavailable": "Online checkout and accounts are not available yet. Contact us for products, prices or an order.",
+      "contactUs": "Contact us",
+      "shippingUnconfirmedTitle": "Let’s confirm your delivery",
+      "shippingUnconfirmed": "Delivery costs need to be confirmed before payment. Contact us for a complete quote.",
+      "retry": "Try again"
+    },
+    "notices": {
+      "resetSent": "If an account exists for this email, we have sent a link to reset the password.",
+      "addressSaved": "Your delivery address has been saved."
+    },
+    "account": {
+      "eyebrow": "Your account",
+      "hello": "Hello, {name}",
+      "signOut": "Sign out",
+      "signInTitle": "Sign in",
+      "signInLead": "Track your orders and check out faster.",
+      "registerTitle": "Create your account",
+      "registerLead": "Keep your orders and delivery address in one place.",
+      "resetTitle": "Reset your password",
+      "resetLead": "Enter your email and we will send you a link.",
+      "modeLabel": "Sign in or create an account",
+      "signInTab": "Sign in",
+      "registerTab": "Create account",
+      "orContinueWith": "Or continue with",
+      "social": {
+        "google": "Continue with Google",
+        "apple": "Continue with Apple"
+      },
+      "email": "Email",
+      "password": "Password",
+      "passwordHint": "At least 8 characters.",
+      "forgot": "Forgot your password?",
+      "signIn": "Sign in",
+      "signingIn": "Signing in…",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "register": "Create account",
+      "creating": "Creating your account…",
+      "sendReset": "Send reset link",
+      "backToSignIn": "Back to sign in",
+      "currentOrders": "Current orders",
+      "noCurrent": "No orders on their way right now.",
+      "orderHistory": "Order history",
+      "noHistory": "No completed orders yet.",
+      "noOrdersTitle": "No orders yet",
+      "browse": "Browse products",
+      "deliveryAddress": "Delivery address",
+      "addressLead": "Used to prefill checkout. You can change it for any single order.",
+      "saveAddress": "Save address",
+      "saving": "Saving…"
+    },
+    "orders": {
+      "status": {
+        "pending_payment": "Awaiting payment",
+        "awaiting_transfer": "Awaiting transfer",
+        "paid": "Paid",
+        "processing": "Being prepared",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "cancelled": "Cancelled",
+        "refunded": "Refunded"
+      },
+      "reference": "Order",
+      "items": "{count, plural, one {# item} other {# items}}",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "free": "Free",
+      "discount": "Voucher {code}",
+      "total": "Total",
+      "shipTo": "Delivery",
+      "billTo": "Billing",
+      "note": "Your note",
+      "track": "Track parcel with {carrier}",
+      "backToAccount": "Back to your account",
+      "progressLabel": "Order progress",
+      "progress": {
+        "placed": "Placed",
+        "paid": "Paid",
+        "shipped": "Shipped",
+        "delivered": "Delivered"
+      },
+      "withdraw": "Withdraw from contract",
+      "shippingOnRequest": "Confirmed separately"
+    },
+    "confirmation": {
+      "thanksTitle": "Thank you for your order",
+      "thanks": "A confirmation is on its way to {email}. We will let you know as soon as your parcel ships.",
+      "transferTitle": "Almost done: please transfer the amount",
+      "transfer": "Your order is reserved. Please transfer {amount} to the account below, quoting your order reference. We ship as soon as it arrives.",
+      "bankHolder": "Account holder",
+      "bankReference": "Reference",
+      "pendingTitle": "We are confirming your payment",
+      "pending": "This usually takes a few seconds. Refresh the page if it does not update.",
+      "refresh": "Refresh",
+      "failedTitle": "Payment not completed",
+      "failed": "Nothing was charged. You can try again with the same or another payment method.",
+      "retry": "Back to checkout",
+      "notFoundTitle": "We could not find this order",
+      "notFound": "Sign in to see your orders, or check the link in your confirmation email.",
+      "toAccount": "Go to your account",
+      "accountTitle": "Track this order in an account",
+      "account": "Create an account with the same email to see this order and future ones in one place.",
+      "createAccount": "Create account",
+      "continue": "Continue shopping",
+      "withdraw": "Withdraw from contract",
+      "transferByEmail": "Your order is reserved. We will email you our bank details for the transfer of {amount}; please quote your order reference. We ship as soon as payment arrives."
+    },
+    "meta": {
+      "cartTitle": "Cart | Hugo Tron",
+      "cartDescription": "Review your cart.",
+      "checkoutTitle": "Checkout | Hugo Tron",
+      "checkoutDescription": "Secure checkout.",
+      "confirmationTitle": "Order confirmation | Hugo Tron",
+      "confirmationDescription": "Your order with Hugo Tron.",
+      "accountTitle": "Your account | Hugo Tron",
+      "accountDescription": "Orders and delivery address.",
+      "orderTitle": "Order | Hugo Tron",
+      "orderDescription": "Your order with Hugo Tron.",
+      "legalTitle": "Legal | Hugo Tron",
+      "legalDescription": "Legal information for Hugo Tron."
+    }
+  },
+  "contact": {
+    "metaTitle": "Contact — Hugo Tron, Hamburg",
+    "metaDescription": "Ask for a wholesale price, a sample or private label, get help with an order, or just say hello. WhatsApp, email, phone or the form: we answer within one working day.",
+    "eyebrow": "Contact",
+    "title": "Let’s talk.",
+    "lead": "Prices, samples, private label, an order on its way, or anything else. Choose a topic below, or reach us directly on WhatsApp, by email or by phone.",
+    "quickLabel": "Quick contact",
+    "topicLegend": "What is it about?",
+    "topics": {
+      "enquiry": {
+        "label": "Enquiry",
+        "intro": "Wholesale prices, samples or private label: the more you tell us, the faster we come back with availability and a price."
+      },
+      "order": {
+        "label": "Order & delivery",
+        "intro": "Questions about an order you placed online, its delivery or an invoice. Your order reference helps us find it at once."
+      },
+      "general": {
+        "label": "General",
+        "intro": "Partnerships, press, careers or anything else."
+      }
+    },
+    "orderReference": "Order reference",
+    "orderReferenceHint": "From your confirmation email, e.g. HT-261004-7KQ2",
+    "message": "Your message",
+    "submit": "Send message",
+    "privacy": "We use your details only to answer you. More in our <link>privacy policy</link>.",
+    "browse": "Browse products",
+    "quick": {
+      "whatsapp": "WhatsApp",
+      "email": "Email",
+      "phone": "Phone",
+      "instagram": "Instagram",
+      "address": "Address",
+      "response": "We answer every message from Hamburg within one working day."
+    }
+  },
+  "withdrawalFunction": {
+    "intro": "Withdraw from a contract here. Enter your name, the order and the email for your confirmation; you can check everything before you confirm.",
+    "name": "Your name",
+    "order": "Order reference",
+    "orderHint": "From your order confirmation, e.g. HT-261004-7KQ2",
+    "email": "Email for the confirmation of receipt",
+    "emailHint": "We send the confirmation with date and time to this address.",
+    "scope": "What do you withdraw from?",
+    "scopeAll": "The whole order",
+    "scopePart": "Only some of the goods",
+    "items": "Which goods?",
+    "start": "Withdraw from contract",
+    "statement": "I hereby withdraw from the contract below.",
+    "confirm": "Confirm withdrawal",
+    "back": "Change details",
+    "doneTitle": "Your withdrawal has been received",
+    "done": "Received on {date}. A confirmation of receipt with these details has been sent to {email}.",
+    "print": "Print or save",
+    "errors": {
+      "invalid": "Please check your details: name, order reference and a valid email address are needed.",
+      "rateLimited": "Too many attempts. Please wait a few minutes, or withdraw by email.",
+      "generic": "Something went wrong. Please withdraw by email to info@hugo-tron.com; your withdrawal is still on time if sent within the period."
+    }
+  },
+  "legal": {
+    "withdraw": "Withdraw from contract",
+    "close": "Close",
+    "member": "Member of the Händlerbund",
+    "description": {
+      "imprint": "Legal notice of Hugo Tron GmbH, Hamburg: address, contact, commercial register and tax details.",
+      "terms": "General terms and conditions of Hugo Tron GmbH, Hamburg.",
+      "privacy": "Privacy policy of Hugo Tron GmbH: which data we process, why, and your rights."
+    }
+  },
+  "labelRoom": {
+    "seoTitle": "Private Label — Your brand, our sourcing | Hugo Tron",
+    "seoDescription": "A sourcing and supply partner for your brand. Explore private label products, packaging, importing and distribution with Hugo Tron.",
+    "name": "Private Label",
+    "home": "Home",
+    "breadcrumb": "Breadcrumb",
+    "skip": "Skip to content",
+    "scene": "A stone atelier opening onto a harbour, with a private-label bag on an illuminated stepped pedestal.",
+    "loading": "Entering the atelier",
+    "continue": "Step inside",
+    "chapters": "Private label journey",
+    "legal": "Legal",
+    "imprint": "Imprint",
+    "privacy": "Privacy",
+    "arrival": {
+      "eyebrow": "A world with your name on it",
+      "short": "Enter",
+      "title": "Your name.",
+      "accent": "Our world.",
+      "body": "Beyond the label is a whole journey. We help bring yours together — from the right product to the way it reaches your customers."
+    },
+    "source": {
+      "eyebrow": "It begins with your brief",
+      "short": "Source",
+      "title": "Built around",
+      "accent": "your idea.",
+      "body": "Rice, nuts, spices, pulses — or something beyond our portfolio. We explore sourcing around your product, market and volume.",
+      "product": "Product",
+      "market": "Market",
+      "volume": "Volume"
+    },
+    "identity": {
+      "eyebrow": "The product becomes yours",
+      "short": "Create",
+      "title": "Make it",
+      "accent": "your own.",
+      "body": "A first impression of your brand. Explore the pack, then talk to us about product and packaging options.",
+      "hint": "Click or tap the pack to change colour.",
+      "interactive": "Interactive private label pack",
+      "keyboard": "Press Enter or Space to change colour. Use the left and right arrow keys to rotate."
+    },
+    "horizon": {
+      "eyebrow": "From an idea to a wider horizon",
+      "short": "Beyond",
+      "title": "Your brand.",
+      "accent": "Moving forward.",
+      "body": "Sourcing, import, warehousing and distribution. One partner to help connect the next steps for your business.",
+      "action": "Tell us your idea",
+      "note": "Product, packaging and supply arrangements are agreed around your requirements."
+    },
+    "return": {
+      "eyebrow": "One connected world",
+      "title": "The journey",
+      "accent": "continues.",
+      "body": "Return to the wholesale hall. Explore the sourcing, scale and supply behind your next idea.",
+      "action": "Back to wholesale",
+      "short": "Return"
+    }
+  },
+  "notFound": {
+    "title": "This page does not exist (any more).",
+    "body": "It may have moved. Carry on from the home page or our products, or get in touch.",
+    "home": "Go to the home page",
+    "products": "See our products"
   }
 }

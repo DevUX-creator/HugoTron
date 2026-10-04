@@ -9,10 +9,17 @@ import {
   isPurchasable,
   type Product,
   type ProductCategory,
-} from "@/lib/catalogue";
-import { AddToCartButton, AddToCartQuantity, useAddToCart } from "@/components/products/AddToCart";
-import EnquireLink from "@/components/products/EnquireLink";
-import { useProductChoice, type ProductChoice } from "@/components/products/useProductChoice";
+} from "@/commerce/catalogue";
+import {
+  AddToCartButton,
+  AddToCartQuantity,
+  useAddToCart,
+} from "@/components/commerce/products/AddToCart";
+import EnquireLink from "@/components/commerce/products/EnquireLink";
+import {
+  useProductChoice,
+  type ProductChoice,
+} from "@/components/commerce/products/useProductChoice";
 
 const ORIGIN_KEYS = { india: "originIndia", pakistan: "originPakistan" } as const;
 

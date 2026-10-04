@@ -4,18 +4,15 @@ export const locales = ["de", "en"] as const;
 export type Locale = (typeof locales)[number];
 
 /**
- * TEMPORARY: English, so the site is readable during review.
- *
- * German is the real default — the company, its customers and its legal texts
+ * German is the default — the company, its customers and its legal texts
  * are German, and English exists for the export side (private label,
  * wholesale), written for that reader rather than translated word for word.
  * `messages/de.json` stays the source of truth for the message SHAPE either
  * way (see i18n/messages.ts).
  *
- * SWITCH BACK TO "de" BEFORE LAUNCH — it decides where `/` redirects and which
- * language search engines treat as primary.
+ * It decides where `/` redirects and which language search engines treat as primary.
  */
-const defaultLocale: Locale = "en";
+const defaultLocale: Locale = "de";
 
 export const localeLabels: Record<Locale, { name: string; short: string; htmlLang: string }> = {
   de: { name: "Deutsch", short: "DE", htmlLang: "de" },
@@ -33,14 +30,14 @@ export const localeLabels: Record<Locale, { name: string; short: string; htmlLan
  * translated by the content layer, which stores one slug per locale per entity.
  *
  * NOTE: the old Wix site used umlaut URLs (`/überuns`, `/großhandel`). Those
- * are gone — see content/strategy/seo-redirects.md for the 301 map.
+ * are gone — next.config.ts redirects them permanently.
  */
 const pathnames = {
   "/": "/",
   "/rice": { de: "/reis", en: "/rice" },
   "/about": { de: "/ueber-uns", en: "/about" },
   /* German keeps "Sortiment", the standard trade word and the one
-     content/strategy/seo-redirects.md maps the old Wix category onto. */
+     the old Wix category redirects to. */
   "/range": { de: "/sortiment", en: "/products" },
   "/range/rice": { de: "/sortiment/reis", en: "/products/rice" },
   "/range/pistachios": { de: "/sortiment/pistazien", en: "/products/pistachios" },
@@ -62,6 +59,12 @@ const pathnames = {
   "/sample": { de: "/muster", en: "/sample" },
   "/cart": { de: "/warenkorb", en: "/cart" },
   "/checkout": { de: "/kasse", en: "/checkout" },
+  "/checkout/confirmation": { de: "/kasse/bestaetigung", en: "/checkout/confirmation" },
+  "/account": { de: "/konto", en: "/account" },
+  "/account/orders/[reference]": {
+    de: "/konto/bestellungen/[reference]",
+    en: "/account/orders/[reference]",
+  },
   "/careers": { de: "/karriere", en: "/careers" },
   "/terms": { de: "/agb", en: "/terms" },
   "/withdrawal": { de: "/widerruf", en: "/withdrawal" },

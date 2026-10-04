@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { submitEnquiry, ENQUIRY_INITIAL_STATE } from "../src/app/[locale]/enquiry/actions";
+import { submitEnquiry } from "../src/app/[locale]/enquiry/actions";
+import { ENQUIRY_INITIAL_STATE } from "../src/lib/enquiry/state";
 import * as delivery from "../src/lib/enquiry/provider";
 import { resetRateLimit } from "../src/lib/rateLimit";
 import type { Enquiry } from "../src/lib/enquiry/schema";
@@ -149,5 +150,53 @@ describe("submitEnquiry", () => {
     /* A malformed one is rejected before the limiter is ever consulted. */
     const malformed = await submitEnquiry(ENQUIRY_INITIAL_STATE, form({ email: "nope" }));
     expect(malformed).toMatchObject({ ok: false, error: "errorEmail" });
+  });
+});
+
+describe("contact topics", () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+    resetRateLimit();
+  });
+
+  it("treats a submission without a topic as an enquiry", async () => {
+    const spy = vi.spyOn(delivery, "deliverEnquiry").mockResolvedValue();
+    await submitEnquiry(ENQUIRY_INITIAL_STATE, form(VALID));
+    expect(delivered(spy).topic).toBe("enquiry");
+  });
+
+  it("passes the order topic and its reference to the provider", async () => {
+    const spy = vi.spyOn(delivery, "deliverEnquiry").mockResolvedValue();
+    await submitEnquiry(
+      ENQUIRY_INITIAL_STATE,
+      form({ ...VALID, topic: "order", orderReference: "HT-261004-7KQ2" }),
+    );
+    expect(delivered(spy)).toMatchObject({ topic: "order", orderReference: "HT-261004-7KQ2" });
+  });
+
+  it("falls back to an enquiry for an unknown topic", async () => {
+    const spy = vi.spyOn(delivery, "deliverEnquiry").mockResolvedValue();
+    await submitEnquiry(ENQUIRY_INITIAL_STATE, form({ ...VALID, topic: "spam" }));
+    expect(delivered(spy).topic).toBe("enquiry");
+  });
+
+  it("drops fields that belong to another topic", async () => {
+    const spy = vi.spyOn(delivery, "deliverEnquiry").mockResolvedValue();
+    await submitEnquiry(
+      ENQUIRY_INITIAL_STATE,
+      form({
+        ...VALID,
+        topic: "general",
+        product: "Basmati",
+        orderReference: "HT-1",
+        purpose: "sample",
+      }),
+    );
+    expect(delivered(spy)).toMatchObject({
+      topic: "general",
+      product: "",
+      orderReference: "",
+      purpose: "other",
+    });
   });
 });

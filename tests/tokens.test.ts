@@ -46,7 +46,7 @@ const AA_NORMAL = 4.5;
 
 describe("colour tokens", () => {
   it("pins the brand blue to harbor-800", () => {
-    /* Sampled from public/reference/colour-birkenstock.png. NOT the logo's
+    /* Sampled from the brand-blue reference board. NOT the logo's
        own #053c74 — same lightness, two-thirds the chroma, flat at panel
        scale. And not #00294d, the Händlerbund badge, which was the first
        mistake in this file's history. */

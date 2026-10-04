@@ -5,7 +5,7 @@ import { useEffect, useId, type RefObject } from "react";
 const SVG = "http://www.w3.org/2000/svg";
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
-/** Temporary title-only version of the pointer grid supplied in public/Shader.zip.
+/** Temporary title-only version of the pointer grid supplied as a shader archive (no longer kept).
  * SVG displacement applies the field to live DOM text, preserving its font, colors and semantics.
  */
 export function useTitleDeformation(

@@ -31,6 +31,24 @@ html[data-world-paper],
 .daylight__fill[data-active="true"] {
   visibility: visible;
 }
+/* Phones: one torn paper sheet slides up over the World (useToneFill moves it with `translate`).
+   A flat colour and a masked edge, so the compositor carries it without repainting. */
+.daylight__sheet {
+  position: absolute;
+  inset: 0;
+  background: var(--color-world-paper);
+  translate: 0 100%;
+  will-change: translate;
+}
+.daylight__sheet::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: calc(100% - 1px);
+  block-size: 3.5rem;
+  background: inherit;
+  mask: url("/textures/paper-torn-edge.svg") center / 100% 100% no-repeat;
+}
 .daylight__handoff {
   position: relative;
 }

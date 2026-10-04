@@ -1,10 +1,17 @@
 /* ===========================================================================
-   Category pages — the home's world, hand-off and paper story, centred, in
-   each range's colours. `--cat-night` is the 3D backdrop; the range's accent
-   replaces the home's blue ink through `--color-world-paper-blue` (on <main>).
-   Story primitives (layers, wipes, line) come from sections/Daylight/story.css.
+   Category pages — the home's world, hand-off and paper story, on one centred
+   axis, in each range's colours. `--cat-night` is the 3D backdrop; the range's
+   accent replaces the home's blue ink through `--color-world-paper-blue`.
+
+   Motion follows the reader: each story section gets its scroll progress `--p`
+   (0 entering at the bottom, 1 leaving at the top) and `data-visible` from
+   useStory; pictures, film and cards are scrubbed by `--p`, headings rise once
+   visible (RevealWords). One ink line runs from the first chapter to the footer.
    =========================================================================== */
 
+.category {
+  --ease-out: cubic-bezier(0.19, 1, 0.22, 1);
+}
 .category:focus {
   outline: none;
 }
@@ -24,7 +31,6 @@
   position: sticky;
   inset-block-start: 0;
   block-size: calc(var(--home-vh, 1svh) * 100);
-  min-block-size: 0;
   overflow: clip;
   background: var(--cat-night);
 }
@@ -47,11 +53,11 @@
   inset: 0;
   background:
     radial-gradient(
-      ellipse 70% 60% at 50% 46%,
+      ellipse 70% 60% at 50% 44%,
       transparent 45%,
       color-mix(in srgb, var(--cat-night) 70%, transparent)
     ),
-    linear-gradient(0deg, var(--cat-night), transparent 34%),
+    linear-gradient(0deg, var(--cat-night), transparent 38%),
     linear-gradient(180deg, color-mix(in srgb, var(--cat-night) 70%, transparent), transparent 22%);
   pointer-events: none;
 }
@@ -66,17 +72,28 @@
 .category-crumbs,
 .category-hero__eyebrow,
 .category-hero__scroll,
-.category-hero__services span {
+.category-interaction button {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-/* The opening: breadcrumb above, the title centred beneath the ingredient. */
-.category-hero {
+/* Copy layers sit over the scene without blocking its pointer; their controls opt back in. */
+.category-hero,
+.category-quantity {
   position: absolute;
   inset: 0;
+  pointer-events: none;
+}
+.category-hero a,
+.category-quantity__buy,
+.category-interaction {
+  pointer-events: auto;
+}
+
+/* The opening, on one axis: breadcrumb, the ingredient, then title, summary and cue. */
+.category-hero {
   opacity: calc(1 - var(--intro-out));
   translate: 0 calc(var(--intro-out) * -6svh);
   filter: blur(calc(var(--intro-out) * 6px));
@@ -111,15 +128,15 @@
 }
 .category-hero__intro {
   position: absolute;
-  inset: auto 0 11.5rem;
+  inset: auto 0 8.5rem;
   display: grid;
   justify-items: center;
   padding-inline: 2rem;
   text-align: center;
 }
 .category-hero__eyebrow {
-  margin: 0 0 1.25rem;
-  opacity: 0.75;
+  margin: 0 0 1.1rem;
+  opacity: 0.7;
 }
 .category-hero__title {
   margin: 0;
@@ -138,59 +155,30 @@
   color: color-mix(in srgb, var(--color-world-paper-blue) 45%, var(--color-world-paper-light));
 }
 .category-hero__lead {
-  position: absolute;
-  inset: calc(var(--header-inset-block) + var(--header-row) + 3.5rem) max(3rem, 5vw) auto auto;
-  inline-size: clamp(16rem, 21vw, 21rem);
-  margin: 0;
+  max-inline-size: 58ch;
+  margin: 1.4rem 0 0;
   font-size: clamp(0.8125rem, 0.9vw, 0.9375rem);
   line-height: 1.65;
-  text-align: start;
-  opacity: 0.85;
+  opacity: 0.78;
+  text-wrap: balance;
 }
 .category-hero__short {
   display: none;
-}
-.category-hero__services {
-  position: absolute;
-  inset: auto 0 7.25rem;
-  display: flex;
-  justify-content: center;
-  gap: clamp(1.5rem, 4vw, 4rem);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  font-size: 0.875rem;
-}
-.category-hero__services li {
-  display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
-  padding-block: 0.6rem;
-  border-block-start: 1px solid color-mix(in srgb, currentColor 30%, transparent);
-}
-.category-hero__services span {
-  opacity: 0.6;
 }
 .category-hero__scroll {
   position: absolute;
   inset: auto auto 3.1rem 50%;
   translate: -50% 0;
-  opacity: 0.55;
+  opacity: 0.5;
 }
 
-/* Every quantity: the title over the ingredient, buying left, supply right. */
+/* Every quantity: the title above, the ingredient to touch, buying centred beneath. */
 .category-quantity {
-  position: absolute;
-  inset: 0;
   opacity: var(--quantity-in);
   translate: 0 calc((1 - var(--quantity-in)) * 5svh);
-  pointer-events: none;
 }
 .category-quantity[inert] {
   visibility: hidden;
-}
-.category-quantity > * {
-  pointer-events: auto;
 }
 .category-quantity__head {
   position: absolute;
@@ -200,44 +188,102 @@
   text-align: center;
 }
 .category-quantity h2 {
-  text-transform: uppercase;
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(3.5rem, 8.5vw, 9.5rem);
+  font-size: clamp(3.5rem, 8vw, 9rem);
   font-weight: 400;
   line-height: 0.95;
   letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+.category-interaction {
+  display: grid;
+  justify-items: center;
+  gap: 0.4rem;
+  margin-block-start: 1.4rem;
+  opacity: calc(1 - var(--leave));
+}
+.category-interaction button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-block-size: 44px;
+  padding: 0.35rem 1.1rem 0.35rem 0.35rem;
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--cat-night) 40%, transparent);
+  color: inherit;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition:
+    border-color 500ms,
+    background-color 500ms;
+}
+.category-interaction button > span {
+  display: grid;
+  place-items: center;
+  inline-size: 2rem;
+  block-size: 2rem;
+  border-radius: 50%;
+  background: var(--color-world-paper-light);
+  color: var(--cat-night);
+  font-size: 1.1rem;
+  transition: rotate 700ms var(--ease-out);
+}
+.category-interaction button:hover {
+  border-color: color-mix(in srgb, currentColor 55%, transparent);
+}
+.category-interaction button:hover > span {
+  rotate: 90deg;
+}
+.category-interaction p {
+  margin: 0;
+  font-size: 0.75rem;
+  opacity: 0.6;
 }
 .category-quantity__buy {
   position: absolute;
-  inset: auto auto 7.25rem max(4rem, 6vw);
-  inline-size: min(25rem, 32vw);
-  padding: 1.5rem;
-  border: 1px solid color-mix(in srgb, var(--color-world-paper-light) 18%, transparent);
+  inset: auto 0 9rem 50%;
+  translate: -50% 0;
+  inline-size: max-content;
+  max-inline-size: calc(100% - 4rem);
+  padding: 1rem 1.4rem;
+  border: 1px solid color-mix(in srgb, var(--color-world-paper-light) 16%, transparent);
   background: color-mix(in srgb, var(--cat-night) 55%, transparent);
   backdrop-filter: blur(14px);
 }
-/* The page is the range; the purchase panel need not link back to it. */
+/* The purchase panel reads as one bar: product, its options, quantity and the action. */
+.category-quantity__buy .world__purchase {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.75rem;
+}
+.category-quantity__buy .world__product {
+  flex-direction: column;
+  gap: 0.2rem;
+}
+/* The page is the range; the panel need not link back to it. */
 .category-quantity .world__explore {
   display: none;
 }
 .category-quantity__supply {
   position: absolute;
-  inset: auto max(4rem, 6vw) 7.25rem auto;
-  inline-size: clamp(14rem, 20vw, 19rem);
-  font-size: 0.875rem;
-  line-height: 1.6;
+  inset: auto 2rem 6.9rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 0;
+  font-size: 0.75rem;
+  text-align: center;
 }
 .category-quantity__supply p {
   margin: 0;
-  opacity: 0.8;
+  opacity: 0.62;
 }
 .category-quantity__supply .category-quantity__supply-title {
-  margin-block-end: 0.6rem;
-  font-family: var(--font-display);
-  font-size: 1.35rem;
-  letter-spacing: -0.02em;
-  opacity: 1;
+  opacity: 0.9;
 }
 
 /* -- The story on paper ---------------------------------------------------- */
@@ -245,6 +291,7 @@
 .category-story {
   --color-fg-heading: var(--color-world-paper-ink);
   --color-fg-primary: var(--color-world-paper-ink);
+  --disclosure-accent: var(--color-world-paper-blue);
   position: relative;
   z-index: 2;
   margin-block-start: calc(var(--home-vh, 1svh) * -100);
@@ -256,10 +303,34 @@
   font-weight: 400;
   line-height: 0.98;
   letter-spacing: -0.045em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+/* Eyebrows and notes follow their heading up, a beat later. */
+html.js .category-story :is(header, .category-cta) > :is(.paper-caption, .story-text__note) {
+  opacity: 0;
+  translate: 0 1rem;
+  transition:
+    opacity 900ms ease 250ms,
+    translate 1.1s var(--ease-out) 250ms;
+}
+html.js
+  .category-story
+  [data-visible="true"]
+  :is(header, .category-cta)
+  > :is(.paper-caption, .story-text__note),
+html.js
+  .category-story
+  .category-cta[data-visible="true"]
+  > :is(.paper-caption, .story-text__note) {
+  opacity: 1;
+  translate: 0 0;
+}
+html.js .category-story header > .story-text__note {
+  transition-delay: 450ms;
 }
 
-/* Centred editorial chapters. Each illustration is local to its chapter, so
-   reverse scroll and mobile never need to reconstruct a pinned picture plane. */
+/* Chapters: a centred reading column between two studies. */
 .category-chapter {
   min-block-size: calc(var(--home-vh, 1svh) * 120);
   padding: calc(var(--home-vh, 1svh) * 27) max(3rem, 6vw) 12rem;
@@ -277,8 +348,6 @@
   margin-inline: auto;
   padding-block: 0.08em;
   font-size: clamp(2.8rem, 4.7vw, 5.6rem);
-  text-transform: uppercase;
-  text-wrap: balance;
   overflow-wrap: break-word;
 }
 .category-chapter .story-text__note {
@@ -286,71 +355,12 @@
   margin-inline: auto;
   font-size: clamp(0.9375rem, 1.1vw, 1.125rem);
 }
-.category-art {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  overflow: clip;
-}
-.category-art figure {
-  position: absolute;
-  margin: 0;
-  translate: calc(var(--paper-pointer-x, 0) * var(--art-depth, 1) * 13px)
-    calc((var(--p, 0.5) - 0.5) * var(--art-depth, 1) * -95px + var(--paper-pointer-y, 0) * 9px);
-}
-.category-art img {
-  display: block;
-  inline-size: 100%;
-  block-size: auto;
-}
-.category-art__botanical {
-  --art-depth: 1.2;
-  inset: 14% auto auto 5%;
-  inline-size: 23%;
-  rotate: -8deg;
-}
-.category-art__landscape {
-  --art-depth: -0.55;
-  inset: 37% 1% auto auto;
-  inline-size: 30%;
-  rotate: 3deg;
-}
-.category-art__orbit {
-  position: absolute;
-  inset: 15% 3% auto;
-  inline-size: 94%;
-  stroke: var(--color-world-paper-blue);
-  stroke-width: 0.65px;
-  opacity: 0.18;
-}
 .category-chapter--horizon {
   min-block-size: calc(var(--home-vh, 1svh) * 132);
   padding-block-start: calc(var(--home-vh, 1svh) * 16);
 }
-.category-chapter--horizon .category-art__landscape {
-  inset: 34% auto auto 50%;
-  inline-size: 58%;
-  margin-inline-start: -29%;
-  rotate: -2deg;
-}
-.category-chapter--horizon .category-art__botanical {
-  inset: 27% 3% auto auto;
-  inline-size: 15%;
-  rotate: 12deg;
-}
 .category-chapter--offset > header {
   margin-inline-start: 31%;
-}
-.category-chapter--offset .category-art__botanical {
-  inset: 35% 2% auto auto;
-  inline-size: 19%;
-  rotate: 9deg;
-}
-.category-chapter--offset .category-art__landscape {
-  inset: 25% auto auto 2%;
-  inline-size: 34%;
-  rotate: -4deg;
 }
 .category-facts {
   display: flex;
@@ -370,52 +380,111 @@
   padding-block-start: 0.75rem;
   border-block-start: 1px solid color-mix(in srgb, currentColor 25%, transparent);
 }
-/* One short reveal on entry; the remaining movement follows the user's scroll. */
-html.js .category-chapter > header {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 700ms ease,
-    transform 850ms cubic-bezier(0.22, 1, 0.36, 1);
+
+/* The studies: the landscape opens from below and settles from a slow zoom; the botanical
+   drifts in close with the strongest parallax. Both are scrubbed by the chapter's `--p`. */
+.category-art {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: clip;
+  pointer-events: none;
 }
-html.js .category-chapter[data-visible="true"] > header {
-  opacity: 1;
-  transform: none;
+.category-art figure {
+  position: absolute;
+  margin: 0;
 }
+.category-art img {
+  display: block;
+  inline-size: 100%;
+  block-size: auto;
+}
+.category-art__botanical {
+  --shown: clamp(0, calc((var(--p, 0.5) - 0.04) / 0.22), 1);
+  inset: 14% auto auto 5%;
+  inline-size: 23%;
+  opacity: var(--shown);
+  translate: calc(var(--paper-pointer-x, 0) * 16px)
+    calc((var(--p, 0.5) - 0.5) * -190px + var(--paper-pointer-y, 0) * 10px);
+  rotate: calc(-8deg + (var(--p, 0.5) - 0.5) * 12deg);
+}
+.category-art__landscape {
+  --open: clamp(0, calc((var(--p, 1) - 0.1) / 0.3), 1);
+  inset: 37% 1% auto auto;
+  inline-size: 30%;
+  clip-path: inset(calc((1 - var(--open)) * 100%) 0 0 0);
+  translate: 0 calc((var(--p, 0.5) - 0.5) * 70px);
+}
+.category-art__landscape img {
+  scale: calc(1.22 - var(--open) * 0.22);
+  transform-origin: 50% 100%;
+}
+.category-chapter--horizon .category-art__landscape {
+  inset: 34% auto auto 21%;
+  inline-size: 58%;
+}
+.category-chapter--horizon .category-art__botanical {
+  inset: 27% 3% auto auto;
+  inline-size: 15%;
+  rotate: calc(12deg + (var(--p, 0.5) - 0.5) * -12deg);
+}
+.category-chapter--offset .category-art__botanical {
+  inset: 35% 2% auto auto;
+  inline-size: 19%;
+  rotate: calc(9deg + (var(--p, 0.5) - 0.5) * -10deg);
+}
+.category-chapter--offset .category-art__landscape {
+  inset: 25% auto auto 2%;
+  inline-size: 34%;
+}
+
+/* The selection: the film opens out of a framed inset, then the cards rise in turn. */
 .paper-story.category-story .category-assortment {
-  padding: 7rem max(3rem, 8vw) 6rem;
   --rail-gutter: max(3rem, 8vw);
+  padding: 7rem max(3rem, 8vw) 6rem;
 }
 .category-assortment > header {
   max-inline-size: 45rem;
 }
 .category-assortment h2 {
   font-size: clamp(3rem, 6.2vw, 6rem);
-  text-transform: uppercase;
-  text-wrap: balance;
 }
 .category-assortment__film {
+  --open: clamp(0, calc((var(--p, 1) - 0.04) / 0.3), 1);
   position: relative;
-  inline-size: min(100%, 54rem);
+  inline-size: min(100%, 76rem);
   aspect-ratio: 16 / 9;
   margin: 4rem auto 0;
   overflow: hidden;
+  clip-path: inset(calc((1 - var(--open)) * 16%) calc((1 - var(--open)) * 24%));
+}
+.category-assortment__film video {
+  scale: calc(1.25 - var(--open) * 0.25);
 }
 .category-assortment .paper-range__rail {
   display: flex;
   overflow-x: auto;
 }
-.category-variety__mark {
-  position: relative;
-  block-size: clamp(15rem, 29vw, 24rem);
+.category-assortment .paper-range__rail > * {
+  --rise: clamp(0, calc((var(--p, 1) - 0.32 - var(--i, 0) * 0.025) / 0.12), 1);
+  opacity: var(--rise);
+  translate: 0 calc((1 - var(--rise)) * 4rem);
 }
-.category-variety__mark img {
-  inline-size: 100%;
-  block-size: 100%;
-  object-fit: contain;
+.category-assortment .paper-range__rail > :nth-child(2) {
+  --i: 1;
+}
+.category-assortment .paper-range__rail > :nth-child(3) {
+  --i: 2;
+}
+.category-assortment .paper-range__rail > :nth-child(4) {
+  --i: 3;
+}
+.category-assortment .paper-range__rail > :nth-child(n + 5) {
+  --i: 4;
 }
 
-/* Ways to work together: cards that stack as they pin, after Son Daven's benefits. */
+/* Ways to work together: cards pin and stack; each recedes as the next one covers it
+   (`--covered`, set by CategoryStory from the cards' positions), after Son Daven. */
 .category-ways {
   position: relative;
   z-index: 2;
@@ -425,8 +494,6 @@ html.js .category-chapter[data-visible="true"] > header {
 .category-faq h2,
 .category-cta h2 {
   font-size: clamp(3rem, 5.6vw, 6rem);
-  text-transform: uppercase;
-  text-wrap: balance;
 }
 .category-ways__stack {
   display: grid;
@@ -437,6 +504,7 @@ html.js .category-chapter[data-visible="true"] > header {
   list-style: none;
 }
 .category-way {
+  --covered: 0;
   position: sticky;
   inset-block-start: calc(
     var(--header-inset-block) + var(--header-row) + 3rem + var(--i) * 1.75rem
@@ -450,6 +518,9 @@ html.js .category-chapter[data-visible="true"] > header {
   border: 1px solid color-mix(in srgb, var(--color-world-paper-ink) 18%, transparent);
   background: var(--color-world-paper-light);
   box-shadow: 0 -1.5rem 3rem -2rem color-mix(in srgb, var(--color-world-paper-ink) 35%, transparent);
+  transform-origin: 50% 0;
+  scale: calc(1 - var(--covered) * 0.06);
+  filter: brightness(calc(1 - var(--covered) * 0.1));
 }
 .category-way__copy {
   display: grid;
@@ -459,7 +530,8 @@ html.js .category-chapter[data-visible="true"] > header {
 .category-way__index {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: var(--color-world-paper-blue);
+  /* The category accent, deepened toward the ink so small numerals keep 4.5:1. */
+  color: color-mix(in srgb, var(--color-world-paper-blue) 72%, var(--color-world-paper-ink));
 }
 .category-way h3 {
   margin: 0;
@@ -494,46 +566,6 @@ html.js .category-chapter[data-visible="true"] > header {
 .category-faq__list {
   max-inline-size: 52rem;
   margin: 4rem auto 0;
-  border-block-start: 1px solid color-mix(in srgb, var(--color-world-paper-ink) 25%, transparent);
-}
-.category-faq details {
-  border-block-end: 1px solid color-mix(in srgb, var(--color-world-paper-ink) 25%, transparent);
-}
-.category-faq summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  min-block-size: 4.5rem;
-  cursor: pointer;
-  list-style: none;
-}
-.category-faq summary::-webkit-details-marker {
-  display: none;
-}
-.category-faq summary::after {
-  content: "+";
-  flex: none;
-  font-size: 1.5rem;
-  color: var(--color-world-paper-blue);
-  transition: rotate 300ms;
-}
-.category-faq details[open] summary::after {
-  rotate: 45deg;
-}
-.category-faq summary:focus-visible {
-  outline: 2px solid var(--color-world-paper-blue);
-  outline-offset: 4px;
-}
-.category-faq h3 {
-  margin: 0;
-  font-size: clamp(1.05rem, 1.4vw, 1.3rem);
-  font-weight: 500;
-}
-.category-faq details p {
-  max-inline-size: 60ch;
-  margin: 0 0 1.75rem;
-  line-height: 1.65;
 }
 .category-cta {
   position: relative;
@@ -560,7 +592,6 @@ html:not(.js) .category-world {
 html:not(.js) .category-world__stage {
   position: relative;
   block-size: auto;
-  min-block-size: 0;
   overflow: visible;
 }
 html:not(.js) .category-hero,
@@ -570,39 +601,18 @@ html:not(.js) .category-quantity {
   opacity: 1;
   translate: none;
   filter: none;
-}
-html:not(.js) .category-quantity {
   visibility: visible;
 }
 html:not(.js) .category-story {
   margin-block-start: 0;
   background: var(--color-world-paper);
 }
-html:not(.js) .category-chapter,
-html:not(.js) .category-chapter header {
+html:not(.js) .category-chapter {
   min-block-size: 0;
   padding-block: 4rem;
 }
 
 @media (width < 64rem) {
-  /* The summary moves under the title; the services return in "ways to work together". */
-  .category-hero__intro {
-    inset-block-end: 13rem;
-  }
-  .category-hero__lead {
-    inset: auto 2rem 3.5rem;
-    inline-size: auto;
-    max-inline-size: 36rem;
-    margin-inline: auto;
-    text-align: center;
-  }
-  .category-hero__services,
-  .category-hero__scroll {
-    display: none;
-  }
-  .category-quantity__buy {
-    inline-size: min(25rem, 44vw);
-  }
   .category-way {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -629,50 +639,58 @@ html:not(.js) .category-chapter header {
     text-overflow: ellipsis;
   }
   .category-hero__intro {
-    inset-block-end: 12.5rem;
+    inset-block-end: 6.5rem;
   }
-  .category-hero__intro > .category-hero__eyebrow {
+  .category-hero__intro > .category-hero__eyebrow,
+  .category-hero__scroll {
     display: none;
   }
   .category-hero__title {
     font-size: clamp(2rem, 9.5vw, 3.2rem);
   }
-  .category-hero__lead {
-    inset: auto 1.5rem 2.25rem;
-    font-size: 0.8125rem;
+  .category-hero__summary {
+    display: none;
   }
-  .category-ways h2,
-  .category-faq h2,
-  .category-cta h2 {
-    font-size: clamp(2.2rem, 9.5vw, 3.4rem);
-    overflow-wrap: break-word;
-    hyphens: auto;
+  .category-hero__short {
+    display: inline;
+  }
+  .category-hero__lead {
+    font-size: 0.8125rem;
   }
   .category-quantity__head {
     padding-inline: 2.5rem;
     inset-block-start: calc(var(--header-inset-block) + var(--header-row) + 7rem);
   }
   .category-quantity h2 {
-    font-size: clamp(2.8rem, 15vw, 4.5rem);
+    font-size: clamp(1.7rem, 8.4vw, 2.8rem);
+  }
+  .category-interaction p {
+    display: none;
   }
   .category-quantity__buy {
-    inset: auto 1.5rem 2rem;
-    inline-size: auto;
-    padding: 1.1rem;
+    inset-block-end: 6rem;
+    inline-size: calc(100% - 3rem);
+    padding: 0.85rem;
+  }
+  .category-quantity__buy .world__segment button {
+    padding-inline: 0.4rem;
+    font-size: 0.6875rem;
   }
   .category-quantity__supply {
     display: none;
   }
   .category-chapter,
   .category-chapter--horizon {
+    display: flex;
+    flex-direction: column;
     min-block-size: 0;
     padding: 7rem 2.5rem 3rem;
   }
   .category-chapter > header,
   .category-chapter--offset > header {
+    order: -1;
     max-inline-size: none;
     margin-inline: auto;
-    padding: 0;
   }
   .story-chapter.category-chapter h2 {
     font-size: clamp(2.05rem, 8.8vw, 3.4rem);
@@ -682,13 +700,6 @@ html:not(.js) .category-chapter header {
     min-block-size: 18rem;
     margin-block-start: 2rem;
     overflow: visible;
-  }
-  .category-chapter {
-    display: flex;
-    flex-direction: column;
-  }
-  .category-chapter > header {
-    order: -1;
   }
   .category-art figure {
     translate: none;
@@ -701,24 +712,23 @@ html:not(.js) .category-chapter header {
   .category-art .category-art__landscape {
     inset: 22% -3% auto auto;
     inline-size: 78%;
-    margin: 0;
-    rotate: 2deg;
-  }
-  .category-art__orbit {
-    inset-block-start: 12%;
   }
   .category-facts {
     font-size: 0.625rem;
   }
   .paper-story.category-story .category-assortment {
-    padding: 6rem 2.5rem 3rem;
     --rail-gutter: 2.5rem;
+    padding: 6rem 2.5rem 3rem;
   }
   .category-assortment h2 {
     font-size: clamp(2.3rem, 10vw, 3.5rem);
   }
-  .category-variety__mark {
-    block-size: clamp(7rem, calc(var(--home-vh, 1svh) * 30 - 5rem), 13rem);
+  .category-ways h2,
+  .category-faq h2,
+  .category-cta h2 {
+    font-size: clamp(2.2rem, 9.5vw, 3.4rem);
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
   .category-ways,
   .category-faq,
@@ -734,128 +744,33 @@ html:not(.js) .category-chapter header {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .category-world__scene,
-  .category-faq summary::after {
-    transition: none;
-  }
-  .category-art figure {
-    translate: none;
-  }
-  html.js .category-chapter > header {
-    opacity: 1;
-    transform: none;
+  .category-world__scene {
     transition: none;
   }
   .category-hero {
     filter: none;
     translate: none;
   }
-}
-
-/* Product interaction stays in the open part of the scene, away from the buy panel. */
-.category-hero,
-.category-quantity {
-  pointer-events: none;
-}
-.category-hero a,
-.category-quantity > * {
-  pointer-events: auto;
-}
-.category-interaction {
-  position: absolute;
-  z-index: 1;
-  inset: 30% max(4rem, 6vw) auto auto;
-  max-inline-size: 15rem;
-  opacity: calc(1 - var(--leave));
-}
-.category-interaction button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  min-block-size: 44px;
-  padding: 0;
-  border: 0;
-  color: inherit;
-  background: transparent;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  text-align: start;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-}
-.category-interaction button > span {
-  display: grid;
-  flex: none;
-  place-items: center;
-  inline-size: 2.25rem;
-  block-size: 2.25rem;
-  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
-  border-radius: 50%;
-  font-size: 1.25rem;
-  transition:
-    rotate 450ms,
-    border-color 450ms;
-}
-.category-interaction button:hover > span {
-  rotate: 90deg;
-  border-color: currentColor;
-}
-.category-interaction p {
-  margin: 0.5rem 0 0 3rem;
-  font-size: 0.75rem;
-  line-height: 1.6;
-  opacity: 0.65;
-}
-.category[data-category="rice"] .category-world__scene {
-  background: radial-gradient(
-    ellipse at 50% 42%,
-    var(--color-cat-rice-glow) 0%,
-    var(--color-cat-rice-shade) 46%,
-    transparent 72%
-  );
-}
-.category-world__scene .rice-brush-surface {
-  position: absolute;
-  inset: 0;
-  touch-action: none;
-}
-.category-world__scene .rice-brush-surface[hidden] {
-  display: none;
-}
-
-@media (width < 48rem) {
-  .category-interaction {
-    inset: calc(var(--header-inset-block) + var(--header-row) + 11.5rem) auto auto 50%;
-    translate: -50% 0;
-    inline-size: max-content;
-    max-inline-size: 80%;
+  .category-art figure,
+  .category-assortment .paper-range__rail > * {
+    opacity: 1;
+    translate: none;
   }
-  .category-interaction p {
-    display: none;
+  .category-art__landscape,
+  .category-assortment__film {
+    clip-path: none;
   }
-  .category-hero__summary {
-    display: none;
+  .category-art__landscape img,
+  .category-assortment__film video {
+    scale: none;
   }
-  .category-hero__short {
-    display: inline;
+  .category-way {
+    scale: none;
+    filter: none;
   }
-  .category-hero__lead {
-    inset: auto 2.5rem 7rem;
-    font-size: 0.75rem;
-  }
-  .category-hero__intro {
-    inset-block-end: 12rem;
-  }
-  .category-quantity__buy {
-    inset: auto 2.5rem 7rem;
-    padding: 0.85rem;
-  }
-  .category-quantity__buy .world__segment button {
-    padding-inline: 0.4rem;
-    font-size: 0.6875rem;
-  }
-  .category-quantity h2 {
-    font-size: clamp(1.7rem, 8.4vw, 2.8rem);
+  html.js .category-story :is(header, .category-cta) > :is(.paper-caption, .story-text__note) {
+    opacity: 1;
+    translate: none;
+    transition: none;
   }
 }

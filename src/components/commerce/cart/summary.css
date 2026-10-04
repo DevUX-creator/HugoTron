@@ -1,0 +1,150 @@
+/* The order summary and the voucher field, shared by the cart page and checkout. */
+
+/* Voucher */
+.voucher {
+  display: grid;
+  gap: 0.4rem;
+}
+.voucher__label {
+  font-size: 0.8125rem;
+  color: var(--commerce-muted);
+}
+.voucher__row {
+  display: flex;
+  gap: 0.5rem;
+}
+.voucher__row input {
+  flex: 1;
+  min-inline-size: 0;
+  min-block-size: 3rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid color-mix(in srgb, var(--commerce-ink) 28%, transparent);
+  background: color-mix(in srgb, var(--color-world-paper-light) 85%, transparent);
+  color: inherit;
+  font: inherit;
+  text-transform: uppercase;
+}
+.voucher__row input:focus {
+  outline: none;
+  border-color: var(--commerce-accent);
+}
+.voucher__row input[aria-invalid="true"] {
+  border-color: var(--color-commerce-error);
+}
+.voucher__error {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-commerce-error);
+}
+.voucher--applied {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px dashed color-mix(in srgb, var(--color-commerce-success) 60%, transparent);
+  color: var(--color-commerce-success);
+  font-size: 0.875rem;
+}
+.voucher--applied button {
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Summary */
+.summary {
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.5rem;
+}
+.summary__title {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.commerce .summary .summary__title {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+}
+.summary__lines {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.summary__lines li {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.875rem;
+}
+.summary__image {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background: color-mix(in srgb, var(--color-world-paper) 70%, transparent);
+}
+.summary__image img {
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.summary__qty {
+  position: absolute;
+  inset: -0.45rem -0.45rem auto auto;
+  display: grid;
+  place-items: center;
+  min-inline-size: 1.35rem;
+  block-size: 1.35rem;
+  padding-inline: 0.3rem;
+  border-radius: 999px;
+  background: var(--commerce-ink);
+  color: var(--color-world-paper-light);
+  font-size: 0.6875rem;
+}
+.summary__name {
+  display: grid;
+  gap: 0.15rem;
+}
+.summary__name small {
+  color: var(--commerce-muted);
+}
+.summary__totals {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-block-start: 1rem;
+  border-block-start: 1px solid var(--commerce-line);
+  font-size: 0.9375rem;
+}
+.summary__totals div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.summary__totals dt,
+.summary__totals dd {
+  margin: 0;
+}
+.summary__discount {
+  color: var(--color-commerce-success);
+}
+.summary__total {
+  margin-block-start: 0.4rem;
+  padding-block-start: 0.75rem;
+  border-block-start: 1px solid var(--commerce-line);
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+.summary__vat {
+  margin: -0.6rem 0 0;
+  font-size: 0.75rem;
+  color: var(--commerce-muted);
+  text-align: end;
+}

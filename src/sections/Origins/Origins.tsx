@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import ArrowLink from "@/components/ui/ArrowLink";
-import { getCategory, getProduct } from "@/lib/catalogue";
+import { getCategory, getProduct } from "@/commerce/catalogue";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { ORIGINS, type Origin } from "@/content/origins";
 import OriginsMap from "./OriginsMap";

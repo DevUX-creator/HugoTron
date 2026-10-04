@@ -10,7 +10,7 @@
  *
  * NOT TRANSLATED, DELIBERATELY. A legal name, a street and a telephone number
  * read the same in both locales — the only part that does vary is the country,
- * which stays in `messages` (`homeStory.contact.country`) where a translator
+ * which stays in `messages` (`paperStory.contact.country`) where a translator
  * can reach it.
  */
 export const COMPANY = {
@@ -22,16 +22,33 @@ export const COMPANY = {
   countryCode: "DE",
 } as const;
 
+/** Register and tax details, as on the live hugo-tron.com Impressum (October 2026). */
+export const REGISTER = {
+  court: "Amtsgericht Pinneberg",
+  number: "HRB 16973 PI",
+  vatId: "DE326187211",
+  taxNumber: "224273201845",
+  taxOffice: "Finanzamt Hamburg-Am Tierpark",
+  /** Required in the Impressum for a GmbH (§ 5 DDG). Not on the live site: to be provided. */
+  managingDirector: null as string | null,
+} as const;
+
 export const CONTACT = {
   email: "info@hugo-tron.com",
   /** E.164, for `tel:` and for anything that has to dial it. */
   phone: "+494021078869",
   /** Grouped for reading. Never parse this one. */
   phoneDisplay: "+49 40 210 788 69",
+  /** WhatsApp, as on the current hugo-tron.com footer (E.164). */
+  whatsapp: "+4915204346281",
+  whatsappDisplay: "+49 1520 4346281",
+  instagram: "hugo_tron_gmbh",
 } as const;
 
-/** `mailto:` and `tel:` hrefs, so no component builds its own. */
+/** `mailto:`, `tel:` and app links, so no component builds its own. */
 export const HREF = {
   email: `mailto:${CONTACT.email}`,
   phone: `tel:${CONTACT.phone}`,
+  whatsapp: `https://wa.me/${CONTACT.whatsapp.replace("+", "")}`,
+  instagram: `https://www.instagram.com/${CONTACT.instagram}/`,
 } as const;

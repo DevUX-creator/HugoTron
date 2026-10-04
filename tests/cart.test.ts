@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { cartSummary, changeCart, normalizeCart, parseCart } from "../src/lib/cart/model";
+import { cartSummary, changeCart, normalizeCart, parseCart } from "../src/commerce/cart/model";
 
 const rice = "pardis-basmati-indien-1kg";
 const tea = "vahdam-earl-grey";
@@ -46,8 +46,19 @@ describe("cart contract", () => {
         null,
       ],
     });
-    expect(parseCart(raw)).toEqual([{ productId: rice, quantity: 3 }]);
-    expect(cartSummary(parseCart(raw)).subtotal).toBe(1170);
+    expect(parseCart(raw).lines).toEqual([{ productId: rice, quantity: 3 }]);
+    expect(cartSummary(parseCart(raw).lines).subtotal).toBe(1170);
+  });
+  it("keeps the voucher code and note of a version 2 cart, within bounds", () => {
+    const raw = JSON.stringify({
+      version: 2,
+      lines: [{ productId: rice, quantity: 1 }],
+      voucher: "WELCOME10",
+      note: "x".repeat(2000),
+    });
+    const cart = parseCart(raw);
+    expect(cart.voucher).toBe("WELCOME10");
+    expect(cart.note).toHaveLength(1000);
   });
   it("recovers safely from corrupted, unversioned or oversized storage", () => {
     for (const raw of [
@@ -55,10 +66,10 @@ describe("cart contract", () => {
       "invalid",
       "null",
       "[]",
-      '{"version":2,"lines":[]}',
+      '{"version":3,"lines":[]}',
       "x".repeat(40000),
     ])
-      expect(parseCart(raw)).toEqual([]);
+      expect(parseCart(raw)).toEqual({ lines: [], voucher: "", note: "" });
   });
   it("calculates totals in integer cents from current catalogue data", () => {
     const summary = cartSummary([

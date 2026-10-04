@@ -1,83 +1,79 @@
-/* ===========================================================================
-   Announcement bar
-   ---------------------------------------------------------------------------
-   Full-width shipping strip, with a compact two-row layout on phones.
-   =========================================================================== */
-
+/* The delivery strip: the full width of the page content, label left, arrow right. */
 .announce {
-  padding-inline: 0;
-  background-color: var(--color-bg-base);
+  margin-block-end: 2.5rem;
 }
-
 .announce__panel {
   display: flex;
-  /* One row, always. Letting this wrap put the chevron alone on a third line
-     and turned a one-line promise into a paragraph. The message wraps inside
-     its own box instead. */
-  flex-wrap: nowrap;
   align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  max-width: none;
-  margin-inline: auto;
-  padding: 0.6rem 1.25rem;
-  border-end-start-radius: 0;
-  border-end-end-radius: 0;
-  background-color: var(--color-ink-900);
-  color: var(--color-paper-50);
-  text-align: center;
+  gap: 0.85rem;
+  inline-size: 100%;
+  padding: 0.45rem 1rem 0.45rem 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--color-world-paper-ink) 16%, transparent);
+  background: color-mix(in srgb, var(--color-world-paper-light) 70%, transparent);
+  color: var(--color-world-paper-ink);
+  font-size: 0.8125rem;
   text-decoration: none;
+  transition:
+    border-color 300ms,
+    background-color 300ms;
 }
-
-/* The offer itself, as a filled chip — the one thing that has to survive being
-   skimmed. Everything after it is detail. */
+.announce__panel:hover {
+  border-color: color-mix(in srgb, var(--color-world-paper-ink) 40%, transparent);
+}
+.announce__panel:focus-visible {
+  outline: 2px solid var(--color-world-paper-blue);
+  outline-offset: 3px;
+}
 .announce__chip {
-  flex-shrink: 0;
-  padding: 0.35rem 0.75rem;
-  border-radius: 0;
-  background-color: var(--color-accent-muted);
-  color: var(--color-ink-900);
-  font-size: var(--text-eyebrow);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--tracking-wide);
-  line-height: 1.1;
+  flex: none;
+  padding: 0.3rem 0.7rem;
+  background: var(--color-world-paper-ink);
+  color: var(--color-world-paper-light);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-
 .announce__message {
+  flex: 1;
   min-inline-size: 0;
-  font-size: var(--text-body-xs);
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-
-.announce__chevron {
-  flex-shrink: 0;
-  inline-size: 0.85rem;
-  block-size: 0.85rem;
-  transition: transform var(--duration-base) var(--ease-quint);
+.announce__arrow {
+  flex: none;
+  margin-inline-start: auto;
+  inline-size: 0.9rem;
+  transition: translate 400ms cubic-bezier(0.19, 1, 0.22, 1);
 }
-
-.announce__panel:hover .announce__chevron,
-.announce__panel:focus-visible .announce__chevron {
-  transform: translateX(0.25rem);
+.announce__panel:hover .announce__arrow {
+  translate: 0.25rem 0;
 }
 
 @media (width < 40rem) {
-  .announce__panel {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 0.4rem 0.65rem;
-    padding: 0.65rem 1.25rem;
-  }
-
   .announce__message {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    max-inline-size: 40ch;
-    font-size: 0.65rem;
-    line-height: 1.4;
-    letter-spacing: 0.02em;
+    display: none;
   }
+}
+
+/* Aligned with the content of each commerce page (their own max widths). */
+.commerce .announce {
+  max-inline-size: 92rem;
+  margin-inline: auto;
+}
+.commerce:has(.cart-view, .checkout, .order-page) .announce {
+  max-inline-size: 76rem;
+}
+.commerce:has(.contact) .announce {
+  max-inline-size: 72rem;
+}
+.commerce:has(.account) .announce {
+  max-inline-size: 56rem;
+}
+.commerce:has(.legal) .announce {
+  max-inline-size: 48rem;
+}
+.commerce:has(.auth) .announce {
+  max-inline-size: 30rem;
 }

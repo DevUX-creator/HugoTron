@@ -22,6 +22,9 @@
   --color-world-paper-light: #e8ddc7;
   /* The light behind a location's door (wholesale hall → delivery). */
   --color-door-light: #ffe9c4;
+  /* Commerce feedback on light paper: a confirmed order, a refused payment. */
+  --color-commerce-success: #2f6a47;
+  --color-commerce-error: #a3322b;
   /* The wholesale hall's daylight haze, after the palace reference. */
   --color-hall-haze: #6c737c;
   --color-world-paper-shadow: #b1a082;
@@ -32,17 +35,16 @@
      Five ramps generated in OKLCH at fixed perceptual lightness steps, each
      with an explicit chroma profile.
 
-     The register is BRIGHT and high-contrast, benchmarked against
-     public/reference/colour-birkenstock.png (big saturated brand-blue panels
-     on white) and colour-flashy-green.png (an acid accent doing all the
-     shouting). An earlier muted, earthy version of this file was rejected as
+     The register is BRIGHT and high-contrast, benchmarked against two
+     reference boards (big saturated brand-blue panels on white, and an acid
+     accent doing all the shouting). An earlier muted, earthy version of this file was rejected as
      too quiet.
 
      Regenerate with `python3 scripts/palette.py` if an anchor changes.
      ------------------------------------------------------------------------- */
 
   /* Harbor — the brand blue. ★ = #00348d, sampled from
-     public/reference/colour-birkenstock.png.
+     the brand-blue reference board.
 
      NOT the logo's own #053c74, which is the same lightness at two-thirds the
      chroma and reads flat at panel scale. The logo artwork keeps its colour;
@@ -60,7 +62,7 @@
   --color-harbor-900: #05235a;
 
   /* Lime — the flashy accent. ★ = #eeff80, sampled from
-     public/reference/colour-flashy-green.png.
+     the acid-green reference board.
 
      Pinned at 100 because it is very light (L 0.96): it is a SURFACE carrying
      near-black ink, and on the blue panel it is the brightest thing on the
@@ -129,8 +131,7 @@
      The three steps walk down in lightness on one hue, so surfaces stack on
      the ground without needing a border between them.
 
-     History: #fff / #eeedea / #dedcd7 (cool, v1) → almond (too warm) → here.
-     See content/strategy/concept-v2.md. */
+     History: #fff / #eeedea / #dedcd7 (cool, v1) → almond (too warm) → here. */
   --color-paper-50: #eeede7;
   --color-paper-100: #e3e1db;
   --color-paper-200: #d0cec6;
@@ -220,6 +221,13 @@
   --color-cat-raw-accent: #254fa0;
   --color-world-neon-hot: #b4dcff;
   --color-world-surface: #152c47;
+  /* The Delivery atlas: neutral land against the blue world, with Hamburg illuminated. */
+  --color-map-night: #030711;
+  --color-map-neighbour: #060b13;
+  --color-map-highlight: #102b47;
+  --color-map-mid: #0b1b2d;
+  --color-map-low: #07121f;
+  --color-map-edge: #567591;
   --color-world-day: #e9e5db;
   --color-bg-surface: var(--color-ink-800);
   --color-bg-muted: var(--color-ink-700);
@@ -382,7 +390,7 @@
   --radius-button: var(--radius-lg);
 
   /* ---- THE MORPH CUT -------------------------------------------------------
-     The shape language of the references in public/reference/shape-*.png: where
+     The shape language of the design references: where
      two surfaces meet, the joint is a CONCAVE fillet rather than a right angle,
      so one surface appears to flow out of the other.
 
@@ -402,7 +410,7 @@
   /* ---- THE CHAMFER --------------------------------------------------------
      One shape, and its sizes live here rather than inside the `.notch`
      utility — a magnitude hardcoded in globals.css is a magnitude nobody finds
-     when the shape language changes. See docs/DESIGN-SYSTEM.md.
+     when the shape language changes.
 
      `--chamfer-joint` is the small bevel at each end of the cut, used only by
      the `clip-path: shape()` path: it is what stops the diagonal meeting the

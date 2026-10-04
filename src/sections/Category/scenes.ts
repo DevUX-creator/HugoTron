@@ -3,9 +3,9 @@ import type { CategorySceneKind } from "@/content/categoryStories";
 
 export type CategoryHeroScene = {
   setLeave: (value: number) => void;
+  /** 0–1: the camera's approach and the ingredient's response to the pointer. */
   setExplore: (value: number) => void;
   activate: () => void;
-  nudge?: (x: number, y: number) => void;
   setReducedMotion: (reduced: boolean) => void;
   dispose: () => void;
 };
@@ -17,53 +17,12 @@ type Factory = (
   options: Options,
 ) => CategoryHeroScene;
 
-/** One renderer per page: the original rice physics, or the courtyard with a bespoke ingredient behaviour. */
+/**
+ * One renderer per page. Every range is presented in the home's courtyard, with its ingredient
+ * at the centre and its own camera move and pointer behaviour (components/world/specimen):
+ * rice is brushed in its dish, pistachio shells open, saffron threads separate, and so on.
+ */
 export const CATEGORY_SCENES: Record<CategorySceneKind, () => Promise<Factory>> = {
-  rice: async () => {
-    const { createRiceScene } = await import("@/components/rice/scene");
-    return (mount, _ingredient, options) => {
-      let progress = 0;
-      const scene = createRiceScene(
-        mount,
-        {
-          onReady: options.onReady,
-          onFailure: options.onError,
-          onPlaying: (value) => {
-            mount.dataset.playing = String(value);
-          },
-          onCameraProgress: (value) => {
-            mount.dataset.explore = value.toFixed(3);
-          },
-        },
-        {
-          viewport: mount.parentElement!,
-          entrance: true,
-          heroScale: 1.32,
-          heroElevation: 0.14,
-          sculptedLight: true,
-        },
-      );
-      scene.setDark(true);
-      scene.setReducedMotion(options.reduced);
-      return {
-        setLeave: (value) => {
-          scene.setCovered(value >= 1);
-          mount.dataset.covered = String(value >= 1);
-        },
-        setExplore: (value) => {
-          progress = value;
-          scene.setScrollProgress(value);
-        },
-        activate: () => {
-          if (progress < 0.85) scene.toss();
-          else scene.brushWithKey(1, 0);
-        },
-        nudge: scene.brushWithKey,
-        setReducedMotion: scene.setReducedMotion,
-        dispose: scene.dispose,
-      };
-    };
-  },
   courtyard: async () => {
     const { createWorldScene } = await import("@/components/world/scene");
     return (mount, ingredient, options) => {

@@ -802,6 +802,28 @@ html:not(.js) .story__line {
 .paper-story .paper-contact__reach .paper-caption {
   margin-block: 1.25rem 0;
 }
+/* Quick contact: a small channel label before each address or number. */
+.paper-story .paper-contact__channel {
+  display: inline-block;
+  min-inline-size: 5.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+.paper-story .paper-contact__member {
+  display: inline-flex;
+  align-items: center;
+}
+.paper-story .paper-contact__member img {
+  inline-size: auto;
+  block-size: 2.25rem;
+}
+.paper-story .paper-contact__reach .paper-contact__form {
+  margin-block-start: 0.35rem;
+  font-weight: 500;
+}
 .paper-story .paper-contact__bottom {
   position: relative;
   align-items: center;

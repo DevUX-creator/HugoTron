@@ -1,0 +1,235 @@
+/* ===========================================================================
+   Commerce pages — the story's light paper. The columns and clouds of the home
+   stand far behind, barely visible, so the page belongs to the same world
+   without competing with prices and forms.
+   =========================================================================== */
+
+html:has(.commerce) body {
+  background: var(--color-world-paper);
+}
+.commerce {
+  --commerce-ink: var(--color-world-paper-ink);
+  --commerce-muted: color-mix(in srgb, var(--color-world-paper-ink) 62%, transparent);
+  --commerce-line: color-mix(in srgb, var(--color-world-paper-ink) 16%, transparent);
+  --commerce-card: color-mix(in srgb, var(--color-world-paper-light) 72%, transparent);
+  --commerce-accent: var(--color-world-paper-blue);
+  --commerce-ease: cubic-bezier(0.19, 1, 0.22, 1);
+  position: relative;
+  z-index: 1;
+  min-block-size: 70svh;
+  padding: calc(var(--header-inset-block) + var(--header-row) + 4.5rem) max(1.25rem, 5vw) 6rem;
+  color: var(--commerce-ink);
+  /* Fine paper fibre, drawn in SVG so it needs no image request. */
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.09  0 0 0 0 0.17  0 0 0 0 0.24  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.commerce-paper {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.commerce-paper img {
+  position: absolute;
+  block-size: auto;
+  opacity: 0.075;
+  mix-blend-mode: multiply;
+  filter: grayscale(1) contrast(0.9);
+}
+.commerce-paper__column {
+  inline-size: clamp(14rem, 22vw, 24rem);
+}
+.commerce-paper__column--left {
+  inset: 18% auto auto -5%;
+  rotate: -3deg;
+}
+.commerce-paper__column--right {
+  inset: 30% -6% auto auto;
+  scale: -1 1;
+  rotate: 3deg;
+}
+.commerce-paper__cloud {
+  inset: 6% auto auto 38%;
+  inline-size: clamp(18rem, 34vw, 36rem);
+}
+
+/* Shared commerce primitives: headings, panels, buttons, fields. */
+.commerce h1,
+.commerce h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.commerce-panel {
+  border: 1px solid var(--commerce-line);
+  background: var(--commerce-card);
+  backdrop-filter: blur(6px);
+}
+.commerce-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-block-size: 3.25rem;
+  padding: 0.85rem 1.4rem;
+  border: 1px solid var(--commerce-ink);
+  background: var(--commerce-ink);
+  color: var(--color-world-paper-light);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 300ms,
+    color 300ms,
+    opacity 300ms;
+}
+.commerce-button:hover {
+  background: color-mix(in srgb, var(--commerce-ink) 86%, var(--commerce-accent));
+}
+.commerce-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.commerce-button--ghost {
+  background: transparent;
+  color: var(--commerce-ink);
+}
+.commerce-button--ghost:hover {
+  background: color-mix(in srgb, var(--commerce-ink) 6%, transparent);
+}
+.commerce-button--block {
+  inline-size: 100%;
+}
+.commerce-button:focus-visible,
+.commerce-link:focus-visible {
+  outline: 2px solid var(--commerce-accent);
+  outline-offset: 3px;
+}
+.commerce-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+}
+.commerce-link:hover {
+  text-decoration-color: currentColor;
+}
+.commerce-caption {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--commerce-muted);
+}
+
+.commerce-field {
+  display: grid;
+  gap: 0.4rem;
+}
+.commerce-field label {
+  font-size: 0.8125rem;
+  color: var(--commerce-muted);
+}
+.commerce-field input,
+.commerce-field select,
+.commerce-field textarea {
+  inline-size: 100%;
+  min-block-size: 3rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--commerce-ink) 28%, transparent);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--color-world-paper-light) 85%, transparent);
+  color: var(--commerce-ink);
+  font: inherit;
+  font-size: 1rem;
+  transition:
+    border-color 250ms,
+    box-shadow 250ms;
+}
+.commerce-field textarea {
+  min-block-size: 6rem;
+  resize: vertical;
+}
+.commerce-field :is(input, select, textarea):focus {
+  outline: none;
+  border-color: var(--commerce-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--commerce-accent) 18%, transparent);
+}
+.commerce-field [aria-invalid="true"] {
+  border-color: var(--color-commerce-error);
+}
+.commerce-field__hint {
+  font-size: 0.75rem;
+  color: var(--commerce-muted);
+}
+.commerce-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.commerce-fields > .commerce-field--wide {
+  grid-column: 1 / -1;
+}
+.commerce-check {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.commerce-check input {
+  flex: none;
+  inline-size: 1.15rem;
+  block-size: 1.15rem;
+  margin-block-start: 0.2rem;
+  accent-color: var(--commerce-ink);
+}
+
+@media (width < 48rem) {
+  .commerce {
+    padding-block-start: calc(var(--header-inset-block) + var(--header-row) + 3rem);
+  }
+  .commerce-fields {
+    grid-template-columns: 1fr;
+  }
+  .commerce-paper__column--left,
+  .commerce-paper__column--right {
+    inline-size: 10rem;
+  }
+}
+
+.legal-page {
+  display: grid;
+  gap: 1.5rem;
+  max-inline-size: 48rem;
+  margin-inline: auto;
+}
+.legal-page h1 {
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+}
+.legal-page p {
+  margin: 0;
+  line-height: 1.65;
+  color: var(--commerce-muted);
+}
+.bank-details {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  gap: 0.35rem 1.5rem;
+  margin: 1rem 0 0;
+  text-align: start;
+}
+.bank-details dt {
+  color: var(--commerce-muted);
+}
+.bank-details dd {
+  margin: 0;
+  font-family: var(--font-mono);
+  color: var(--commerce-ink);
+}

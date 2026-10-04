@@ -110,10 +110,47 @@ try {
         .querySelector(".hall canvas")
         .addEventListener("webglcontextlost", () => (window.hallLost = true), { once: true });
     });
-    await walk(page, 0.91);
-    await page.locator('[data-chapter="door"] a').click();
-    await page.waitForURL(locale === "de" ? "**/de/lieferung" : "**/en/delivery");
+    await walk(page, 1);
+    await page.waitForTimeout(900);
+    assert.ok(page.url().endsWith(path(locale)), "the end of the walk must not navigate");
+    const door = Number(await page.locator(".hall__scene").getAttribute("data-door"));
+    assert.ok(door > 0.16 && door <= 0.181, "the door stays only slightly open");
+    assert.equal(await page.locator('[data-chapter="door"]').getAttribute("inert"), null);
+    await page.screenshot({ path: `/tmp/hugo-palace-${engine}-${width}-end.png` });
+    const beforeEntering = Number(await page.locator(".hall__scene").getAttribute("data-camera-z"));
+    const enterLink = page.locator('[data-chapter="door"] a');
+    if (width === 390) await enterLink.press("Enter");
+    else await enterLink.click();
+    await page.waitForFunction((z) => {
+      const scene = document.querySelector(".hall__scene");
+      return Number(scene?.dataset.door) > 0.95 && Number(scene?.dataset.cameraZ) < z - 1.2;
+    }, beforeEntering);
+    assert.ok(page.url().endsWith(path(locale)), "the physical door opens before navigation");
+    assert.equal(await enterLink.getAttribute("aria-disabled"), "true");
+    assert.equal(
+      await page.locator(".door-flood:not(.door-flood--arrival)").getAttribute("data-state"),
+      "out",
+      "the walk stays visible until the camera reaches the threshold",
+    );
+    if (width === 1440) {
+      await page.evaluate(() => {
+        Object.defineProperty(document, "hidden", { configurable: true, value: true });
+        document.dispatchEvent(new Event("visibilitychange"));
+      });
+      const pausedZ = await page.locator(".hall__scene").getAttribute("data-camera-z");
+      await page.waitForTimeout(300);
+      assert.equal(await page.locator(".hall__scene").getAttribute("data-camera-z"), pausedZ);
+      await page.evaluate(() => {
+        delete document.hidden;
+        document.dispatchEvent(new Event("visibilitychange"));
+      });
+    }
+    // A repeated activation must not restart the walk or schedule another navigation.
+    await enterLink.dispatchEvent("click");
+    await page.screenshot({ path: `/tmp/hugo-palace-${engine}-${width}-entering.png` });
+    await page.waitForURL(`**/${locale}/private-label`);
     await page.waitForFunction(() => window.hallLost);
+    assert.notEqual(await page.evaluate(() => document.body.style.overflow), "hidden");
     await page.goBack();
     await page.waitForFunction(() => document.querySelector(".hall")?.dataset.ready === "true");
     await page.waitForTimeout(1600);
@@ -121,12 +158,6 @@ try {
       page.url().endsWith(path(locale)),
       "Back does not automatically send visitors through the door again",
     );
-    if (width === 1440) {
-      await walk(page, 0.4);
-      await page.waitForTimeout(900);
-      await page.evaluate(() => scrollTo(0, document.documentElement.scrollHeight));
-      await page.waitForURL("**/en/delivery");
-    }
     console.log(
       `${engine} ${width} ${locale}: stations, links, reverse walk, hidden pause, disposal passed (${end.calls} calls, ${end.textures} textures, ${end.geometries} geometries)`,
     );

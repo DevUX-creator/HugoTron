@@ -4,7 +4,9 @@ import { deliverEnquiry, selectedProvider } from "../src/lib/enquiry/provider";
 import type { Enquiry } from "../src/lib/enquiry/schema";
 
 const ENQUIRY: Enquiry = {
+  topic: "enquiry",
   purpose: "quote",
+  orderReference: "",
   product: "Basmati 1121",
   quantity: "2 pallets",
   packSize: "25 kg",

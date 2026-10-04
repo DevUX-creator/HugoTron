@@ -15,7 +15,7 @@ export const PRODUCT_CATEGORIES = [
   },
   {
     id: "pistachios",
-    href: "/range/pistachios",
+    href: "/range/nuts",
     products: ["pistazien-mit-schale", "pistazienkerne"],
   },
   {
@@ -37,7 +37,7 @@ export const PRODUCT_CATEGORIES = [
       "white-mung-beans",
     ],
   },
-  { id: "grains", href: "/range/grains", products: ["bulgur-25kg"] },
+  { id: "grains", href: "/range/raw-materials", products: ["bulgur-25kg"] },
 ] as const satisfies readonly {
   id: string;
   href: StaticPathname;

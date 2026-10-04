@@ -4,9 +4,13 @@ import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import Copy from "@/animations/Copy";
 import Reveal from "@/animations/Reveal";
-import { formatPrice, isPurchasable, productImage, type Product } from "@/lib/catalogue";
-import { AddToCartButton, AddToCartQuantity, useAddToCart } from "@/components/products/AddToCart";
-import EnquireLink from "@/components/products/EnquireLink";
+import { formatPrice, isPurchasable, productImage, type Product } from "@/commerce/catalogue";
+import {
+  AddToCartButton,
+  AddToCartQuantity,
+  useAddToCart,
+} from "@/components/commerce/products/AddToCart";
+import EnquireLink from "@/components/commerce/products/EnquireLink";
 import "./riceProductCard.css";
 
 /** Compact product selection beside the rice scene, bought through the shared cart. */

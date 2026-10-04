@@ -12,11 +12,11 @@
  * nine do this way, and there is no cut-off to design around.
  *
  * Converted from the package's `Variable TT/Mersad.ttf` to woff2 (45% of the
- * size, same outlines). The source archive is `Mersad.zip` at the repo root.
+ * size, same outlines). The source archive is not kept in the repository.
  *
  * LICENCE: the archive carries no licence file. Mersad is a commercial
  * typeface; webfont use needs a licence that covers it, and that is the
- * client's to produce — see content/strategy/kundenfragebogen.md.
+ * client's to produce — see docs/CLIENT-INPUT.md.
  */
 import localFont from "next/font/local";
 import { Geist, Geist_Mono } from "next/font/google";

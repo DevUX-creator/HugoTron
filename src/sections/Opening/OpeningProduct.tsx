@@ -1,8 +1,8 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { BRAND_NAMES, categoryProducts, getCategory } from "@/lib/catalogue";
-import { useProductChoice } from "@/components/products/useProductChoice";
+import { BRAND_NAMES, categoryProducts, getCategory } from "@/commerce/catalogue";
+import { useProductChoice } from "@/components/commerce/products/useProductChoice";
 import RiceProductCard from "./RiceProductCard";
 import Reveal from "@/animations/Reveal";
 

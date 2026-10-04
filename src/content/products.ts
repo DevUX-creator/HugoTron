@@ -6,7 +6,7 @@
  * production.
  *
  * Prices are INTEGER CENTS. Floats lie: 3.49 * 3 is not 10.47.
- * Figures are the September 2026 scrape in content/products/catalog.md.
+ * Figures are the September 2026 prices from the live hugo-tron.com shop.
  */
 export type ProductSlug =
   | "pardis-1121-basmati-indien"
@@ -40,7 +40,7 @@ export type Product = {
   /**
    * THE FIELD THAT REPLACES THE €0.00 HACK. The live shop lists its wholesale
    * lines as zero-price, out-of-stock products with an email address in the
-   * name (see content/strategy/audit.md §2). Here the channel decides whether
+   * name. Here the channel decides whether
    * a card offers a cart or a quote, and nothing has to be faked.
    * Sourcing selections have no confirmed pack size, price or stock promise.
    */

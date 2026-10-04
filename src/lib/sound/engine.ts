@@ -1,4 +1,5 @@
 import { SOUND_ASSETS, SOUND_MIX, type SoundCue } from "./manifest";
+import { VehicleSound } from "./vehicle";
 
 type Voice = { source: AudioBufferSourceNode; gain: GainNode };
 
@@ -12,6 +13,8 @@ export class SoundEngine {
   private readonly lastPlayed = new Map<SoundCue, number>();
   private loading: Promise<void> | undefined;
   private ambient: Voice | undefined;
+  private vehicle: VehicleSound | undefined;
+  private vehicleMoving = false;
   private timer: ReturnType<typeof setTimeout> | undefined;
   private visible = true;
   private disposed = false;
@@ -109,6 +112,15 @@ export class SoundEngine {
     this.voice(buffer, config.gain);
   }
 
+  setVehicle(moving: boolean, speed = 1) {
+    if (this.disposed || (!moving && !this.vehicle)) return;
+    this.vehicleMoving = moving;
+    this.mixAmbience();
+    this.vehicle ??= new VehicleSound(this.context, this.master);
+    this.vehicle.request(moving, speed);
+    this.vehicle.setAvailable(this.enabled && this.visible);
+  }
+
   dispose() {
     if (this.disposed) return;
     this.disposed = true;
@@ -117,6 +129,7 @@ export class SoundEngine {
     this.abort.abort();
     clearTimeout(this.timer);
     this.stopVoices();
+    this.vehicle?.dispose();
     this.buffers.clear();
     this.master.disconnect();
     void this.context.close().catch(() => {});
@@ -171,6 +184,24 @@ export class SoundEngine {
     if (!buffer) return;
     if (!this.ambient) this.ambient = this.voice(buffer, SOUND_ASSETS.ambience.gain, true);
     this.fade(SOUND_MIX.level, SOUND_MIX.fadeIn);
+    this.mixAmbience();
+    this.vehicle?.setAvailable(true);
+  }
+
+  private mixAmbience() {
+    if (!this.ambient) return;
+    const gain = this.ambient.gain.gain,
+      now = this.context.currentTime;
+    if (typeof gain.cancelAndHoldAtTime === "function") gain.cancelAndHoldAtTime(now);
+    else {
+      const value = gain.value;
+      gain.cancelScheduledValues(now);
+      gain.setValueAtTime(value, now);
+    }
+    gain.linearRampToValueAtTime(
+      this.vehicleMoving ? 0 : SOUND_ASSETS.ambience.gain,
+      now + (this.vehicleMoving ? 0.35 : 1.2),
+    );
   }
 
   private fade(level: number, duration: number) {
@@ -188,6 +219,7 @@ export class SoundEngine {
   private silence(immediate = false) {
     clearTimeout(this.timer);
     if (this.disposed) return;
+    this.vehicle?.setAvailable(false);
     this.fade(0, immediate ? 0 : SOUND_MIX.fadeOut);
     const stop = () => {
       if (this.disposed || (this.enabled && this.visible)) return;

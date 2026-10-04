@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
-import Catalogue from "@/components/products/Catalogue";
+import { routing, type Locale } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/seo";
+import CommerceShell from "@/components/commerce/layout/CommerceShell";
+import ProductsPage from "@/components/commerce/products/ProductsPage";
 
 export async function generateMetadata({
   params,
@@ -12,13 +14,29 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
-  const t = await getTranslations({ locale, namespace: "catalogue" });
-  return { title: `${t("title")} — Hugo Tron`, description: t("lead") };
+  const t = await getTranslations({ locale, namespace: "commerce.products" });
+  return pageMetadata({
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+    href: "/range",
+    locale: locale as Locale,
+  });
 }
 
-export default async function ProductsPage({ params }: { params: Promise<{ locale: string }> }) {
+export default async function Products({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ category?: string }>;
+}) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
-  return <Catalogue />;
+  const { category } = await searchParams;
+  return (
+    <CommerceShell>
+      <ProductsPage category={category} />
+    </CommerceShell>
+  );
 }

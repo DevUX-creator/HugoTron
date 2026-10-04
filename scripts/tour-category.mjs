@@ -10,6 +10,7 @@ for (const [name, viewport, mobile] of [
   ["phone", { width: 390, height: 844 }, true],
 ]) {
   const page = await browser.newPage({ viewport, isMobile: mobile, hasTouch: mobile });
+  page.setDefaultTimeout(120000);
   page.on("pageerror", (e) => errors.push(`${name}: ${e.message}`));
   page.on("console", (m) => m.type() === "error" && errors.push(`${name} console: ${m.text()}`));
   await page.goto(base + path, { waitUntil: "networkidle" });

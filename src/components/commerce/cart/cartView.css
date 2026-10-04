@@ -1,0 +1,130 @@
+/* The cart page and the shared summary, voucher and line styles. */
+.cart-view {
+  max-inline-size: 76rem;
+  margin-inline: auto;
+}
+.cart-view--loading {
+  min-block-size: 40svh;
+}
+.cart-view__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block-end: 1.75rem;
+  border-block-end: 1px solid var(--commerce-line);
+}
+.cart-view__head h1 {
+  font-size: clamp(2.6rem, 5vw, 4.5rem);
+  text-transform: uppercase;
+}
+.cart-view__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 24rem);
+  align-items: start;
+  gap: 3rem;
+  margin-block-start: 2rem;
+}
+.cart-view__lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cart-line {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) auto;
+  gap: 1.25rem;
+  align-items: start;
+  padding-block: 1.5rem;
+  border-block-end: 1px solid var(--commerce-line);
+  animation: cart-line-in 500ms var(--commerce-ease) both;
+}
+.cart-line__image {
+  display: grid;
+  place-items: center;
+  background: var(--commerce-card);
+}
+.cart-line__image img {
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.cart-line__body {
+  display: grid;
+  gap: 0.4rem;
+}
+.cart-line h2 {
+  font-family: inherit;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+.cart-line p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--commerce-muted);
+}
+.cart-line__controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-block-start: 0.4rem;
+}
+.cart-line__controls button {
+  min-block-size: 44px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+.cart-line__total {
+  font-weight: 600;
+}
+.cart-view__extras {
+  display: grid;
+  gap: 1.5rem;
+  margin-block-start: 2rem;
+}
+.cart-view__aside {
+  position: sticky;
+  inset-block-start: calc(var(--header-inset-block) + var(--header-row) + 2rem);
+  display: grid;
+  gap: 0.75rem;
+}
+.cart-view__taxes {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--commerce-muted);
+}
+
+@keyframes cart-line-in {
+  from {
+    opacity: 0;
+    translate: 0 0.6rem;
+  }
+}
+
+@media (width < 60rem) {
+  .cart-view__layout {
+    grid-template-columns: 1fr;
+  }
+  .cart-view__aside {
+    position: static;
+  }
+}
+
+@media (width < 36rem) {
+  .cart-line {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+  .cart-line__total {
+    grid-column: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cart-line {
+    animation: none;
+  }
+}

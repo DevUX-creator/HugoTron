@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { foregroundFocusShader } from "./focus";
 import { createWorldLightPaths } from "./paths";
 
-type StreamUniforms = {
+export type StreamUniforms = {
   chapter: { value: number };
   /** The hand-off to Daylight: lines run hotter and wider as the scene dissolves. */
   boost: { value: number };
@@ -18,8 +18,18 @@ type StreamUniforms = {
 };
 
 /** Flowing sparks and feathered filaments share routes, turbulence, and scene-depth occlusion. */
-export function createWorldStream(small: boolean, shared: StreamUniforms) {
-  const routes = createWorldLightPaths();
+export function createWorldStream(
+  small: boolean,
+  shared: StreamUniforms,
+  options: {
+    /** Four routes: two courtyard paths, followed by two open orbital paths. */
+    routes?: ReturnType<typeof createWorldLightPaths>;
+    particles?: number;
+    strands?: number;
+    filamentOpacity?: number;
+  } = {},
+) {
+  const routes = options.routes ?? createWorldLightPaths();
   const routeData = new Float32Array(256 * routes.length * 4);
   routes.forEach((curve, row) => {
     curve
@@ -34,7 +44,11 @@ export function createWorldStream(small: boolean, shared: StreamUniforms) {
     THREE.FloatType,
   );
   routeMap.needsUpdate = true;
-  const uniforms = { ...shared, routeMap: { value: routeMap } };
+  const uniforms = {
+    ...shared,
+    routeMap: { value: routeMap },
+    filamentOpacity: { value: options.filamentOpacity ?? 1 },
+  };
   const flowShader = /* glsl */ `
     uniform sampler2D routeMap;
     uniform float time, age, chapter, boost;
@@ -99,7 +113,7 @@ export function createWorldStream(small: boolean, shared: StreamUniforms) {
     #include <packing>
     uniform sampler2D tDepth;
     uniform vec2 resolution;
-    uniform float nearClip, farClip, chapter, boost;
+    uniform float nearClip, farClip, chapter, boost, filamentOpacity;
     varying float vDistance;
     float depthVisibility() {
       float depth = texture2D(tDepth, gl_FragCoord.xy / resolution).x;
@@ -109,7 +123,7 @@ export function createWorldStream(small: boolean, shared: StreamUniforms) {
   `;
   let seed = 5721;
   const random = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
-  const count = small ? 1200 : 2500;
+  const count = options.particles ?? (small ? 1200 : 2500);
   const geometry = new THREE.BufferGeometry();
   const attributes = new Float32Array(count * 3);
   for (let i = 0; i < count; i++) {
@@ -174,7 +188,7 @@ export function createWorldStream(small: boolean, shared: StreamUniforms) {
   points.name = "Courtyard_passing_sparks";
 
   // Screen-facing strips retain a fine core and a soft halo at every viewport size.
-  const strands = small ? 16 : 27;
+  const strands = options.strands ?? (small ? 16 : 27);
   const segments = small ? 240 : 384;
   const ribbonGeometry = new THREE.BufferGeometry();
   const ribbonFlow: number[] = [];
@@ -289,7 +303,7 @@ export function createWorldStream(small: boolean, shared: StreamUniforms) {
           + vec3(0.01, 0.24, 1.0) * localGlow * (0.35 + vPulse * 0.4) * vEnergy
           + vec3(0.004, 0.09, 1.0) * scattering * 0.09 * vEnergy;
         light = mix(light, neon, smoothstep(0.69, 0.96, chapter));
-        gl_FragColor = vec4(light * 1.4 * (1.0 + boost * 1.8), vAlpha * depthVisibility() * (1.0 + boost * 0.6));
+        gl_FragColor = vec4(light * 1.4 * (1.0 + boost * 1.8), vAlpha * depthVisibility() * (1.0 + boost * 0.6) * filamentOpacity);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }

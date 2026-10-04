@@ -1,20 +1,47 @@
 "use client";
 
-import { Fragment, useEffect, useRef, useState, type CSSProperties } from "react";
+import { Fragment, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { useLenis, useScrollWake } from "@/components/providers/SmoothScroll";
 import FilmPlaylist from "@/components/media/FilmPlaylist";
-import RangeProductCard from "@/components/products/RangeProductCard";
-import { RANGE_FILMS } from "@/content/rangeFilms";
-import { getProducts } from "@/lib/catalogue";
+import RangeProductCard from "@/components/commerce/products/RangeProductCard";
+import { RANGE_FILMS, type RangeFilm } from "@/content/rangeFilms";
+import { getProducts } from "@/commerce/catalogue";
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value));
 const smooth = (value: number) => value * value * (3 - 2 * value);
 
-/** A native sticky stage: open the film, hold it full-screen, then reveal the range. */
-export default function RangeReveal() {
+type Copy = { left: string; right: string; lead: string; eyebrow: string; label: string };
+
+/**
+ * A native sticky stage: open the film, hold it full-screen, then reveal the range. A category
+ * passes its own film, words and cards; by default it shows the whole catalogue.
+ */
+export default function RangeReveal({
+  films = RANGE_FILMS,
+  items,
+  copy,
+  titleId = "paper-chapter-title",
+}: {
+  films?: readonly RangeFilm[];
+  items?: readonly ReactNode[];
+  copy?: Copy;
+  titleId?: string;
+} = {}) {
   const t = useTranslations("paperChapter");
+  const words = copy ?? {
+    left: t("splitLeft"),
+    right: t("splitRight"),
+    lead: t("lead"),
+    eyebrow: t("eyebrow"),
+    label: t("productsLabel"),
+  };
+  const cards =
+    items ??
+    getProducts().map((product, index) => (
+      <RangeProductCard key={product.slug} product={product} index={index} />
+    ));
   const root = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLOListElement>(null);
@@ -134,16 +161,16 @@ export default function RangeReveal() {
     };
   }, [reduced, lenis, wake]);
 
-  const words = t("lead").split(" ");
+  const lead = words.lead.split(" ");
   return (
     <div className="range-reveal" ref={root}>
       <div className="range-reveal__stage" ref={stage}>
-        <h2 className="range-reveal__words" id="paper-chapter-title">
-          <span className="range-reveal__word range-reveal__word--left">{t("splitLeft")}</span>
-          <span className="range-reveal__word range-reveal__word--right">{t("splitRight")}</span>
+        <h2 className="range-reveal__words" id={titleId}>
+          <span className="range-reveal__word range-reveal__word--left">{words.left}</span>
+          <span className="range-reveal__word range-reveal__word--right">{words.right}</span>
         </h2>
         <div className="range-reveal__film">
-          <FilmPlaylist films={RANGE_FILMS} />
+          <FilmPlaylist films={films} />
           <div className="range-reveal__shade" />
         </div>
         <div className="range-reveal__frame" aria-hidden="true">
@@ -152,28 +179,28 @@ export default function RangeReveal() {
           <span className="range-reveal__edge range-reveal__edge--bottom" />
           <span className="range-reveal__edge range-reveal__edge--left" />
           <span className="range-reveal__corner" />
-          <p className="range-reveal__eyebrow">{t("eyebrow")}</p>
+          <p className="range-reveal__eyebrow">{words.eyebrow}</p>
         </div>
         <div className="range-reveal__content">
           <p className="range-reveal__lead">
-            {words.map((word, index) => (
+            {lead.map((word, index) => (
               <Fragment key={`${word}-${index}`}>
                 <span
                   className="range-reveal__copy-word"
-                  style={{ "--word-order": index / words.length } as CSSProperties}
+                  style={{ "--word-order": index / lead.length } as CSSProperties}
                 >
                   <span>{word}</span>
                 </span>
-                {index < words.length - 1 ? " " : null}
+                {index < lead.length - 1 ? " " : null}
               </Fragment>
             ))}
           </p>
         </div>
-        <div className="range-reveal__products" aria-label={t("productsLabel")}>
+        <div className="range-reveal__products" aria-label={words.label}>
           <ol className="range-reveal__track" ref={track}>
-            {getProducts().map((product, index) => (
-              <li key={product.slug} onFocusCapture={() => focusProduct.current(index)}>
-                <RangeProductCard product={product} index={index} />
+            {cards.map((card, index) => (
+              <li key={index} onFocusCapture={() => focusProduct.current(index)}>
+                {card}
               </li>
             ))}
           </ol>
@@ -190,9 +217,7 @@ export default function RangeReveal() {
           <span className="range-reveal__rail-progress" aria-hidden="true">
             <span />
           </span>
-          <span className="range-reveal__count">
-            {String(getProducts().length).padStart(2, "0")}
-          </span>
+          <span className="range-reveal__count">{String(cards.length).padStart(2, "0")}</span>
           <button
             type="button"
             disabled={!reduced && limits.end}

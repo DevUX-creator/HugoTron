@@ -1,0 +1,100 @@
+/* Status messages: one look for every success, notice and error in commerce. */
+.status-message {
+  --tone: var(--commerce-accent);
+  display: grid;
+  justify-items: center;
+  gap: 1.5rem;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  animation: status-in 700ms var(--commerce-ease) both;
+}
+.status-message[data-tone="success"] {
+  --tone: var(--color-commerce-success);
+}
+.status-message[data-tone="error"] {
+  --tone: var(--color-commerce-error);
+}
+.status-message__art {
+  inline-size: min(20rem, 70vw);
+  aspect-ratio: 4 / 3;
+}
+.status-message__art img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: contain;
+}
+/* Stands in for an illustration still to be drawn (see illustrations.ts). */
+.status-message__placeholder {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  border: 1px dashed color-mix(in srgb, var(--tone) 45%, transparent);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 55%,
+    color-mix(in srgb, var(--tone) 14%, transparent),
+    transparent 62%
+  );
+}
+.status-message__copy {
+  display: grid;
+  justify-items: center;
+  gap: 0.75rem;
+  max-inline-size: 34rem;
+}
+.status-message__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: var(--tone);
+}
+.status-message__body {
+  line-height: 1.6;
+  color: var(--commerce-muted);
+}
+.status-message__body p {
+  margin: 0;
+}
+.status-message__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-block-start: 0.75rem;
+}
+/* Inline, inside a form: a bordered note in the tone's colour. */
+.status-message[data-compact] {
+  justify-items: start;
+  padding: 0.9rem 1rem;
+  border-inline-start: 3px solid var(--tone);
+  background: color-mix(in srgb, var(--tone) 8%, transparent);
+  text-align: start;
+}
+.status-message[data-compact] .status-message__copy {
+  justify-items: start;
+  gap: 0.25rem;
+}
+.status-message[data-compact] .status-message__title {
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+.status-message[data-compact] .status-message__body {
+  font-size: 0.875rem;
+}
+
+@keyframes status-in {
+  from {
+    opacity: 0;
+    translate: 0 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-message {
+    animation: none;
+  }
+}

@@ -1,63 +1,29 @@
-/**
- * A cap on how often one sender can submit a public form (the enquiry and the order request).
- * Each form has its own allowance, so an enquiry never uses up an order and vice versa.
- *
- * A Server Action is a public POST endpoint — reachable directly, not only
- * through our own page — so without this the form is an open relay into
- * whatever inbox the provider points at.
- *
- * IN-MEMORY, AND THEREFORE PER-INSTANCE. That is honest for this traffic
- * profile and this deployment: a wholesaler's enquiry form, on one or two
- * instances. It resets on deploy and does not coordinate between instances, so
- * swap the map for a shared store (Redis, Upstash, a table) the day this runs
- * anywhere with real horizontal scale.
- */
-const WINDOW_MS = 10 * 60 * 1000;
-const MAX_PER_WINDOW = 5;
+import { isIP } from "node:net";
+import { createRateLimitStore } from "./rateLimitStore";
 
-const hits = new Map<string, number[]>();
+const hits = createRateLimitStore();
+type RateLimitScope = "enquiry" | "order" | "account" | "withdrawal" | "voucher";
 
-type RateLimitScope = "enquiry" | "order";
-
-/**
- * The sender's address, as the proxy in front of us reports it.
- *
- * `next/headers` is imported lazily and guarded: it throws outside a request
- * context, which is exactly where the unit tests call this from, and a rate
- * limiter that cannot read a header should degrade to one shared bucket rather
- * than take the whole submission down with it.
- */
 async function senderKey(): Promise<string> {
+  // Opt in only to a header the trusted ingress OVERWRITES, never one it merely appends to.
+  const trustedHeader = process.env.RATE_LIMIT_IP_HEADER;
+  if (trustedHeader !== "x-forwarded-for" && trustedHeader !== "x-real-ip") return "unknown";
   try {
     const { headers } = await import("next/headers");
-    const list = await headers();
-    const forwarded = list.get("x-forwarded-for");
-    const first = forwarded?.split(",")[0]?.trim();
-    return first || list.get("x-real-ip") || "unknown";
+    const raw = (await headers()).get(trustedHeader);
+    if (!raw || raw.length > 256) return "unknown";
+    const ip = raw.split(",")[0]?.trim() ?? "";
+    return isIP(ip) ? ip : "unknown";
   } catch {
     return "unknown";
   }
 }
 
-/** True when this sender is still inside their allowance. */
+/** Bounded per-process limit. Use a shared store before scaling; see docs/handoff. */
 export async function withinRateLimit(scope: RateLimitScope): Promise<boolean> {
-  const key = `${scope}:${await senderKey()}`;
-  const now = Date.now();
-  const recent = (hits.get(key) ?? []).filter((at) => now - at < WINDOW_MS);
-
-  if (recent.length >= MAX_PER_WINDOW) {
-    /* The rejected attempt is NOT recorded. Counting it would let a flood hold
-       its own window open indefinitely. */
-    hits.set(key, recent);
-    return false;
-  }
-
-  recent.push(now);
-  hits.set(key, recent);
-  return true;
+  return hits.allow(`${scope}:${await senderKey()}`);
 }
 
-/** Test seam — the map is module state and would otherwise leak between cases. */
 export function resetRateLimit(): void {
   hits.clear();
 }

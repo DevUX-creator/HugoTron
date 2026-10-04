@@ -2,11 +2,19 @@ import * as THREE from "three";
 import { createWorldLightPaths } from "./paths";
 
 /** One instanced field: each stone revolves around, and travels along, a light current. */
-export function createWorldRocks(small: boolean) {
+export function createWorldRocks(
+  small: boolean,
+  options: {
+    paths?: readonly THREE.Curve<THREE.Vector3>[];
+    count?: number;
+    sizeScale?: number;
+    orbitScale?: number;
+  } = {},
+) {
   const group = new THREE.Group();
   group.name = "Orbiting_trail_rocks";
   group.visible = false;
-  const paths = createWorldLightPaths().slice(2);
+  const paths = options.paths ?? createWorldLightPaths().slice(2);
   const geometry = new THREE.IcosahedronGeometry(1, small ? 2 : 3);
   const vertices = geometry.getAttribute("position");
   const vertex = new THREE.Vector3();
@@ -85,7 +93,7 @@ export function createWorldRocks(small: boolean) {
     );
   };
   material.customProgramCacheKey = () => "hugo-mineral-grain-v1";
-  const count = small ? 34 : 64;
+  const count = options.count ?? (small ? 34 : 64);
   const mesh = new THREE.InstancedMesh(geometry, material, count);
   mesh.name = "Floating_mineral_fragments";
   mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
@@ -94,13 +102,15 @@ export function createWorldRocks(small: boolean) {
   let seed = 92147;
   const random = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
   const stones = Array.from({ length: count }, (_, index) => ({
-    path: paths[index % 2]!,
+    path: paths[index % paths.length]!,
     phase: random(),
     speed: 0.006 + random() * 0.007,
     orbit: random() * Math.PI * 2,
     orbitSpeed: (index % 2 ? 1 : -1) * (0.055 + random() * 0.09),
-    radius: 0.45 + random() * 1.15,
-    size: index % 10 === 0 ? 0.25 + random() * 0.16 : 0.035 + random() ** 2 * 0.17,
+    radius: (0.45 + random() * 1.15) * (options.orbitScale ?? 1),
+    size:
+      (index % 10 === 0 ? 0.25 + random() * 0.16 : 0.035 + random() ** 2 * 0.17) *
+      (options.sizeScale ?? 1),
     spin: random() * Math.PI * 2,
     shape: new THREE.Vector3(0.7 + random() * 0.5, 0.7 + random() * 0.5, 0.7 + random() * 0.5),
   }));

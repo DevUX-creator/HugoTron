@@ -237,8 +237,8 @@
    --------------------------------------------------------------------------- */
 @layer components {
   /* ---- THE MORPH FILLET ---------------------------------------------------
-     A concave corner joining two surfaces of the SAME colour — see the
-     references in public/reference/shape-*.png.
+     A concave corner joining two surfaces of the SAME colour — as in the
+     design references.
 
      It is a square of that colour with a quarter-disc masked OUT of its far
      corner, so what remains is the curve between the two edges. Place one at
@@ -549,7 +549,7 @@
 
 /* ---------------------------------------------------------------------------
    REDUCED MOTION — global kill switch.
-   Component-level JS must ALSO bail before loading GSAP; see docs/ANIMATION.md.
+   Component-level JS must ALSO bail before loading GSAP; see docs/ARCHITECTURE.md.
    --------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .swap {

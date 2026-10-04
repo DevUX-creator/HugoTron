@@ -1,0 +1,164 @@
+.cart-drawer {
+  --color-fg-heading: var(--color-ink-900);
+  --color-fg-primary: var(--color-ink-800);
+  --color-bg-product: var(--color-paper-200);
+  position: fixed;
+  inset: 0 0 0 auto;
+  inline-size: min(100%, 30rem);
+  max-inline-size: 100%;
+  block-size: 100dvh;
+  max-block-size: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--color-paper-100);
+  color: var(--color-ink-900);
+}
+.cart-drawer::backdrop {
+  background: rgb(0 0 0 / 55%);
+  backdrop-filter: blur(4px);
+}
+.cart-drawer__inner {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100%;
+  padding: 1.5rem;
+}
+.cart-drawer__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block-end: 1.5rem;
+  border-block-end: 1px solid var(--color-paper-400);
+}
+.cart-drawer__head h2 {
+  margin: 0;
+  font-size: 1.75rem;
+}
+.cart-drawer__head h2 span {
+  font-size: 1rem;
+  font-weight: 400;
+}
+.cart-drawer__close {
+  inline-size: 44px;
+  block-size: 44px;
+  border: 1px solid var(--color-paper-400);
+  border-radius: 50%;
+  background: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.cart-drawer__items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.cart-drawer__item {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 1rem;
+  padding-block: 1.5rem;
+  border-block-end: 1px solid var(--color-paper-300);
+}
+.cart-drawer__item img {
+  object-fit: contain;
+  background: var(--color-paper-50);
+}
+.cart-drawer__item h3 {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.3;
+}
+.cart-drawer__item p {
+  margin-block: 0.5rem;
+  font-size: 0.875rem;
+}
+.cart-drawer__item-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.cart-drawer .qty {
+  --qty-size: 44px;
+}
+.cart-drawer__item-controls > button {
+  min-block-size: 44px;
+  border: 0;
+  background: none;
+  font-size: 0.75rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.cart-drawer__empty {
+  padding-block: 3rem;
+}
+.cart-drawer__foot {
+  display: grid;
+  gap: 0.6rem;
+  margin-block-start: auto;
+  padding-block-start: 2rem;
+}
+
+/* The drawer's foot, as on the live shop: estimated total, a tax note, two actions, trust. */
+.cart-drawer__foot .cart-drawer__total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0;
+  font-size: 1.125rem;
+}
+.cart-drawer__total strong {
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+.cart-drawer__foot .cart-drawer__taxes {
+  display: block;
+  margin: 0 0 0.6rem;
+  font-size: 0.8125rem;
+  opacity: 0.7;
+}
+.cart-drawer .commerce-button {
+  --commerce-ink: var(--color-ink-900);
+  --commerce-accent: var(--color-world-paper-blue);
+  --color-world-paper-light: var(--color-paper-50);
+}
+
+/* Secure checkout and the accepted payment methods, under any checkout button. */
+.secure-note {
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+  margin-block-start: 0.4rem;
+  font-size: 0.8125rem;
+}
+.secure-note p {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  opacity: 0.8;
+}
+.secure-note svg {
+  inline-size: 0.95rem;
+  block-size: 0.95rem;
+}
+.secure-note ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.secure-note li {
+  padding: 0.2rem 0.45rem;
+  border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}

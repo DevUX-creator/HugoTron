@@ -11,7 +11,7 @@ import json
 import struct
 from PIL import Image
 
-SOURCE = Path("shrine_of_the_oracle.glb")
+SOURCE = Path("assets-src/models/shrine_of_the_oracle.glb")
 OUT = Path("public/models/world")
 REMOVED_CENTRE = {
     "polySurface101_orb_0", "polySurface101_wire_0", "polySurface101_pottery_0",

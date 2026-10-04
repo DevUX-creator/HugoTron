@@ -1,13 +1,15 @@
 "use client";
 
-import { useId, useRef, type CSSProperties } from "react";
+import { useEffect, useId, useRef, type CSSProperties, type RefObject } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import ArrowLink from "@/components/ui/ArrowLink";
-import EnquireLink from "@/components/products/EnquireLink";
-import RangeProductCard from "@/components/products/RangeProductCard";
-import { productsForCategories } from "@/lib/catalogue";
-import ProductRail from "@/components/products/ProductRail";
+import SourcingCard from "@/components/commerce/products/SourcingCard";
+import Disclosures from "@/components/ui/Disclosures";
+import RevealWords from "@/animations/RevealWords";
+import RangeProductCard from "@/components/commerce/products/RangeProductCard";
+import { productsForCategories } from "@/commerce/catalogue";
+import ProductRail from "@/components/commerce/products/ProductRail";
 import FilmPlaylist from "@/components/media/FilmPlaylist";
 import {
   SERVICE_CHAPTERS,
@@ -42,7 +44,9 @@ function Chapter({ chapter, text, story }: { chapter: StoryChapter; text: Text; 
       <CategoryPlane story={story} chapter={chapter} />
       <header className="story-text story-text--centre">
         <p className="paper-caption">{text.eyebrow}</p>
-        <h2 id={id}>{text.title}</h2>
+        <h2 id={id}>
+          <RevealWords text={text.title} />
+        </h2>
         <p className="story-text__note">{text.note}</p>
         {text.facts && (
           <ul className="category-facts">
@@ -57,6 +61,39 @@ function Chapter({ chapter, text, story }: { chapter: StoryChapter; text: Text; 
 }
 
 /**
+ * Each pinned "way" recedes as the next card slides over it: `--covered` (0–1) is how far the
+ * next card has travelled up this one.
+ */
+function useStackedCards(root: RefObject<HTMLDivElement | null>) {
+  useEffect(() => {
+    const cards = Array.from(root.current?.querySelectorAll<HTMLElement>(".category-way") ?? []);
+    if (cards.length < 2) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      cards.forEach((card, index) => {
+        const next = cards[index + 1];
+        if (!next) return;
+        const box = card.getBoundingClientRect();
+        const covered = (box.bottom - next.getBoundingClientRect().top) / box.height;
+        card.style.setProperty("--covered", Math.min(1, Math.max(0, covered)).toFixed(3));
+      });
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, [root]);
+}
+
+/**
  * Centred category chapters with local illustrations and a quiet margin line. Shared buying
  * components retain their catalogue data, cart behaviour and enquiry selection.
  */
@@ -68,6 +105,7 @@ export default function CategoryStory({ story }: { story: Story }) {
   const root = useRef<HTMLDivElement>(null);
   const lineClip = useId();
   useStory(root);
+  useStackedCards(root);
   const category = copy("inText");
   const name = copy("name");
   const products = productsForCategories(story.catalogue, story.relatedCatalogue);
@@ -92,39 +130,18 @@ export default function CategoryStory({ story }: { story: Story }) {
             facts: (["one", "two", "three"] as const).map((n) => t(`distribution.facts.${n}`)),
           };
 
+  // One source: the catalogue's products, then the shared card for anything not listed.
   const cards = [
     ...products.map((product, index) => (
       <RangeProductCard key={product.slug} product={product} index={index} />
     )),
-    ...story.onRequest.map((variety, index) => {
-      const varietyName = own(`varieties.${variety}.name`);
-      return (
-        <article
-          key={variety}
-          className="range-product category-variety"
-          aria-labelledby={`variety-${variety}`}
-        >
-          <div className="range-product__top">
-            <span>{String(products.length + index + 1).padStart(2, "0")}</span>
-            <span>{t("variety.badge")}</span>
-          </div>
-          <div className="category-variety__mark" aria-hidden="true">
-            <Image src={story.artwork.botanical} alt="" width={512} height={768} sizes="260px" />
-          </div>
-          <h3 id={`variety-${variety}`}>{varietyName}</h3>
-          <div className="range-product__meta">
-            <p>{own(`varieties.${variety}.note`)}</p>
-          </div>
-          <EnquireLink product={null} name={varietyName} className="range-product__enquiry" />
-        </article>
-      );
-    }),
+    <SourcingCard key="sourcing" index={products.length} image={story.artwork.botanical} />,
   ];
 
   const ways = [
-    { key: "wholesale", href: { pathname: "/enquiry", query: { purpose: "quote" } }, art: "ship" },
+    { key: "wholesale", href: { pathname: "/contact", query: { purpose: "quote" } }, art: "ship" },
     { key: "label", href: "/private-label", art: "pack" },
-    { key: "sourcing", href: { pathname: "/enquiry", query: { purpose: "quote" } }, art: "cargo" },
+    { key: "sourcing", href: { pathname: "/contact", query: { purpose: "quote" } }, art: "cargo" },
   ] as const;
 
   return (
@@ -152,7 +169,9 @@ export default function CategoryStory({ story }: { story: Story }) {
       >
         <header className="story-text story-text--centre">
           <p className="paper-caption">{name}</p>
-          <h2 id="category-range-title">{t("selection.title")}</h2>
+          <h2 id="category-range-title">
+            <RevealWords text={t("selection.title")} />
+          </h2>
           <p className="story-text__note">{t("reveal.lead", { category })}</p>
         </header>
         {story.film && (
@@ -171,9 +190,11 @@ export default function CategoryStory({ story }: { story: Story }) {
       >
         <header className="story-text story-text--centre">
           <p className="paper-caption">{t("ways.eyebrow")}</p>
-          <h2 id="category-ways-title">{t("ways.title")}</h2>
+          <h2 id="category-ways-title">
+            <RevealWords text={t("ways.title")} />
+          </h2>
         </header>
-        <ol className="category-ways__stack">
+        <ol className="category-ways__stack" style={{ "--n": ways.length } as CSSProperties}>
           {ways.map((way, index) => (
             <li key={way.key} className="category-way" style={{ "--i": index } as CSSProperties}>
               <div className="category-way__copy">
@@ -216,17 +237,17 @@ export default function CategoryStory({ story }: { story: Story }) {
       >
         <header className="story-text story-text--centre">
           <p className="paper-caption">{t("faq.eyebrow")}</p>
-          <h2 id="category-faq-title">{t("faq.title")}</h2>
+          <h2 id="category-faq-title">
+            <RevealWords text={t("faq.title")} />
+          </h2>
         </header>
         <div className="category-faq__list">
-          {(["1", "2", "3", "4"] as const).map((n) => (
-            <details key={n}>
-              <summary>
-                <h3>{t(`faq.q${n}`, { category })}</h3>
-              </summary>
-              <p>{t(`faq.a${n}`, { category })}</p>
-            </details>
-          ))}
+          <Disclosures
+            items={(["1", "2", "3", "4"] as const).map((n) => ({
+              question: t(`faq.q${n}`, { category }),
+              answer: t(`faq.a${n}`, { category }),
+            }))}
+          />
         </div>
       </section>
 
@@ -237,10 +258,12 @@ export default function CategoryStory({ story }: { story: Story }) {
         aria-labelledby="category-cta-title"
       >
         <p className="paper-caption">{t("cta.eyebrow")}</p>
-        <h2 id="category-cta-title">{t("cta.title")}</h2>
+        <h2 id="category-cta-title">
+          <RevealWords text={t("cta.title")} />
+        </h2>
         <p className="story-text__note">{t("cta.note")}</p>
         <ArrowLink
-          href={{ pathname: "/enquiry", query: { purpose: "quote" } }}
+          href={{ pathname: "/contact", query: { purpose: "quote" } }}
           prefetch={false}
           variant="glass"
           size="large"

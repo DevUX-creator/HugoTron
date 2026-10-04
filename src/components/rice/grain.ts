@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-/** A full, almost straight body and asymmetric rounded caps, as in img.png. */
+/** A full, almost straight body and asymmetric rounded caps, as in the supplied reference image. */
 export function grainGeometry() {
   const positions: number[] = [];
   const uvs: number[] = [];

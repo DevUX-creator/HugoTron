@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { pageMetadata } from "@/lib/seo";
 
 import Header from "@/components/layout/Header";
 import World from "@/sections/World/World";
@@ -19,7 +20,12 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
   const t = await getTranslations({ locale, namespace: "world" });
-  return { title: t("metaTitle"), description: t("metaDescription") };
+  return pageMetadata({
+    title: t("metaTitle"),
+    description: t("metaDescription"),
+    href: "/",
+    locale,
+  });
 }
 
 /** The Hugo Tron world is the entrance; rice now has a dedicated category page. */
@@ -27,12 +33,16 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
+  const t = await getTranslations("commerce");
 
   return (
     <HomeThemeProvider forcedTheme="dark">
+      <a className="skip-link" href="#main">
+        {t("skip")}
+      </a>
       <Header brandLogo showSoundToggle={false} />
       <WorldFrame />
-      <main>
+      <main id="main" tabIndex={-1}>
         <World />
         <Daylight />
       </main>

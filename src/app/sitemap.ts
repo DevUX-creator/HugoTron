@@ -12,7 +12,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { href: "/wholesale", priority: 0.7 },
     { href: "/delivery", priority: 0.5 },
     { href: "/private-label", priority: 0.6 },
-    { href: "/enquiry", priority: 0.5 },
+    { href: "/contact", priority: 0.5 },
+    { href: "/terms", priority: 0.2 },
+    { href: "/privacy", priority: 0.2 },
+    { href: "/imprint", priority: 0.2 },
   ] as const;
   return pages.flatMap(({ href, priority }) =>
     routing.locales.map((locale) => {

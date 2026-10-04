@@ -129,9 +129,11 @@
     "added": "Hinzugefügt",
     "addedNamed": "{product} zum Warenkorb hinzugefügt",
     "limitReached": "Maximale Menge erreicht",
-    "checkout": "Bestellung anfragen",
+    "checkout": "Zur Kasse",
     "badgeSourcing": "Für Sie beschafft",
-    "toSpecification": "Nach Ihren Anforderungen"
+    "toSpecification": "Nach Ihren Anforderungen",
+    "perKg": "{price} / kg",
+    "priceTerms": "inkl. MwSt., zzgl. Versand"
   },
   "units": {
     "kg1": "1 kg",
@@ -156,38 +158,14 @@
       "homeTitle": "Gleiche Qualität. Kleineres Gebinde.",
       "homeBody": "Unser Sortiment für Ihre Küche: Reis ab 1 kg, Safran und Tee in praktischen Verpackungen.",
       "homeCta": "Produkte entdecken"
-    },
-    "contact": {
-      "eyebrow": "Sprechen wir über Lebensmittel",
-      "title": "Ihre nächste Bestellung beginnt mit einem Gespräch.",
-      "lead": "Eine Frage zu einem Produkt oder zur Beschaffung? Schreiben Sie unserem Hamburger Büro, wonach Sie suchen.",
-      "cta": "Kontakt aufnehmen",
-      "productGallery": "Aus unserem Sortiment bestellen",
-      "order": "Bestellen",
-      "country": "Deutschland",
-      "navigation": "Navigation im Seitenfuß",
-      "signoff": "Lebensmittelimport & Großhandel · Hamburg",
-      "backTop": "Nach oben",
-      "navSite": "Seiten",
-      "navLegal": "Rechtliches",
-      "cookies": "Cookies",
-      "enquiry": "Anfrage",
-      "memberAlt": "Mitglied im Händlerbund",
-      "memberNote": "Rechtstexte bereitgestellt und aktuell gehalten vom Rechtstexte-Service des Händlerbunds."
     }
   },
   "enquiry": {
-    "metaTitle": "Anfrage — Hugo Tron",
-    "metaDescription": "Nennen Sie uns Produkt, Menge und Lieferziel. Wir melden uns mit Verfügbarkeit und Preis.",
-    "eyebrow": "Anfrage",
-    "title": "Sagen Sie uns, wonach Sie suchen.",
-    "lead": "Je mehr Sie hier ausfüllen, desto schneller können wir mit Verfügbarkeit und Preis antworten. Pflicht ist nur Ihre E-Mail-Adresse.",
     "purposeLegend": "Worum geht es?",
     "purposeQuote": "Großhandelsangebot",
     "purposeSample": "Muster",
     "purposeLabel": "Private Label",
     "purposeOther": "Etwas anderes",
-    "groupOrder": "Ihr Bedarf",
     "groupYou": "So erreichen wir Sie",
     "product": "Produkt",
     "productHint": "Basmati, Kichererbsen, Pistazien, Safran …",
@@ -198,13 +176,10 @@
     "postcode": "Lieferpostleitzahl",
     "postcodeHint": "Land und Postleitzahl genügen",
     "date": "Benötigt bis",
-    "message": "Sonstiges",
-    "messageHint": "Qualitäten im Vergleich, benötigte Zertifikate, Bestellrhythmus.",
     "name": "Name",
     "company": "Firma",
     "email": "E-Mail",
     "phone": "Telefon",
-    "submit": "Anfrage senden",
     "sending": "Wird gesendet …",
     "successTitle": "Danke — Ihre Anfrage liegt uns vor.",
     "successBody": "Wir lesen jede Anfrage in Hamburg und antworten innerhalb eines Werktags. Wenn es eilt: {phone}.",
@@ -313,47 +288,12 @@
       "grains": "Weizen und weitere Getreidearten für den Rohstoffhandel. Teilen Sie uns die gewünschte Spezifikation, Menge und den Bestimmungsort mit.",
       "nuts": "Mandeln, Cashewkerne, Haselnüsse, Walnüsse und Trockenfrüchte – nach Ihren Anforderungen beschafft.",
       "spices": "Ingwer, Zimt, Kardamom und weitere Gewürze. Nennen Sie uns Sorte, Menge und gewünschte Verpackung."
+    },
+    "sourcing": {
+      "badge": "Für Sie beschafft",
+      "title": "Etwas anderes?",
+      "note": "Nach Ihrer Spezifikation"
     }
-  },
-  "checkout": {
-    "metaTitle": "Bestellanfrage — Hugo Tron",
-    "metaDescription": "Senden Sie Ihre Bestellung. Wir bestätigen Verfügbarkeit und Lieferung und stellen eine Rechnung.",
-    "eyebrow": "Bestellanfrage",
-    "title": "Ihre Bestellung, bequem auf Rechnung.",
-    "lead": "Senden Sie uns Ihre Bestellung. Wir prüfen Verfügbarkeit und Lieferung, bestätigen per E-Mail und stellen Ihnen eine Rechnung. Online wird nichts belastet.",
-    "summaryTitle": "Ihre Bestellung",
-    "quantityLine": "{count} × {unit}",
-    "subtotal": "Zwischensumme",
-    "invoiceNote": "Preise aus unserem aktuellen Sortiment. Lieferkosten und Endbetrag bestätigen wir mit Ihrer Rechnung.",
-    "empty": "Ihr Warenkorb ist leer – es gibt noch nichts zu bestellen.",
-    "browse": "Zum Sortiment",
-    "groupContact": "Wer bestellt",
-    "groupBilling": "Rechnungs- und Lieferadresse",
-    "name": "Name",
-    "company": "Firma",
-    "email": "E-Mail",
-    "phone": "Telefon",
-    "vatId": "USt-IdNr.",
-    "vatIdHint": "Für gewerbliche Kunden, damit wir korrekt abrechnen.",
-    "street": "Straße und Hausnummer",
-    "postcode": "PLZ",
-    "city": "Ort",
-    "country": "Land",
-    "countryDefault": "Deutschland",
-    "notes": "Anmerkungen",
-    "notesHint": "Abweichende Lieferadresse, Lieferzeitfenster, alles, was wir wissen sollten.",
-    "submit": "Bestellanfrage senden",
-    "sending": "Wird gesendet …",
-    "successTitle": "Vielen Dank, Ihre Bestellanfrage ist bei uns.",
-    "successReference": "Ihre Referenz: {reference}.",
-    "successBody": "Wir bestätigen Verfügbarkeit und Lieferung per E-Mail und senden Ihnen die Rechnung. Es wurde nichts belastet. Fragen? Rufen Sie an: {phone}.",
-    "errorEmail": "Bitte geben Sie eine E-Mail-Adresse an, an die wir die Bestellung bestätigen können.",
-    "errorDetails": "Bitte geben Sie Ihren Namen und die vollständige Rechnungsadresse an.",
-    "errorCart": "Ihr Warenkorb hat sich geändert oder enthält einen Artikel, den wir nicht online verkaufen. Bitte prüfen Sie ihn und versuchen Sie es erneut.",
-    "errorRate": "Zu viele Anfragen von dieser Verbindung. Bitte versuchen Sie es gleich noch einmal oder schreiben Sie an {email}.",
-    "errorGeneric": "Bei uns ist etwas schiefgelaufen. Bitte senden Sie Ihre Bestellung an {email}.",
-    "required": "Pflichtfeld",
-    "optional": "optional"
   },
   "origins": {
     "eyebrow": "Woher es kommt",
@@ -487,7 +427,10 @@
       "businessNav": "Mit Hugo Tron zusammenarbeiten",
       "business": "Zusammenarbeiten",
       "enquiry": "Anfrage stellen",
-      "legalNav": "Rechtliche Informationen"
+      "legalNav": "Rechtliche Informationen",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "form": "Kontaktformular →"
     },
     "pakistan": {
       "eyebrow": "Die Reise geht weiter · Pakistan",
@@ -507,12 +450,6 @@
     "breadcrumbLabel": "Brotkrümelnavigation",
     "home": "Startseite",
     "products": "Sortiment",
-    "servicesLabel": "Was wir tun",
-    "services": {
-      "import": "Import in großen Mengen",
-      "label": "Private Label",
-      "distribution": "Distribution in Deutschland"
-    },
     "sceneLabel": "Eine sich langsam drehende 3D-Illustration: {category}.",
     "scroll": "Zum Entdecken scrollen",
     "imageNeeded": "Illustration in Arbeit",
@@ -528,9 +465,6 @@
       "right": "Sortiment.",
       "lead": "Heute im Sortiment und auf Anfrage: {category}, am Ursprung beschafft und aus Hamburg geliefert.",
       "label": "{category}: Produkte"
-    },
-    "variety": {
-      "badge": "Auf Anfrage"
     },
     "ways": {
       "eyebrow": "Zusammenarbeit",
@@ -604,12 +538,6 @@
           "note": "Pardis aus Indien, Aladdin aus Pakistan: zwei Basmati-Linien, mit derselben Sorgfalt ausgewählt."
         }
       },
-      "varieties": {
-        "more": {
-          "name": "Weitere Reissorten",
-          "note": "Nach Ihren Anforderungen beschafft"
-        }
-      },
       "interaction": "Die Körner bewegen",
       "interactionHint": "Näher scrollen. Über den Reis streichen.",
       "shortLead": "Basmati aus Indien und Pakistan. Einzelpackungen, Großmengen und Private Label."
@@ -632,28 +560,6 @@
           "eyebrow": "Mit oder ohne Schale",
           "title": "Pistazien im Sack.",
           "note": "Mit Schale oder als Kerne, für Großhandel und Lebensmittelindustrie."
-        }
-      },
-      "varieties": {
-        "almonds": {
-          "name": "Mandeln",
-          "note": "Auf Anfrage"
-        },
-        "cashews": {
-          "name": "Cashews",
-          "note": "Auf Anfrage"
-        },
-        "hazelnuts": {
-          "name": "Haselnüsse",
-          "note": "Auf Anfrage"
-        },
-        "walnuts": {
-          "name": "Walnüsse",
-          "note": "Auf Anfrage"
-        },
-        "driedFruits": {
-          "name": "Trockenfrüchte",
-          "note": "Auf Anfrage"
         }
       },
       "interaction": "Die Schalen öffnen",
@@ -680,24 +586,6 @@
           "note": "Und viele mehr, beschafft für Großhandel und Lebensmittelindustrie."
         }
       },
-      "varieties": {
-        "ginger": {
-          "name": "Ingwer",
-          "note": "Auf Anfrage"
-        },
-        "cinnamon": {
-          "name": "Zimt",
-          "note": "Auf Anfrage"
-        },
-        "cardamom": {
-          "name": "Kardamom",
-          "note": "Auf Anfrage"
-        },
-        "more": {
-          "name": "Viele weitere Gewürze",
-          "note": "Nach Ihrer Spezifikation beschafft"
-        }
-      },
       "interaction": "Die Gewürze bewegen",
       "interactionHint": "Eine sanfte Bewegung zeigt ihre Form.",
       "shortLead": "Ingwer, Zimt, Kardamom und mehr. Passend zu Ihrem Sortiment beschafft."
@@ -720,12 +608,6 @@
           "eyebrow": "Wo es wächst",
           "title": "Faden für Faden.",
           "note": "Negin ist eine Premium-Qualität von Safran aus dem Iran, aus langen, tiefroten Fäden."
-        }
-      },
-      "varieties": {
-        "more": {
-          "name": "Größere Mengen",
-          "note": "Auf Anfrage, auch als Private Label"
         }
       },
       "interaction": "Den Fäden folgen",
@@ -752,20 +634,6 @@
           "note": "Kichererbsen im 25-kg-Sack führen wir als Lagerware. Weitere Hülsenfrüchte importieren wir auf Bestellung."
         }
       },
-      "varieties": {
-        "whiteBeans": {
-          "name": "Weiße Bohnen",
-          "note": "Auf Anfrage"
-        },
-        "lentils": {
-          "name": "Linsen",
-          "note": "Auf Anfrage"
-        },
-        "mungBeans": {
-          "name": "Mungbohnen",
-          "note": "Auf Anfrage"
-        }
-      },
       "interaction": "In Bewegung setzen",
       "interactionHint": "Darüber bewegen – wie eine sanfte Welle.",
       "shortLead": "Kichererbsen, Bohnen und Linsen. Zuverlässig geliefert, vom Sack bis zur Großmenge."
@@ -788,12 +656,6 @@
           "eyebrow": "Vom Blatt zur Tasse",
           "title": "Weitere Tees auf Anfrage.",
           "note": "Nennen Sie uns Tee, Qualität und Verpackung. Wir beschaffen ihn und liefern in ganz Deutschland."
-        }
-      },
-      "varieties": {
-        "more": {
-          "name": "Weitere Tees",
-          "note": "Auf Anfrage"
         }
       },
       "interaction": "Ein Hauch durch die Blätter",
@@ -820,16 +682,6 @@
           "note": "Nennen Sie uns Produkt, Spezifikation und Menge. Wir beschaffen es über unser Netzwerk."
         }
       },
-      "varieties": {
-        "ingredients": {
-          "name": "Rohstoffe für die Lebensmittelindustrie",
-          "note": "Nach Ihrer Spezifikation"
-        },
-        "requested": {
-          "name": "Nicht aufgeführte Produkte",
-          "note": "Auf Anfrage beschafft"
-        }
-      },
       "interaction": "Dem Korn folgen",
       "interactionHint": "Über das fließende Getreide bewegen.",
       "shortLead": "Zutaten für die Industrie. Nach Ihrer Spezifikation und in Ihrer Menge."
@@ -852,58 +704,58 @@
     "privacy": "Datenschutz",
     "intro": {
       "eyebrow": "Hugo Tron · Großhandel",
-      "titleLead": "Großhandel,",
-      "titleAccent": "in jeder Menge.",
-      "lead": "Ihr Partner für Beschaffung, Import und Versorgung. Von Zutaten bis zu Rohstoffen – abgestimmt auf die Mengen, die Ihr Unternehmen braucht.",
-      "action": "Großhandelspreise anfragen"
+      "titleLead": "Lebensmittel,",
+      "titleAccent": "in Ihrer Menge.",
+      "lead": "Beschaffung, Import und Distribution für Großhandel und Lebensmittelunternehmen.",
+      "action": "Bedarf besprechen"
     },
     "audience": {
-      "eyebrow": "Wen wir beliefern",
-      "title": "Gemacht für B2B.",
+      "eyebrow": "Mit wem wir arbeiten",
+      "title": "Für Ihr Geschäft.",
       "wholesalers": {
-        "title": "Großhändler",
-        "note": "Ihr Beschaffungs- und Lieferpartner, auch für Produkte über unser Sortiment hinaus."
+        "title": "Großhandel",
+        "note": "Lebensmittel in den Mengen, die Sie brauchen."
       },
       "industry": {
-        "title": "Lebensmittelindustrie",
-        "note": "Rohstoffe und Zutaten, nach Ihrer Spezifikation beschafft."
+        "title": "Produktion",
+        "note": "Zutaten und Rohstoffe nach Ihrer Spezifikation."
       },
       "companies": {
-        "title": "Unternehmen",
-        "note": "Große Mengen oder Private Label unter Ihrer eigenen Marke."
+        "title": "Ihre Marke",
+        "note": "Beschaffung und Verpackung mit Private Label."
       }
     },
     "range": {
-      "eyebrow": "Beschaffung & Private Label",
+      "eyebrow": "Über unser Sortiment hinaus",
       "title": "Ihr Bedarf. Unser Netzwerk.",
-      "note": "Reis, Nüsse, Gewürze, Safran, Hülsenfrüchte und Rohstoffe für die Lebensmittelindustrie. Entdecken Sie unser Sortiment oder sprechen Sie mit uns über weitere Beschaffungs- und Private-Label-Anforderungen.",
-      "action": "Sortiment entdecken"
+      "note": "Ihr Produkt fehlt im Sortiment? Nennen Sie uns Zutat, Menge und Verpackung. Wir besprechen mit Ihnen Beschaffung und Import.",
+      "action": "Produkte entdecken"
     },
     "process": {
       "eyebrow": "So funktioniert es",
-      "title": "Von der Anfrage zur Lieferung.",
+      "title": "Ein Partner. Jeder Schritt.",
       "request": {
-        "title": "Anfrage",
-        "note": "Nennen Sie uns Produkt, Spezifikation und Menge."
+        "title": "Ihr Bedarf",
+        "note": "Produkt, Spezifikation und Menge."
       },
       "offer": {
         "title": "Angebot",
-        "note": "Wir erstellen ein Angebot für Ihre Mengen."
+        "note": "Ein Angebot nach Ihrem Bedarf."
       },
       "confirm": {
-        "title": "Bestätigung",
-        "note": "Sie bestätigen die Bestellung, wir stellen sie in Rechnung."
+        "title": "Auftrag",
+        "note": "Details abstimmen und bestätigen."
       },
       "deliver": {
         "title": "Lieferung",
-        "note": "In ganz Deutschland sowie auf europäische und internationale Märkte."
+        "note": "Lagerung, Distribution und Lieferung."
       }
     },
     "door": {
-      "eyebrow": "Nächster Ort",
-      "title": "Lieferung.",
-      "note": "Lagerung, Distribution und Lieferung, hinter dieser Tür.",
-      "action": "Tür öffnen"
+      "eyebrow": "Private Label",
+      "title": "Ihre Marke. Unser Netzwerk.",
+      "note": "Ihr eigenes Sortiment – mit Beschaffung, Import und Verpackung nach Ihrem Bedarf.",
+      "action": "Private Label entdecken"
     }
   },
   "delivery": {
@@ -923,6 +775,535 @@
       "international": "Europäische & internationale Märkte"
     },
     "action": "Lieferung planen",
-    "back": "Zurück in die Großhandelshalle"
+    "back": "Zurück in die Großhandelshalle",
+    "map": {
+      "pageTitle": "Lieferung ab Hamburg in ganz Deutschland",
+      "label": "Eine interaktive Deutschlandkarte mit einem Lieferwagen, der in Hamburg startet.",
+      "country": "DEUTSCHLAND",
+      "base": "HUGO TRON · UNSERE BASIS",
+      "note": "In Hamburg zu Hause. In Deutschland vernetzt.",
+      "interaction": {
+        "ready": "Ab Hamburg. Ihre Spur folgt Ihnen.",
+        "driving": "Deutschland erkunden",
+        "arrived": "Bereit für die Weiterfahrt",
+        "outside": "Wählen Sie ein Ziel in Deutschland",
+        "controls": "Kartensteuerung",
+        "zoomIn": "Vergrößern",
+        "zoomOut": "Verkleinern",
+        "reset": "Ab Hamburg neu starten",
+        "keyboard": "Interaktive Lieferkarte. Pfeiltasten steuern den Lieferwagen frei. Auf Touchscreens die Richtungstasten gedrückt halten. Eine blaue Spur folgt der Fahrt, die aktuelle Region leuchtet auf. Ziehen zum Verschieben, mit zwei Fingern oder Mausrad zoomen. In Deutschland klicken, um einer Straße zu folgen. Pos1 startet neu; Escape stoppt die Fahrt.",
+        "steering": "Lieferwagen steuern",
+        "up": "Nach Norden fahren",
+        "down": "Nach Süden fahren",
+        "left": "Nach Westen fahren",
+        "right": "Nach Osten fahren",
+        "speed": "Fahrgeschwindigkeit: {speed}×. Zum Ändern klicken.",
+        "currentRegion": "Aktuelle Region",
+        "tipKeyboard": "Mit den Pfeiltasten fahren. Die Karte zum Erkunden ziehen.",
+        "tipTouch": "Die Pfeiltasten unten zum Fahren gedrückt halten.",
+        "dismissTip": "Fahrhinweis schließen"
+      },
+      "regions": {
+        "DE-SN": "Sachsen",
+        "DE-BY": "Bayern",
+        "DE-RP": "Rheinland-Pfalz",
+        "DE-SL": "Saarland",
+        "DE-SH": "Schleswig-Holstein",
+        "DE-NI": "Niedersachsen",
+        "DE-NW": "Nordrhein-Westfalen",
+        "DE-BW": "Baden-Württemberg",
+        "DE-BB": "Brandenburg",
+        "DE-MV": "Mecklenburg-Vorpommern",
+        "DE-HB": "Bremen",
+        "DE-HH": "Hamburg",
+        "DE-HE": "Hessen",
+        "DE-TH": "Thüringen",
+        "DE-ST": "Sachsen-Anhalt",
+        "DE-BE": "Berlin"
+      },
+      "game": {
+        "title": "Liefertour",
+        "complete": "Alles geliefert",
+        "time": "Lieferzeit",
+        "retry": "Liefertour neu starten",
+        "progress": "{count} / {total} Stopps",
+        "finished": "Alle Lieferungen in {time} abgeschlossen.",
+        "intro": "Sammle alle {total} Lieferstopps. Folge dem nummerierten Pfeil."
+      }
+    },
+    "topicsLabel": "Lieferinformationen",
+    "legalLabel": "Rechtliches",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "topics": {
+      "coverage": {
+        "label": "Ab Hamburg",
+        "lead": "Ab Hamburg.",
+        "accent": "Bis zu Ihnen.",
+        "body": "Lagerung, Distribution und Versorgung für Unternehmen in ganz Deutschland."
+      },
+      "timing": {
+        "label": "Lieferrhythmus",
+        "lead": "Unterwegs.",
+        "accent": "Jede Woche.",
+        "body": "Wir liefern mehrmals pro Woche. Den Termin Ihrer Lieferung stimmen wir mit Ihnen ab."
+      },
+      "quantity": {
+        "label": "Ihre Menge",
+        "lead": "Ihre Menge.",
+        "accent": "Ihr Bedarf.",
+        "body": "Keine Mindestbestellmenge. Kleine Bestellungen können gemeinsam geliefert werden und einige Tage länger benötigen."
+      },
+      "costs": {
+        "label": "Lieferkosten",
+        "lead": "Klare Kosten.",
+        "accent": "Vorab geklärt.",
+        "body": "Die Lieferung ist grundsätzlich kostenfrei. Entfernungsabhängige Zusatzkosten stimmen wir vorab mit Ihnen ab."
+      }
+    }
+  },
+  "commerce": {
+    "skip": "Zum Inhalt springen",
+    "products": {
+      "metaTitle": "Unsere Produkte — online kaufen oder anfragen | Hugo Tron",
+      "metaDescription": "Basmati-Reis, Safran, Tee, Nüsse, Hülsenfrüchte und Gewürze von Hugo Tron, Hamburg: Haushaltspackungen online kaufen, Großhandelspreise für größere Mengen anfragen.",
+      "title": "Unsere Produkte",
+      "lead": "Haushaltspackungen online kaufen und sicher bezahlen, oder Großhandelspreise für größere Mengen anfragen. Geliefert aus Hamburg.",
+      "filterLabel": "Nach Kategorie filtern",
+      "all": "Alle",
+      "count": "{count, plural, one {# Produkt} other {# Produkte}}",
+      "storiesEyebrow": "Hinter dem Sortiment",
+      "storiesTitle": "Mehr über unsere Produkte"
+    },
+    "cart": {
+      "title": "Ihr Warenkorb",
+      "count": "{count, plural, one {# Artikel} other {# Artikel}}",
+      "estimatedTotal": "Geschätzte Gesamtsumme",
+      "taxesLater": "Steuern und Versand werden beim Kaufabschluss berechnet.",
+      "viewCart": "Warenkorb ansehen",
+      "browse": "Produkte ansehen",
+      "secure": "Sicherer Bezahlvorgang",
+      "methodsLabel": "Akzeptierte Zahlungsarten",
+      "voucherLabel": "Gutscheincode",
+      "voucherApply": "Einlösen",
+      "voucherApplied": "Gutschein",
+      "voucherRemove": "Entfernen",
+      "noteLabel": "Anmerkung zur Bestellung (optional)",
+      "notePlaceholder": "Lieferhinweise, eine Grußbotschaft …",
+      "emptyTitle": "Ihr Warenkorb ist leer",
+      "emptyBody": "Legen Sie etwas aus unserem Sortiment hinein, es wartet hier auf Sie."
+    },
+    "summary": {
+      "title": "Bestellübersicht",
+      "quantity": "Menge {count}",
+      "subtotal": "Zwischensumme",
+      "shipping": "Versand",
+      "shippingLater": "Wird beim Kaufabschluss berechnet",
+      "free": "Kostenlos",
+      "discount": "Gutschein {code}",
+      "estimatedTotal": "Geschätzte Gesamtsumme",
+      "total": "Gesamtsumme",
+      "vatIncluded": "Inkl. {amount} MwSt.",
+      "shippingOnRequest": "Abhängig vom Ziel",
+      "totalExclShipping": "Gesamt zzgl. Versand"
+    },
+    "checkout": {
+      "title": "Kasse",
+      "backToCart": "Zurück zum Warenkorb",
+      "emptyTitle": "Noch nichts zum Bestellen",
+      "emptyBody": "Ihr Warenkorb ist leer. Legen Sie Produkte hinein, um zu bestellen.",
+      "browse": "Produkte ansehen",
+      "steps": {
+        "contact": "Kontakt",
+        "delivery": "Lieferung",
+        "payment": "Zahlung",
+        "review": "Bestellung überprüfen & abschließen"
+      },
+      "edit": "Ändern",
+      "editStep": "{step} ändern",
+      "reviewCart": "Warenkorb prüfen",
+      "signedInAs": "Angemeldet als {email}",
+      "email": "E-Mail",
+      "emailHint": "Für Ihre Bestellbestätigung und Lieferinformationen.",
+      "continueAsGuest": "Als Gast fortfahren",
+      "accountRequiredTitle": "Bitte melden Sie sich zum Bestellen an",
+      "accountRequired": "Bestellungen werden über ein Kundenkonto aufgegeben. Melden Sie sich an oder legen Sie in einer Minute eines an.",
+      "haveAccount": "Sie haben ein Konto oder möchten eines?",
+      "signIn": "Anmelden",
+      "createAccount": "Konto erstellen",
+      "deliveryMethod": "Versandart",
+      "continueToPayment": "Weiter zur Zahlung",
+      "paymentMethod": "Zahlung",
+      "billingAddress": "Rechnungsadresse",
+      "billingSame": "Entspricht der Lieferadresse",
+      "continueToReview": "Weiter zur Übersicht",
+      "reviewIntro": "Bitte die obigen Angaben prüfen und anschließend die Bestellung abschließen.",
+      "shipTo": "Lieferung an",
+      "note": "Anmerkung zur Bestellung (optional)",
+      "terms": "Ich habe die <terms>AGB</terms> und die <withdrawal>Widerrufsbelehrung</withdrawal> sowie die <privacy>Datenschutzerklärung</privacy> gelesen.",
+      "placeOrder": "Zahlungspflichtig bestellen",
+      "placing": "Bestellung wird abgeschlossen …",
+      "legalLabel": "Rechtliche Informationen",
+      "cancellationPolicy": "Widerrufsbelehrung",
+      "termsLink": "AGB",
+      "privacyLink": "Datenschutz",
+      "previewTitle": "Bestellvorschau",
+      "previewBody": "Dies ist eine Demonstration. Es wird keine echte Bestellung oder Zahlung verarbeitet."
+    },
+    "shipping": {
+      "standard": {
+        "name": "Lieferung"
+      },
+      "days": "{from}–{to} Werktage",
+      "freeFrom": "Kostenlos ab {amount}",
+      "free": "Kostenlos",
+      "onRequest": "Auf Anfrage",
+      "onRequestNote": "Die Kosten hängen von Ziel und Service ab. Die Lieferung ist grundsätzlich kostenfrei; bei größeren Entfernungen nennen wir Ihnen eventuelle Kosten vor dem Versand."
+    },
+    "payment": {
+      "methods": {
+        "card": {
+          "name": "Kredit-/Debitkarten",
+          "note": "Mastercard, Visa, American Express, Maestro",
+          "short": "Karte"
+        },
+        "paypal": {
+          "name": "PayPal",
+          "note": "Sie werden zur Zahlung zu PayPal weitergeleitet.",
+          "short": "PayPal"
+        },
+        "applePay": {
+          "name": "Apple Pay",
+          "note": "Mit Face ID oder Touch ID bezahlen.",
+          "short": "Apple Pay"
+        },
+        "klarna": {
+          "name": "Klarna",
+          "note": "Jetzt, später oder in Raten mit Klarna bezahlen.",
+          "short": "Klarna"
+        },
+        "prepayment": {
+          "name": "Vorkasse (Überweisung)",
+          "note": "Wir versenden, sobald Ihre Überweisung eingegangen ist.",
+          "short": "Vorkasse"
+        }
+      },
+      "card": {
+        "number": "Kartennummer",
+        "numberPlaceholder": "Nummer eingeben",
+        "expiry": "Ablaufdatum",
+        "expiryPlaceholder": "MM / JJ",
+        "cvc": "CVV/CVC",
+        "cvcPlaceholder": "3–4 Ziffern",
+        "holder": "Name des Karteninhabers",
+        "holderPlaceholder": "Vollständigen Namen eingeben"
+      },
+      "hostedCard": "Nach der Bestellprüfung geben Sie Ihre Kartendaten auf der sicheren Zahlungsseite unseres Zahlungsanbieters ein.",
+      "previewCard": "Kartenzahlungen werden in dieser Vorschau simuliert. Geben Sie keine echten Zahlungsdaten ein."
+    },
+    "address": {
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "company": "Firma",
+      "street": "Straße und Hausnummer",
+      "addition": "Adresszusatz, Etage, c/o",
+      "postcode": "PLZ",
+      "city": "Ort",
+      "country": "Land",
+      "phone": "Telefon",
+      "optional": "(optional)"
+    },
+    "countries": {
+      "DE": "Deutschland",
+      "AT": "Österreich",
+      "NL": "Niederlande",
+      "BE": "Belgien",
+      "LU": "Luxemburg",
+      "FR": "Frankreich",
+      "DK": "Dänemark",
+      "PL": "Polen",
+      "CZ": "Tschechien"
+    },
+    "errors": {
+      "required": "Bitte füllen Sie dieses Feld aus.",
+      "invalid": "Bitte prüfen Sie diese Angabe.",
+      "invalidTitle": "Einige Angaben brauchen einen zweiten Blick",
+      "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+      "choosePayment": "Bitte wählen Sie eine Zahlungsart.",
+      "cardIncomplete": "Bitte vervollständigen Sie Ihre Kartendaten.",
+      "acceptTerms": "Bitte bestätigen Sie, dass Sie die AGB und die Widerrufsbelehrung gelesen haben.",
+      "signInRequired": "Bitte melden Sie sich an oder erstellen Sie ein Konto, um fortzufahren.",
+      "signInRequiredTitle": "Anmeldung erforderlich",
+      "cartChanged": "Einige Artikel in Ihrem Warenkorb sind online nicht mehr erhältlich. Bitte prüfen Sie Ihren Warenkorb.",
+      "cartChangedTitle": "Ihr Warenkorb hat sich geändert",
+      "voucherInvalid": "Dieser Gutscheincode gilt nicht für Ihre Bestellung.",
+      "voucherInvalidTitle": "Gutschein nicht akzeptiert",
+      "paymentDeclined": "Ihre Zahlung wurde nicht akzeptiert, es wurde nichts belastet. Bitte versuchen Sie es erneut oder wählen Sie eine andere Zahlungsart.",
+      "paymentDeclinedTitle": "Zahlung abgelehnt",
+      "rateLimited": "Zu viele Versuche. Bitte warten Sie einige Minuten und versuchen Sie es erneut.",
+      "rateLimitedTitle": "Bitte einen Moment Geduld",
+      "generic": "Bei uns ist etwas schiefgelaufen. Bitte versuchen Sie es erneut oder kontaktieren Sie uns, falls es wieder passiert.",
+      "genericTitle": "Etwas ist schiefgelaufen",
+      "signInFailed": "E-Mail oder Passwort ist nicht korrekt.",
+      "passwordShort": "Ihr Passwort braucht mindestens 8 Zeichen.",
+      "emailTaken": "Für diese E-Mail gibt es bereits ein Konto. Möchten Sie sich anmelden?",
+      "unavailableTitle": "Wir helfen Ihnen gerne",
+      "unavailable": "Online-Bestellungen und Kundenkonten sind noch nicht verfügbar. Kontaktieren Sie uns für Produkte, Preise oder eine Bestellung.",
+      "contactUs": "Kontakt aufnehmen",
+      "shippingUnconfirmedTitle": "Lieferung gemeinsam abstimmen",
+      "shippingUnconfirmed": "Die Lieferkosten müssen vor der Zahlung bestätigt werden. Kontaktieren Sie uns für ein vollständiges Angebot.",
+      "retry": "Erneut versuchen"
+    },
+    "notices": {
+      "resetSent": "Falls ein Konto mit dieser E-Mail existiert, haben wir einen Link zum Zurücksetzen gesendet.",
+      "addressSaved": "Ihre Lieferadresse wurde gespeichert."
+    },
+    "account": {
+      "eyebrow": "Ihr Konto",
+      "hello": "Hallo, {name}",
+      "signOut": "Abmelden",
+      "signInTitle": "Anmelden",
+      "signInLead": "Bestellungen verfolgen und schneller bezahlen.",
+      "registerTitle": "Konto erstellen",
+      "registerLead": "Ihre Bestellungen und Ihre Lieferadresse an einem Ort.",
+      "resetTitle": "Passwort zurücksetzen",
+      "resetLead": "Geben Sie Ihre E-Mail ein, wir senden Ihnen einen Link.",
+      "modeLabel": "Anmelden oder Konto erstellen",
+      "signInTab": "Anmelden",
+      "registerTab": "Konto erstellen",
+      "orContinueWith": "Oder weiter mit",
+      "social": {
+        "google": "Weiter mit Google",
+        "apple": "Weiter mit Apple"
+      },
+      "email": "E-Mail",
+      "password": "Passwort",
+      "passwordHint": "Mindestens 8 Zeichen.",
+      "forgot": "Passwort vergessen?",
+      "signIn": "Anmelden",
+      "signingIn": "Anmeldung läuft …",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "register": "Konto erstellen",
+      "creating": "Konto wird erstellt …",
+      "sendReset": "Link senden",
+      "backToSignIn": "Zurück zur Anmeldung",
+      "currentOrders": "Aktuelle Bestellungen",
+      "noCurrent": "Gerade sind keine Bestellungen unterwegs.",
+      "orderHistory": "Bestellverlauf",
+      "noHistory": "Noch keine abgeschlossenen Bestellungen.",
+      "noOrdersTitle": "Noch keine Bestellungen",
+      "browse": "Produkte ansehen",
+      "deliveryAddress": "Lieferadresse",
+      "addressLead": "Wird an der Kasse vorausgefüllt. Für einzelne Bestellungen können Sie sie jederzeit ändern.",
+      "saveAddress": "Adresse speichern",
+      "saving": "Wird gespeichert …"
+    },
+    "orders": {
+      "status": {
+        "pending_payment": "Zahlung ausstehend",
+        "awaiting_transfer": "Überweisung ausstehend",
+        "paid": "Bezahlt",
+        "processing": "In Bearbeitung",
+        "shipped": "Versendet",
+        "delivered": "Zugestellt",
+        "cancelled": "Storniert",
+        "refunded": "Erstattet"
+      },
+      "reference": "Bestellung",
+      "items": "{count, plural, one {# Artikel} other {# Artikel}}",
+      "subtotal": "Zwischensumme",
+      "shipping": "Versand",
+      "free": "Kostenlos",
+      "discount": "Gutschein {code}",
+      "total": "Gesamtsumme",
+      "shipTo": "Lieferung",
+      "billTo": "Rechnung",
+      "note": "Ihre Anmerkung",
+      "track": "Sendung bei {carrier} verfolgen",
+      "backToAccount": "Zurück zu Ihrem Konto",
+      "progressLabel": "Bestellfortschritt",
+      "progress": {
+        "placed": "Bestellt",
+        "paid": "Bezahlt",
+        "shipped": "Versendet",
+        "delivered": "Zugestellt"
+      },
+      "withdraw": "Vertrag widerrufen",
+      "shippingOnRequest": "Wird gesondert bestätigt"
+    },
+    "confirmation": {
+      "thanksTitle": "Vielen Dank für Ihre Bestellung",
+      "thanks": "Eine Bestätigung ist an {email} unterwegs. Wir melden uns, sobald Ihr Paket versendet ist.",
+      "transferTitle": "Fast geschafft: bitte überweisen Sie den Betrag",
+      "transfer": "Ihre Bestellung ist reserviert. Bitte überweisen Sie {amount} auf das folgende Konto und geben Sie Ihre Bestellnummer als Verwendungszweck an. Wir versenden, sobald die Zahlung eingegangen ist.",
+      "bankHolder": "Kontoinhaber",
+      "bankReference": "Verwendungszweck",
+      "pendingTitle": "Wir bestätigen Ihre Zahlung",
+      "pending": "Das dauert meist nur wenige Sekunden. Laden Sie die Seite neu, falls sie sich nicht aktualisiert.",
+      "refresh": "Neu laden",
+      "failedTitle": "Zahlung nicht abgeschlossen",
+      "failed": "Es wurde nichts belastet. Sie können es mit derselben oder einer anderen Zahlungsart erneut versuchen.",
+      "retry": "Zurück zur Kasse",
+      "notFoundTitle": "Wir konnten diese Bestellung nicht finden",
+      "notFound": "Melden Sie sich an, um Ihre Bestellungen zu sehen, oder prüfen Sie den Link in Ihrer Bestätigungs-E-Mail.",
+      "toAccount": "Zu Ihrem Konto",
+      "accountTitle": "Diese Bestellung im Konto verfolgen",
+      "account": "Erstellen Sie ein Konto mit derselben E-Mail, um diese und künftige Bestellungen an einem Ort zu sehen.",
+      "createAccount": "Konto erstellen",
+      "continue": "Weiter einkaufen",
+      "withdraw": "Vertrag widerrufen",
+      "transferByEmail": "Ihre Bestellung ist reserviert. Wir senden Ihnen unsere Bankverbindung für die Überweisung von {amount} per E-Mail; bitte geben Sie Ihre Bestellnummer an. Wir versenden, sobald die Zahlung eingegangen ist."
+    },
+    "meta": {
+      "cartTitle": "Warenkorb | Hugo Tron",
+      "cartDescription": "Ihr Warenkorb.",
+      "checkoutTitle": "Kasse | Hugo Tron",
+      "checkoutDescription": "Sicherer Bezahlvorgang.",
+      "confirmationTitle": "Bestellbestätigung | Hugo Tron",
+      "confirmationDescription": "Ihre Bestellung bei Hugo Tron.",
+      "accountTitle": "Ihr Konto | Hugo Tron",
+      "accountDescription": "Bestellungen und Lieferadresse.",
+      "orderTitle": "Bestellung | Hugo Tron",
+      "orderDescription": "Ihre Bestellung bei Hugo Tron.",
+      "legalTitle": "Rechtliches | Hugo Tron",
+      "legalDescription": "Rechtliche Informationen zu Hugo Tron."
+    }
+  },
+  "contact": {
+    "metaTitle": "Kontakt — Hugo Tron, Hamburg",
+    "metaDescription": "Großhandelspreis, Muster oder Private Label anfragen, Hilfe zu einer Bestellung oder einfach Hallo sagen. WhatsApp, E-Mail, Telefon oder Formular: Wir antworten innerhalb eines Werktags.",
+    "eyebrow": "Kontakt",
+    "title": "Sprechen wir.",
+    "lead": "Preise, Muster, Private Label, eine Bestellung unterwegs oder etwas anderes. Wählen Sie unten ein Thema oder erreichen Sie uns direkt per WhatsApp, E-Mail oder Telefon.",
+    "quickLabel": "Schnellkontakt",
+    "topicLegend": "Worum geht es?",
+    "topics": {
+      "enquiry": {
+        "label": "Anfrage",
+        "intro": "Großhandelspreise, Muster oder Private Label: Je mehr Sie uns sagen, desto schneller melden wir uns mit Verfügbarkeit und Preis."
+      },
+      "order": {
+        "label": "Bestellung & Lieferung",
+        "intro": "Fragen zu einer Online-Bestellung, ihrer Lieferung oder einer Rechnung. Mit Ihrer Bestellnummer finden wir sie sofort."
+      },
+      "general": {
+        "label": "Allgemein",
+        "intro": "Partnerschaften, Presse, Karriere oder etwas anderes."
+      }
+    },
+    "orderReference": "Bestellnummer",
+    "orderReferenceHint": "Aus Ihrer Bestätigungs-E-Mail, z. B. HT-261004-7KQ2",
+    "message": "Ihre Nachricht",
+    "submit": "Nachricht senden",
+    "privacy": "Wir nutzen Ihre Angaben nur, um Ihnen zu antworten. Mehr in unserer <link>Datenschutzerklärung</link>.",
+    "browse": "Produkte ansehen",
+    "quick": {
+      "whatsapp": "WhatsApp",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "instagram": "Instagram",
+      "address": "Adresse",
+      "response": "Wir beantworten jede Nachricht aus Hamburg innerhalb eines Werktags."
+    }
+  },
+  "withdrawalFunction": {
+    "intro": "Hier können Sie einen Vertrag widerrufen. Geben Sie Ihren Namen, die Bestellung und die E-Mail-Adresse für Ihre Bestätigung an; vor dem Absenden können Sie alles prüfen.",
+    "name": "Ihr Name",
+    "order": "Bestellnummer",
+    "orderHint": "Aus Ihrer Bestellbestätigung, z. B. HT-261004-7KQ2",
+    "email": "E-Mail-Adresse für die Eingangsbestätigung",
+    "emailHint": "Wir senden Ihnen die Bestätigung mit Datum und Uhrzeit an diese Adresse.",
+    "scope": "Was möchten Sie widerrufen?",
+    "scopeAll": "Die gesamte Bestellung",
+    "scopePart": "Nur einen Teil der Waren",
+    "items": "Welche Waren?",
+    "start": "Vertrag widerrufen",
+    "statement": "Hiermit widerrufe ich den folgenden Vertrag.",
+    "confirm": "Widerruf bestätigen",
+    "back": "Angaben ändern",
+    "doneTitle": "Ihr Widerruf ist bei uns eingegangen",
+    "done": "Eingegangen am {date}. Eine Eingangsbestätigung mit diesen Angaben wurde an {email} gesendet.",
+    "print": "Drucken oder speichern",
+    "errors": {
+      "invalid": "Bitte prüfen Sie Ihre Angaben: Name, Bestellnummer und eine gültige E-Mail-Adresse werden benötigt.",
+      "rateLimited": "Zu viele Versuche. Bitte warten Sie einige Minuten oder widerrufen Sie per E-Mail.",
+      "generic": "Etwas ist schiefgelaufen. Bitte widerrufen Sie per E-Mail an info@hugo-tron.com; Ihr Widerruf ist rechtzeitig, wenn Sie ihn innerhalb der Frist absenden."
+    }
+  },
+  "legal": {
+    "withdraw": "Vertrag widerrufen",
+    "close": "Schließen",
+    "member": "Mitglied im Händlerbund",
+    "description": {
+      "imprint": "Impressum der Hugo Tron GmbH, Hamburg: Anschrift, Kontakt, Handelsregister und Steuerangaben.",
+      "terms": "Allgemeine Geschäftsbedingungen der Hugo Tron GmbH, Hamburg.",
+      "privacy": "Datenschutzerklärung der Hugo Tron GmbH: welche Daten wir verarbeiten, wofür und welche Rechte Sie haben."
+    }
+  },
+  "labelRoom": {
+    "seoTitle": "Private Label — Ihre Marke, unsere Beschaffung | Hugo Tron",
+    "seoDescription": "Ihr Partner für Beschaffung und Versorgung. Entdecken Sie Private Label, Verpackung, Import und Distribution mit Hugo Tron.",
+    "name": "Private Label",
+    "home": "Startseite",
+    "breadcrumb": "Seitennavigation",
+    "skip": "Zum Inhalt springen",
+    "scene": "Ein steinernes Atelier mit Blick auf den Hafen und einem Private-Label-Beutel auf einem beleuchteten Stufenpodest.",
+    "loading": "Das Atelier öffnet sich",
+    "continue": "Eintreten",
+    "chapters": "Ihre Private-Label-Reise",
+    "legal": "Rechtliches",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "arrival": {
+      "eyebrow": "Eine Welt, die Ihren Namen trägt",
+      "short": "Ankommen",
+      "title": "Ihre Marke.",
+      "accent": "Unsere Welt.",
+      "body": "Hinter einer Marke steht eine ganze Reise. Wir verbinden die Schritte — vom passenden Produkt bis zu Ihren Kunden."
+    },
+    "source": {
+      "eyebrow": "Am Anfang steht Ihre Idee",
+      "short": "Ursprung",
+      "title": "Rund um",
+      "accent": "Ihre Idee.",
+      "body": "Reis, Nüsse, Gewürze, Hülsenfrüchte — oder etwas außerhalb unseres Portfolios. Wir prüfen die Beschaffung nach Ihrem Produkt, Markt und Volumen.",
+      "product": "Produkt",
+      "market": "Markt",
+      "volume": "Volumen"
+    },
+    "identity": {
+      "eyebrow": "Das Produkt wird zu Ihrer Marke",
+      "short": "Gestalten",
+      "title": "Ganz",
+      "accent": "Ihre Marke.",
+      "body": "Ein erster Eindruck Ihrer Marke. Entdecken Sie den Beutel und sprechen Sie mit uns über Produkt- und Verpackungsoptionen.",
+      "hint": "Tippen oder klicken, um die Farbe zu wechseln.",
+      "interactive": "Interaktiver Private-Label-Beutel",
+      "keyboard": "Enter oder Leertaste wechselt die Farbe. Mit den Pfeiltasten links und rechts drehen."
+    },
+    "horizon": {
+      "eyebrow": "Von einer Idee zu neuen Möglichkeiten",
+      "short": "Weiter",
+      "title": "Ihre Marke.",
+      "accent": "Der nächste Schritt.",
+      "body": "Beschaffung, Import, Lagerung und Distribution. Ein Partner, der die nächsten Schritte für Ihr Unternehmen verbindet.",
+      "action": "Erzählen Sie uns Ihre Idee",
+      "note": "Produkt, Verpackung und Versorgung stimmen wir auf Ihre Anforderungen ab."
+    },
+    "return": {
+      "eyebrow": "Eine verbundene Welt",
+      "title": "Die Reise",
+      "accent": "geht weiter.",
+      "body": "Zurück in die Großhandelshalle. Entdecken Sie Beschaffung, Mengen und Versorgung für Ihre nächste Idee.",
+      "action": "Zum Großhandel",
+      "short": "Zurück"
+    }
+  },
+  "notFound": {
+    "title": "Diese Seite gibt es nicht (mehr).",
+    "body": "Vielleicht ist sie umgezogen. Auf der Startseite oder im Sortiment finden Sie weiter, oder schreiben Sie uns.",
+    "home": "Zur Startseite",
+    "products": "Zum Sortiment"
   }
 }

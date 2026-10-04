@@ -8,7 +8,7 @@ const config = [
   {
     rules: {
       /* next/image is mandatory — the reference project shipped 15 raw <img>
-         tags against a dead images config. See docs/ASSETS.md. */
+         tags against a dead images config. */
       "@next/next/no-img-element": "error",
 
       "@typescript-eslint/no-unused-vars": [
@@ -18,7 +18,7 @@ const config = [
 
       /* Locale-aware navigation only. Importing next/link or the next/navigation
          hooks directly bypasses the translated pathname map and emits
-         untranslated URLs — see docs/I18N.md. */
+         untranslated URLs — see docs/ARCHITECTURE.md. */
       "no-restricted-imports": [
         "error",
         {

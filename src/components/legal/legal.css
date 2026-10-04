@@ -1,0 +1,168 @@
+/* Legal pages: a calm reading column on paper. */
+.legal {
+  max-inline-size: 48rem;
+  margin-inline: auto;
+}
+.legal__head {
+  display: grid;
+  gap: 0.75rem;
+  padding-block-end: 1.75rem;
+  border-block-end: 1px solid var(--commerce-line);
+}
+.legal__head h1 {
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+}
+.legal__note {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--commerce-muted);
+}
+.legal__body {
+  padding-block-start: 1rem;
+  line-height: 1.7;
+}
+.legal__body h2 {
+  margin-block: 2.5rem 0.75rem;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  scroll-margin-block-start: 7rem;
+}
+.legal__body h3 {
+  margin-block: 1.75rem 0.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.legal__body p {
+  margin-block: 0 0.9rem;
+}
+.legal__body ul {
+  margin-block: 0 1rem;
+  padding-inline-start: 1.2rem;
+}
+.legal__body li + li {
+  margin-block-start: 0.35rem;
+}
+.legal__body address {
+  display: grid;
+  margin-block-end: 1rem;
+  font-style: normal;
+}
+
+/* The withdrawal function. */
+.withdrawal {
+  display: grid;
+  gap: 1.25rem;
+  margin-block: 1rem 2rem;
+  padding: 1.5rem;
+}
+.withdrawal > p {
+  margin: 0;
+}
+.withdrawal > .commerce-button,
+.withdrawal__actions .commerce-button {
+  justify-self: start;
+}
+.withdrawal__scope {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.withdrawal__scope legend {
+  margin-block-end: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--commerce-muted);
+}
+.withdrawal__statement {
+  font-weight: 600;
+}
+.withdrawal__facts {
+  display: grid;
+  grid-template-columns: minmax(8rem, auto) minmax(0, 1fr);
+  gap: 0.4rem 1.5rem;
+  margin: 0;
+}
+.withdrawal__facts dt {
+  color: var(--commerce-muted);
+}
+.withdrawal__facts dd {
+  margin: 0;
+}
+.withdrawal__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+}
+.withdrawal__back {
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+@media print {
+  .header,
+  .site-footer,
+  .announce,
+  .dev-panel,
+  .commerce-paper,
+  .withdrawal .commerce-button {
+    display: none !important;
+  }
+}
+
+/* The policy dialog in checkout. */
+.legal-dialog {
+  margin: auto;
+  inline-size: min(46rem, calc(100% - 2rem));
+  max-block-size: min(85dvh, 60rem);
+  padding: 0;
+  border: 1px solid var(--commerce-line, currentColor);
+  background: var(--color-world-paper-light);
+  color: var(--color-world-paper-ink);
+}
+.legal-dialog::backdrop {
+  background: color-mix(in srgb, var(--color-world-paper-ink) 45%, transparent);
+  backdrop-filter: blur(4px);
+}
+.legal-dialog__inner {
+  max-block-size: inherit;
+  padding: 1.5rem clamp(1.25rem, 3vw, 2.25rem) 2rem;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.legal-dialog__head {
+  position: sticky;
+  inset-block-start: -1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: -1.5rem calc(-1 * clamp(1.25rem, 3vw, 2.25rem)) 1rem;
+  padding: 1.25rem clamp(1.25rem, 3vw, 2.25rem);
+  border-block-end: 1px solid color-mix(in srgb, var(--color-world-paper-ink) 16%, transparent);
+  background: var(--color-world-paper-light);
+}
+.legal-dialog__head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+.legal-dialog__close {
+  inline-size: 44px;
+  block-size: 44px;
+  border: 1px solid color-mix(in srgb, var(--color-world-paper-ink) 25%, transparent);
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+.legal-dialog .legal__body h2 {
+  margin-block-start: 1.75rem;
+  font-family: var(--font-display);
+  font-weight: 400;
+}

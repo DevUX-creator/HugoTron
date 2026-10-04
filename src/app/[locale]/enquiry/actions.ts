@@ -3,22 +3,8 @@
 import { deliverEnquiry } from "@/lib/enquiry/provider";
 import { typedValues } from "@/lib/formValues";
 import { withinRateLimit } from "@/lib/rateLimit";
-import { enquirySchema, readEnquiry, readField } from "@/lib/enquiry/schema";
-
-/**
- * What the form gets back. `error` is a MESSAGE KEY rather than a sentence,
- * because the action runs on the server and has no business deciding which
- * language the buyer reads — the client component owns that and looks the key
- * up in its own bundle.
- */
-export type EnquiryState = {
-  ok: boolean;
-  error?: "errorEmail" | "errorLong" | "errorRate" | "errorGeneric";
-  /** What the buyer typed, returned with an error: React resets the form after every action. */
-  values?: Record<string, string>;
-};
-
-export const ENQUIRY_INITIAL_STATE: EnquiryState = { ok: false };
+import { enquirySchema, readEnquiry, readField, type EnquiryInput } from "@/lib/enquiry/schema";
+import type { EnquiryState } from "@/lib/enquiry/state";
 
 /**
  * The enquiry form's submit handler.
@@ -52,7 +38,7 @@ export async function submitEnquiry(
   if (!(await withinRateLimit("enquiry"))) return { ok: false, error: "errorRate", values };
 
   try {
-    await deliverEnquiry({ ...parsed.data, receivedAt: new Date().toISOString() });
+    await deliverEnquiry({ ...forTopic(parsed.data), receivedAt: new Date().toISOString() });
   } catch (cause) {
     /* The buyer is told to email instead, so the failure has to be visible on
        our side too — this is the line that turns a dropped enquiry into
@@ -62,4 +48,23 @@ export async function submitEnquiry(
   }
 
   return { ok: true };
+}
+
+/**
+ * Only what belongs to the chosen topic reaches the provider. The contact page hides other
+ * topics' fields, but a visitor may have filled them before switching topic, and hidden fields
+ * still post.
+ */
+function forTopic(input: EnquiryInput): EnquiryInput {
+  const enquiry = input.topic === "enquiry";
+  return {
+    ...input,
+    purpose: enquiry ? input.purpose : "other",
+    product: enquiry ? input.product : "",
+    quantity: enquiry ? input.quantity : "",
+    packSize: enquiry ? input.packSize : "",
+    postcode: enquiry ? input.postcode : "",
+    date: enquiry ? input.date : "",
+    orderReference: input.topic === "order" ? input.orderReference : "",
+  };
 }

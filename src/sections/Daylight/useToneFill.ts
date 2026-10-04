@@ -49,9 +49,15 @@ function toRgb(color: string): [number, number, number] {
     : [0.92, 0.9, 0.86];
 }
 
+type Fill = { paint: (progress: number) => void; dispose: () => void };
+
+/** Phones get the static torn sheet: no WebGL context and no per-frame redraw of the viewport. */
+const PHONE = "(width < 48rem)";
+
 /**
- * A full-viewport WebGL fill in the colour of the CSS custom property `colorVar`. Attach the
- * returned `canvas` ref; `draw(progress)` paints only when called, so an idle page costs nothing.
+ * A full-viewport fill in the colour of the CSS custom property `colorVar`, rising with
+ * `draw(progress)`. Wide screens paint a WebGL paper front; phones move a torn paper sheet with
+ * a transform only. Attach the returned `canvas` ref; nothing paints until `draw` is called.
  */
 export function useToneFill(colorVar: string) {
   const canvas = useRef<HTMLDivElement>(null);
@@ -60,95 +66,146 @@ export function useToneFill(colorVar: string) {
   useEffect(() => {
     const host = canvas.current;
     if (!host) return;
-    // Own a fresh canvas per setup: Strict Mode may clean up and set up the same host.
-    const element = document.createElement("canvas");
-    element.style.width = "100%";
-    element.style.height = "100%";
-    element.style.display = "block";
-    host.append(element);
-    const gl = element.getContext("webgl", {
-      alpha: true,
-      antialias: false,
-      premultipliedAlpha: true,
-    });
-    // A failed context/program still has a rising paper wipe and readable chapters.
-    const fallback = () => {
-      element.style.backgroundColor = `var(${colorVar})`;
-      draw.current = (progress) => {
-        host.dataset.active = String(progress > 0);
-        element.style.clipPath = `inset(${(1 - progress) * 100}% 0 0)`;
-      };
-      return () => {
-        draw.current = () => {};
-        element.remove();
-      };
+    const phone = matchMedia(PHONE);
+    let latest = 0;
+    let fill: Fill = phone.matches ? tornSheet(host) : shaderFill(host, colorVar);
+    draw.current = (progress) => {
+      latest = progress;
+      fill.paint(progress);
     };
-    if (!gl) return fallback();
-    const compile = (type: number, source: string) => {
-      const shader = gl.createShader(type)!;
-      gl.shaderSource(shader, source);
-      gl.compileShader(shader);
-      return shader;
+    // A rotation across the breakpoint swaps the fill and keeps the paper where it was.
+    const swap = () => {
+      fill.dispose();
+      fill = phone.matches ? tornSheet(host) : shaderFill(host, colorVar);
+      fill.paint(latest);
     };
-    const program = gl.createProgram()!;
-    const vertex = compile(gl.VERTEX_SHADER, VERTEX);
-    const fragment = compile(gl.FRAGMENT_SHADER, FRAGMENT);
-    gl.attachShader(program, vertex);
-    gl.attachShader(program, fragment);
-    gl.linkProgram(program);
-    gl.deleteShader(vertex);
-    gl.deleteShader(fragment);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      gl.deleteProgram(program);
-      gl.getExtension("WEBGL_lose_context")?.loseContext();
-      return fallback();
-    }
-    gl.useProgram(program);
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
-    const position = gl.getAttribLocation(program, "position");
-    gl.enableVertexAttribArray(position);
-    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
-    const uniform = (name: string) => gl.getUniformLocation(program, name);
-    const progressLocation = uniform("uProgress");
-    const resolutionLocation = uniform("uResolution");
-    gl.uniform3fv(uniform("uColor"), toRgb(getComputedStyle(element).getPropertyValue(colorVar)));
-
-    let last = -1;
-    const resize = () => {
-      const ratio = Math.min(window.devicePixelRatio || 1, 1.25);
-      element.width = Math.round(element.clientWidth * ratio);
-      element.height = Math.round(element.clientHeight * ratio);
-      gl.viewport(0, 0, element.width, element.height);
-      gl.uniform2f(resolutionLocation, element.width, element.height);
-      const progress = Math.max(0, last);
-      last = -1;
-      draw.current(progress);
-    };
-    draw.current = (progress: number) => {
-      if (progress === last) return;
-      last = progress;
-      // Hidden while empty, so the canvas costs nothing before the fill begins.
-      host.dataset.active = String(progress > 0);
-      gl.clearColor(0, 0, 0, 0);
-      gl.clear(gl.COLOR_BUFFER_BIT);
-      if (progress <= 0) return;
-      gl.uniform1f(progressLocation, progress);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    };
-    const observer = new ResizeObserver(resize);
-    observer.observe(element);
-    resize();
+    phone.addEventListener("change", swap);
     return () => {
-      observer.disconnect();
+      phone.removeEventListener("change", swap);
       draw.current = () => {};
-      gl.deleteBuffer(buffer);
-      gl.deleteProgram(program);
-      gl.getExtension("WEBGL_lose_context")?.loseContext();
-      element.remove();
+      fill.dispose();
+      delete host.dataset.active;
     };
   }, [colorVar]);
 
   return { canvas, draw };
+}
+
+/**
+ * A sheet with a torn top edge (the mask in daylight.css), moved with `translate` only, so the
+ * compositor scrolls it without repainting. Its edge follows the shader front's mapping, so the
+ * header turns light at the same moment on every screen.
+ */
+function tornSheet(host: HTMLDivElement): Fill {
+  const sheet = document.createElement("div");
+  sheet.className = "daylight__sheet";
+  host.append(sheet);
+  let last = -1;
+  return {
+    paint(progress) {
+      if (progress === last) return;
+      last = progress;
+      host.dataset.active = String(progress > 0);
+      // The shader's front stands at progress × 1.14 − 0.02 of the viewport, from the bottom.
+      const top = Math.min(1, Math.max(0, 1.02 - progress * 1.14));
+      sheet.style.translate = `0 ${(top * 100).toFixed(2)}%`;
+    },
+    dispose() {
+      sheet.remove();
+    },
+  };
+}
+
+function shaderFill(host: HTMLDivElement, colorVar: string): Fill {
+  // Own a fresh canvas per setup: Strict Mode may clean up and set up the same host.
+  const element = document.createElement("canvas");
+  element.style.width = "100%";
+  element.style.height = "100%";
+  element.style.display = "block";
+  host.append(element);
+  const gl = element.getContext("webgl", {
+    alpha: true,
+    antialias: false,
+    premultipliedAlpha: true,
+  });
+  // A failed context/program still has a rising paper wipe and readable chapters.
+  const fallback = (): Fill => {
+    element.style.backgroundColor = `var(${colorVar})`;
+    return {
+      paint(progress) {
+        host.dataset.active = String(progress > 0);
+        element.style.clipPath = `inset(${(1 - progress) * 100}% 0 0)`;
+      },
+      dispose() {
+        element.remove();
+      },
+    };
+  };
+  if (!gl) return fallback();
+  const compile = (type: number, source: string) => {
+    const shader = gl.createShader(type)!;
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    return shader;
+  };
+  const program = gl.createProgram()!;
+  const vertex = compile(gl.VERTEX_SHADER, VERTEX);
+  const fragment = compile(gl.FRAGMENT_SHADER, FRAGMENT);
+  gl.attachShader(program, vertex);
+  gl.attachShader(program, fragment);
+  gl.linkProgram(program);
+  gl.deleteShader(vertex);
+  gl.deleteShader(fragment);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    gl.deleteProgram(program);
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return fallback();
+  }
+  gl.useProgram(program);
+  const buffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+  const position = gl.getAttribLocation(program, "position");
+  gl.enableVertexAttribArray(position);
+  gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+  const uniform = (name: string) => gl.getUniformLocation(program, name);
+  const progressLocation = uniform("uProgress");
+  const resolutionLocation = uniform("uResolution");
+  gl.uniform3fv(uniform("uColor"), toRgb(getComputedStyle(element).getPropertyValue(colorVar)));
+
+  let last = -1;
+  const paint = (progress: number) => {
+    if (progress === last) return;
+    last = progress;
+    // Hidden while empty, so the canvas costs nothing before the fill begins.
+    host.dataset.active = String(progress > 0);
+    gl.clearColor(0, 0, 0, 0);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    if (progress <= 0) return;
+    gl.uniform1f(progressLocation, progress);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  };
+  const resize = () => {
+    const ratio = Math.min(window.devicePixelRatio || 1, 1.25);
+    element.width = Math.round(element.clientWidth * ratio);
+    element.height = Math.round(element.clientHeight * ratio);
+    gl.viewport(0, 0, element.width, element.height);
+    gl.uniform2f(resolutionLocation, element.width, element.height);
+    const progress = Math.max(0, last);
+    last = -1;
+    paint(progress);
+  };
+  const observer = new ResizeObserver(resize);
+  observer.observe(element);
+  resize();
+  return {
+    paint,
+    dispose() {
+      observer.disconnect();
+      gl.deleteBuffer(buffer);
+      gl.deleteProgram(program);
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
+      element.remove();
+    },
+  };
 }

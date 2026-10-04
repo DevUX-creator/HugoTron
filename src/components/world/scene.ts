@@ -63,9 +63,12 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
   let category: IngredientId | null = null;
   let visibleCategory: IngredientId | null = null;
   let productTarget = 0;
+  const productRay = new THREE.Raycaster();
+  const productRayPointer = new THREE.Vector2();
   let productProgress = 0;
   const productLight = {
-    rice: { tint: 0xdce8ff, tree: 1.2, turn: 0.0 },
+    // Rice is brushed by hand, so its camera rises and closes in to look down into the dish.
+    rice: { tint: 0xdce8ff, tree: 1.2, turn: 0.0, rise: 0.42, dolly: 0.36 },
     pistachios: { tint: 0xd6e6bd, tree: 1.7, turn: -0.18 },
     spices: { tint: 0xf1d1b2, tree: 1.3, turn: 0.16 },
     saffron: { tint: 0xe4c4e1, tree: 1.35, turn: -0.12 },
@@ -282,8 +285,9 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
     orbit.theta += driftX * 0.145 * response;
     if (options.presentation) {
       orbit.theta += productLight.turn * productProgress;
-      orbit.phi -= productProgress * 0.075;
-      orbit.radius *= 1 - productProgress * 0.075;
+      const { rise = 0.075, dolly = 0.075 } = productLight as { rise?: number; dolly?: number };
+      orbit.phi -= productProgress * rise;
+      orbit.radius *= 1 - productProgress * dolly;
     }
     orbit.phi += driftY * 0.12 * response;
     orbit.radius += (driftY * 0.58 + (driftX * driftX + driftY * driftY) * 0.18) * response;
@@ -315,11 +319,15 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
     courtyard.visible = courtyardPresence > 0;
     for (const material of materialBases.keys()) material.opacity = courtyardPresence;
     if (options.presentation) {
-      specimen.setInteraction(productProgress, smoothed, pointerActive);
+      productRayPointer.set(pointer.x, -pointer.y);
+      productRay.setFromCamera(productRayPointer, camera);
+      specimen.setInteraction(productProgress, smoothed, pointerActive, productRay.ray);
       installation.particles.rotation.y = productLight.turn;
     }
     specimen.update(motionTime, delta, reduced, installation.collapse < 0.75);
-    specimen.group.rotation.set(smoothed.y * 0.25, smoothed.x * 0.45, 0);
+    // A dish being brushed holds still under the hand; floating pieces keep leaning to the pointer.
+    const lean = options.presentation === "rice" ? 1 - productProgress * 0.85 : 1;
+    specimen.group.rotation.set(smoothed.y * 0.25 * lean, smoothed.x * 0.45 * lean, 0);
     installation.updateHover(
       camera,
       pointer,
@@ -409,6 +417,7 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
           ? {
               productProgress: productProgress.toFixed(3),
               productInteraction: specimen.interaction.toFixed(3),
+              productBrush: specimen.brushing.toFixed(3),
             }
           : {}),
       };

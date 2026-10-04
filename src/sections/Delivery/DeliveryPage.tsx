@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import type { Locale } from "@/i18n/routing";
-import { Link } from "@/i18n/navigation";
 import Header from "@/components/layout/Header";
-import ArrowLink from "@/components/ui/ArrowLink";
+import DeliveryExplorer from "./DeliveryExplorer";
 import { HomeThemeProvider } from "@/components/rice/HomeTheme";
-import { DoorArrival } from "@/components/transition/DoorTransition";
 import WorldFrame from "@/sections/World/WorldFrame";
 import { absoluteUrl, alternates, jsonLd, organizationJsonLd } from "@/lib/seo";
 import "@/sections/World/world.css";
@@ -29,11 +27,7 @@ export async function deliveryMetadata(locale: Locale): Promise<Metadata> {
   };
 }
 
-/**
- * Delivery: the location behind the wholesale hall's door. The visitor arrives in the door's
- * light (DoorArrival). Its own 3D scene is still to come; until then the night, the light
- * behind and the trails running on carry the page.
- */
+/** Delivery continues the hall journey as a quiet, Germany-focused atlas. */
 export default async function DeliveryPage({ locale }: { locale: Locale }) {
   const t = await getTranslations({ locale, namespace: "delivery" });
   const url = absoluteUrl("/delivery", locale);
@@ -58,45 +52,8 @@ export default async function DeliveryPage({ locale }: { locale: Locale }) {
       <Header brandLogo showSoundToggle={false} />
       <WorldFrame />
       <main id="main" tabIndex={-1} className="delivery">
-        <section className="delivery-arrival" aria-labelledby="delivery-title">
-          <div className="delivery-arrival__light" aria-hidden="true" />
-          <div className="delivery-arrival__trails" aria-hidden="true" />
-          <nav className="delivery-arrival__crumbs" aria-label={t("breadcrumbLabel")}>
-            <ol>
-              <li>
-                <Link href="/">{t("home")}</Link>
-              </li>
-              <li aria-current="page">{t("name")}</li>
-            </ol>
-          </nav>
-          <div className="delivery-arrival__copy">
-            <p className="delivery-arrival__eyebrow">{t("eyebrow")}</p>
-            <h1 id="delivery-title">
-              <span>{t("titleLead")}</span> <span>{t("titleAccent")}</span>
-            </h1>
-            <p className="delivery-arrival__lead">{t("lead")}</p>
-            <ul className="delivery-arrival__facts">
-              {(["warehouse", "germany", "international"] as const).map((key) => (
-                <li key={key}>{t(`facts.${key}`)}</li>
-              ))}
-            </ul>
-            <div className="delivery-arrival__actions">
-              <ArrowLink
-                href={{ pathname: "/enquiry", query: { purpose: "quote" } }}
-                prefetch={false}
-                variant="glass"
-                size="large"
-              >
-                {t("action")}
-              </ArrowLink>
-              <Link href="/wholesale" className="delivery-arrival__back">
-                {t("back")}
-              </Link>
-            </div>
-          </div>
-        </section>
+        <DeliveryExplorer />
       </main>
-      <DoorArrival />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(data) }} />
     </HomeThemeProvider>
   );

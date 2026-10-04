@@ -4,7 +4,7 @@ from pathlib import Path
 import subprocess
 
 ROOT = Path(__file__).resolve().parent.parent
-SOURCE = ROOT / "public/3dvideo.mp4"
+SOURCE = ROOT / "assets-src/video/3dvideo.mp4"
 OUTPUT = ROOT / "public/video/world"
 
 

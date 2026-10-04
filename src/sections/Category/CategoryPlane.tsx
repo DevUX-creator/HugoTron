@@ -1,7 +1,10 @@
 import Image from "next/image";
 import type { CategoryStory, StoryChapter } from "@/content/categoryStories";
 
-/** Two original engravings share a reading composition. No SVG filters or animation loops. */
+/**
+ * A chapter's two studies: a botanical that drifts in close and a landscape that opens as the
+ * chapter passes (category.css, driven by the chapter's scroll progress `--p`). Decorative.
+ */
 export default function CategoryPlane({
   story,
   chapter,
@@ -30,9 +33,6 @@ export default function CategoryPlane({
           sizes="(max-width: 767px) 80vw, 46vw"
         />
       </figure>
-      <svg className="category-art__orbit" viewBox="0 0 1000 650" fill="none">
-        <path d="M24 510C-10 370 230 240 542 214S1012 106 964 42M56 556C316 632 750 524 914 350" />
-      </svg>
     </div>
   );
 }

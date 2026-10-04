@@ -7,7 +7,7 @@ import Wordmark from "./Wordmark";
 import BrandLogo from "./BrandLogo";
 import { AccountIcon } from "./Icons";
 import MobileMenu from "./MobileMenu";
-import CartButton from "@/components/cart/CartButton";
+import CartButton from "@/components/commerce/cart/CartButton";
 import SoundToggle from "@/components/sound/SoundToggle";
 import "./header.css";
 
@@ -28,7 +28,7 @@ export default function Header({
     { href: "/range", label: t("range") },
     { href: "/wholesale", label: t("wholesale") },
     { href: "/private-label", label: t("privateLabel") },
-    { href: "/about", label: t("about") },
+    // "About" returns once /about has a page; until then the nav links nowhere broken.
     { href: "/delivery", label: t("delivery") },
     { href: "/contact", label: t("contact") },
   ] as const;
@@ -71,12 +71,9 @@ export default function Header({
           {showSoundToggle && <SoundToggle />}
           <LocaleSwitcher />
 
-          {/* TODO(auth): a real destination once accounts exist. It is a
-              button rather than a link for exactly that reason — a link to
-              nowhere is worse than a control that does not act yet. */}
-          <button type="button" className="header__tool" aria-label={t("account")}>
+          <Link href="/account" prefetch={false} className="header__tool" aria-label={t("account")}>
             <AccountIcon className="header__icon" />
-          </button>
+          </Link>
 
           <CartButton />
           <MobileMenu links={links} />

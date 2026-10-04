@@ -3,6 +3,8 @@ import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 import { FullScreenQuad } from "three/addons/postprocessing/Pass.js";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { createPalaceStream } from "./palaceStream";
+import { createPalaceDoor } from "./palaceDoor";
+import { createWorldRocks } from "@/components/world/rocks";
 import type { HallScene, HallOptions } from "./types";
 
 /** An original masonry nave: paired columns, moulded piers, deep arches and a distant lit door. */
@@ -19,6 +21,14 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
     doorTarget = 0,
     door = 0;
   let loaded = false;
+  let passage: {
+    elapsed: number;
+    fromDoor: number;
+    eye: THREE.Vector3;
+    look: THREE.Vector3;
+    onThreshold: (() => void) | null;
+  } | null = null;
+  const passageDuration = 3.15;
   const renderer = new THREE.WebGLRenderer({
     antialias: false,
     powerPreference: "high-performance",
@@ -33,7 +43,7 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
   mount.append(renderer.domElement);
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0a111c);
-  scene.fog = new THREE.FogExp2(0x182735, 0.017);
+  scene.fog = new THREE.FogExp2(0x101b29, 0.017);
   const camera = new THREE.PerspectiveCamera(small ? 64 : 54, 1, 0.1, 100);
   const geometrySet = new Set<THREE.BufferGeometry>();
   const materialSet = new Set<THREE.Material>();
@@ -100,9 +110,9 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
   room.dispose();
   pmrem.dispose();
   scene.environment = environment.texture;
-  scene.environmentIntensity = 0.12;
-  scene.add(new THREE.HemisphereLight(0xb8cee5, 0x171923, 0.48));
-  const sun = new THREE.DirectionalLight(0xc2d4e7, 1.8);
+  scene.environmentIntensity = 0.07;
+  scene.add(new THREE.HemisphereLight(0xb8cee5, 0x171923, 0.26));
+  const sun = new THREE.DirectionalLight(0xc2d4e7, 0.85);
   sun.position.set(-12, 23, -7);
   sun.target.position.set(1, 0, -22);
   sun.castShadow = true;
@@ -120,14 +130,14 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
   sun.shadow.radius = 2;
   scene.add(sun, sun.target);
   lights.push(sun);
-  const lantern = new THREE.PointLight(0x9bbce6, 7, 12, 2);
+  const lantern = new THREE.PointLight(0x9bbce6, 3.5, 12, 2);
   scene.add(lantern);
   lights.push(lantern);
   for (const [x, z, tint] of [
     [-6.8, -12, 0xe9e3d5],
     [6.8, -29, 0x9ebfef],
   ] as const) {
-    const light = new THREE.SpotLight(tint, 1450, 38, 0.45, 0.75, 2);
+    const light = new THREE.SpotLight(tint, 720, 38, 0.45, 0.75, 2);
     light.position.set(x, 16, z);
     light.target.position.set(-x * 0.15, 0, z - 7);
     scene.add(light, light.target);
@@ -257,7 +267,6 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
       [4.08, 0.27, 0.08],
     ])
       put(box(d!, h!, 16), dark, side * 3.85, y!, 4);
-    put(box(0.8, 18.5, 45), walls, side * 8.1, 9.25, -24.5);
     put(box(3.9, 0.18, 47), dark, side * 6, 0.09, -23);
     // Two shallow stone borders catch the light alongside the processional path.
     put(box(0.11, 0.055, 60), trim, side * 2.05, 0.025, -19);
@@ -306,12 +315,6 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
         put(box(0.075, 4.72, 0.11), trim, x + offset, 8.38, z + 0.84);
       for (const y of [6.03, 10.72]) put(box(1.21, 0.07, 0.11), trim, x, y, z + 0.84);
       put(box(1.12, 4.62, 0.022), dark, x, 8.38, z + 0.8);
-      // Outer pilasters and long aisle entablatures make the room read as architecture.
-      put(box(0.34, 12.6, 1.15), pale, side * 7.62, 6.3, z);
-      if (z === -6) {
-        put(box(0.48, 0.18, 45), trim, side * 7.55, 5.6, -24.5);
-        put(box(0.57, 0.2, 45), pale, side * 7.5, 11.4, -24.5);
-      }
     }
     put(arch(3.42, 4.12, 1.58), pale, 0, 11.45, z);
     put(arch(3.33, 3.44, 1.73), trim, 0, 11.45, z + 0.015);
@@ -320,35 +323,11 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
     put(box(0.42, 0.95, 1.86), pale, 0, 15.19, z);
     put(arch(7.85, 8.1, 0.2), dark, 0, 11.4, z);
   }
-  // Side arcades, with deep shadow behind the columns instead of flat bright window stickers.
-  const windowMaterials = [-1, 1].map((side) =>
-    own(new THREE.MeshBasicMaterial({ color: side < 0 ? 0x718d9d : 0x3c526c, fog: true })),
-  );
-  const lancetShape = new THREE.Shape();
-  lancetShape.moveTo(-0.65, 0);
-  lancetShape.lineTo(0.65, 0);
-  lancetShape.lineTo(0.65, 3.3);
-  lancetShape.quadraticCurveTo(0.6, 4, 0, 4.65);
-  lancetShape.quadraticCurveTo(-0.6, 4, -0.65, 3.3);
-  lancetShape.closePath();
-  const lancet = own(new THREE.ShapeGeometry(lancetShape, 20));
+  // Freestanding side arcades open onto the same mineral currents as the home world.
   for (const side of [-1, 1])
     for (const z of [-10, -18, -26, -34, -42]) {
       put(arch(3.25, 3.62, 0.48), trim, side * 4.1, 5.66, z, 0, Math.PI / 2);
       put(box(0.18, 0.22, 7.3), trim, side * 4.1, 9.38, z);
-      // A lit lancet set within a dark recess; simple stone mullions break its glow.
-      put(box(0.11, 5.2, 1.9), dark, side * 7.62, 8.3, z);
-      put(
-        lancet,
-        windowMaterials[side < 0 ? 0 : 1]!,
-        side * 7.55,
-        6.2,
-        z,
-        0,
-        (-side * Math.PI) / 2,
-      );
-      put(box(0.1, 4.45, 0.07), trim, side * 7.48, 8.4, z);
-      for (const y of [7.2, 9.05]) put(box(0.1, 0.065, 1.35), trim, side * 7.48, y, z);
     }
   // A ceiling surface closes the nave; the ribs remain visible against it.
   put(box(16.8, 0.5, 45), dark, 0, 19, -24.5);
@@ -434,76 +413,15 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
     }
   }
 
-  // Pale double door, deeply inset in a tall stone surround.
-  put(wallWithArch(8.5, 19, 1.45, 3.75, 1), walls, 0, 0, -46);
-  put(arch(1.46, 1.78, 0.95), pale, 0, 3.75, -45.6);
-  put(arch(1.79, 1.87, 1.06), trim, 0, 3.75, -45.58);
-  for (const side of [-1, 1]) {
-    put(box(0.32, 3.75, 0.95), pale, side * 1.63, 1.875, -45.6);
-    put(box(0.46, 0.18, 1.08), trim, side * 1.63, 0.09, -45.6);
-    put(box(0.43, 0.15, 1.07), trim, side * 1.63, 3.65, -45.6);
-  }
-  const glow = own(
-    new THREE.MeshBasicMaterial({ color: new THREE.Color(3.2, 3.65, 4.2), toneMapped: false }),
-  );
-  const beyond = new THREE.Mesh(own(new THREE.PlaneGeometry(3.2, 6.1)), glow);
-  beyond.position.set(0, 2.75, -46.8);
-  scene.add(beyond);
-  const transom = new THREE.Mesh(own(new THREE.CircleGeometry(1.43, 40, 0, Math.PI)), glow);
-  transom.position.set(0, 3.75, -45.95);
-  scene.add(transom);
-  const ring = (radius: number, y: number, z: number) =>
-    put(arch(radius - 0.025, radius + 0.025, 0.055), bronze, 0, y, z);
-  for (const radius of [0.4, 0.78, 1.2, 1.42]) ring(radius, 3.75, -45.84);
-  for (let i = 1; i < 8; i++) {
-    const angle = (Math.PI * i) / 8;
-    put(
-      box(1.1, 0.025, 0.065),
-      bronze,
-      Math.cos(angle) * 0.88,
-      3.75 + Math.sin(angle) * 0.88,
-      -45.82,
-      0,
-      0,
-      angle,
-    );
-  }
-  const leaves = [-1, 1].map((side) => {
-    const hinge = new THREE.Group();
-    hinge.position.set(side * 1.43, 0, -45.9);
-    scene.add(hinge);
-    const glass = new THREE.Mesh(
-      own(new THREE.BoxGeometry(1.4, 3.7, 0.09)),
-      own(
-        new THREE.MeshStandardMaterial({
-          color: 0x394b57,
-          metalness: 0.55,
-          roughness: 0.4,
-          emissive: 0x24303a,
-          emissiveIntensity: 0.5,
-        }),
-      ),
-    );
-    glass.position.set(-side * 0.7, 1.85, 0);
-    glass.castShadow = true;
-    hinge.add(glass);
-    for (const dx of [-0.59, 0.59]) {
-      const stile = new THREE.Mesh(box(0.055, 3.6, 0.06), bronze);
-      stile.position.set(-side * 0.7 + dx, 1.85, 0.07);
-      hinge.add(stile);
-    }
-    for (const y of [0.35, 1.65, 3.3]) {
-      const rail = new THREE.Mesh(box(1.3, 0.045, 0.07), bronze);
-      rail.position.set(-side * 0.7, y, 0.075);
-      hinge.add(rail);
-    }
-    return { hinge, side };
-  });
-  const doorLight = new THREE.PointLight(0xc8d9ef, 160, 24, 2);
+  const doorway = createPalaceDoor({ walls, pale, trim, bronze });
+  doorway.group.position.z = -45.9;
+  scene.add(doorway.group);
+  const leaves = doorway.leaves;
+  const doorLight = new THREE.PointLight(0xc8d9ef, 85, 24, 2);
   doorLight.position.set(0, 3.4, -44.8);
   scene.add(doorLight);
   lights.push(doorLight);
-  const floorLight = new THREE.SpotLight(0xdce9ff, 140, 18, 0.5, 0.8, 2);
+  const floorLight = new THREE.SpotLight(0xdce9ff, 75, 18, 0.5, 0.8, 2);
   floorLight.position.set(0, 5, -44.2);
   floorLight.target.position.set(0, 0, -41.3);
   scene.add(floorLight, floorLight.target);
@@ -543,6 +461,22 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
 
   const stream = createPalaceStream(small);
   scene.add(stream.group);
+  const rocks = createWorldRocks(small, {
+    paths: stream.rockRoutes,
+    count: small ? 18 : 30,
+    sizeScale: 2.2,
+    orbitScale: 1.15,
+  });
+  const rockMesh = rocks.group.getObjectByName("Floating_mineral_fragments") as THREE.InstancedMesh<
+    THREE.BufferGeometry,
+    THREE.MeshStandardMaterial
+  >;
+  // The hall lighting is stronger than home: charcoal keeps the same quiet mineral feel.
+  rockMesh.material.color.setHex(0x414b5b).multiplyScalar(0.65);
+  rockMesh.material.emissive.setHex(0x000000);
+  rockMesh.material.envMapIntensity = 0.15;
+  rocks.update(12, 1);
+  scene.add(rocks.group);
   // Broad, faint shafts carry the window light through the air; depth testing keeps them behind stone.
   const shaftMaterial = own(
     new THREE.ShaderMaterial({
@@ -588,7 +522,9 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
       uniform sampler2D color,depth;uniform vec2 resolution;uniform float nearClip,farClip;varying vec2 vUv;
       void main(){
         float distance=-perspectiveDepthToViewZ(texture2D(depth,vUv).x,nearClip,farClip);
-        float blur=smoothstep(21.,60.,distance)*1.4;
+        float periphery=smoothstep(.1,.4,abs(vUv.x-.5));
+        float blur=max(smoothstep(18.,58.,distance)*1.8,
+          periphery*smoothstep(3.,12.,distance)*4.4);
         vec2 pixel=1./resolution; vec3 base=texture2D(color,vUv).rgb;
         vec3 soft=base*4.,bloom=vec3(0.);
         for(int i=0;i<8;i++){float a=float(i)*.785398;vec2 dir=vec2(cos(a),sin(a));
@@ -615,16 +551,38 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
     look = new THREE.Vector3();
   const pointer = new THREE.Vector2(),
     smoothed = new THREE.Vector2();
+  const insideDoor = new THREE.Vector3(0, 1.78, -46.5);
+  const insideLook = new THREE.Vector3(0, 1.92, -51);
+  function crossThreshold() {
+    const notify = passage?.onThreshold;
+    if (!notify || !passage) return;
+    passage.onThreshold = null;
+    notify();
+  }
   function place() {
-    path.getPointAt(progress, eye);
-    path.getPointAt(Math.min(1, progress + 0.13), look);
+    // Ease to rest before the threshold so the whole doorway remains in the composition.
+    const approach = THREE.MathUtils.clamp((progress - 0.84) / 0.16, 0, 1);
+    const walk = progress <= 0.84 ? progress : 0.84 + 0.08 * (2 * approach - approach * approach);
+    path.getPointAt(walk, eye);
+    path.getPointAt(Math.min(1, walk + 0.13), look);
     look.y = 2.6 + Math.sin(progress * Math.PI) * 0.75;
     if (progress > 0.88) look.set(0, 2.45, -46.8);
     eye.z -= door * door * 3.6;
+    if (passage) {
+      const step = THREE.MathUtils.smoothstep(passage.elapsed, 0.45, passageDuration);
+      eye.lerpVectors(passage.eye, insideDoor, step);
+      look.lerpVectors(
+        passage.look,
+        insideLook,
+        THREE.MathUtils.smoothstep(passage.elapsed, 0, 1.4),
+      );
+    }
     camera.position.copy(eye);
     camera.lookAt(look);
-    camera.rotateY(-smoothed.x * 0.055);
-    camera.rotateX(-smoothed.y * 0.038);
+    if (!passage) {
+      camera.rotateY(-smoothed.x * 0.055);
+      camera.rotateX(-smoothed.y * 0.038);
+    }
     lantern.position.set(eye.x, eye.y + 0.6, eye.z - 0.6);
     for (const shaft of shafts) {
       shaft.rotation.y = camera.rotation.y;
@@ -634,7 +592,10 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
   function render(now: number) {
     frame = 0;
     if (disposed || !loaded || !visible || document.hidden) return;
-    const moving = Math.abs(target - progress) > 0.0001 || Math.abs(doorTarget - door) > 0.0001;
+    const moving =
+      Math.abs(target - progress) > 0.0001 ||
+      Math.abs(doorTarget - door) > 0.0001 ||
+      (!!passage && passage.elapsed < passageDuration);
     if (!reduced && previous && now - previous < (moving ? 16 : 33) - 1) {
       wake();
       return;
@@ -643,12 +604,23 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
     previous = now;
     if (!reduced) time += dt;
     progress = reduced ? target : THREE.MathUtils.damp(progress, target, 4.8, dt);
-    door = reduced ? doorTarget : THREE.MathUtils.damp(door, doorTarget, 5, dt);
+    if (passage) {
+      passage.elapsed = reduced ? passageDuration : Math.min(passageDuration, passage.elapsed + dt);
+      door = THREE.MathUtils.lerp(
+        passage.fromDoor,
+        1,
+        THREE.MathUtils.smoothstep(passage.elapsed, 0, 1.25),
+      );
+    } else {
+      door = reduced ? doorTarget : THREE.MathUtils.damp(door, doorTarget, 5, dt);
+    }
     smoothed.lerp(pointer, reduced ? 1 : 1 - Math.exp(-dt * 3));
     place();
     stream.update(time);
+    rocks.update(time + 12, 1);
     for (const { hinge, side } of leaves) hinge.rotation.y = side * door * 1.5;
-    doorLight.intensity = 160 + door * 190;
+    doorLight.intensity = 85 * (1 - door * 0.75);
+    floorLight.intensity = 75 * (1 - door * 0.8);
     renderer.setRenderTarget(targetBuffer);
     renderer.render(scene, camera);
     const calls = renderer.info.render.calls;
@@ -656,10 +628,14 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
     post.render(renderer);
     mount.dataset.progress = progress.toFixed(4);
     mount.dataset.door = door.toFixed(4);
+    mount.dataset.cameraZ = camera.position.z.toFixed(4);
+    mount.dataset.entering = String(!!passage);
     mount.dataset.calls = String(calls + renderer.info.render.calls);
     mount.dataset.textures = String(renderer.info.memory.textures);
     mount.dataset.geometries = String(renderer.info.memory.geometries);
     mount.dataset.frames = String(Number(mount.dataset.frames || 0) + 1);
+    // The dark hand-off only begins after the open doorway has filled the view.
+    if (passage && camera.position.z < -44.8) crossThreshold();
     if (!reduced || moving) wake();
   }
   function wake() {
@@ -680,7 +656,7 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
     wake();
   }
   function move(event: PointerEvent) {
-    if (reduced || event.pointerType !== "mouse") return;
+    if (passage || reduced || event.pointerType !== "mouse") return;
     pointer.set((event.clientX / innerWidth) * 2 - 1, (event.clientY / innerHeight) * 2 - 1);
     wake();
   }
@@ -710,6 +686,7 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
       loaded = false;
       cancelAnimationFrame(frame);
       frame = 0;
+      crossThreshold();
       options.onError();
     }
   };
@@ -732,12 +709,29 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
     });
   return {
     setProgress(value) {
+      if (passage) return;
       target = THREE.MathUtils.clamp(value, 0, 1);
       wake();
     },
     setDoor(value) {
+      if (passage) return;
       doorTarget = THREE.MathUtils.clamp(value, 0, 1);
       wake();
+    },
+    enterDoor(onThreshold) {
+      if (disposed || !loaded || reduced || passage) return false;
+      passage = {
+        elapsed: 0,
+        fromDoor: door,
+        eye: camera.position.clone(),
+        look: camera.getWorldDirection(new THREE.Vector3()).multiplyScalar(10).add(camera.position),
+        onThreshold,
+      };
+      target = progress;
+      doorTarget = 1;
+      pointer.set(0, 0);
+      wake();
+      return true;
     },
     setReducedMotion(value) {
       reduced = value;
@@ -747,6 +741,7 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
     dispose() {
       if (disposed) return;
       disposed = true;
+      passage = null;
       cancelAnimationFrame(frame);
       resizeObserver.disconnect();
       observer.disconnect();
@@ -758,6 +753,8 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
       materialSet.forEach((m) => m.dispose());
       textureSet.forEach((t) => t.dispose());
       stream.dispose();
+      doorway.dispose();
+      rocks.dispose();
       lights.forEach((light) => {
         if (
           light instanceof THREE.DirectionalLight ||

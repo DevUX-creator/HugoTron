@@ -10,7 +10,7 @@ OUTPUT = ROOT / "public/audio/world"
 
 def prepare():
     OUTPUT.mkdir(parents=True, exist_ok=True)
-    source = ROOT / "public/BackgroundMusic.mp3"
+    source = ROOT / "assets-src/audio/BackgroundMusic.mp3"
     info = json.loads(subprocess.check_output([
         "ffprobe", "-v", "error", "-show_format", "-of", "json", str(source),
     ]))
@@ -41,7 +41,7 @@ def prepare():
     ]:
         subprocess.run([
             "ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
-            "-i", str(ROOT / "public" / original), "-map", "0:a:0",
+            "-i", str(ROOT / "assets-src/audio" / original), "-map", "0:a:0",
             "-map_metadata", "-1", "-af", f"volume={level}",
             "-c:a", "libmp3lame", "-b:a", "96k",
             "-ar", sample_rate, str(OUTPUT / output),

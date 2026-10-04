@@ -6,7 +6,8 @@ import { WORLD_FILMS } from "./worldFilms";
 /** Category-only art, independent of the home's paper-world illustrations. */
 export type ChapterLayout = "flanked" | "horizon" | "offset";
 export type StoryChapter = { key: string; layout: ChapterLayout };
-export type CategorySceneKind = "courtyard" | "rice";
+/** Every range sits in the home's courtyard; each ingredient brings its own presentation. */
+export type CategorySceneKind = "courtyard";
 export type CategorySlug =
   "rice" | "nuts" | "spices" | "saffron" | "pulses" | "tea" | "raw-materials";
 export type CategoryStory = {
@@ -19,7 +20,6 @@ export type CategoryStory = {
   night: string;
   accent: string;
   chapters: readonly StoryChapter[];
-  onRequest: readonly string[];
   /** Only ranges with relevant footage get a film. Other ranges use their own illustrated study. */
   film?: RangeFilm;
   artwork: { botanical: string; landscape: string };
@@ -37,12 +37,11 @@ export const CATEGORY_STORIES: readonly CategoryStory[] = [
     night: "var(--color-cat-rice-night)",
     accent: "var(--color-cat-rice-accent)",
     film: RANGE_FILMS[0],
-    scene: "rice",
+    scene: "courtyard",
     chapters: [
       { key: "land", layout: "flanked" },
       { key: "origins", layout: "horizon" },
     ],
-    onRequest: ["more"],
     artwork: { botanical: art("rice-botanical"), landscape: art("rice-landscape") },
   },
   {
@@ -58,7 +57,6 @@ export const CATEGORY_STORIES: readonly CategoryStory[] = [
       { key: "orchard", layout: "horizon" },
       { key: "harvest", layout: "flanked" },
     ],
-    onRequest: [],
     artwork: { botanical: art("nuts-botanical"), landscape: art("nuts-orchard") },
   },
   {
@@ -73,7 +71,6 @@ export const CATEGORY_STORIES: readonly CategoryStory[] = [
       { key: "market", layout: "flanked" },
       { key: "botanicals", layout: "offset" },
     ],
-    onRequest: ["more"],
     artwork: { botanical: art("spices-botanical"), landscape: art("spices-study") },
   },
   {
@@ -88,7 +85,6 @@ export const CATEGORY_STORIES: readonly CategoryStory[] = [
       { key: "field", layout: "flanked" },
       { key: "thread", layout: "offset" },
     ],
-    onRequest: ["more"],
     artwork: { botanical: art("saffron-botanical"), landscape: art("saffron-study") },
   },
   {
@@ -103,7 +99,6 @@ export const CATEGORY_STORIES: readonly CategoryStory[] = [
       { key: "fields", layout: "flanked" },
       { key: "sacks", layout: "horizon" },
     ],
-    onRequest: [],
     artwork: { botanical: art("pulses-botanical"), landscape: art("pulses-study") },
   },
   {
@@ -119,7 +114,6 @@ export const CATEGORY_STORIES: readonly CategoryStory[] = [
       { key: "garden", layout: "horizon" },
       { key: "leaf", layout: "flanked" },
     ],
-    onRequest: ["more"],
     artwork: { botanical: art("tea-botanical"), landscape: art("tea-garden") },
   },
   {
@@ -134,7 +128,6 @@ export const CATEGORY_STORIES: readonly CategoryStory[] = [
       { key: "mill", layout: "horizon" },
       { key: "bulk", layout: "offset" },
     ],
-    onRequest: ["ingredients", "requested"],
     artwork: { botanical: art("raw-materials-botanical"), landscape: art("raw-materials-mill") },
   },
 ];

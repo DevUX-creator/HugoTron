@@ -11,7 +11,7 @@ import type { Enquiry } from "./schema";
  * to change.
  *
  * `console` is the default so the form works on a fresh clone with no
- * credentials, exactly as docs/CONTRIBUTING.md promises. It is NOT a
+ * credentials, exactly as the README promises. It is NOT a
  * production provider: it says so on every line it writes.
  * ────────────────────────────────────────────────────────────────────────────
  */
@@ -26,6 +26,13 @@ export type EnquiryProvider = (enquiry: Enquiry) => Promise<void>;
  */
 const providers: Record<string, EnquiryProvider> = {
   async console(enquiry) {
+    // In production this would tell a buyer their message arrived when it did not. Failing
+    // makes the form say so and point to email; a staging site can opt in deliberately.
+    if (process.env.NODE_ENV === "production" && process.env.ENQUIRY_ALLOW_CONSOLE !== "true") {
+      throw new Error(
+        "ENQUIRY_PROVIDER=console does not deliver. Configure a real provider for production.",
+      );
+    }
     console.info("[enquiry] NOT DELIVERED — console provider. See lib/enquiry/provider.ts", {
       ...enquiry,
       /* The message can be four thousand characters; the log line should not

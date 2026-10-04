@@ -1,132 +1,974 @@
-/* Delivery — the room behind the hall's door. Placeholder staging until its scene arrives:
-   the door's light behind the copy, and the hall's two trails running on into the floor. */
-
+/* A full-scene atlas: geography stays fixed while the delivery information changes. */
 .delivery:focus {
   outline: none;
 }
-.delivery-arrival {
+.delivery-explorer {
   position: relative;
-  display: grid;
-  place-items: center;
-  min-block-size: 100svh;
-  padding: 9rem max(1.5rem, 8vw) 6rem;
+  isolation: isolate;
+  block-size: calc(var(--home-vh, 1svh) * 100);
+  min-block-size: 44rem;
   overflow: clip;
-  background: var(--color-world-night);
+  background: var(--color-map-night);
   color: var(--color-world-paper-light);
-  text-align: center;
 }
-.delivery-arrival__light {
+.delivery-map {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    ellipse 40% 55% at 50% 38%,
-    color-mix(in srgb, var(--color-door-light) 22%, transparent),
-    transparent 70%
-  );
+  overflow: clip;
 }
-.delivery-arrival__trails {
+.delivery-map__atmosphere {
   position: absolute;
-  inset: 50% 0 0;
-  perspective: 30rem;
-}
-.delivery-arrival__trails::before {
-  content: "";
-  position: absolute;
-  inset: 0 30%;
+  inset: 0;
+  pointer-events: none;
   background:
-    linear-gradient(90deg, transparent 37%, var(--color-world-neon) 38%, transparent 39%),
-    linear-gradient(90deg, transparent 61%, var(--color-world-neon) 62%, transparent 63%);
-  opacity: 0.6;
-  transform: rotateX(68deg);
-  transform-origin: 50% 0;
-  filter: blur(0.5px) drop-shadow(0 0 6px var(--color-world-neon));
+    radial-gradient(
+      ellipse at 62% 36%,
+      color-mix(in srgb, var(--color-world-neon) 20%, transparent),
+      transparent 56%
+    ),
+    radial-gradient(
+      ellipse at 90% 78%,
+      color-mix(in srgb, var(--color-world-neon) 12%, transparent),
+      transparent 46%
+    );
 }
-.delivery-arrival__crumbs {
+.delivery-map__canvas {
+  position: relative;
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+}
+.delivery-map[data-dragging="true"] .delivery-map__canvas {
+  cursor: grabbing;
+}
+.delivery-map__canvas:focus-visible {
+  outline-offset: -2.25rem;
+}
+.delivery-map__region-energy {
   position: absolute;
-  inset: calc(var(--header-inset-block) + var(--header-row) + 3.5rem) auto auto 50%;
-  translate: -50% 0;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  pointer-events: none;
 }
-.delivery-arrival__crumbs ol {
+.delivery-map__neighbours {
+  fill: var(--color-map-night);
+  stroke: var(--color-map-highlight);
+  stroke-width: 0.7;
+  stroke-opacity: 0.03;
+}
+.delivery-map__neighbours path,
+.delivery-map__depth,
+.delivery-map__germany,
+.delivery-map__regions path {
+  vector-effect: non-scaling-stroke;
+}
+.delivery-map__depth {
+  fill: var(--color-map-night);
+  stroke: var(--color-map-low);
+  stroke-width: 2;
+}
+.delivery-map__germany {
+  fill: url("#delivery-germany");
+  stroke: var(--color-map-edge);
+  stroke-width: 0.65;
+  stroke-opacity: 0.14;
+}
+.delivery-map__terrain {
+  opacity: 0.015;
+}
+.delivery-map__regions {
+  fill: none;
+  stroke: var(--color-world-accent);
+  stroke-width: 0.6;
+  stroke-opacity: 0.055;
+}
+.delivery-map__regions path {
+  fill: url("#delivery-region-light");
+  fill-opacity: 0;
+  transition:
+    fill-opacity 1100ms ease,
+    stroke-opacity 1100ms ease;
+}
+.delivery-map__regions [data-region="DE-HH"] {
+  stroke: var(--color-world-neon);
+  stroke-opacity: 0.12;
+}
+.delivery-map__regions [data-active="true"] {
+  fill-opacity: 0.65;
+  stroke: var(--color-world-neon);
+  stroke-opacity: 0.11;
+}
+.delivery-map__roads-major,
+.delivery-map__roads-lit,
+.delivery-map__roads-minor {
+  fill: none;
+  stroke: var(--color-map-edge);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.delivery-map__roads-lit {
+  stroke: url("#delivery-road-light");
+  stroke-width: 0.85;
+}
+.delivery-map__roads-major {
+  stroke-width: 0.7;
+  stroke-opacity: 0.09;
+}
+.delivery-map__roads-minor {
+  stroke-width: 0.45;
+  stroke-opacity: 0.035;
+}
+.delivery-map__city {
+  font-family: var(--font-mono);
+  fill: var(--color-world-neon-hot);
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+.delivery-map__leader {
+  fill: none;
+  stroke: var(--color-world-neon-hot);
+  stroke-width: 0.8;
+  stroke-opacity: 0.75;
+}
+.delivery-map__ring,
+.delivery-map__cross {
+  fill: none;
+  stroke: var(--color-world-accent);
+  stroke-width: 0.8;
+}
+.delivery-map__pin {
+  fill: var(--color-claim-white);
+  filter: drop-shadow(0 0 5px var(--color-world-neon-hot));
+}
+.delivery-map__pulse {
+  fill: color-mix(in srgb, var(--color-world-neon) 4%, transparent);
+  stroke: var(--color-world-neon-hot);
+  stroke-width: 0.7;
+  opacity: 0.25;
+  animation: delivery-beacon 4s ease-in-out infinite;
+}
+.delivery-van,
+.delivery-map__destination,
+.delivery-map__aim,
+.delivery-map__hamburg {
+  pointer-events: none;
+}
+.delivery-van {
+  filter: drop-shadow(0 2px 2px var(--color-map-night));
+}
+.delivery-map__destination {
+  fill: none;
+  stroke: var(--color-world-neon-hot);
+  stroke-width: 0.7;
+}
+.delivery-map__destination circle + circle {
+  opacity: 0.4;
+}
+.delivery-map__aim {
+  display: none;
+  stroke: var(--color-world-neon-hot);
+  stroke-width: 1;
+}
+.delivery-map__canvas:focus-visible .delivery-map__aim {
+  display: block;
+}
+.delivery-map__instruments {
+  position: absolute;
+  z-index: 2;
+  inset: auto max(3.5rem, 6vw) 13rem auto;
+  inline-size: 11rem;
+  display: grid;
+  justify-items: center;
+  gap: 0.7rem;
+  pointer-events: none;
+}
+.delivery-map__location {
+  margin: 0;
+  text-align: center;
+  font: 0.625rem/1.5 var(--font-mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-world-neon-hot);
+}
+.delivery-map__location > span {
+  display: block;
+  margin-block-end: 0.35rem;
+  font-size: 0.5rem;
+  opacity: 0.5;
+  letter-spacing: 0.13em;
+}
+.delivery-map__location strong {
+  font-size: 0.6875rem;
+  font-weight: 400;
+  color: var(--color-world-neon-hot);
+}
+.delivery-map__tip {
+  position: absolute;
+  z-index: 3;
+  inset: calc(32% + 3.5rem) auto auto 60%;
+  translate: -50% 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  inline-size: 17.5rem;
+  padding: 0.65rem 0.65rem 0.65rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-world-accent) 20%, transparent);
+  background: color-mix(in srgb, var(--color-map-night) 94%, transparent);
+  border-radius: 0.6rem;
+  color: var(--color-world-accent);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--color-map-night) 40%, transparent);
+}
+.delivery-map__tip[hidden] {
+  display: none;
+}
+.delivery-map__tip p {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+.delivery-map__tip-dismiss {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--color-world-accent);
+  cursor: pointer;
+}
+.delivery-map__tip-dismiss:hover,
+.delivery-map__tip-dismiss:focus-visible {
+  background: var(--color-world-surface);
+  color: var(--color-claim-white);
+}
+.delivery-map__tip-dismiss svg {
+  inline-size: 1rem;
+  stroke: currentcolor;
+  stroke-width: 1.1;
+}
+.delivery-map__controls {
+  position: absolute;
+  z-index: 2;
+  inset: auto max(3.5rem, 6vw) 8.5rem auto;
+  display: flex;
+  gap: 0.5rem;
+}
+.delivery-map__controls button,
+.delivery-map__steering button {
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  border: 1px solid color-mix(in srgb, var(--color-world-accent) 35%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-map-night) 70%, transparent);
+  color: var(--color-world-accent);
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition:
+    border-color 200ms,
+    background 200ms;
+}
+.delivery-map__controls button:hover,
+.delivery-map__controls button:focus-visible,
+.delivery-map__steering button:focus-visible,
+.delivery-map__steering button[data-pressed="true"] {
+  border-color: var(--color-world-neon-hot);
+  background: var(--color-world-surface);
+}
+.delivery-map__controls svg,
+.delivery-map__steering svg {
+  inline-size: 1rem;
+  stroke: currentcolor;
+  stroke-width: 1.3;
+}
+.delivery-map__steering {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  inset: auto auto 6.5rem 50%;
+  translate: -50% 0;
+  gap: 0.4rem;
+}
+.delivery-map__hint-touch {
+  display: none;
+}
+.delivery-map__steering button {
+  touch-action: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+.delivery-map__steering [data-drive="left"] svg {
+  rotate: -90deg;
+}
+.delivery-map__steering [data-drive="right"] svg {
+  rotate: 90deg;
+}
+.delivery-map__steering [data-drive="down"] svg {
+  rotate: 180deg;
+}
+.delivery-explorer__shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      90deg,
+      var(--color-map-night) 3%,
+      color-mix(in srgb, var(--color-map-night) 94%, transparent) 21%,
+      transparent 43%
+    ),
+    linear-gradient(
+      0deg,
+      var(--color-map-night),
+      transparent 22%,
+      transparent 88%,
+      color-mix(in srgb, var(--color-map-night) 85%, transparent)
+    );
+}
+.delivery-explorer__crumbs {
+  position: absolute;
+  inset: calc(var(--header-inset-block) + var(--header-row) + 4rem) max(3.5rem, 6vw) auto auto;
+}
+.delivery-explorer__crumbs ol {
   display: flex;
   gap: 0.6rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
-.delivery-arrival__crumbs li + li::before {
+.delivery-explorer__crumbs li + li::before {
   content: "/";
   margin-inline-end: 0.6rem;
   opacity: 0.5;
 }
-.delivery-arrival__crumbs a {
+.delivery-explorer__crumbs a,
+.delivery-explorer__legal a {
   color: inherit;
-  opacity: 0.7;
+  opacity: 0.65;
+  text-decoration: none;
 }
-.delivery-arrival__crumbs,
-.delivery-arrival__eyebrow,
-.delivery-arrival__facts,
-.delivery-arrival__back {
+.delivery-explorer__crumbs a:hover,
+.delivery-explorer__legal a:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+.delivery-explorer__crumbs,
+.delivery-explorer__legal,
+.delivery-compass {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
-.delivery-arrival__copy {
-  position: relative;
+.delivery-explorer__content {
+  position: absolute;
+  inset: auto auto 18% max(3.5rem, 6vw);
+  inline-size: min(20rem, 27vw);
   display: grid;
-  justify-items: center;
-  gap: 1.25rem;
+  justify-items: start;
+  gap: 1.75rem;
 }
-.delivery-arrival__eyebrow {
-  margin: 0;
-  opacity: 0.75;
+.delivery-explorer__panels {
+  inline-size: 100%;
+  min-block-size: 12rem;
 }
-.delivery-arrival h1 {
+.delivery-info {
+  outline-offset: 0.6rem;
+}
+.delivery-info:not([hidden]) {
+  animation: delivery-copy-in 450ms ease both;
+}
+.delivery-info h2 {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(2.6rem, 5.4vw, 6rem);
+  font-size: clamp(1.85rem, 2.5vw, 2.7rem);
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.02;
   letter-spacing: -0.045em;
   text-transform: uppercase;
-  text-wrap: balance;
-  hyphens: auto;
 }
-.delivery-arrival h1 > span {
+.delivery-info h2 > span {
   display: block;
 }
-.delivery-arrival h1 > span:last-child {
-  color: var(--color-door-light);
+.delivery-info h2 > span:last-child {
+  color: var(--color-world-accent);
 }
-.delivery-arrival__lead {
-  max-inline-size: 48ch;
-  margin: 0;
+.delivery-info__text {
+  max-inline-size: 40ch;
+  min-block-size: 5rem;
+  margin: 1.25rem 0 0;
+  font-size: 0.875rem;
   line-height: 1.65;
-  opacity: 0.85;
+  color: var(--color-fg-secondary);
 }
-.delivery-arrival__facts {
+.delivery-tabs {
+  display: grid;
+  inline-size: min(100%, 14rem);
+}
+.delivery-tabs button {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-block-size: 2.65rem;
+  padding: 0.65rem 0;
+  border: 0;
+  border-block-end: 1px solid color-mix(in srgb, var(--color-world-paper-light) 18%, transparent);
+  background: none;
+  color: color-mix(in srgb, var(--color-world-paper-light) 65%, transparent);
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    color 250ms,
+    padding 350ms var(--ease-quint);
+}
+.delivery-tabs button:hover,
+.delivery-tabs button:focus-visible,
+.delivery-tabs button[aria-selected="true"] {
+  padding-inline-start: 0.5rem;
+  color: var(--color-world-accent);
+}
+.delivery-tabs button[aria-selected="true"] .world__marker {
+  background: currentcolor;
+  opacity: 1;
+  transform: rotate(45deg);
+}
+.delivery-compass {
+  inline-size: 6.5rem;
+  text-align: center;
+  color: var(--color-world-accent);
+}
+.delivery-compass svg {
+  display: block;
+  inline-size: 100%;
+  stroke: currentcolor;
+  stroke-width: 0.6;
+}
+.delivery-compass text {
+  fill: currentcolor;
+  stroke: none;
+  font-size: 8px;
+  text-anchor: middle;
+}
+.delivery-compass__north {
+  fill: var(--color-world-accent);
+  stroke: none;
+}
+.delivery-compass .delivery-compass__heading {
+  font-size: 17px;
+}
+.delivery-compass .delivery-compass__degrees {
+  font-size: 7px;
+}
+.delivery-explorer__legal {
+  position: absolute;
+  inset: auto 0 1.5rem;
+  display: flex;
   justify-content: center;
-  gap: 0.75rem 2rem;
-  margin: 0.5rem 0 0;
-  padding: 0;
-  list-style: none;
-  opacity: 0.8;
+  gap: 1.5rem;
 }
-.delivery-arrival__actions {
+
+@keyframes delivery-copy-in {
+  from {
+    opacity: 0;
+    translate: 0 0.5rem;
+    filter: blur(3px);
+  }
+}
+
+@keyframes delivery-beacon {
+  50% {
+    opacity: 0.65;
+  }
+}
+
+@media (width < 64rem) and (width >= 48rem) {
+  .delivery-info h2 {
+    font-size: clamp(1.65rem, 2.8vw, 2.2rem);
+  }
+  .delivery-explorer__content {
+    inline-size: 30vw;
+  }
+}
+
+@media (width < 48rem), (width < 64rem) and (orientation: portrait) {
+  .delivery-map__hint-keyboard {
+    display: none;
+  }
+  .delivery-map__hint-touch {
+    display: inline;
+  }
+  .delivery-map__steering {
+    display: flex;
+  }
+  .delivery-map__instruments {
+    inset: 12.2rem 2.5rem auto auto;
+    inline-size: 6rem;
+    gap: 0.4rem;
+  }
+  .delivery-map__location > span {
+    display: none;
+  }
+  .delivery-map__location {
+    max-inline-size: 6rem;
+    line-height: 1.3;
+  }
+  .delivery-map__location strong {
+    font-size: 0.6rem;
+  }
+  .delivery-map__tip {
+    inset: 9.2rem 2.5rem auto;
+    inline-size: auto;
+    translate: none;
+  }
+  .delivery-map__controls {
+    inset: 9.2rem 2.5rem auto auto;
+    gap: 0.35rem;
+  }
+  .delivery-map__controls button {
+    inline-size: 2.5rem;
+    block-size: 2.5rem;
+  }
+  .delivery-explorer {
+    min-block-size: 40rem;
+  }
+  .delivery-explorer__shade {
+    background: linear-gradient(
+      0deg,
+      var(--color-map-night),
+      color-mix(in srgb, var(--color-map-night) 94%, transparent) 28%,
+      transparent 63%,
+      transparent 85%,
+      var(--color-map-night)
+    );
+  }
+  .delivery-explorer__crumbs {
+    inset: calc(var(--header-inset-block) + var(--header-row) + 5.4rem) 2.5rem auto;
+    font-size: 0.6rem;
+  }
+  .delivery-explorer__crumbs ol {
+    justify-content: flex-end;
+  }
+  .delivery-explorer__content {
+    inset: auto 2.5rem 9.75rem;
+    inline-size: auto;
+    gap: 1rem;
+  }
+  .delivery-explorer__panels {
+    min-block-size: 0;
+  }
+  .delivery-info h2 {
+    font-size: clamp(1.7rem, 7.5vw, 2.75rem);
+  }
+  .delivery-info__text {
+    min-block-size: 3.8rem;
+    max-inline-size: 39ch;
+    margin-block-start: 0.75rem;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+  .delivery-tabs {
+    inline-size: 100%;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 1.25rem;
+  }
+  .delivery-tabs button {
+    font-size: 0.6875rem;
+    min-block-size: 2.75rem;
+    padding-block: 0.5rem;
+    gap: 0.4rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .delivery-tabs .world__marker {
+    inline-size: 0.4rem;
+    block-size: 0.4rem;
+  }
+  .delivery-compass {
+    inline-size: 3rem;
+  }
+  .delivery-explorer__legal {
+    inset-block-end: 1.25rem;
+    font-size: 0.625rem;
+  }
+}
+
+@media (width >= 48rem) and (width < 64rem) and (orientation: portrait) {
+  .delivery-compass {
+    inline-size: 4rem;
+  }
+}
+
+@media (height < 55rem) and (width >= 48rem) {
+  .delivery-explorer {
+    min-block-size: 40rem;
+  }
+  .delivery-info h2 {
+    font-size: clamp(1.65rem, 2.5vw, 2.6rem);
+  }
+  .delivery-explorer__content {
+    gap: 1rem;
+  }
+  .delivery-explorer__panels {
+    min-block-size: 0;
+  }
+  .delivery-tabs {
+    inline-size: 100%;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 1.5rem;
+  }
+}
+
+@media (height < 44rem) and (width < 48rem) {
+  .delivery-explorer__content {
+    gap: 0.75rem;
+  }
+  .delivery-info__text {
+    font-size: 0.75rem;
+    min-block-size: 3.4rem;
+  }
+  .delivery-tabs button {
+    font-size: 0.625rem;
+    min-block-size: 2.5rem;
+    padding-block: 0.4rem;
+  }
+  .delivery-compass {
+    inline-size: 2.2rem;
+  }
+}
+html:not(.js) .delivery-explorer {
+  block-size: auto;
+}
+html:not(.js) .delivery-explorer__content {
+  position: relative;
+  inset: auto;
+  padding: 14rem 0 10rem;
+  margin-inline: max(2.5rem, 6vw);
+}
+
+@layer base {
+  html:not(.js) .delivery-info[hidden] {
+    /* Match the reset's layer so this more specific no-script rule can reveal the facts. */
+    display: block !important;
+  }
+}
+html:not(.js) .delivery-info {
+  margin-block-end: 2.5rem;
+}
+html:not(.js) .delivery-tabs {
+  display: none;
+}
+html:not(.js) .delivery-map__controls,
+html:not(.js) .delivery-map__steering,
+html:not(.js) .delivery-map__tip {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .delivery-info:not([hidden]),
+  .delivery-map__pulse {
+    animation: none;
+  }
+  .delivery-tabs button,
+  .delivery-map__regions path {
+    transition: none;
+  }
+}
+
+.delivery-map__speed span {
+  font: 0.625rem var(--font-mono);
+}
+.delivery-map__motes {
+  position: absolute;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+.delivery-map__motes i {
+  position: absolute;
+  inset-inline-start: var(--x);
+  inset-block-start: var(--y);
+  inline-size: 2px;
+  block-size: 2px;
+  border-radius: 50%;
+  background: var(--color-world-neon-hot);
+  box-shadow: 0 0 8px var(--color-world-neon);
+  opacity: 0;
+  animation: delivery-mote var(--duration) var(--delay) ease-in-out infinite;
+}
+.delivery-map__motes i:nth-child(4n) {
+  inline-size: 4px;
+  block-size: 4px;
+  filter: blur(1px);
+}
+.delivery-map[data-paused="true"] .delivery-map__motes i {
+  animation-play-state: paused;
+}
+
+@keyframes delivery-mote {
+  0%,
+  100% {
+    opacity: 0;
+    translate: -9px 15px;
+  }
+  45% {
+    opacity: 0.26;
+  }
+  70% {
+    opacity: 0.08;
+    translate: 12px -22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .delivery-map__motes i {
+    animation: none;
+  }
+}
+
+/* Light belongs to the vehicle: headlamps, a tight contact glow and short exhaust streaks. */
+.delivery-van__nitro-halo,
+.delivery-van__nitro-core {
+  fill: none;
+  stroke: url("#delivery-nitro");
+  stroke-linecap: round;
+}
+.delivery-van__nitro-halo {
+  stroke-width: 3;
+  opacity: 0.3;
+}
+.delivery-van__nitro-core {
+  stroke-width: 0.7;
+}
+.delivery-map__checkpoints,
+.delivery-map__next {
+  pointer-events: none;
+  color: var(--color-world-neon-hot);
+}
+.delivery-map__checkpoints text,
+.delivery-map__next text {
+  fill: currentcolor;
+  font: 9px var(--font-mono);
+  letter-spacing: 1px;
+}
+.delivery-map__next path {
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1;
+}
+.delivery-stop__aura {
+  fill: url("#delivery-client-glow");
+  opacity: 0.4;
+  transition: opacity 350ms ease;
+}
+.delivery-stop__package,
+.delivery-stop__check {
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+}
+.delivery-stop__check {
+  display: none;
+}
+[data-stop] {
+  opacity: 0.8;
+  transition: opacity 400ms;
+}
+[data-stop][data-collected="true"] {
+  opacity: 0.23;
+}
+[data-stop][data-collected="true"] .delivery-stop__check {
+  display: block;
+}
+[data-stop][data-collected="true"] .delivery-stop__package {
+  display: none;
+}
+.delivery-map__run {
+  background: radial-gradient(
+    ellipse,
+    color-mix(in srgb, var(--color-map-night) 90%, transparent),
+    transparent 75%
+  );
+  pointer-events: auto;
+  text-align: center;
+  font-family: var(--font-mono);
+  padding-block-end: 0.8rem;
+  border-block-end: 1px solid color-mix(in srgb, var(--color-world-accent) 18%, transparent);
+}
+.delivery-run__label,
+.delivery-run__progress {
+  display: block;
+  font-size: 0.5625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-world-accent);
+}
+.delivery-run__result {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 1rem 2rem;
-  margin-block-start: 1rem;
+  gap: 0.25rem;
+  margin-block: 0.2rem;
 }
-.delivery-arrival__back {
-  color: inherit;
+.delivery-run__result output {
+  font-size: 1.25rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.04em;
+  color: var(--color-world-neon-hot);
+}
+.delivery-run__result button {
+  display: grid;
+  place-items: center;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-world-accent);
+  cursor: pointer;
+}
+.delivery-run__result button:hover {
+  background: color-mix(in srgb, var(--color-world-neon) 12%, transparent);
+}
+.delivery-run__result svg {
+  inline-size: 1rem;
+  stroke: currentcolor;
+  stroke-width: 1.1;
+}
+.delivery-map__run[data-phase="complete"] output {
+  color: var(--color-claim-white);
+  text-shadow: 0 0 16px var(--color-world-neon);
+}
+
+@media (width < 48rem), (width < 64rem) and (orientation: portrait) {
+  .delivery-run__result output {
+    font-size: 0.95rem;
+  }
+  .delivery-run__result {
+    gap: 0;
+    margin-block: 0;
+  }
+  .delivery-map__run {
+    padding-block-end: 0.4rem;
+  }
+  .delivery-run__label,
+  .delivery-run__progress {
+    font-size: 0.5rem;
+  }
+  .delivery-map__location strong {
+    font-size: 0.5625rem;
+  }
+}
+
+@media (height < 44rem) and (width < 48rem) {
+  .delivery-map__instruments {
+    inset-block-start: 11.75rem;
+    gap: 0.25rem;
+  }
+  .delivery-map__run {
+    padding-block-end: 0.2rem;
+  }
+}
+html:not(.js) .delivery-map__run {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-stop] {
+    transition: none;
+  }
+}
+.delivery-map__challenge-hint {
+  display: block;
+  margin-block-start: 0.3rem;
+  color: var(--color-world-neon-hot);
+}
+
+@media (height < 44rem) and (width < 48rem) {
+  .delivery-map__instruments {
+    inset: 11.7rem 2.5rem auto;
+    inline-size: auto;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 3rem;
+  }
+  .delivery-map__run {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    border: 0;
+  }
+  .delivery-map__location {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .delivery-compass {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+.delivery-stop__pool {
+  fill: url("#delivery-client-glow");
+}
+.delivery-stop__orbit,
+.delivery-stop__glint,
+.delivery-stop__collected-pulse {
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 0.6;
+}
+.delivery-stop__orbit {
+  opacity: 0.28;
+}
+.delivery-stop__glint {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+[data-stop][data-near="true"]:not([data-collected="true"]) .delivery-stop__glint {
   opacity: 0.7;
 }
-.delivery-arrival__back:hover,
-.delivery-arrival__back:focus-visible {
-  opacity: 1;
+[data-stop][data-near="true"] .delivery-stop__aura {
+  opacity: 0.9;
+}
+.delivery-stop__collected-pulse {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+[data-stop][data-collected="true"] .delivery-stop__collected-pulse {
+  animation: delivery-collected 650ms ease-out;
+}
+
+@keyframes delivery-collected {
+  from {
+    opacity: 1;
+    scale: 0.8;
+  }
+  to {
+    opacity: 0;
+    scale: 2.4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .delivery-stop__collected-pulse {
+    animation: none !important;
+  }
+  .delivery-stop__glint,
+  .delivery-stop__aura {
+    transition: none;
+  }
 }

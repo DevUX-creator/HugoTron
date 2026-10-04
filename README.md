@@ -1,36 +1,43 @@
 # Hugo Tron
 
-Bilingual (German / English) product site with an immersive 3D homepage and a
-separate lightweight catalogue.
+The new website and shop for Hugo Tron GmbH, a food importer and wholesaler in Hamburg:
+rice, nuts, spices, saffron, tea and pulses, sold online to households and supplied in
+volume to businesses. German and English.
 
-## Development
+The frontend is complete. Real systems (shop backend, payments, email, legal-text service)
+connect through a few documented seams; until then the site runs on built-in stand-ins.
+
+## Start
 
 ```sh
-pnpm install
-pnpm dev
+pnpm install        # Node 24 (.nvmrc), pnpm 10
+pnpm dev            # http://localhost:3000 → /de
+pnpm verify         # type-check, lint, stylelint, format, tests, production build
 ```
 
-Open `/en` or `/de` at http://localhost:3000. Run `pnpm verify` for type checking,
-linting, formatting, unit tests and the production build.
+No credentials are needed locally. `.env.example` lists the variables.
 
-## Current experiences
+## Documentation
 
-| Experience                | English             | German               |
-| ------------------------- | ------------------- | -------------------- |
-| Hugo Tron world           | `/en`               | `/de`                |
-| Product catalogue         | `/en/products`      | `/de/sortiment`      |
-| Interactive rice category | `/en/products/rice` | `/de/sortiment/reis` |
-| Product enquiry           | `/en/enquiry`       | `/de/anfrage`        |
+| Document                                     | For                                                                           |
+| -------------------------------------------- | ----------------------------------------------------------------------------- |
+| [docs/BACKEND.md](docs/BACKEND.md)           | Backend team: every connection point, where data lives, env, launch checklist |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Developers: routes, folders, components, rules                                |
+| [docs/CLIENT-INPUT.md](docs/CLIENT-INPUT.md) | Hugo Tron: legal texts, prices, product data and access still needed          |
+| [docs/PERFORMANCE.md](docs/PERFORMANCE.md)   | How the 3D scenes stay fast on phones, measurements, checks                   |
+| [docs/RELEASE.md](docs/RELEASE.md)           | What was verified for launch and what still blocks it                         |
+| [docs/TECH-DEBT.md](docs/TECH-DEBT.md)       | Known leftovers and when to remove them                                       |
+| [assets-src/README.md](assets-src/README.md) | Media masters, the scripts that convert them, licences                        |
 
-Other categories use the shared catalogue and product cards. Category definitions
-live in `src/content/categories.ts`. Prices and product data are local seed data;
-backend commerce integration is still planned. See [RANGE-COMMERCE](docs/RANGE-COMMERCE.md)
-and `.env.example` for the enquiry provider setup.
+## Where things are
 
-The temporary rice lab and previous rice URLs redirect to the rice category.
-Retired hero, slider, menu and placeholder sections are no longer application
-features. Source artwork, supplied models and strategy drafts are retained as
-reference material; they are not an inventory of implemented pages.
-
-See [architecture](docs/ARCHITECTURE.md), [motion](docs/ANIMATION.md) and the
-[current concept](content/strategy/hugo-tron-world.md).
+| Need to change…                      | Look in                                       |
+| ------------------------------------ | --------------------------------------------- |
+| A text on the site                   | `messages/de.json`, `messages/en.json`        |
+| Products, prices, units              | `src/content/products.ts`                     |
+| Shipping, payment methods, VAT, bank | `src/commerce/config.ts`                      |
+| Address, phone, email, social links  | `src/content/site.ts`                         |
+| Legal texts                          | `src/content/legal/`                          |
+| Category pages                       | `src/content/categoryStories.ts`              |
+| Colours, spacing, fonts              | `src/styles/theme.css`, `src/styles/fonts.ts` |
+| Redirects and security headers       | `next.config.ts`                              |
