@@ -1,0 +1,30 @@
+/* The door's light: floods in as a location is left, clears as the next one appears. */
+.door-flood {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  background: radial-gradient(
+    ellipse 60% 70% at 50% 52%,
+    var(--color-door-light),
+    color-mix(in srgb, var(--color-door-light) 80%, var(--color-world-paper-light))
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 750ms cubic-bezier(0.6, 0, 0.2, 1);
+}
+.door-flood[data-state="in"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+.door-flood--arrival {
+  transition-duration: 1.4s;
+}
+.door-flood--arrival[data-state="in"] {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .door-flood {
+    transition-duration: 1ms;
+  }
+}

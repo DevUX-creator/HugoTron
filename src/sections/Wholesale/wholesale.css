@@ -1,0 +1,318 @@
+/* One continuous walk. Quiet reading stations leave the centre aisle visible. */
+.wholesale:focus {
+  outline: none;
+}
+.hall {
+  --hall-backdrop: var(--color-world-night);
+  --hall-neon: var(--color-world-neon);
+  position: relative;
+  block-size: calc(var(--home-vh, 1svh) * 100 * (1 + var(--runway, 7)));
+  color: var(--color-world-paper-light);
+}
+.hall__stage {
+  position: sticky;
+  inset-block-start: 0;
+  block-size: calc(var(--home-vh, 1svh) * 100);
+  overflow: clip;
+  background: var(--hall-backdrop);
+}
+.hall__scene {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+.hall[data-ready] .hall__scene {
+  opacity: 1;
+}
+.hall__scene canvas {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+}
+.hall__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    0deg,
+    color-mix(in srgb, var(--hall-backdrop) 76%, transparent),
+    transparent 52%
+  );
+  pointer-events: none;
+}
+.hall-chapter {
+  --shown: 0;
+  position: absolute;
+  inset: auto auto 18% max(3.5rem, 6vw);
+  inline-size: min(31rem, 40vw);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  text-shadow: 0 0.15rem 1.2rem var(--hall-backdrop);
+  opacity: var(--shown);
+  translate: 0 calc((1 - var(--shown)) * 1.75rem);
+  filter: blur(calc((1 - var(--shown)) * 4px));
+}
+.hall-chapter[data-shown="false"] {
+  visibility: hidden;
+}
+.hall-chapter--intro {
+  inset-block-end: 14%;
+  inline-size: min(38rem, 46vw);
+}
+.hall-chapter--range,
+.hall-chapter--door {
+  inset-inline: auto max(3.5rem, 6vw);
+}
+.hall-chapter--door {
+  inset-block-end: 24%;
+}
+.hall__crumbs {
+  margin-block-end: 1.5rem;
+}
+.hall__crumbs ol {
+  display: flex;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.hall__crumbs li + li::before {
+  content: "/";
+  margin-inline-end: 0.6rem;
+  opacity: 0.5;
+}
+.hall__crumbs a {
+  color: inherit;
+  opacity: 0.7;
+  text-decoration: none;
+}
+.hall__crumbs a:hover,
+.hall__crumbs a:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
+}
+.hall__crumbs,
+.hall__eyebrow,
+.hall__cards span,
+.hall__legal {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.hall__eyebrow {
+  margin: 0;
+  opacity: 0.75;
+}
+.hall__title,
+.hall-chapter h2 {
+  max-inline-size: 18ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+.hall__title {
+  font-size: clamp(2.8rem, 4.4vw, 5.5rem);
+}
+.hall__title > span {
+  display: block;
+}
+.hall__title > span:last-child,
+.hall-chapter h2 {
+  color: color-mix(in srgb, var(--hall-neon) 18%, var(--color-world-paper-light));
+}
+.hall-chapter h2 {
+  font-size: clamp(2.4rem, 3.6vw, 4.4rem);
+}
+.hall__lead,
+.hall__note {
+  max-inline-size: 43ch;
+  margin: 0;
+  font-size: clamp(0.875rem, 1vw, 1rem);
+  line-height: 1.65;
+  opacity: 0.88;
+}
+.hall-chapter .arrow-link {
+  margin-block-start: 0.4rem;
+}
+.hall__cards {
+  display: grid;
+  gap: 0;
+  inline-size: 100%;
+  margin: 0.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.hall__cards li {
+  display: grid;
+  gap: 0.4rem;
+  padding-block: 1rem;
+  border-block-start: 1px solid color-mix(in srgb, var(--color-world-paper-light) 24%, transparent);
+}
+.hall__cards h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.55vw, 1.6rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+.hall__cards p {
+  margin: 0;
+  max-inline-size: 40ch;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  opacity: 0.83;
+}
+.hall__cards--steps {
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1.5rem;
+}
+.hall__cards--steps span {
+  color: color-mix(in srgb, var(--hall-neon) 45%, var(--color-world-paper-light));
+}
+.hall__legal {
+  position: absolute;
+  inset: auto 0 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.hall__legal a {
+  color: inherit;
+  opacity: 0.65;
+  text-decoration: none;
+}
+.hall__legal a:hover,
+.hall__legal a:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+@media (width < 48rem) {
+  .hall__shade {
+    background: linear-gradient(
+      0deg,
+      var(--hall-backdrop),
+      color-mix(in srgb, var(--hall-backdrop) 60%, transparent) 36%,
+      transparent 72%
+    );
+  }
+  .hall-chapter {
+    inset: auto 2.5rem 7.25rem;
+    inline-size: auto;
+    gap: 0.9rem;
+  }
+  .hall__crumbs {
+    margin-block-end: 0.4rem;
+  }
+  .hall__title {
+    font-size: clamp(2.2rem, 8.9vw, 3.5rem);
+  }
+  .hall-chapter h2 {
+    font-size: clamp(2rem, 8.6vw, 3.4rem);
+  }
+  .hall__lead,
+  .hall__note {
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+  .hall__cards li {
+    padding-block: 0.65rem;
+  }
+  .hall__cards p {
+    font-size: 0.8125rem;
+  }
+  .hall__cards--steps {
+    gap: 0 1rem;
+  }
+  .hall__cards--steps h3 {
+    font-size: 1.05rem;
+  }
+  .hall__cards--steps p {
+    font-size: 0.75rem;
+    line-height: 1.45;
+  }
+  .hall__legal {
+    inset-block-end: 1.25rem;
+    font-size: 0.625rem;
+  }
+}
+
+@media (height < 44rem) {
+  .hall-chapter {
+    gap: 0.75rem;
+    inset-block-end: 7.25rem;
+  }
+  .hall__title,
+  .hall-chapter h2 {
+    font-size: clamp(2rem, 4.5vw, 3.6rem);
+  }
+  .hall__cards li {
+    padding-block: 0.5rem;
+  }
+  .hall-chapter--process h2 {
+    font-size: clamp(1.65rem, 4.5vw, 2.4rem);
+  }
+  .hall__crumbs {
+    display: none;
+  }
+}
+
+/* Static, readable chapters when motion or WebGL is unavailable. */
+html:not(.js) .hall,
+.hall[data-reading] {
+  block-size: auto;
+}
+html:not(.js) .hall__stage,
+.hall[data-reading] .hall__stage {
+  position: relative;
+  block-size: auto;
+  overflow: visible;
+}
+html:not(.js) .hall__scene,
+.hall[data-failed] .hall__scene {
+  display: none;
+}
+.hall[data-reading] .hall__scene {
+  position: fixed;
+  block-size: 100svh;
+  opacity: 0.4;
+}
+html:not(.js) .hall-chapter,
+.hall[data-reading] .hall-chapter {
+  position: relative;
+  inset: auto;
+  inline-size: min(100%, 48rem);
+  min-block-size: 100svh;
+  justify-content: center;
+  margin-inline: auto;
+  padding: 12rem max(1.75rem, 6vw) 5rem;
+  opacity: 1;
+  translate: none;
+  filter: none;
+  visibility: visible;
+}
+html:not(.js) .hall__legal,
+.hall[data-reading] .hall__legal {
+  position: relative;
+  inset: auto;
+  padding-block: 2rem 4rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hall__scene {
+    transition: none;
+  }
+  .hall-chapter {
+    translate: none;
+    filter: none;
+  }
+}

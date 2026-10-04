@@ -838,5 +838,91 @@
     "selection": {
       "title": "Ihre Auswahl."
     }
+  },
+  "wholesale": {
+    "name": "Großhandel",
+    "home": "Startseite",
+    "breadcrumbLabel": "Brotkrumen-Navigation",
+    "skip": "Zum Hauptinhalt springen",
+    "seoTitle": "Großhandel & Lebensmittelimport für B2B — Reis, Nüsse, Gewürze, Hülsenfrüchte | Hugo Tron",
+    "seoDescription": "Importeur, Lieferant und Distributor für Großhändler und Unternehmen: Beschaffung in großen Mengen, Private Label und Lieferung in ganz Deutschland.",
+    "sceneLabel": "Eine gewölbte Steinhalle mit Transportkisten und Säcken in den Seitenschiffen. Blaue Lichtfäden führen zu einer beleuchteten Tür.",
+    "legalLabel": "Rechtliches",
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "intro": {
+      "eyebrow": "Hugo Tron · Großhandel",
+      "titleLead": "Großhandel,",
+      "titleAccent": "in jeder Menge.",
+      "lead": "Ihr Partner für Beschaffung, Import und Versorgung. Von Zutaten bis zu Rohstoffen – abgestimmt auf die Mengen, die Ihr Unternehmen braucht.",
+      "action": "Großhandelspreise anfragen"
+    },
+    "audience": {
+      "eyebrow": "Wen wir beliefern",
+      "title": "Gemacht für B2B.",
+      "wholesalers": {
+        "title": "Großhändler",
+        "note": "Ihr Beschaffungs- und Lieferpartner, auch für Produkte über unser Sortiment hinaus."
+      },
+      "industry": {
+        "title": "Lebensmittelindustrie",
+        "note": "Rohstoffe und Zutaten, nach Ihrer Spezifikation beschafft."
+      },
+      "companies": {
+        "title": "Unternehmen",
+        "note": "Große Mengen oder Private Label unter Ihrer eigenen Marke."
+      }
+    },
+    "range": {
+      "eyebrow": "Beschaffung & Private Label",
+      "title": "Ihr Bedarf. Unser Netzwerk.",
+      "note": "Reis, Nüsse, Gewürze, Safran, Hülsenfrüchte und Rohstoffe für die Lebensmittelindustrie. Entdecken Sie unser Sortiment oder sprechen Sie mit uns über weitere Beschaffungs- und Private-Label-Anforderungen.",
+      "action": "Sortiment entdecken"
+    },
+    "process": {
+      "eyebrow": "So funktioniert es",
+      "title": "Von der Anfrage zur Lieferung.",
+      "request": {
+        "title": "Anfrage",
+        "note": "Nennen Sie uns Produkt, Spezifikation und Menge."
+      },
+      "offer": {
+        "title": "Angebot",
+        "note": "Wir erstellen ein Angebot für Ihre Mengen."
+      },
+      "confirm": {
+        "title": "Bestätigung",
+        "note": "Sie bestätigen die Bestellung, wir stellen sie in Rechnung."
+      },
+      "deliver": {
+        "title": "Lieferung",
+        "note": "In ganz Deutschland sowie auf europäische und internationale Märkte."
+      }
+    },
+    "door": {
+      "eyebrow": "Nächster Ort",
+      "title": "Lieferung.",
+      "note": "Lagerung, Distribution und Lieferung, hinter dieser Tür.",
+      "action": "Tür öffnen"
+    }
+  },
+  "delivery": {
+    "name": "Lieferung",
+    "home": "Startseite",
+    "breadcrumbLabel": "Brotkrumen-Navigation",
+    "skip": "Zum Hauptinhalt springen",
+    "seoTitle": "B2B-Lieferung in ganz Deutschland — Lagerung & Distribution | Hugo Tron",
+    "seoDescription": "Hugo Tron lagert, verteilt und liefert Lebensmittel an B2B-Kunden in ganz Deutschland und beliefert europäische und internationale Märkte.",
+    "eyebrow": "Hugo Tron · Lieferung",
+    "titleLead": "Geliefert",
+    "titleAccent": "in ganz Deutschland.",
+    "lead": "Unsere Arbeit endet nicht beim Import. Wir übernehmen Lagerung, Distribution und Lieferung an B2B-Kunden in ganz Deutschland und beliefern europäische und internationale Märkte.",
+    "facts": {
+      "warehouse": "Lagerung in Deutschland",
+      "germany": "Lieferung an B2B-Kunden bundesweit",
+      "international": "Europäische & internationale Märkte"
+    },
+    "action": "Lieferung planen",
+    "back": "Zurück in die Großhandelshalle"
   }
 }

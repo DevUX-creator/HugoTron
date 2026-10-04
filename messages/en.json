@@ -838,5 +838,91 @@
     "selection": {
       "title": "Find your selection."
     }
+  },
+  "wholesale": {
+    "name": "Wholesale",
+    "home": "Home",
+    "breadcrumbLabel": "Breadcrumb",
+    "skip": "Skip to main content",
+    "seoTitle": "Wholesale food import & B2B supply — rice, nuts, spices, pulses | Hugo Tron",
+    "seoDescription": "Importer, supplier and distributor for wholesalers and companies: large-volume sourcing, private label and delivery throughout Germany.",
+    "sceneLabel": "A vaulted stone hall with cargo crates and sacks in its side aisles. Blue filaments lead towards a distant illuminated door.",
+    "legalLabel": "Legal",
+    "imprint": "Imprint",
+    "privacy": "Privacy",
+    "intro": {
+      "eyebrow": "Hugo Tron · Wholesale",
+      "titleLead": "Wholesale,",
+      "titleAccent": "in every volume.",
+      "lead": "Your partner for sourcing, importing and supply. From ingredients to raw materials, built around the volumes your business needs.",
+      "action": "Request wholesale prices"
+    },
+    "audience": {
+      "eyebrow": "Who we supply",
+      "title": "Built for B2B.",
+      "wholesalers": {
+        "title": "Wholesalers",
+        "note": "Your sourcing and supply partner, including for products beyond our range."
+      },
+      "industry": {
+        "title": "Food industry",
+        "note": "Raw materials and ingredients, sourced to your specification."
+      },
+      "companies": {
+        "title": "Companies",
+        "note": "Large volumes, or private label under your own brand."
+      }
+    },
+    "range": {
+      "eyebrow": "Sourcing & private label",
+      "title": "Your brief. Our network.",
+      "note": "Rice, nuts, spices, saffron, pulses and food industry raw materials. Explore our range, or talk to us about sourcing and private label requirements beyond it.",
+      "action": "Explore the range"
+    },
+    "process": {
+      "eyebrow": "How it works",
+      "title": "From request to delivery.",
+      "request": {
+        "title": "Request",
+        "note": "Tell us the product, specification and volume."
+      },
+      "offer": {
+        "title": "Offer",
+        "note": "We prepare an offer for your quantities."
+      },
+      "confirm": {
+        "title": "Confirmation",
+        "note": "You confirm the order; we invoice it."
+      },
+      "deliver": {
+        "title": "Delivery",
+        "note": "Throughout Germany, and to European and international markets."
+      }
+    },
+    "door": {
+      "eyebrow": "Next location",
+      "title": "Delivery.",
+      "note": "Warehousing, distribution and delivery, behind this door.",
+      "action": "Open the door"
+    }
+  },
+  "delivery": {
+    "name": "Delivery",
+    "home": "Home",
+    "breadcrumbLabel": "Breadcrumb",
+    "skip": "Skip to main content",
+    "seoTitle": "B2B delivery throughout Germany — warehousing & distribution | Hugo Tron",
+    "seoDescription": "Hugo Tron stores, distributes and delivers food products to B2B customers throughout Germany, and supplies European and international markets.",
+    "eyebrow": "Hugo Tron · Delivery",
+    "titleLead": "Delivered",
+    "titleAccent": "throughout Germany.",
+    "lead": "Our work does not stop at import. We manage warehousing, distribution and delivery to B2B customers throughout Germany, and supply European and international markets.",
+    "facts": {
+      "warehouse": "Warehousing in Germany",
+      "germany": "Delivery to B2B customers nationwide",
+      "international": "European & international markets"
+    },
+    "action": "Plan a delivery",
+    "back": "Back to the wholesale hall"
   }
 }

@@ -1,0 +1,132 @@
+/* Delivery — the room behind the hall's door. Placeholder staging until its scene arrives:
+   the door's light behind the copy, and the hall's two trails running on into the floor. */
+
+.delivery:focus {
+  outline: none;
+}
+.delivery-arrival {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-block-size: 100svh;
+  padding: 9rem max(1.5rem, 8vw) 6rem;
+  overflow: clip;
+  background: var(--color-world-night);
+  color: var(--color-world-paper-light);
+  text-align: center;
+}
+.delivery-arrival__light {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 40% 55% at 50% 38%,
+    color-mix(in srgb, var(--color-door-light) 22%, transparent),
+    transparent 70%
+  );
+}
+.delivery-arrival__trails {
+  position: absolute;
+  inset: 50% 0 0;
+  perspective: 30rem;
+}
+.delivery-arrival__trails::before {
+  content: "";
+  position: absolute;
+  inset: 0 30%;
+  background:
+    linear-gradient(90deg, transparent 37%, var(--color-world-neon) 38%, transparent 39%),
+    linear-gradient(90deg, transparent 61%, var(--color-world-neon) 62%, transparent 63%);
+  opacity: 0.6;
+  transform: rotateX(68deg);
+  transform-origin: 50% 0;
+  filter: blur(0.5px) drop-shadow(0 0 6px var(--color-world-neon));
+}
+.delivery-arrival__crumbs {
+  position: absolute;
+  inset: calc(var(--header-inset-block) + var(--header-row) + 3.5rem) auto auto 50%;
+  translate: -50% 0;
+}
+.delivery-arrival__crumbs ol {
+  display: flex;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.delivery-arrival__crumbs li + li::before {
+  content: "/";
+  margin-inline-end: 0.6rem;
+  opacity: 0.5;
+}
+.delivery-arrival__crumbs a {
+  color: inherit;
+  opacity: 0.7;
+}
+.delivery-arrival__crumbs,
+.delivery-arrival__eyebrow,
+.delivery-arrival__facts,
+.delivery-arrival__back {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.delivery-arrival__copy {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 1.25rem;
+}
+.delivery-arrival__eyebrow {
+  margin: 0;
+  opacity: 0.75;
+}
+.delivery-arrival h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 5.4vw, 6rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  text-wrap: balance;
+  hyphens: auto;
+}
+.delivery-arrival h1 > span {
+  display: block;
+}
+.delivery-arrival h1 > span:last-child {
+  color: var(--color-door-light);
+}
+.delivery-arrival__lead {
+  max-inline-size: 48ch;
+  margin: 0;
+  line-height: 1.65;
+  opacity: 0.85;
+}
+.delivery-arrival__facts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem 2rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  opacity: 0.8;
+}
+.delivery-arrival__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 2rem;
+  margin-block-start: 1rem;
+}
+.delivery-arrival__back {
+  color: inherit;
+  opacity: 0.7;
+}
+.delivery-arrival__back:hover,
+.delivery-arrival__back:focus-visible {
+  opacity: 1;
+}

@@ -20,6 +20,8 @@
   --color-cat-rice-shade: #101a22;
   --color-world-paper: #d9cdb7;
   --color-world-paper-light: #e8ddc7;
+  /* The light behind a location's door (wholesale hall → delivery). */
+  --color-door-light: #ffe9c4;
   /* The wholesale hall's daylight haze, after the palace reference. */
   --color-hall-haze: #6c737c;
   --color-world-paper-shadow: #b1a082;

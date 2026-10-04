@@ -1,0 +1,29 @@
+{
+  "tool": "image_gen.imagegen",
+  "textures": [
+    {
+      "name": "weathered-masonry",
+      "prompt": "Generate an original photorealistic square seamlessly tileable PBR diffuse/albedo texture, not a scene: ancient dark cool grey limestone block masonry for the interior of a monumental abandoned European palace. Large hand-dressed irregular rectangular stones in staggered horizontal courses, subtle shallow narrow mortar joints, chipped corners, small pits and fine mineral grain, water worn edges, restrained damp verdigris traces in crevices, variations charcoal to muted warm slate. Orthographic perpendicular surface capture, completely flat even diffuse lighting, no directional shadows, no highlights, no objects, no lettering, no frame. Museum-quality architectural material scan appearance. Natural, detailed and premium. Fill entire square; truly seamless on all four edges. Deliver one diffuse material only.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-5970e6f4-6ad2-4ac2-bac6-fdde5ed565e0.png",
+      "output": "public/textures/palace/weathered-masonry.webp"
+    },
+    {
+      "name": "aged-limestone",
+      "prompt": "Generate an original photorealistic square seamlessly tileable PBR diffuse/albedo texture: honed and timeworn GREY limestone with just a slight muted warm taupe mineral undertone, for monumental architectural columns and mouldings. Continuous stone surface without masonry blocks or seams. Subtle grain, microscopic pits, hairline mineral veins, softened tiny chips, faint irregular vertical rain streaks and aged patina. No beige saturated sandstone, no orange, no marble gloss. Orthographic close surface scan, perfectly even diffuse illumination, no baked shadows or directional light. High-end natural stone material. Entire image is only material, no objects, no text, no border. Seamless in both axes, square.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-d9d63c7b-92a0-4873-a735-cdd6bff6515d.png",
+      "output": "public/textures/palace/aged-limestone.webp"
+    },
+    {
+      "name": "worn-floor",
+      "prompt": "Generate an original photorealistic square seamlessly tileable PBR diffuse/albedo texture of an ancient palace floor: oversized dark slate-grey limestone flagstones, barely visible thin seams in an offset pattern, worn smooth softly mottled centres, tiny pits, fine scratches, broad faint water stains and a subtle lighter mineral variation. Rich close-up surface detail, natural irregularity, no dramatic cracks, no debris, no moss carpet. Cool charcoal grey with subtle warm stone undertones. Flat orthographic scan under neutral even diffuse illumination, no directional shadows, no specular highlights, no perspective, no scene or objects. Cover the entire square, seamless on every edge, no text or border. One physically plausible material texture only.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-47effd86-aa4a-4b9d-96c1-e4b2f0815c62.png",
+      "output": "public/textures/palace/worn-floor.webp"
+    },
+    {
+      "name": "crate-oak",
+      "prompt": "Use case: texture for an original Three.js architectural wholesale scene. Create a seamless, square, photorealistic albedo texture of naturally aged raw oak shipping-crate wood. A close orthographic front view, fine long grain running vertically, grey-brown and muted warm taupe, a few restrained knots and scratches, matte dry pores, premium realistic detail. One uninterrupted wood surface, not a crate illustration and not assembled planks. Completely even flat diffuse lighting; no cast shadows, no perspective, no object edges, no strong baked highlights, no labels, no text, no border. Subtle natural weathering, no orange saturation. It must tile on geometry.",
+      "source": "/Users/dmitrijrevcuk/.codex/generated_images/01a0c5b4-0b17-7861-9061-f93b8c9923e7/exec-27295240-af44-4780-912e-80b69f272c31.png",
+      "output": "public/textures/palace/crate-oak.webp"
+    }
+  ]
+}
