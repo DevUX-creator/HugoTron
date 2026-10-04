@@ -16,7 +16,7 @@ type RevealProps = {
 /**
  * Scroll-reveal for a whole block (a card, an image, a group).
  *
- * Contract shared by every wrapper in this folder — see docs/ARCHITECTURE.md (Motion):
+ * Contract shared by every wrapper in this folder — see docs/handoff/ARCHITECTURE.md (Motion):
  *   1. GSAP is dynamically imported, so it never enters the initial bundle.
  *   2. The element ships with `reveal-pending`, which only hides it when `.js`
  *      is on <html>. Without JavaScript the content stays visible.

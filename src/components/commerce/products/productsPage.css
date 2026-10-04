@@ -86,22 +86,6 @@
 .shop__grid .range-product {
   inline-size: auto;
   flex: 1;
-  border-color: var(--commerce-line);
-  background: var(--commerce-card);
-  box-shadow: none;
-  transition:
-    translate 500ms var(--commerce-ease),
-    box-shadow 500ms var(--commerce-ease);
-}
-.shop__grid .range-product:hover {
-  translate: 0 -4px;
-  box-shadow: 0 1.25rem 2.5rem -1.5rem color-mix(in srgb, var(--commerce-ink) 35%, transparent);
-}
-.shop__grid .range-product__image {
-  background: color-mix(in srgb, var(--color-world-paper) 70%, transparent);
-}
-.shop__grid .range-product__image img {
-  mix-blend-mode: multiply;
 }
 
 @keyframes shop-cell-in {

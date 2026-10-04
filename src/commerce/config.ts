@@ -4,7 +4,7 @@
  * sign-ins appear. Values marked PLACEHOLDER must be confirmed by Hugo Tron before launch.
  *
  * Secrets (API keys, webhook secrets) never go here; they are environment variables read by
- * the backend adapter (see docs/BACKEND.md).
+ * the backend adapter (see docs/handoff/INTEGRATION.md).
  */
 
 export type ShippingOption = {

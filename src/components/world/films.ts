@@ -176,9 +176,10 @@ export function createWorldFilms(
       if (chapter > 0.42) assets.forEach((asset) => asset.warm());
       const velocity = delta > 0 ? (position - previous) / delta : 0;
       previous = position;
-      flex = reduced
-        ? 0
-        : THREE.MathUtils.damp(flex, THREE.MathUtils.clamp(velocity * 0.65, -1.3, 1.3), 6, delta);
+      flex =
+        reduced || compact
+          ? 0
+          : THREE.MathUtils.damp(flex, THREE.MathUtils.clamp(velocity * 0.65, -1.3, 1.3), 6, delta);
       active = Math.max(0, Math.min(assets.length - 1, Math.round(position)));
       assets.forEach((asset, index) =>
         asset.setPlaying(index === active && chapter > 0.72 && visible && !paused && !reduced),
@@ -222,6 +223,12 @@ export function createWorldFilms(
           (1 - arrival) * -0.08 - departure * 0.65,
         );
         panel.mesh.scale.set(baseWidth * size, (baseWidth * size) / 1.6, baseWidth * size);
+        if (compact) {
+          // Phones: sheets swap and leave by crossfading in place, without flight or bend.
+          panel.mesh.position.set(0, height * 0.13, -6.3);
+          panel.mesh.rotation.set(-0.035, 0, 0);
+          panel.mesh.scale.set(baseWidth, baseWidth / 1.6, baseWidth);
+        }
         let hoverTarget = 0;
         if (canHover && panel.mesh.visible && panel.index === active) {
           // Use the unhovered sheet as the hit surface so the tilt cannot chase its own boundary.

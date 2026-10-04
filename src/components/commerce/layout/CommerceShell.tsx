@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header";
 import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import SiteFooter from "@/components/layout/SiteFooter";
 import { HomeThemeProvider } from "@/components/rice/HomeTheme";
+import { commerceAvailable, isMockCommerce } from "@/commerce/backend";
 import { DEV_TOOLS } from "@/commerce/config";
 import { readDevSettings } from "@/commerce/dev/settings";
 import { getSession } from "@/commerce/session";
@@ -26,7 +27,10 @@ export default async function CommerceShell({
   label?: string;
 }) {
   const t = await getTranslations("commerce");
-  const dev = DEV_TOOLS ? { session: await getSession(), settings: await readDevSettings() } : null;
+  const dev =
+    DEV_TOOLS && commerceAvailable() && isMockCommerce()
+      ? { session: await getSession(), settings: await readDevSettings() }
+      : null;
   return (
     <HomeThemeProvider forcedTheme="light">
       <div id="top" />

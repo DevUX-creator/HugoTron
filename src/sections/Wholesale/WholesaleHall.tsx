@@ -1,9 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import ArrowLink from "@/components/ui/ArrowLink";
 import { useScrollLock } from "@/components/providers/SmoothScroll";
 import { DoorArrival, DoorFlood, useDoorTransition } from "@/components/transition/DoorTransition";
@@ -177,21 +175,13 @@ export default function WholesaleHall() {
         <div className="hall__stage">
           <div ref={mount} className="hall__scene" role="img" aria-label={t("sceneLabel")} />
           <div className="hall__shade" aria-hidden="true" />
-          <nav className="hall__crumbs" aria-label={t("breadcrumbLabel")}>
-            <ol>
-              <li>
-                <Link href="/">{t("home")}</Link>
-              </li>
-              <li aria-current="page">{t("name")}</li>
-            </ol>
-          </nav>
 
           <section
             className="hall-chapter hall-chapter--intro"
             data-chapter="intro"
             aria-labelledby="wholesale-title"
           >
-            <CardHeading eyebrow={t("intro.eyebrow")} image="cargo-orbit" priority />
+            <p className="hall__eyebrow">{t("intro.eyebrow")}</p>
             <h1 id="wholesale-title" className="hall__title">
               <span>{t("intro.titleLead")}</span> <span>{t("intro.titleAccent")}</span>
             </h1>
@@ -211,7 +201,7 @@ export default function WholesaleHall() {
             data-chapter="audience"
             aria-labelledby="wholesale-audience"
           >
-            <CardHeading eyebrow={t("audience.eyebrow")} image="business-orbit" />
+            <p className="hall__eyebrow">{t("audience.eyebrow")}</p>
             <h2 id="wholesale-audience">{t("audience.title")}</h2>
             <ul className="hall__audience">
               {(["wholesalers", "industry", "companies"] as const).map((key) => (
@@ -228,7 +218,7 @@ export default function WholesaleHall() {
             data-chapter="range"
             aria-labelledby="wholesale-range"
           >
-            <CardHeading eyebrow={t("range.eyebrow")} image="sourcing-orbit" />
+            <p className="hall__eyebrow">{t("range.eyebrow")}</p>
             <h2 id="wholesale-range">{t("range.title")}</h2>
             <p className="hall__note">{t("range.note")}</p>
             <ArrowLink href="/range" variant="glass" size="large" prefetch={false}>
@@ -241,7 +231,7 @@ export default function WholesaleHall() {
             data-chapter="process"
             aria-labelledby="wholesale-process"
           >
-            <CardHeading eyebrow={t("process.eyebrow")} image="order-orbit" />
+            <p className="hall__eyebrow">{t("process.eyebrow")}</p>
             <h2 id="wholesale-process">{t("process.title")}</h2>
             <ol className="hall__steps">
               {(["request", "offer", "confirm", "deliver"] as const).map((key, index) => (
@@ -259,7 +249,7 @@ export default function WholesaleHall() {
             data-chapter="door"
             aria-labelledby="wholesale-door"
           >
-            <CardHeading eyebrow={t("door.eyebrow")} image="business-orbit" />
+            <p className="hall__eyebrow">{t("door.eyebrow")}</p>
             <h2 id="wholesale-door">{t("door.title")}</h2>
             <p className="hall__note">{t("door.note")}</p>
             <ArrowLink
@@ -294,45 +284,10 @@ export default function WholesaleHall() {
               {t("door.action")}
             </ArrowLink>
           </section>
-
-          <nav className="hall__legal" aria-label={t("legalLabel")}>
-            <Link href="/imprint" prefetch={false}>
-              {t("imprint")}
-            </Link>
-            <Link href="/privacy" prefetch={false}>
-              {t("privacy")}
-            </Link>
-          </nav>
         </div>
       </div>
       <DoorFlood active={leaving} />
       <DoorArrival ready={ready || failed} />
     </>
-  );
-}
-
-/** One illustration treatment across all five cards; the surrounding copy stays semantic HTML. */
-function CardHeading({
-  eyebrow,
-  image,
-  priority = false,
-}: {
-  eyebrow: string;
-  image: string;
-  priority?: boolean;
-}) {
-  return (
-    <div className="hall__card-head">
-      <p className="hall__eyebrow">{eyebrow}</p>
-      <Image
-        className="hall__illustration"
-        src={`/images/wholesale/${image}.webp`}
-        width={960}
-        height={640}
-        alt=""
-        sizes="(max-width: 767px) 140px, 220px"
-        loading={priority ? "eager" : "lazy"}
-      />
-    </div>
   );
 }

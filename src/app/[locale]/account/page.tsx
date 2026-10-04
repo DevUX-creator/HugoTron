@@ -1,6 +1,7 @@
 import { hasLocale } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { routing } from "@/i18n/routing";
 import { backend, commerceAvailable } from "@/commerce/backend";
 import ServiceUnavailable from "@/components/commerce/feedback/ServiceUnavailable";
@@ -24,6 +25,7 @@ export default async function AccountPage({ params, searchParams }: Props) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
+  await connection();
   if (!commerceAvailable()) return <ServiceUnavailable />;
   const t = await getTranslations("commerce.errors");
   const query = await searchParams;

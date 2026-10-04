@@ -1,43 +1,53 @@
 # Hugo Tron
 
-The new website and shop for Hugo Tron GmbH, a food importer and wholesaler in Hamburg:
-rice, nuts, spices, saffron, tea and pulses, sold online to households and supplied in
-volume to businesses. German and English.
+Bilingual (German/English) brand experience and product storefront for Hugo Tron GmbH.
+Next.js, React, TypeScript and Three.js, with a separate lightweight catalogue.
 
-The frontend is complete. Real systems (shop backend, payments, email, legal-text service)
-connect through a few documented seams; until then the site runs on built-in stand-ins.
+**Ready for backend integration; not approved for live commerce.** Products are seed data,
+commerce uses an in-memory mock, and no real enquiry/email provider is connected. Production
+checkout/accounts stay unavailable until a backend is configured. Unknown shipping blocks
+order creation and payment. The remaining work is explicit in the handoff below.
 
-## Start
+## Backend team — start here
+
+**[Open the complete handoff folder](docs/handoff/README.md).** It is the single home for
+integration requirements, gaps, ownership, release checks and evidence.
+
+1. [Open items and acceptance criteria](docs/handoff/OPEN-ITEMS.md)
+2. [Integration contracts and configuration](docs/handoff/INTEGRATION.md)
+3. [Verification and launch checklist](docs/handoff/RELEASE.md)
+4. [Optional shop subdomain](docs/handoff/SHOP-SUBDOMAIN.md)
+
+Architecture, performance, client decisions and technical debt are indexed in the same folder.
+Do not assume implementing `CommerceBackend` alone finishes catalogue, stock, quotes, payments,
+email, operations or frontend integration. Do not use staging flags to enable live commerce.
+
+## Run locally
 
 ```sh
-pnpm install        # Node 24 (.nvmrc), pnpm 10
-pnpm dev            # http://localhost:3000 → /de
-pnpm verify         # type-check, lint, stylelint, format, tests, production build
+pnpm install          # Node 24 (.nvmrc), pnpm 10
+pnpm dev              # http://localhost:3000 → /de; English at /en
+pnpm verify           # types, lint, styles, formatting, unit tests, production build
+pnpm e2e              # browser smoke checks against that production build
+pnpm check:launch     # configuration guard; intentionally fails on default mock settings
 ```
 
-No credentials are needed locally. `.env.example` lists the variables.
+No credentials are needed for local preview. See [.env.example](.env.example) and the handoff
+for production/staging settings. There are no raw card-number/CVC inputs. Mock checkout is a
+demonstration and cannot deliver orders or messages.
 
-## Documentation
+## Common editing locations
 
-| Document                                     | For                                                                           |
-| -------------------------------------------- | ----------------------------------------------------------------------------- |
-| [docs/BACKEND.md](docs/BACKEND.md)           | Backend team: every connection point, where data lives, env, launch checklist |
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Developers: routes, folders, components, rules                                |
-| [docs/CLIENT-INPUT.md](docs/CLIENT-INPUT.md) | Hugo Tron: legal texts, prices, product data and access still needed          |
-| [docs/PERFORMANCE.md](docs/PERFORMANCE.md)   | How the 3D scenes stay fast on phones, measurements, checks                   |
-| [docs/RELEASE.md](docs/RELEASE.md)           | What was verified for launch and what still blocks it                         |
-| [docs/TECH-DEBT.md](docs/TECH-DEBT.md)       | Known leftovers and when to remove them                                       |
-| [assets-src/README.md](assets-src/README.md) | Media masters, the scripts that convert them, licences                        |
+| Need to change                     | Location                                               |
+| ---------------------------------- | ------------------------------------------------------ |
+| Site copy                          | `messages/de.json`, `messages/en.json`                 |
+| Seed products/prices               | `src/content/products.ts`, `src/commerce/catalogue.ts` |
+| Delivery/payment business settings | `src/commerce/config.ts`                               |
+| Backend contracts                  | `src/commerce/backend/contracts.ts`                    |
+| Company/contact details            | `src/content/site.ts`                                  |
+| Legal content                      | `src/content/legal/`                                   |
+| Category stories                   | `src/content/categoryStories.ts`                       |
+| Design tokens/fonts                | `src/styles/theme.css`, `src/styles/fonts.ts`          |
+| Redirects/security headers         | `next.config.ts`                                       |
 
-## Where things are
-
-| Need to change…                      | Look in                                       |
-| ------------------------------------ | --------------------------------------------- |
-| A text on the site                   | `messages/de.json`, `messages/en.json`        |
-| Products, prices, units              | `src/content/products.ts`                     |
-| Shipping, payment methods, VAT, bank | `src/commerce/config.ts`                      |
-| Address, phone, email, social links  | `src/content/site.ts`                         |
-| Legal texts                          | `src/content/legal/`                          |
-| Category pages                       | `src/content/categoryStories.ts`              |
-| Colours, spacing, fonts              | `src/styles/theme.css`, `src/styles/fonts.ts` |
-| Redirects and security headers       | `next.config.ts`                              |
+Media masters and conversion instructions: [assets-src/README.md](assets-src/README.md).

@@ -152,10 +152,17 @@
 
 /* The drawer carries navigation and language controls on narrow screens. */
 @media (width < 64rem) {
-  .header nav,
+  .header__end > nav,
   .header__links,
   .header__rule {
     display: none;
+  }
+
+  /* Touch targets: the glyphs stay small, the hit area does not. */
+  .header__tools > .header__tool {
+    justify-content: center;
+    min-inline-size: 44px;
+    min-block-size: 44px;
   }
 }
 

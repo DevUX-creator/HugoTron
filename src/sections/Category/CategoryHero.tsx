@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { getCategory } from "@/commerce/catalogue";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import SplitWords, { flySeed } from "@/animations/SplitWords";
@@ -126,7 +125,8 @@ export default function CategoryHero({ story }: { story: CategoryStory }) {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
-      html.dataset.homeTheme = "dark";
+      // The theme belongs to the page's HomeThemeProvider. This cleanup runs after the next
+      // page has already set its own theme, so writing one here would override it.
       html.removeAttribute("data-world-paper");
     };
   }, [draw]);
@@ -145,19 +145,6 @@ export default function CategoryHero({ story }: { story: CategoryStory }) {
           <div className="category-world__shade" aria-hidden="true" />
 
           <section ref={intro} className="category-hero" aria-labelledby="category-title">
-            <nav className="category-crumbs" aria-label={t("breadcrumbLabel")}>
-              <ol>
-                <li>
-                  <Link href="/">{t("home")}</Link>
-                </li>
-                <li>
-                  <Link href="/range" prefetch={false}>
-                    {t("products")}
-                  </Link>
-                </li>
-                <li aria-current="page">{name}</li>
-              </ol>
-            </nav>
             <div className="category-hero__intro">
               <p className="category-hero__eyebrow">{t("eyebrow")}</p>
               <h1 id="category-title" className="category-hero__title">

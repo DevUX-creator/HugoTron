@@ -86,7 +86,7 @@ export default function CommerceDevPanel({
           </div>
           <p className="dev-panel__note">
             Mock data: demo@hugo-tron.test / demo1234 · vouchers WELCOME10, FREESHIP. See
-            docs/BACKEND.md.
+            docs/handoff/INTEGRATION.md.
           </p>
         </div>
       )}

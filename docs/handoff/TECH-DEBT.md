@@ -1,6 +1,7 @@
 # Tech debt
 
-Known leftovers, kept on purpose for now. Remove or resolve each when its note says.
+Code that no page renders, kept on purpose as reference. Remove each when its note says.
+The category stand-in assets and the over-long SEO descriptions are resolved.
 
 ## Old rice page sections (kept as reference)
 
@@ -30,14 +31,3 @@ together with its data and messages.
 `src/components/preview/PreviewGate.tsx` and `previewGate.css` are no longer mounted in
 `src/app/[locale]/layout.tsx`. Re-add `<PreviewGate />` there to show the "available on Monday"
 modal again, or delete both files once the subpages are public.
-
-## Category page assets
-
-Stand-in engravings and films on the category pages are listed in
-`src/content/categoryStories.ts` (every `needs` entry; nuts, spices, saffron, pulses and raw
-materials borrow existing films). Replace as final assets and 3D scenes arrive.
-
-## SEO descriptions
-
-Several `category.<slug>.seoDescription` messages run 170–190 characters; trim to about 155
-before launch.

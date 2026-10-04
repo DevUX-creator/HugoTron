@@ -50,6 +50,24 @@ function setDark(dark: boolean) {
   for (const listener of listeners) listener();
 }
 
+/**
+ * Every mounted provider claims a theme; the newest claim owns `html[data-home-theme]`.
+ * During a client navigation the page being left may unmount (or be hidden) after the next
+ * page has set its theme. Deleting the attribute on unmount then left a paper page without a
+ * theme, so headings, logo and footer fell back to the dark palette's light text until a
+ * reload. With claims, unmount order no longer matters.
+ */
+const themeClaims: { theme: string }[] = [];
+
+function applyThemeClaims() {
+  const root = document.documentElement;
+  const top = themeClaims[themeClaims.length - 1];
+  if (!top) delete root.dataset.homeTheme;
+  // The home and category stories mark their paper with data-world-paper while it covers the
+  // screen; that page-level light state wins over the provider's resting dark claim.
+  else root.dataset.homeTheme = root.hasAttribute("data-world-paper") ? "light" : top.theme;
+}
+
 const ThemeContext = createContext<{ dark: boolean; setDark: (dark: boolean) => void } | null>(
   null,
 );
@@ -64,11 +82,13 @@ export function HomeThemeProvider({
   const preference = useSyncExternalStore(subscribeTheme, readTheme, serverTheme);
   const dark = forcedTheme ? forcedTheme === "dark" : preference;
   useLayoutEffect(() => {
-    const root = document.documentElement;
     // Read the saved value even during the initial server-snapshot hydration pass.
-    root.dataset.homeTheme = forcedTheme ?? (readTheme() ? "dark" : "light");
+    const claim = { theme: forcedTheme ?? (readTheme() ? "dark" : "light") };
+    themeClaims.push(claim);
+    applyThemeClaims();
     return () => {
-      delete root.dataset.homeTheme;
+      themeClaims.splice(themeClaims.indexOf(claim), 1);
+      applyThemeClaims();
     };
   }, [dark, forcedTheme]);
   return (

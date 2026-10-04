@@ -1,7 +1,7 @@
 .label-room {
   --progress: 0;
   position: relative;
-  block-size: 650svh;
+  block-size: calc(var(--home-vh, 1svh) * 650);
   color: var(--color-world-paper-light);
   background: var(--color-world-night);
 }
@@ -12,6 +12,9 @@
   min-block-size: 42rem;
   overflow: clip;
   isolation: isolate;
+
+  /* Chapter sizes answer to the locked stage, never to the live viewport height. */
+  container: label-stage / size;
 }
 .label-room__scene {
   position: absolute;
@@ -50,25 +53,10 @@
       color-mix(in srgb, var(--color-world-night) 65%, transparent)
     );
 }
-.label-room__crumbs {
-  position: absolute;
-  inset: calc(var(--header-inset-block) + var(--header-row) + 4rem) max(3.5rem, 6vw) auto auto;
-  display: flex;
-  gap: 0.7rem;
-  font: 0.625rem var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.09em;
-}
-.label-room__crumbs a,
-.label-room__legal a {
-  color: inherit;
-  text-decoration: none;
-  opacity: 0.65;
-}
 .label-room__chapter {
   --shown: 0;
   position: absolute;
-  inset: auto auto max(10.5rem, 20vh) max(3.5rem, 6vw);
+  inset: auto auto max(10.5rem, 20cqb) max(3.5rem, 6vw);
   inline-size: min(35vw, 29rem);
   opacity: var(--shown);
   transform: translateY(calc((1 - var(--shown)) * 1.5rem));
@@ -200,14 +188,6 @@
 .label-room__chapters button[aria-current="step"] span {
   background: currentcolor;
 }
-.label-room__legal {
-  position: absolute;
-  inset: auto 0 1.4rem;
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  font-size: 0.7rem;
-}
 .label-room__loading {
   position: absolute;
   inset: 50% 10% auto;
@@ -224,6 +204,7 @@ html:not(.js) .label-room {
 html:not(.js) .label-room__stage {
   position: relative;
   block-size: auto;
+  container-type: normal;
   padding-block: 14rem 10rem;
 }
 .label-room[data-reading] .label-room__chapter,
@@ -250,14 +231,10 @@ html:not(.js) .label-room__loading {
 
 @media (width < 48rem) {
   .label-room {
-    block-size: 610svh;
+    block-size: calc(var(--home-vh, 1svh) * 610);
   }
   .label-room__stage {
     min-block-size: 40rem;
-  }
-  .label-room__crumbs {
-    inset: 7rem 2.5rem auto auto;
-    font-size: 0.55rem;
   }
   .label-room__chapter {
     inset: auto 2.5rem 11.5rem;
@@ -318,9 +295,6 @@ html:not(.js) .label-room__loading {
   .label-room__note {
     font-size: 0.55rem;
   }
-  .label-room__legal {
-    font-size: 0.625rem;
-  }
   .label-room__loading {
     inset: 45% 2.5rem auto;
     text-align: center;
@@ -332,19 +306,21 @@ html:not(.js) .label-room__loading {
   }
 }
 
-@media (height < 45rem) and (width < 48rem) {
-  .label-room__chapter {
-    inset-block-end: 9.25rem;
-  }
-  .label-room__chapter h1,
-  .label-room__chapter h2 {
-    font-size: 1.85rem;
-  }
-  .label-room__copy {
-    font-size: 0.75rem;
-  }
-  .label-room__chapter--identity .label-room__eyebrow {
-    display: none;
+@media (width < 48rem) {
+  @container label-stage (height < 45rem) {
+    .label-room__chapter {
+      inset-block-end: 9.25rem;
+    }
+    .label-room__chapter h1,
+    .label-room__chapter h2 {
+      font-size: 1.85rem;
+    }
+    .label-room__copy {
+      font-size: 0.75rem;
+    }
+    .label-room__chapter--identity .label-room__eyebrow {
+      display: none;
+    }
   }
 }
 
@@ -365,27 +341,29 @@ html:not(.js) .label-room__chapter--identity .label-room__copy {
   transition: opacity 450ms;
 }
 
-@media (height < 50rem) and (width >= 48rem) {
-  .label-room__chapter h1,
-  .label-room__chapter h2 {
-    font-size: clamp(2.25rem, 3.65vw, 3.6rem);
-  }
-  .label-room__chapter {
-    inset-block-end: 9.75rem;
-    inline-size: min(37vw, 30rem);
-  }
-  .label-room__eyebrow {
-    margin-block-end: 0.8rem;
-  }
-  .label-room__copy {
-    margin-block-start: 1rem;
-    font-size: 0.825rem;
-  }
-  .label-room__pack-hint {
-    margin-block-start: 1rem;
-  }
-  .label-room__chapter--identity .label-room__copy {
-    display: none;
+@media (width >= 48rem) {
+  @container label-stage (height < 50rem) {
+    .label-room__chapter h1,
+    .label-room__chapter h2 {
+      font-size: clamp(2.25rem, 3.65vw, 3.6rem);
+    }
+    .label-room__chapter {
+      inset-block-end: 9.75rem;
+      inline-size: min(37vw, 30rem);
+    }
+    .label-room__eyebrow {
+      margin-block-end: 0.8rem;
+    }
+    .label-room__copy {
+      margin-block-start: 1rem;
+      font-size: 0.825rem;
+    }
+    .label-room__pack-hint {
+      margin-block-start: 1rem;
+    }
+    .label-room__chapter--identity .label-room__copy {
+      display: none;
+    }
   }
 }
 

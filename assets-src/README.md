@@ -26,16 +26,3 @@ with an image model. The exact prompts are kept next to them (`images/*/prompts.
 `images/paper-world/*-prompts.json`, `images/product-cutouts.json`) so an illustration can be
 regenerated or extended in the same style. They are editorial drawings, not photographs of
 real suppliers, farms or warehouses.
-
-## Licences and credits
-
-- **Courtyard model:** "Shrine of the Oracle" by Isabella Crowder,
-  <https://sketchfab.com/3d-models/shrine-of-the-oracle-a17d5aa5f7544e8e9cb602b1ed1925a3>,
-  licensed **CC BY 4.0** (<https://creativecommons.org/licenses/by/4.0/>). The web versions
-  remove some props and recompress textures. CC BY requires visible attribution; the site
-  currently shows none (see `docs/CLIENT-INPUT.md`).
-- **Music, sound effects, `3dvideo.mp4`, car recordings:** supplied by the owner.
-- **Range films:** the file names follow Pexels' download pattern. Confirm the source and
-  licence before launch.
-- **Map data** for the delivery page: Natural Earth (public domain), downloaded by the
-  generator scripts rather than stored here.

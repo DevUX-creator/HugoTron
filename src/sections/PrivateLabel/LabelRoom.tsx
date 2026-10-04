@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 import { DoorArrival, DoorFlood, useDoorTransition } from "@/components/transition/DoorTransition";
 import { useScrollLock } from "@/components/providers/SmoothScroll";
@@ -192,11 +191,6 @@ export default function LabelRoom() {
               {t("loading")}
             </p>
           )}
-          <nav className="label-room__crumbs" aria-label={t("breadcrumb")}>
-            <Link href="/">{t("home")}</Link>
-            <span>/</span>
-            <span>{t("name")}</span>
-          </nav>
           <section
             className="label-room__chapter"
             data-label-chapter="arrival"
@@ -312,10 +306,6 @@ export default function LabelRoom() {
                 {t(`${key}.short`)}
               </button>
             ))}
-          </nav>
-          <nav className="label-room__legal" aria-label={t("legal")}>
-            <Link href="/imprint">{t("imprint")}</Link>
-            <Link href="/privacy">{t("privacy")}</Link>
           </nav>
         </div>
       </div>

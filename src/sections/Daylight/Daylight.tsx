@@ -71,7 +71,8 @@ export default function Daylight() {
       readiness.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
-      html.dataset.homeTheme = "dark";
+      // The theme belongs to the page's HomeThemeProvider. This cleanup runs after the next
+      // page has already set its own theme, so writing one here would override it.
       html.removeAttribute("data-world-paper");
       html.style.removeProperty("--leave");
       worldHandoff.set(0);

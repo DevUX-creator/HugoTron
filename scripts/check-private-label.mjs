@@ -151,7 +151,9 @@ try {
         .querySelector(".label-room canvas")
         .addEventListener("webglcontextlost", () => (window.roomLost = true), { once: true });
     });
-    await p.locator(".label-room__legal a").first().click();
+    // Leave through the horizon chapter's contact link: a client navigation that unmounts the room.
+    await walk(p, 0.68);
+    await p.locator(".label-room__chapter--horizon a").click();
     await p.waitForFunction(() => window.roomLost);
     assert.equal(await p.locator(".label-room canvas").count(), 0);
     console.log(

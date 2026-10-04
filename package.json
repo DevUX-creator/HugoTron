@@ -2,7 +2,7 @@
   "name": "hugo-tron",
   "version": "0.1.0",
   "private": true,
-  "description": "Hugo Tron GmbH — food import & wholesale, Hamburg. Bilingual (DE/EN) Next.js frontend.",
+  "description": "Hugo Tron GmbH \u2014 food import & wholesale, Hamburg. Bilingual (DE/EN) Next.js frontend.",
   "engines": {
     "node": ">=22.0.0",
     "pnpm": ">=10.0.0"
@@ -22,7 +22,9 @@
     "e2e": "playwright test",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "verify": "pnpm typecheck && pnpm lint && pnpm stylelint && pnpm format:check && pnpm test && pnpm build"
+    "verify": "pnpm docs:check && pnpm typecheck && pnpm lint && pnpm stylelint && pnpm format:check && pnpm test && pnpm build",
+    "docs:check": "node scripts/check-handoff.mjs",
+    "check:launch": "node scripts/check-launch.mjs"
   },
   "dependencies": {
     "gsap": "^3.15.0",

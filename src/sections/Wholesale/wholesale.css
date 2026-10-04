@@ -6,6 +6,7 @@
   --hall-backdrop: var(--color-world-night);
   --hall-neon: var(--color-world-neon);
   position: relative;
+  background: var(--hall-backdrop);
   block-size: calc(var(--home-vh, 1svh) * 100 * (1 + var(--runway, 7)));
   color: var(--color-world-paper-light);
 }
@@ -15,6 +16,9 @@
   block-size: calc(var(--home-vh, 1svh) * 100);
   overflow: clip;
   background: var(--hall-backdrop);
+
+  /* Station sizes answer to the locked stage, never to the live viewport height. */
+  container: hall-stage / size;
 }
 .hall__scene {
   position: absolute;
@@ -51,28 +55,22 @@
   --shown: 0;
   position: absolute;
   inset: auto auto 14% max(3.5rem, 6vw);
-  inline-size: min(38rem, 46vw);
-  padding: clamp(1.5rem, 2.4vw, 2.5rem);
-  border: 1px solid color-mix(in srgb, var(--color-world-paper-light) 19%, transparent);
-  background: linear-gradient(
-    125deg,
-    color-mix(in srgb, var(--color-world-paper-light) 6%, transparent),
-    color-mix(in srgb, var(--hall-backdrop) 55%, transparent) 55%
-  );
-  -webkit-backdrop-filter: blur(14px) saturate(0.8);
-  backdrop-filter: blur(14px) saturate(0.8);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--color-world-paper-light) 7%, transparent),
-    0 1.5rem 4rem color-mix(in srgb, var(--hall-backdrop) 16%, transparent);
-
+  isolation: isolate;
+  inline-size: min(36rem, 44vw);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 1.25rem;
-  text-shadow: 0 0.15rem 1.2rem var(--hall-backdrop);
+  text-shadow:
+    0 0.05rem 0.35rem color-mix(in srgb, var(--hall-backdrop) 85%, transparent),
+    0 0.15rem 1.6rem var(--hall-backdrop);
   opacity: var(--shown);
   translate: 0 calc((1 - var(--shown)) * 1.75rem);
   filter: blur(calc((1 - var(--shown)) * 4px));
+}
+/* The opening station stands from first paint; script only takes over its fade. */
+.hall-chapter--intro {
+  --shown: 1;
 }
 .hall-chapter[data-shown="false"] {
   visibility: hidden;
@@ -87,71 +85,27 @@
     translate 600ms ease,
     filter 600ms ease;
 }
+/* An edgeless scrim, not a panel: it only darkens the hall right behind the copy. */
 .hall-chapter::before {
   content: "";
   position: absolute;
-  inset: -1px -1px auto auto;
-  inline-size: 0.75rem;
-  aspect-ratio: 1;
-  background: color-mix(in srgb, var(--color-world-paper-light) 45%, transparent);
-  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  z-index: -1;
+  inset: -22% -18%;
+  background: radial-gradient(
+    closest-side,
+    color-mix(in srgb, var(--hall-backdrop) 68%, transparent),
+    color-mix(in srgb, var(--hall-backdrop) 36%, transparent) 62%,
+    transparent
+  );
+  pointer-events: none;
 }
 .hall-chapter--audience,
 .hall-chapter--process,
 .hall-chapter--door {
   inset-inline: auto max(3.5rem, 6vw);
 }
-.hall__crumbs {
-  position: absolute;
-  z-index: 2;
-  inset: calc(var(--header-inset-block) + var(--header-row) + 4rem) max(3.5rem, 6vw) auto auto;
-  margin: 0;
-}
-.hall__card-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  inline-size: 100%;
-  min-block-size: 5rem;
-  gap: 1rem;
-}
-.hall__card-head .hall__eyebrow {
-  max-inline-size: 15ch;
-  line-height: 1.65;
-}
-.hall__illustration {
-  inline-size: clamp(9rem, 15vw, 14rem);
-  block-size: auto;
-  margin-block: -1.25rem -0.5rem;
-  opacity: 0.82;
-  pointer-events: none;
-}
-.hall__crumbs ol {
-  display: flex;
-  gap: 0.6rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.hall__crumbs li + li::before {
-  content: "/";
-  margin-inline-end: 0.6rem;
-  opacity: 0.5;
-}
-.hall__crumbs a {
-  color: inherit;
-  opacity: 0.7;
-  text-decoration: none;
-}
-.hall__crumbs a:hover,
-.hall__crumbs a:focus-visible {
-  opacity: 1;
-  text-decoration: underline;
-}
-.hall__crumbs,
 .hall__eyebrow,
-.hall__steps span,
-.hall__legal {
+.hall__steps span {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   letter-spacing: 0.08em;
@@ -198,7 +152,7 @@
 .hall-chapter .arrow-link {
   margin-block-start: 0.4rem;
 }
-/* Compact ruled lists stay inside the shared illustrated card. */
+/* Compact ruled lists read straight over the hall. */
 .hall__audience,
 .hall__steps {
   display: grid;
@@ -244,23 +198,6 @@
   color: color-mix(in srgb, var(--hall-neon) 45%, var(--color-world-paper-light));
   margin-block-end: 0.5rem;
 }
-.hall__legal {
-  position: absolute;
-  inset: auto 0 1.5rem;
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-}
-.hall__legal a {
-  color: inherit;
-  opacity: 0.65;
-  text-decoration: none;
-}
-.hall__legal a:hover,
-.hall__legal a:focus-visible {
-  opacity: 1;
-  text-decoration: underline;
-}
 
 @media (width < 48rem) {
   .hall__shade {
@@ -279,29 +216,15 @@
       );
   }
   .hall-chapter {
-    inset: auto 2rem 7.25rem;
+    inset: auto 2.5rem 7.5rem;
     inline-size: auto;
     gap: 0.9rem;
-    padding: 1rem;
-    -webkit-backdrop-filter: blur(8px);
-    backdrop-filter: blur(8px);
   }
-  .hall__crumbs {
-    inset: calc(var(--header-inset-block) + var(--header-row) + 5.4rem) 2.5rem auto;
-    font-size: 0.6rem;
+  .hall-chapter::before {
+    inset: -12% -2.5rem;
   }
-  .hall__crumbs ol {
-    justify-content: flex-end;
-  }
-  .hall__card-head {
-    min-block-size: 3rem;
-  }
-  .hall__card-head .hall__eyebrow {
+  .hall__eyebrow {
     font-size: 0.625rem;
-  }
-  .hall__illustration {
-    inline-size: 8.75rem;
-    margin-block: -0.75rem;
   }
   .hall__title {
     font-size: clamp(2rem, 8.4vw, 3.25rem);
@@ -341,13 +264,9 @@
     font-size: 0.75rem;
     line-height: 1.45;
   }
-  .hall__legal {
-    inset-block-end: 1.25rem;
-    font-size: 0.625rem;
-  }
 }
 
-@media (height < 44rem) {
+@container hall-stage (height < 44rem) {
   .hall-chapter {
     gap: 0.75rem;
     inset-block-end: 7.25rem;
@@ -374,12 +293,6 @@
   .hall__audience h3 {
     font-size: 1.125rem;
   }
-  .hall__card-head {
-    min-block-size: 2.75rem;
-  }
-  .hall__illustration {
-    inline-size: 7rem;
-  }
 }
 
 /* Static, readable chapters when motion or WebGL is unavailable. */
@@ -392,6 +305,7 @@ html:not(.js) .hall__stage,
   position: relative;
   block-size: auto;
   overflow: visible;
+  container-type: normal;
 }
 html:not(.js) .hall__scene,
 .hall[data-failed] .hall__scene {
@@ -415,12 +329,6 @@ html:not(.js) .hall-chapter,
   translate: none;
   filter: none;
   visibility: visible;
-}
-html:not(.js) .hall__legal,
-.hall[data-reading] .hall__legal {
-  position: relative;
-  inset: auto;
-  padding-block: 2rem 4rem;
 }
 
 @media (prefers-reduced-motion: reduce) {

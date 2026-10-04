@@ -549,7 +549,7 @@
 
 /* ---------------------------------------------------------------------------
    REDUCED MOTION — global kill switch.
-   Component-level JS must ALSO bail before loading GSAP; see docs/ARCHITECTURE.md.
+   Component-level JS must ALSO bail before loading GSAP; see docs/handoff/ARCHITECTURE.md.
    --------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .swap {

@@ -54,7 +54,8 @@ try {
     assert.equal(await page.locator(".delivery-map__region-energy").count(), 1);
     assert.equal(
       await page.locator(".delivery-map__region-energy").getAttribute("data-paths"),
-      "0",
+      "1",
+      "the parked van's state (Hamburg) holds a still glow",
     );
     assert.equal(await page.locator(".delivery-explorer__content > a").count(), 0);
     assert.equal(await page.locator(".delivery-info__eyebrow").count(), 0);

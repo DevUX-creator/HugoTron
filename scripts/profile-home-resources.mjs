@@ -286,9 +286,8 @@ try {
     delete document.hidden;
     document.dispatchEvent(new Event("visibilitychange"));
   });
-  for (let cycle = 0; cycle < 3; cycle++) {
-    // Installed Next exposes its public App Router here. This bypasses the temporary
-    // preview click dialog only, and exercises actual SPA resource disposal.
+  for (let cycle = 0; cycle < 10; cycle++) {
+    // Drive actual App Router navigation without depending on the open/closed menu state.
     await page.evaluate(() => window.next.router.push("/en/products"));
     await page.waitForURL("**/en/products");
     await wait(1200);
@@ -305,9 +304,24 @@ try {
     );
     await wait(600);
   }
+  const returns = rows.filter((row) => row.label.startsWith("return-"));
+  const baseline = returns[3]; // Disregard initial route/module warming.
+  const lastReturn = returns.at(-1);
+  assert.ok(
+    lastReturn.heapMiB - baseline.heapMiB < 2,
+    "Retained heap kept growing across SPA visits",
+  );
+  assert.ok(
+    lastReturn.nodes - baseline.nodes < 300,
+    "Detached DOM kept accumulating across SPA visits",
+  );
+  assert.ok(
+    lastReturn.listeners - baseline.listeners < 80,
+    "Event listeners kept accumulating across SPA visits",
+  );
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: stable live heap/GPU counts, offscreen and hidden-tab pause, single active film, three SPA cleanup cycles.",
+    "PASS: stable live heap/GPU counts, offscreen and hidden-tab pause, single active film, ten SPA cleanup cycles and bounded retained heap/DOM/listeners.",
   );
 } finally {
   await writeFile(

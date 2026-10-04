@@ -69,7 +69,6 @@
   );
 }
 
-.category-crumbs,
 .category-hero__eyebrow,
 .category-hero__scroll,
 .category-interaction button {
@@ -92,39 +91,11 @@
   pointer-events: auto;
 }
 
-/* The opening, on one axis: breadcrumb, the ingredient, then title, summary and cue. */
+/* The opening, on one axis: the ingredient, then title, summary and cue. */
 .category-hero {
   opacity: calc(1 - var(--intro-out));
   translate: 0 calc(var(--intro-out) * -6svh);
   filter: blur(calc(var(--intro-out) * 6px));
-}
-.category-crumbs {
-  position: absolute;
-  inset: calc(var(--header-inset-block) + var(--header-row) + 3.5rem) auto auto 50%;
-  translate: -50% 0;
-}
-.category-crumbs ol {
-  display: flex;
-  gap: 0.6rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  white-space: nowrap;
-}
-.category-crumbs li + li::before {
-  content: "/";
-  margin-inline-end: 0.6rem;
-  opacity: 0.5;
-}
-.category-crumbs a {
-  color: inherit;
-  opacity: 0.7;
-  text-decoration: none;
-}
-.category-crumbs a:hover,
-.category-crumbs a:focus-visible {
-  opacity: 1;
-  text-decoration: underline;
 }
 .category-hero__intro {
   position: absolute;
@@ -465,23 +436,6 @@ html.js .category-story header > .story-text__note {
   display: flex;
   overflow-x: auto;
 }
-.category-assortment .paper-range__rail > * {
-  --rise: clamp(0, calc((var(--p, 1) - 0.32 - var(--i, 0) * 0.025) / 0.12), 1);
-  opacity: var(--rise);
-  translate: 0 calc((1 - var(--rise)) * 4rem);
-}
-.category-assortment .paper-range__rail > :nth-child(2) {
-  --i: 1;
-}
-.category-assortment .paper-range__rail > :nth-child(3) {
-  --i: 2;
-}
-.category-assortment .paper-range__rail > :nth-child(4) {
-  --i: 3;
-}
-.category-assortment .paper-range__rail > :nth-child(n + 5) {
-  --i: 4;
-}
 
 /* Ways to work together: cards pin and stack; each recedes as the next one covers it
    (`--covered`, set by CategoryStory from the cards' positions), after Son Daven. */
@@ -623,21 +577,6 @@ html:not(.js) .category-chapter {
 }
 
 @media (width < 48rem) {
-  .category-crumbs {
-    inset-block-start: calc(var(--header-inset-block) + var(--header-row) + 7rem);
-    inline-size: calc(100% - 5rem);
-  }
-  .category-crumbs ol {
-    justify-content: center;
-  }
-  .category-crumbs li {
-    flex-shrink: 0;
-  }
-  .category-crumbs li:last-child {
-    flex-shrink: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
   .category-hero__intro {
     inset-block-end: 6.5rem;
   }
@@ -751,8 +690,7 @@ html:not(.js) .category-chapter {
     filter: none;
     translate: none;
   }
-  .category-art figure,
-  .category-assortment .paper-range__rail > * {
+  .category-art figure {
     opacity: 1;
     translate: none;
   }

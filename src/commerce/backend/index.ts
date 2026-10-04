@@ -18,7 +18,7 @@ const backends: Record<string, () => CommerceBackend> = {
     }
     return mockBackend;
   },
-  // api: () => apiBackend,   ← the backend team's implementation (see docs/BACKEND.md)
+  // api: () => apiBackend,   ← the backend team's implementation (see docs/handoff/INTEGRATION.md)
 };
 
 /** Avoid presenting an unavailable service on pages and public endpoints. */

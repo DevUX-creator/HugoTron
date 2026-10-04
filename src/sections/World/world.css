@@ -59,7 +59,12 @@ html.js .world:not([data-status="unavailable"]) .world__poster {
 .world__frame {
   position: fixed;
   z-index: 3;
-  inset: calc(var(--header-inset-block) + var(--header-row) + 2rem) max(24px, 2.5vw) 6rem;
+  inset: calc(var(--header-inset-block) + var(--header-row) + 2rem) max(24px, 2.5vw) auto;
+  /* Height from the locked viewport (--home-vh, see useHomeViewport), not the live one: on
+     phones the collapsing browser bars would otherwise stretch the frame on the first scroll. */
+  block-size: calc(
+    var(--home-vh, 1svh) * 100 - var(--header-inset-block) - var(--header-row) - 8rem
+  );
   border: 1px solid color-mix(in srgb, var(--color-fg-primary) 20%, transparent);
   pointer-events: none;
 }

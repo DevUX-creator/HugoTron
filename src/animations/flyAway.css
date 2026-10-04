@@ -25,9 +25,13 @@
   display: inline-block;
 }
 
-/* Phones: a blur per letter is a filtered layer per letter. Fading and moving reads the same. */
+/* Phones: no flight. Words simply fade with the hand-off (a moving, blurred layer per letter is
+   costly and busy on a small screen). */
 @media (width < 48rem) {
   .flies {
+    translate: none;
+    scale: none;
+    rotate: none;
     filter: none;
   }
 }

@@ -2,7 +2,6 @@
 
 import { useRef, useState, type KeyboardEvent } from "react";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
 import DeliveryMap from "./DeliveryMap";
 
 const TOPICS = ["coverage", "timing", "quantity", "costs"] as const;
@@ -46,14 +45,6 @@ export default function DeliveryExplorer() {
       </h1>
       <DeliveryMap label={t("map.label")} />
       <div className="delivery-explorer__shade" aria-hidden="true" />
-      <nav className="delivery-explorer__crumbs" aria-label={t("breadcrumbLabel")}>
-        <ol>
-          <li>
-            <Link href="/">{t("home")}</Link>
-          </li>
-          <li aria-current="page">{t("name")}</li>
-        </ol>
-      </nav>
 
       <div className="delivery-explorer__content">
         <div className="delivery-explorer__panels">
@@ -99,11 +90,6 @@ export default function DeliveryExplorer() {
           ))}
         </div>
       </div>
-
-      <nav className="delivery-explorer__legal" aria-label={t("legalLabel")}>
-        <Link href="/imprint">{t("imprint")}</Link>
-        <Link href="/privacy">{t("privacy")}</Link>
-      </nav>
     </section>
   );
 }

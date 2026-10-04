@@ -1,7 +1,7 @@
 # Architecture
 
 How the site is built: routes, folders, the main components, and the rules they follow.
-For connecting real systems see [BACKEND.md](BACKEND.md); for phone performance see
+For connecting real systems see [INTEGRATION.md](INTEGRATION.md); for phone performance see
 [PERFORMANCE.md](PERFORMANCE.md).
 
 **Stack:** Next.js 16 (App Router, Turbopack), React 19, TypeScript (strict), next-intl 4,
@@ -65,7 +65,7 @@ src/
 │   ├── sound/           SoundProvider and hooks
 │   ├── providers/       SmoothScroll (Lenis), InlineScript
 │   └── rice/            home theme provider (+ old rice scene, tech debt)
-├── commerce/            shop logic and the backend contract (see BACKEND.md)
+├── commerce/            shop logic and the backend contract (see INTEGRATION.md)
 ├── content/             typed data: products, categories, category stories, films, site,
 │                        legal texts, delivery map and roads
 ├── lib/                 enquiry (form seam), legal source, SEO helpers, rate limit, sound engine
@@ -184,16 +184,18 @@ page entrance. `SmoothScroll` owns Lenis and ScrollTrigger; `useScrollLock()` se
 Every animation respects `prefers-reduced-motion`; content is visible without JavaScript
 (`html.js` gates pre-animation hiding).
 
-**Scenes.** One renderer per page, dynamic import, DPR caps, pause when hidden or offscreen,
-full disposal on unmount, a static fallback when WebGL fails. Details in PERFORMANCE.md.
+**Scenes.** Independent lazily created renderers (the home can have multiple scene/effect
+contexts), DPR caps, pause when hidden or offscreen, GPU disposal on unmount and static
+fallbacks. Repeated-navigation DOM/image retention remains open; see PERFORMANCE.md. Details in PERFORMANCE.md.
 
 **Sound.** `lib/sound/engine.ts` (Web Audio, no library) with assets and mix in `manifest.ts`.
-Nothing loads before the first trusted click or key press; mute persists in
+Playback follows browser gesture/autoplay restrictions; clips may be prefetched during scene
+warmup. Mute persists in
 `hugo-sound-enabled`. `useSound().play("click" | "hover" | "product" | "transition" | "cart")`
 triggers a cue; `data-sound-hover` and `data-sound-click="none"` opt controls in or out.
 
 **Accessibility.** Skip link to `main` on every page, real buttons and links, visible focus,
-dialogs with focus handling, localized labels, AA contrast (axe clean on desktop). Canvases
+dialogs with focus handling, localized labels, contrast checks in tested visible states; full acceptance remains open. Canvases
 are decorative; the DOM carries all information.
 
 **SEO and security.** `pageMetadata()` gives each indexable page title, description,

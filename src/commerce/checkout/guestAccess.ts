@@ -1,12 +1,13 @@
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 
 export const GUEST_ACCESS_SECONDS = 60 * 60 * 24;
-const developmentSecret = randomBytes(32).toString("hex");
+const development = globalThis as typeof globalThis & { __hugoGuestCookieSecret?: string };
 
 function secret(): string {
   const configured = process.env.COMMERCE_COOKIE_SECRET;
   if (configured && Buffer.byteLength(configured) >= 32) return configured;
-  if (process.env.NODE_ENV !== "production") return developmentSecret;
+  if (process.env.NODE_ENV !== "production")
+    return (development.__hugoGuestCookieSecret ??= randomBytes(32).toString("hex"));
   throw new Error("COMMERCE_COOKIE_SECRET must contain at least 32 bytes; see docs/handoff.");
 }
 

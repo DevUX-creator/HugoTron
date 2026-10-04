@@ -17,7 +17,7 @@ export type DevSettings = { allowGuest: boolean; payment: "success" | "fail" };
 
 export async function readDevSettings(): Promise<DevSettings> {
   const defaults: DevSettings = { allowGuest: COMMERCE.checkout.allowGuest, payment: "success" };
-  if (!DEV_TOOLS) return defaults;
+  if (!DEV_TOOLS || (process.env.COMMERCE_BACKEND ?? "mock") !== "mock") return defaults;
   const jar = await cookies();
   const guest = jar.get(DEV_COOKIES.guest)?.value;
   return {

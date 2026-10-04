@@ -13,7 +13,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     /* Strictness. Baseline `strict` plus the four flags the reference repo
-       omitted — see docs/ARCHITECTURE.md "Type safety". */
+       omitted — see docs/handoff/ARCHITECTURE.md "Type safety". */
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,

@@ -21,7 +21,13 @@
     "menu": "Menü",
     "closeMenu": "Menü schließen",
     "delivery": "Lieferung",
-    "rice": "Reis"
+    "rice": "Reis",
+    "explore": "Entdecken",
+    "toggleProducts": "Produkte nach Kategorie anzeigen",
+    "productCount": "{count, plural, one {# Produkt} other {# Produkte}}",
+    "cartCount": "{count, plural, =0 {leer} one {# Artikel} other {# Artikel}}",
+    "language": "Sprache",
+    "legal": "Rechtliches"
   },
   "announcement": {
     "chip": "Lieferung in ganz Europa",
@@ -182,7 +188,7 @@
     "phone": "Telefon",
     "sending": "Wird gesendet …",
     "successTitle": "Danke — Ihre Anfrage liegt uns vor.",
-    "successBody": "Wir lesen jede Anfrage in Hamburg und antworten innerhalb eines Werktags. Wenn es eilt: {phone}.",
+    "successBody": "Wir lesen jede Anfrage in Hamburg und melden uns so bald wie möglich. Wenn es eilt: {phone}.",
     "errorEmail": "Bitte geben Sie eine E-Mail-Adresse an, an die wir antworten können.",
     "errorLong": "Das ist länger, als unser Formular annimmt — senden Sie die Details bitte per E-Mail.",
     "errorRate": "Zu viele Anfragen von dieser Verbindung. Bitte versuchen Sie es in Kürze erneut oder schreiben Sie an {email}.",
@@ -525,7 +531,7 @@
       "titleAccent": "für Europa beschafft.",
       "lead": "Hugo Tron importiert und liefert Reis für Großhändler und Unternehmen: heute Basmati aus Indien und Pakistan, weitere Sorten auf Anfrage. In Haushaltspackungen oder großen Mengen, unter Ihrer eigenen Marke und mit Lieferung an B2B-Kunden in ganz Deutschland.",
       "seoTitle": "Reis-Importeur & B2B-Lieferant – Basmati in Großmengen und Private Label | Hugo Tron",
-      "seoDescription": "Basmati-Reis aus Indien und Pakistan für Großhändler und Unternehmen: Import in großen Mengen, Private Label und Distribution in ganz Deutschland. Angebot bei Hugo Tron, Hamburg, anfragen.",
+      "seoDescription": "Basmati-Reis aus Indien und Pakistan für Großhandel und Unternehmen: Import in großen Mengen, Private Label, Lieferung in ganz Deutschland. Jetzt anfragen.",
       "chapters": {
         "land": {
           "eyebrow": "Wo es wächst",
@@ -549,7 +555,7 @@
       "titleAccent": "vom Hain zur Bestellung.",
       "lead": "Hugo Tron beschafft und importiert Nüsse und Trockenfrüchte (Pistazien, Mandeln, Cashews, Haselnüsse, Walnüsse und weitere Sorten) für Großhändler und Unternehmen, in großen Mengen oder unter Ihrer eigenen Marke, mit Distribution in ganz Deutschland.",
       "seoTitle": "Nüsse & Trockenfrüchte im Großhandel – Pistazien, Mandeln, Cashews | Hugo Tron",
-      "seoDescription": "Pistazien, Mandeln, Cashews, Haselnüsse, Walnüsse und Trockenfrüchte für Großhändler und Unternehmen: Import in großen Mengen, Private Label und Distribution in ganz Deutschland.",
+      "seoDescription": "Pistazien, Mandeln, Cashews, Haselnüsse, Walnüsse und Trockenfrüchte für den Großhandel: Import in großen Mengen, Private Label, Lieferung deutschlandweit.",
       "chapters": {
         "orchard": {
           "eyebrow": "Wo es wächst",
@@ -573,7 +579,7 @@
       "titleAccent": "nach Spezifikation beschafft.",
       "lead": "Hugo Tron beschafft und importiert Gewürze (Ingwer, Zimt, Kardamom und viele weitere) für Großhändler und die Lebensmittelindustrie, in großen Mengen oder unter Ihrer eigenen Marke, mit Distribution in ganz Deutschland.",
       "seoTitle": "Gewürz-Importeur & Großhandelslieferant – Ingwer, Zimt, Kardamom | Hugo Tron",
-      "seoDescription": "Ingwer, Zimt, Kardamom und viele weitere Gewürze für Großhändler und die Lebensmittelindustrie: Beschaffung, Import in großen Mengen, Private Label und Distribution in ganz Deutschland.",
+      "seoDescription": "Ingwer, Zimt, Kardamom und weitere Gewürze für Großhandel und Lebensmittelindustrie: Import in großen Mengen, Private Label, Lieferung deutschlandweit.",
       "chapters": {
         "market": {
           "eyebrow": "Beschaffung",
@@ -597,7 +603,7 @@
       "titleAccent": "Faden für Faden.",
       "lead": "Hugo Tron liefert Premium-Negin-Safran aus dem Iran in 1-g-Packungen und beschafft Safran in größeren Mengen und als Private Label für Großhändler und Unternehmen, mit Distribution in ganz Deutschland.",
       "seoTitle": "Safran-Lieferant – Premium-Negin-Safran, Großhandel & Private Label | Hugo Tron",
-      "seoDescription": "Premium-Negin-Safran aus dem Iran in 1-g-Packungen sowie größere Mengen und Private Label für Großhändler und Unternehmen, mit Distribution in ganz Deutschland.",
+      "seoDescription": "Premium-Negin-Safran aus dem Iran in 1-g-Packungen, dazu größere Mengen und Private Label für Großhandel und Unternehmen, deutschlandweit geliefert.",
       "chapters": {
         "field": {
           "eyebrow": "Wo es wächst",
@@ -621,7 +627,7 @@
       "titleAccent": "im Sack.",
       "lead": "Hugo Tron importiert und liefert Hülsenfrüchte (Kichererbsen, Kidneybohnen, weiße Bohnen, Linsen, rote Linsen, Spalterbsen, Mungbohnen und mehr) in 25-kg-Säcken und großen Mengen für Großhandel und Industrie, mit Distribution in ganz Deutschland.",
       "seoTitle": "Hülsenfrüchte im Großhandel – Kichererbsen, Linsen, Bohnen im 25-kg-Sack | Hugo Tron",
-      "seoDescription": "Kichererbsen, Linsen, rote Linsen, Kidneybohnen, weiße Bohnen, Spalterbsen und Mungbohnen für Großhandel und Industrie: Import in großen Mengen und Distribution in ganz Deutschland.",
+      "seoDescription": "Kichererbsen, Linsen, Kidneybohnen, weiße Bohnen, Spalterbsen und Mungbohnen für Großhandel und Industrie: Import in großen Mengen, Lieferung bundesweit.",
       "chapters": {
         "fields": {
           "eyebrow": "Wo es wächst",
@@ -669,7 +675,7 @@
       "titleAccent": "nach Spezifikation beschafft.",
       "lead": "Über Fertigprodukte hinaus beschafft und importiert Hugo Tron Rohstoffe und weitere Lebensmittel für die Lebensmittelindustrie nach Europa, auch Produkte, die nicht auf dieser Website stehen, und verteilt sie in ganz Deutschland.",
       "seoTitle": "Lebensmittelrohstoffe beschaffen & importieren für die Industrie | Hugo Tron",
-      "seoDescription": "Rohstoffe und Lebensmittel für die Lebensmittelindustrie, nach Ihrer Spezifikation beschafft und nach Europa importiert, auch Produkte, die nicht online stehen. Distribution in ganz Deutschland.",
+      "seoDescription": "Rohstoffe für die Lebensmittelindustrie, nach Ihrer Spezifikation beschafft und importiert, auch was nicht online steht. Lieferung in ganz Deutschland.",
       "chapters": {
         "mill": {
           "eyebrow": "Für die Lebensmittelindustrie",
@@ -866,7 +872,7 @@
     "skip": "Zum Inhalt springen",
     "products": {
       "metaTitle": "Unsere Produkte — online kaufen oder anfragen | Hugo Tron",
-      "metaDescription": "Basmati-Reis, Safran, Tee, Nüsse, Hülsenfrüchte und Gewürze von Hugo Tron, Hamburg: Haushaltspackungen online kaufen, Großhandelspreise für größere Mengen anfragen.",
+      "metaDescription": "Basmati-Reis, Safran, Tee, Nüsse, Hülsenfrüchte und Gewürze von Hugo Tron, Hamburg: Haushaltspackungen online kaufen, Großhandelspreise anfragen.",
       "title": "Unsere Produkte",
       "lead": "Haushaltspackungen online kaufen und sicher bezahlen, oder Großhandelspreise für größere Mengen anfragen. Geliefert aus Hamburg.",
       "filterLabel": "Nach Kategorie filtern",
@@ -1172,7 +1178,7 @@
   },
   "contact": {
     "metaTitle": "Kontakt — Hugo Tron, Hamburg",
-    "metaDescription": "Großhandelspreis, Muster oder Private Label anfragen, Hilfe zu einer Bestellung oder einfach Hallo sagen. WhatsApp, E-Mail, Telefon oder Formular: Wir antworten innerhalb eines Werktags.",
+    "metaDescription": "Großhandelspreis, Muster oder Private Label anfragen, Hilfe zu einer Bestellung oder einfach Hallo sagen: per WhatsApp, E-Mail, Telefon oder Formular.",
     "eyebrow": "Kontakt",
     "title": "Sprechen wir.",
     "lead": "Preise, Muster, Private Label, eine Bestellung unterwegs oder etwas anderes. Wählen Sie unten ein Thema oder erreichen Sie uns direkt per WhatsApp, E-Mail oder Telefon.",
@@ -1204,7 +1210,7 @@
       "phone": "Telefon",
       "instagram": "Instagram",
       "address": "Adresse",
-      "response": "Wir beantworten jede Nachricht aus Hamburg innerhalb eines Werktags."
+      "response": "Wir beantworten jede Nachricht aus Hamburg persönlich."
     }
   },
   "withdrawalFunction": {

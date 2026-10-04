@@ -21,7 +21,13 @@
     "menu": "Menu",
     "closeMenu": "Close menu",
     "delivery": "Delivery",
-    "rice": "Rice"
+    "rice": "Rice",
+    "explore": "Explore",
+    "toggleProducts": "Show products by category",
+    "productCount": "{count, plural, one {# product} other {# products}}",
+    "cartCount": "{count, plural, =0 {empty} one {# item} other {# items}}",
+    "language": "Language",
+    "legal": "Legal"
   },
   "announcement": {
     "chip": "Delivery across Europe",
@@ -182,7 +188,7 @@
     "phone": "Phone",
     "sending": "Sending…",
     "successTitle": "Thank you — that’s with us.",
-    "successBody": "We read every enquiry in Hamburg and answer within one working day. If it is urgent, call {phone}.",
+    "successBody": "We read every enquiry in Hamburg and reply as soon as we can. If it is urgent, call {phone}.",
     "errorEmail": "Please give an email address we can answer.",
     "errorLong": "That is longer than our form accepts — send the detail by email instead.",
     "errorRate": "Too many enquiries from this connection. Please try again shortly, or email {email}.",
@@ -525,7 +531,7 @@
       "titleAccent": "sourced for Europe.",
       "lead": "Hugo Tron imports and supplies rice for wholesalers and companies: basmati from India and Pakistan today, further types on request. In retail packs or large volumes, under your own label, and delivered to B2B customers throughout Germany.",
       "seoTitle": "Rice importer & B2B supplier — basmati in bulk and private label | Hugo Tron",
-      "seoDescription": "Basmati rice from India and Pakistan for wholesalers and companies: import in large volumes, private label and distribution throughout Germany. Request an offer from Hugo Tron, Hamburg.",
+      "seoDescription": "Basmati rice from India and Pakistan for wholesalers and companies: bulk import, private label and delivery throughout Germany. Request an offer.",
       "chapters": {
         "land": {
           "eyebrow": "Where it grows",
@@ -549,7 +555,7 @@
       "titleAccent": "from orchard to order.",
       "lead": "Hugo Tron sources and imports nuts and dried fruits (pistachios, almonds, cashews, hazelnuts, walnuts and other varieties) for wholesalers and companies, in large volumes or under your own label, with distribution throughout Germany.",
       "seoTitle": "Nuts & dried fruits wholesale — pistachios, almonds, cashews | Hugo Tron",
-      "seoDescription": "Pistachios, almonds, cashews, hazelnuts, walnuts and dried fruits for wholesalers and companies: import in large volumes, private label and distribution throughout Germany.",
+      "seoDescription": "Pistachios, almonds, cashews, hazelnuts, walnuts and dried fruits for wholesalers and companies: bulk import, private label, delivery across Germany.",
       "chapters": {
         "orchard": {
           "eyebrow": "Where it grows",
@@ -573,7 +579,7 @@
       "titleAccent": "sourced to specification.",
       "lead": "Hugo Tron sources and imports spices (ginger, cinnamon, cardamom and a wide range of others) for wholesalers and the food industry, in large volumes or under your own label, with distribution throughout Germany.",
       "seoTitle": "Spices importer & wholesale supplier — ginger, cinnamon, cardamom | Hugo Tron",
-      "seoDescription": "Ginger, cinnamon, cardamom and many more spices for wholesalers and the food industry: sourcing, import in large volumes, private label and distribution throughout Germany.",
+      "seoDescription": "Ginger, cinnamon, cardamom and many more spices for wholesalers and the food industry: bulk import, private label and delivery across Germany.",
       "chapters": {
         "market": {
           "eyebrow": "Sourcing",
@@ -621,7 +627,7 @@
       "titleAccent": "by the sack.",
       "lead": "Hugo Tron imports and supplies pulses and legumes (chickpeas, kidney beans, white beans, lentils, red lentils, split peas, mung beans and more) in 25 kg sacks and large volumes for wholesalers and industry, with distribution throughout Germany.",
       "seoTitle": "Pulses & legumes wholesale — chickpeas, lentils, beans in 25 kg sacks | Hugo Tron",
-      "seoDescription": "Chickpeas, lentils, red lentils, kidney beans, white beans, split peas and mung beans for wholesalers and industry: import in large volumes and distribution throughout Germany.",
+      "seoDescription": "Chickpeas, lentils, kidney beans, white beans, split peas and mung beans for wholesalers and industry: bulk import and delivery throughout Germany.",
       "chapters": {
         "fields": {
           "eyebrow": "Where it grows",
@@ -669,7 +675,7 @@
       "titleAccent": "sourced to specification.",
       "lead": "Beyond finished products, Hugo Tron sources and imports raw materials and other food products for the food industry into Europe, including products that are not listed on this website, and distributes them throughout Germany.",
       "seoTitle": "Food raw materials sourcing & import for the food industry | Hugo Tron",
-      "seoDescription": "Raw materials and food products for the food industry, sourced and imported into Europe to your specification, including products not listed online. Distribution throughout Germany.",
+      "seoDescription": "Raw materials for the food industry, sourced and imported to your specification, including products not listed online. Delivery throughout Germany.",
       "chapters": {
         "mill": {
           "eyebrow": "For the food industry",
@@ -1172,7 +1178,7 @@
   },
   "contact": {
     "metaTitle": "Contact — Hugo Tron, Hamburg",
-    "metaDescription": "Ask for a wholesale price, a sample or private label, get help with an order, or just say hello. WhatsApp, email, phone or the form: we answer within one working day.",
+    "metaDescription": "Ask for a wholesale price, a sample or private label, get help with an order, or just say hello: by WhatsApp, email, phone or the form.",
     "eyebrow": "Contact",
     "title": "Let’s talk.",
     "lead": "Prices, samples, private label, an order on its way, or anything else. Choose a topic below, or reach us directly on WhatsApp, by email or by phone.",
@@ -1204,7 +1210,7 @@
       "phone": "Phone",
       "instagram": "Instagram",
       "address": "Address",
-      "response": "We answer every message from Hamburg within one working day."
+      "response": "We answer every message personally, from Hamburg."
     }
   },
   "withdrawalFunction": {

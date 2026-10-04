@@ -1,6 +1,7 @@
 import { hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { routing } from "@/i18n/routing";
 import { commerceMetadata } from "@/commerce/pageMeta";
 import { guestCheckoutAllowed } from "@/commerce/dev/settings";
@@ -16,11 +17,12 @@ type Props = { params: Promise<{ locale: string }> };
 
 export const generateMetadata = ({ params }: Props) => commerceMetadata(params, "checkout");
 
-/** Checkout: contact, delivery, payment, review. See docs/BACKEND.md for the flow. */
+/** Checkout: contact, delivery, payment, review. See docs/handoff/INTEGRATION.md for the flow. */
 export default async function CheckoutPage({ params }: Props) {
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
+  await connection();
   if (!commerceAvailable()) return <ServiceUnavailable />;
   const session = await getSession();
   const customer = session

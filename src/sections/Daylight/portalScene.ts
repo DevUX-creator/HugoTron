@@ -178,11 +178,18 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
     paperUniforms.uProgress.value = revealValue;
     element.dataset.reveal = revealValue.toFixed(3);
   };
+  let sizedWidth = 0,
+    sizedHeight = 0;
   const resize = () => {
     // Layout dimensions stay full-sized throughout the reveal. Transformed bounding
     // rectangles previously allocated a tiny canvas and stretched it into a blur.
     const width = Math.max(host.clientWidth, 1);
     const height = Math.max(host.clientHeight, 1);
+    // Resizing clears the canvas. Skip no-op resizes (phone toolbars fire many), and redraw a
+    // real one in the same frame, so the opening never shows an empty, dark frame.
+    if (width === sizedWidth && height === sizedHeight) return;
+    sizedWidth = width;
+    sizedHeight = height;
     renderer.setSize(width, height, false);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
@@ -192,7 +199,10 @@ export async function createPortalScene(element: HTMLElement, reduced: boolean) 
     sculpture.uniforms.resolution.value.set(renderer.domElement.width, renderer.domElement.height);
     sculpture.uniforms.nearClip.value = camera.near;
     sculpture.uniforms.farClip.value = camera.far;
-    wake();
+    if (visible && !disposed && !document.hidden) {
+      cancelAnimationFrame(frame);
+      render(performance.now());
+    } else wake();
   };
   const render = (now: number) => {
     frame = 0;

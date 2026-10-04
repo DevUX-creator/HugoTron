@@ -232,6 +232,11 @@ html.js .world-journey[data-status="loading"] .world-orbit {
 }
 
 @media (width < 48rem) {
+  /* Phones: the chapter copy fades in place. */
+  .world-journey[data-enhanced="true"] .world-orbit__heading {
+    transform: none;
+    filter: none;
+  }
   .world-orbit__poster {
     background-image: url("/models/world/orbit-dark-mobile.webp");
   }
