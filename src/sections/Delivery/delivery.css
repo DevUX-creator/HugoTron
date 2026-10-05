@@ -180,7 +180,7 @@
 .delivery-map__instruments {
   position: absolute;
   z-index: 2;
-  inset: auto max(3.5rem, 6vw) 13rem auto;
+  inset: auto max(3.5rem, 6vw) 8.5rem auto;
   inline-size: 11rem;
   display: grid;
   justify-items: center;
@@ -256,7 +256,9 @@
 .delivery-map__controls {
   position: absolute;
   z-index: 2;
-  inset: auto max(3.5rem, 6vw) 8.5rem auto;
+  /* Speed, zoom and reset sit in the frame's top-right corner (the frame is in world.css). */
+  inset: calc(var(--header-inset-block) + var(--header-row) + 3.25rem)
+    calc(max(24px, 2.5vw) + 1.25rem) auto auto;
   display: flex;
   gap: 0.5rem;
 }
