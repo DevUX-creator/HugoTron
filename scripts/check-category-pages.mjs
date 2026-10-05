@@ -32,11 +32,15 @@ try {
       );
       const scene = page.locator(".category-world__scene");
       const activate = page.locator(".category-interaction button");
-      await activate.click();
-      await page.waitForFunction((rice) => {
-        const state = document.querySelector(".category-world__scene").dataset;
-        return rice ? state.playing === "true" : Number(state.productInteraction) > 0.15;
-      }, slug === "rice");
+      if (width < 768) {
+        assert.equal(await activate.isVisible(), false, "scene actions stay hidden on mobile");
+      } else {
+        await activate.click();
+        await page.waitForFunction((rice) => {
+          const state = document.querySelector(".category-world__scene").dataset;
+          return rice ? state.playing === "true" : Number(state.productInteraction) > 0.15;
+        }, slug === "rice");
+      }
 
       await page.evaluate(() => scrollTo(0, innerHeight * 1.65));
       await page.waitForFunction((rice) => {

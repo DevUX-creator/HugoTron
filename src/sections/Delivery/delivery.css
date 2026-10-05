@@ -479,35 +479,38 @@
     display: flex;
   }
   .delivery-map__instruments {
-    inset: 12.2rem 2.5rem auto auto;
-    inline-size: 6rem;
-    gap: 0.4rem;
+    /* The shared frame ends 6rem above the viewport edge. Keep readouts below it. */
+    inset: auto 2.5rem max(1.25rem, env(safe-area-inset-bottom));
+    inline-size: auto;
+    grid-template-columns: minmax(0, 1fr) 3.5rem;
+    place-items: center start;
+    gap: 0.25rem 1rem;
   }
   .delivery-map__location > span {
     display: none;
   }
   .delivery-map__location {
-    max-inline-size: 6rem;
+    grid-column: 1;
+    grid-row: 1;
+    align-self: end;
+    max-inline-size: 100%;
+    text-align: start;
     line-height: 1.3;
   }
   .delivery-map__location strong {
-    font-size: 0.6rem;
+    font-size: 0.6875rem;
   }
   .delivery-map__tip {
-    inset: 9.2rem 2.5rem auto;
+    inset: calc(var(--header-inset-block) + var(--header-row) + 9.5rem) 2.5rem auto;
     inline-size: auto;
     translate: none;
   }
   .delivery-map__controls {
-    inset: 9.2rem 2.5rem auto auto;
+    inset: calc(var(--header-inset-block) + var(--header-row) + 4rem) 2.5rem auto auto;
     gap: 0.35rem;
   }
-  .delivery-map__controls button {
-    inline-size: 2.5rem;
-    block-size: 2.5rem;
-  }
   .delivery-explorer {
-    min-block-size: 40rem;
+    min-block-size: 0;
   }
   .delivery-explorer__shade {
     background: linear-gradient(
@@ -555,13 +558,17 @@
     block-size: 0.4rem;
   }
   .delivery-compass {
-    inline-size: 3rem;
+    grid-column: 2;
+    grid-row: 1 / 3;
+    inline-size: 3.5rem;
   }
 }
 
-@media (width >= 48rem) and (width < 64rem) and (orientation: portrait) {
-  .delivery-compass {
-    inline-size: 4rem;
+@media (width < 48rem) {
+  .delivery-map__controls {
+    inset-block-start: calc(var(--header-inset-block) + var(--header-row) + 3rem);
+    display: grid;
+    grid-template-columns: repeat(2, 2.75rem);
   }
 }
 
@@ -597,9 +604,6 @@
     font-size: 0.625rem;
     min-block-size: 2.5rem;
     padding-block: 0.4rem;
-  }
-  .delivery-compass {
-    inline-size: 2.2rem;
   }
 }
 html:not(.js) .delivery-explorer {
@@ -809,34 +813,36 @@ html:not(.js) .delivery-map__tip {
 }
 
 @media (width < 48rem), (width < 64rem) and (orientation: portrait) {
+  .delivery-map__run {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.2rem 0.6rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    text-align: start;
+  }
   .delivery-run__result output {
-    font-size: 0.95rem;
+    font-size: 0.875rem;
   }
   .delivery-run__result {
     gap: 0;
     margin-block: 0;
   }
-  .delivery-map__run {
-    padding-block-end: 0.4rem;
-  }
   .delivery-run__label,
+  .delivery-run__result button {
+    /* The same reset action is available in the top-right controls. */
+    display: none;
+  }
   .delivery-run__progress {
     font-size: 0.5rem;
   }
-  .delivery-map__location strong {
-    font-size: 0.5625rem;
-  }
 }
 
-@media (height < 44rem) and (width < 48rem) {
-  .delivery-map__instruments {
-    inset-block-start: 11.75rem;
-    gap: 0.25rem;
-  }
-  .delivery-map__run {
-    padding-block-end: 0.2rem;
-  }
-}
 html:not(.js) .delivery-map__run {
   display: none;
 }
@@ -852,27 +858,6 @@ html:not(.js) .delivery-map__run {
   color: var(--color-world-neon-hot);
 }
 
-@media (height < 44rem) and (width < 48rem) {
-  .delivery-map__instruments {
-    inset: 11.7rem 2.5rem auto;
-    inline-size: auto;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 3rem;
-  }
-  .delivery-map__run {
-    grid-column: 1;
-    grid-row: 1 / 3;
-    border: 0;
-  }
-  .delivery-map__location {
-    grid-column: 2;
-    grid-row: 1;
-  }
-  .delivery-compass {
-    grid-column: 2;
-    grid-row: 2;
-  }
-}
 .delivery-stop__pool {
   fill: url("#delivery-client-glow");
 }

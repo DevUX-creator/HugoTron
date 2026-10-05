@@ -603,7 +603,8 @@ html:not(.js) .category-chapter {
   .category-quantity h2 {
     font-size: clamp(1.7rem, 8.4vw, 2.8rem);
   }
-  .category-interaction p {
+  /* Keep the mobile product view clear of scene-only actions and their hints. */
+  .category-interaction {
     display: none;
   }
   .category-quantity__buy {
