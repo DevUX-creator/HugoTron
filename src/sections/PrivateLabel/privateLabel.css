@@ -237,7 +237,7 @@ html:not(.js) .label-room__loading {
     min-block-size: 40rem;
   }
   .label-room__chapter {
-    inset: auto 2.5rem 11.5rem;
+    inset: auto 2.5rem calc(var(--world-mobile-frame-inset) + 5.5rem);
     inline-size: auto;
   }
   .label-room__chapter h1,
@@ -264,7 +264,7 @@ html:not(.js) .label-room__loading {
     );
   }
   .label-room__chapters {
-    inset: auto 2.5rem 7rem;
+    inset: auto 2.5rem calc(var(--world-mobile-frame-inset) + 1rem);
     justify-content: space-between;
     gap: 0.25rem;
   }
@@ -309,7 +309,7 @@ html:not(.js) .label-room__loading {
 @media (width < 48rem) {
   @container label-stage (height < 45rem) {
     .label-room__chapter {
-      inset-block-end: 9.25rem;
+      inset-block-end: calc(var(--world-mobile-frame-inset) + 5rem);
     }
     .label-room__chapter h1,
     .label-room__chapter h2 {

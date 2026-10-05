@@ -5,12 +5,15 @@ import SoundToggle from "@/components/sound/SoundToggle";
 import { useHomeViewport } from "./useHomeViewport";
 
 /** Page furniture belongs outside either scene so a chapter can never carry it away. */
-export default function WorldFrame() {
+export default function WorldFrame({ compactMobile = false }: { compactMobile?: boolean }) {
   useHomeViewport();
   const t = useTranslations("world");
   return (
     <>
-      <div className="world__frame" aria-hidden="true">
+      <div
+        className={`world__frame${compactMobile ? " world__frame--compact-mobile" : ""}`}
+        aria-hidden="true"
+      >
         <span />
         <span />
       </div>

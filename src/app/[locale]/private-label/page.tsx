@@ -44,7 +44,7 @@ export default async function PrivateLabelPage({
         {t("skip")}
       </a>
       <Header brandLogo showSoundToggle={false} />
-      <WorldFrame />
+      <WorldFrame compactMobile />
       <main id="main" tabIndex={-1}>
         <LabelRoom />
       </main>

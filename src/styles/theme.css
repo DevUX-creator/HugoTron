@@ -356,6 +356,8 @@
   --header-inset-inline: clamp(1rem, 0.5rem + 2vw, 2.5rem);
   --header-row: 1rem;
   --header-clearance: calc(var(--header-inset-block) * 2 + var(--header-row));
+  /* Story pages without below-frame controls use the available mobile height. */
+  --world-mobile-frame-inset: max(1.5rem, env(safe-area-inset-bottom));
 
   --header-height: clamp(4rem, 3.25rem + 2.5vw, 5.5rem);
   --grid-columns: 12;

@@ -59,7 +59,7 @@ export default async function WholesalePage({ locale }: { locale: Locale }) {
         {t("skip")}
       </a>
       <Header brandLogo showSoundToggle={false} />
-      <WorldFrame />
+      <WorldFrame compactMobile />
       <main id="main" tabIndex={-1} className="wholesale">
         <WholesaleHall />
       </main>

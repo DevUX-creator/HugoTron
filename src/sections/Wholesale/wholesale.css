@@ -200,6 +200,9 @@
 }
 
 @media (width < 48rem) {
+  .hall {
+    --hall-chapter-bottom: calc(var(--world-mobile-frame-inset) + 1.5rem);
+  }
   .hall__shade {
     background:
       linear-gradient(
@@ -216,7 +219,7 @@
       );
   }
   .hall-chapter {
-    inset: auto 2.5rem 7.5rem;
+    inset: auto 2.5rem var(--hall-chapter-bottom);
     inline-size: auto;
     gap: 0.9rem;
   }
@@ -269,7 +272,7 @@
 @container hall-stage (height < 44rem) {
   .hall-chapter {
     gap: 0.75rem;
-    inset-block-end: 7.25rem;
+    inset-block-end: var(--hall-chapter-bottom, 7.25rem);
   }
   .hall__title,
   .hall-chapter h2 {

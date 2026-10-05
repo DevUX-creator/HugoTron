@@ -57,13 +57,15 @@ html.js .world:not([data-status="unavailable"]) .world__poster {
   pointer-events: none;
 }
 .world__frame {
+  --world-frame-bottom: 6rem;
   position: fixed;
   z-index: 3;
   inset: calc(var(--header-inset-block) + var(--header-row) + 2rem) max(24px, 2.5vw) auto;
   /* Height from the locked viewport (--home-vh, see useHomeViewport), not the live one: on
      phones the collapsing browser bars would otherwise stretch the frame on the first scroll. */
   block-size: calc(
-    var(--home-vh, 1svh) * 100 - var(--header-inset-block) - var(--header-row) - 8rem
+    var(--home-vh, 1svh) * 100 - var(--header-inset-block) - var(--header-row) - 2rem -
+      var(--world-frame-bottom)
   );
   border: 1px solid color-mix(in srgb, var(--color-fg-primary) 20%, transparent);
   pointer-events: none;
@@ -414,6 +416,9 @@ html:not(.js) .world__loading {
 }
 
 @media (width < 48rem) {
+  .world__frame--compact-mobile {
+    --world-frame-bottom: var(--world-mobile-frame-inset);
+  }
   .world__identity {
     inset: calc(var(--header-inset-block) + var(--header-row) + 3rem) auto auto 2.5rem;
   }
