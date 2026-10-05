@@ -17,6 +17,10 @@ this folder. Repository-root paths below refer to the application, not this dire
 
 ## Supporting references
 
+- [SOCIAL-ASSETS.md](SOCIAL-ASSETS.md): generated sharing banners, metadata mapping, original
+  favicon, source prompts and export instructions.
+- [COOKIES-AND-LEGAL.md](COOKIES-AND-LEGAL.md): notice behavior, browser-storage inventory,
+  existing legal routes and the policy updates still needed before launch.
 - [ARCHITECTURE.md](ARCHITECTURE.md): current routes, folders and scene ownership.
 - [CLIENT-INPUT.md](CLIENT-INPUT.md): decisions and source material Hugo Tron must supply.
 - [PERFORMANCE.md](PERFORMANCE.md): measurements, reproduction and device-test limits.

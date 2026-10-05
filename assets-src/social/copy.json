@@ -1,0 +1,62 @@
+{
+  "world": {
+    "en": {
+      "label": "THE HUGO TRON WORLD",
+      "title": ["A WORLD OF", "GOOD INGREDIENTS."],
+      "note": "Sourcing. Import. Distribution."
+    },
+    "de": {
+      "label": "DIE WELT VON HUGO TRON",
+      "title": ["EINE WELT", "GUTER ZUTATEN."],
+      "note": "Beschaffung. Import. Vertrieb."
+    }
+  },
+  "products": {
+    "en": {
+      "label": "OUR PRODUCTS",
+      "title": ["GOOD FOOD.", "MANY POSSIBILITIES."],
+      "note": "Rice, nuts, pulses, spices and more."
+    },
+    "de": {
+      "label": "UNSER SORTIMENT",
+      "title": ["GUTE ZUTATEN.", "VIELE MÖGLICHKEITEN."],
+      "note": "Reis, Nüsse, Hülsenfrüchte, Gewürze und mehr."
+    }
+  },
+  "wholesale": {
+    "en": {
+      "label": "WHOLESALE & SOURCING",
+      "title": ["SOURCING.", "SUPPLY.", "PARTNERSHIP."],
+      "note": "Your food sourcing and supply partner."
+    },
+    "de": {
+      "label": "GROSSHANDEL & SOURCING",
+      "title": ["BESCHAFFUNG.", "VERSORGUNG.", "PARTNERSCHAFT."],
+      "note": "Ihr Partner für Lebensmittel und Rohstoffe."
+    }
+  },
+  "private-label": {
+    "en": {
+      "label": "PRIVATE LABEL",
+      "title": ["YOUR BRAND.", "OUR SOURCING."],
+      "note": "Products and packaging shaped around you."
+    },
+    "de": {
+      "label": "PRIVATE LABEL",
+      "title": ["IHRE MARKE.", "UNSER SOURCING."],
+      "note": "Produkte und Verpackungen nach Ihrem Bedarf."
+    }
+  },
+  "delivery": {
+    "en": {
+      "label": "DISTRIBUTION & DELIVERY",
+      "title": ["FROM HAMBURG.", "TO YOUR DOOR."],
+      "note": "Warehousing. Distribution. Delivery."
+    },
+    "de": {
+      "label": "DISTRIBUTION & LIEFERUNG",
+      "title": ["VON HAMBURG.", "BIS ZU IHNEN."],
+      "note": "Lagerung. Distribution. Lieferung."
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
@@ -11,15 +11,27 @@ import Cursor from "@/components/ui/Cursor";
 import CartProvider from "@/components/commerce/cart/CartProvider";
 import CartDrawer from "@/components/commerce/cart/CartDrawer";
 import SoundProvider from "@/components/sound/SoundProvider";
+import CookieNotice from "@/components/legal/CookieNotice";
 import { HOME_THEME_STORAGE_KEY } from "@/components/rice/themePreference";
+import { COMPANY } from "@/content/site";
 import "@/styles/globals.css";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+/* The phone's browser bar takes the World's night colour (styles/theme.css --color-world-night). */
+export const viewport: Viewport = { themeColor: "#0a1320" };
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.hugo-tron.com"),
+  /* Location hints for local search (Hamburg, Friesenweg 2b). */
+  other: {
+    "geo.region": COMPANY.regionCode,
+    "geo.placename": COMPANY.city,
+    "geo.position": `${COMPANY.latitude};${COMPANY.longitude}`,
+    ICBM: `${COMPANY.latitude}, ${COMPANY.longitude}`,
+  },
 };
 
 export default async function LocaleLayout({
@@ -59,6 +71,7 @@ export default async function LocaleLayout({
               <CartProvider>
                 {children}
                 <CartDrawer />
+                <CookieNotice />
               </CartProvider>
             </SmoothScroll>
           </SoundProvider>

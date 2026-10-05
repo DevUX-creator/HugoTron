@@ -85,6 +85,12 @@
     "nextProduct": "Next product",
     "productsLabel": "Explore our products"
   },
+  "cookieNotice": {
+    "title": "Cookies & your privacy",
+    "body": "We use cookies and browser storage for your cart, sign-in and settings such as sound and theme. This site currently uses no analytics or advertising trackers.",
+    "dismiss": "Understood",
+    "links": "Privacy and legal information"
+  },
   "menu": {
     "terms": "Terms",
     "withdrawal": "Right of withdrawal",

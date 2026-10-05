@@ -4,6 +4,7 @@ import { FullScreenQuad } from "three/addons/postprocessing/Pass.js";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { createPalaceStream } from "./palaceStream";
 import { createPalaceDoor } from "./palaceDoor";
+import { createPalaceWalk } from "./palaceCamera";
 import { createWorldRocks } from "@/components/world/rocks";
 import type { HallScene, HallOptions } from "./types";
 
@@ -539,14 +540,7 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
       }`,
   });
   const post = new FullScreenQuad(postMaterial);
-  const path = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0.1, 1.78, 6),
-    new THREE.Vector3(-0.1, 1.78, -4),
-    new THREE.Vector3(0.25, 1.78, -13),
-    new THREE.Vector3(-0.25, 1.78, -25),
-    new THREE.Vector3(0.12, 1.78, -34),
-    new THREE.Vector3(0, 1.78, -41.2),
-  ]);
+  const sampleWalk = createPalaceWalk();
   const eye = new THREE.Vector3(),
     look = new THREE.Vector3();
   const pointer = new THREE.Vector2(),
@@ -560,14 +554,7 @@ export function createPalaceScene(mount: HTMLElement, options: HallOptions): Hal
     notify();
   }
   function place() {
-    // Ease to rest before the threshold so the whole doorway remains in the composition.
-    const approach = THREE.MathUtils.clamp((progress - 0.84) / 0.16, 0, 1);
-    const walk = progress <= 0.84 ? progress : 0.84 + 0.08 * (2 * approach - approach * approach);
-    path.getPointAt(walk, eye);
-    path.getPointAt(Math.min(1, walk + 0.13), look);
-    look.y = 2.6 + Math.sin(progress * Math.PI) * 0.75;
-    if (progress > 0.88) look.set(0, 2.45, -46.8);
-    eye.z -= door * door * 3.6;
+    sampleWalk(progress, door, eye, look);
     if (passage) {
       const step = THREE.MathUtils.smoothstep(passage.elapsed, 0.45, passageDuration);
       eye.lerpVectors(passage.eye, insideDoor, step);

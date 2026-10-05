@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { pageMetadata } from "@/lib/seo";
+import { jsonLd, organizationJsonLd, pageMetadata, websiteJsonLd } from "@/lib/seo";
 
 import Header from "@/components/layout/Header";
 import World from "@/sections/World/World";
@@ -46,6 +46,15 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
         <World />
         <Daylight />
       </main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: jsonLd({
+            "@context": "https://schema.org",
+            "@graph": [organizationJsonLd(), websiteJsonLd()],
+          }),
+        }}
+      />
     </HomeThemeProvider>
   );
 }

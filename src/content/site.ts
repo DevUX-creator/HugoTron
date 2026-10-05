@@ -20,6 +20,11 @@ export const COMPANY = {
   city: "Hamburg",
   /** ISO 3166-1 alpha-2 — for schema.org and for any address formatter. */
   countryCode: "DE",
+  /** ISO 3166-2, for the geo.region meta tag. */
+  regionCode: "DE-HH",
+  /** The building at Friesenweg 2b (OpenStreetMap, October 2026), for maps and local search. */
+  latitude: 53.55863,
+  longitude: 9.90787,
 } as const;
 
 /** Register and tax details, as on the live hugo-tron.com Impressum (October 2026). */

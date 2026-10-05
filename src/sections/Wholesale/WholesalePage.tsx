@@ -4,27 +4,19 @@ import type { Locale } from "@/i18n/routing";
 import Header from "@/components/layout/Header";
 import { HomeThemeProvider } from "@/components/rice/HomeTheme";
 import WorldFrame from "@/sections/World/WorldFrame";
-import { ORGANIZATION_ID, absoluteUrl, alternates, jsonLd, organizationJsonLd } from "@/lib/seo";
+import { ORGANIZATION_ID, absoluteUrl, pageMetadata, jsonLd, organizationJsonLd } from "@/lib/seo";
 import WholesaleHall from "./WholesaleHall";
 import "@/sections/World/world.css";
 import "./wholesale.css";
 
 export async function wholesaleMetadata(locale: Locale): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "wholesale" });
-  const links = alternates("/wholesale", locale);
-  return {
+  return pageMetadata({
     title: t("seoTitle"),
     description: t("seoDescription"),
-    alternates: links,
-    openGraph: {
-      type: "website",
-      siteName: "Hugo Tron",
-      title: t("seoTitle"),
-      description: t("seoDescription"),
-      url: links.canonical,
-      locale: locale === "de" ? "de_DE" : "en_GB",
-    },
-  };
+    href: "/wholesale",
+    locale,
+  });
 }
 
 /** Wholesale capability story, with the catalogue reached through a normal link. */

@@ -5,26 +5,18 @@ import Header from "@/components/layout/Header";
 import DeliveryExplorer from "./DeliveryExplorer";
 import { HomeThemeProvider } from "@/components/rice/HomeTheme";
 import WorldFrame from "@/sections/World/WorldFrame";
-import { absoluteUrl, alternates, jsonLd, organizationJsonLd } from "@/lib/seo";
+import { absoluteUrl, pageMetadata, jsonLd, organizationJsonLd } from "@/lib/seo";
 import "@/sections/World/world.css";
 import "./delivery.css";
 
 export async function deliveryMetadata(locale: Locale): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "delivery" });
-  const links = alternates("/delivery", locale);
-  return {
+  return pageMetadata({
     title: t("seoTitle"),
     description: t("seoDescription"),
-    alternates: links,
-    openGraph: {
-      type: "website",
-      siteName: "Hugo Tron",
-      title: t("seoTitle"),
-      description: t("seoDescription"),
-      url: links.canonical,
-      locale: locale === "de" ? "de_DE" : "en_GB",
-    },
-  };
+    href: "/delivery",
+    locale,
+  });
 }
 
 /** Delivery continues the hall journey as a quiet, Germany-focused atlas. */

@@ -46,6 +46,8 @@ try {
       null,
       { timeout: 60000 },
     );
+    // A first-time visitor dismisses the storage notice before walking the scene.
+    await page.locator(".cookie-notice button").click();
     await page.waitForTimeout(1300);
     assert.equal(await page.locator(".hall .range-product").count(), 0);
     const start = await page.locator(".hall__scene").evaluate((e) => ({ ...e.dataset }));

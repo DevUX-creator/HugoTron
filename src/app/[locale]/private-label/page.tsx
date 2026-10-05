@@ -7,7 +7,7 @@ import Header from "@/components/layout/Header";
 import { HomeThemeProvider } from "@/components/rice/HomeTheme";
 import WorldFrame from "@/sections/World/WorldFrame";
 import LabelRoom from "@/sections/PrivateLabel/LabelRoom";
-import { alternates } from "@/lib/seo";
+import { pageMetadata } from "@/lib/seo";
 import "@/sections/World/world.css";
 import "@/sections/PrivateLabel/privateLabel.css";
 
@@ -22,11 +22,12 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
   const t = await getTranslations({ locale, namespace: "labelRoom" });
-  return {
+  return pageMetadata({
     title: t("seoTitle"),
     description: t("seoDescription"),
-    alternates: alternates("/private-label", locale),
-  };
+    href: "/private-label",
+    locale,
+  });
 }
 export default async function PrivateLabelPage({
   params,

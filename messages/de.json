@@ -85,6 +85,12 @@
     "nextProduct": "Nächstes Produkt",
     "productsLabel": "Unser Sortiment entdecken"
   },
+  "cookieNotice": {
+    "title": "Cookies & Datenschutz",
+    "body": "Wir nutzen Cookies und Browserspeicher für Ihren Warenkorb, die Anmeldung und Einstellungen wie Ton und Design. Diese Website nutzt derzeit keine Analyse- oder Werbetracker.",
+    "dismiss": "Verstanden",
+    "links": "Datenschutz und rechtliche Informationen"
+  },
   "menu": {
     "terms": "AGB",
     "withdrawal": "Widerrufsbelehrung",

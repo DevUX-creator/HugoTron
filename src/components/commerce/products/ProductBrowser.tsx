@@ -63,9 +63,10 @@ export default function ProductBrowser({
           </button>
         ))}
       </div>
-      <p className="shop__count" role="status">
+      {/* The grid's heading (h1 → h2 → product h3), and a polite announcement on filtering. */}
+      <h2 className="shop__count" aria-live="polite">
         {t("count", { count: shown.length })}
-      </p>
+      </h2>
       <div className="shop__grid" id={gridId}>
         {shown.map((product, index) => (
           <div

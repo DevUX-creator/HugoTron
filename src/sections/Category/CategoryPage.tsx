@@ -11,7 +11,7 @@ import {
   ORGANIZATION_ID,
   SITE_URL,
   absoluteUrl,
-  alternates,
+  pageMetadata,
   jsonLd,
   organizationJsonLd,
 } from "@/lib/seo";
@@ -25,20 +25,12 @@ import "./category.css";
 /** Title, description, canonical and hreflang, and Open Graph for one category page. */
 export async function categoryMetadata(story: CategoryStory, locale: Locale): Promise<Metadata> {
   const copy = await getTranslations({ locale, namespace: `category.${story.slug}` });
-  const links = alternates(story.href, locale);
-  return {
+  return pageMetadata({
     title: copy("seoTitle"),
     description: copy("seoDescription"),
-    alternates: links,
-    openGraph: {
-      type: "website",
-      siteName: "Hugo Tron",
-      title: copy("seoTitle"),
-      description: copy("seoDescription"),
-      url: links.canonical,
-      locale: locale === "de" ? "de_DE" : "en_GB",
-    },
-  };
+    href: story.href,
+    locale,
+  });
 }
 
 /** One structured-data graph: the organisation, breadcrumbs, the range and its questions. */

@@ -22,6 +22,10 @@ review. Existing copy and scraped data are inputs, not approval for the new shop
 
 Have Hugo Tron's legal adviser or chosen legal-text service review the actual new journey:
 
+See [COOKIES-AND-LEGAL.md](COOKIES-AND-LEGAL.md) for the storage inventory and existing routes.
+The inherited privacy policy still refers to Wix; the existing terms cover business customers.
+The new storage notice is informational and does not replace provider consent when required.
+
 - Company/address/register/managing-director details and contact channels.
 - Consumer versus business terms, contract formation, payment and delivery wording.
 - Withdrawal eligibility/exceptions, instructions/form/function, returns costs and damage

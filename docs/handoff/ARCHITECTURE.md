@@ -33,7 +33,9 @@ names map to localized URLs in `src/i18n/routing.ts` (e.g. `/range/rice` → `/d
 | `/enquiry`, `/rice`, `/rice-lab`                | —                                                 | Redirects kept for old links                                   |
 
 API routes: `src/app/api/commerce/payments/webhook` and `src/app/api/commerce/auth/[provider]/callback`.
-Also generated: `sitemap.xml`, `robots.txt`, a share image per locale (`opengraph-image.tsx`).
+Also generated: `sitemap.xml`, `robots.txt`. Localized share images are pre-rendered in
+`public/social/`; `src/lib/social.ts` selects the relevant artwork for each page. Browser and
+Apple icons use the original live-site brand asset through Next's app-icon file conventions.
 Old Wix URLs are redirected permanently in `next.config.ts`.
 
 ---

@@ -793,7 +793,7 @@ html:not(.js) .story__line {
   font-size: 0.625rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 .paper-story .paper-contact__member {
   display: inline-flex;

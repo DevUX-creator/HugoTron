@@ -1,0 +1,17 @@
+# Hugo Tron
+
+> Hugo Tron GmbH is a food importer, wholesaler and distributor in Hamburg, Germany. It sources rice (basmati from India and Pakistan), nuts and dried fruits, spices, saffron, tea and pulses, sells household packs online and supplies businesses in volume, including private label, with delivery throughout Germany and across Europe.
+
+Address: Hugo Tron GmbH, Friesenweg 2b, 22763 Hamburg, Germany
+Email: info@hugo-tron.com
+Phone: +49 40 210 788 69
+
+## Pages (German / English)
+
+- [Products](https://www.hugo-tron.com/de/sortiment): all products, buy online or request wholesale prices ([English](https://www.hugo-tron.com/en/products))
+- [Rice](https://www.hugo-tron.com/de/sortiment/reis), [Nuts](https://www.hugo-tron.com/de/sortiment/nuesse), [Spices](https://www.hugo-tron.com/de/sortiment/gewuerze), [Saffron](https://www.hugo-tron.com/de/sortiment/safran), [Tea](https://www.hugo-tron.com/de/sortiment/tee), [Pulses](https://www.hugo-tron.com/de/sortiment/huelsenfruechte), [Raw materials](https://www.hugo-tron.com/de/sortiment/rohstoffe)
+- [Wholesale](https://www.hugo-tron.com/de/grosshandel): supply for wholesalers and businesses ([English](https://www.hugo-tron.com/en/wholesale))
+- [Private label](https://www.hugo-tron.com/de/private-label): sourcing and packaging under the customer's brand
+- [Delivery](https://www.hugo-tron.com/de/lieferung): delivery from the Hamburg warehouse ([English](https://www.hugo-tron.com/en/delivery))
+- [Contact](https://www.hugo-tron.com/de/kontakt): prices, samples, private label, order help ([English](https://www.hugo-tron.com/en/contact))
+- [Imprint](https://www.hugo-tron.com/de/impressum)

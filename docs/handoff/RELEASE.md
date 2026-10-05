@@ -1,6 +1,6 @@
 # Verification and release gates
 
-Updated 4 October 2026. **Not a launch approval.** [OPEN-ITEMS.md](OPEN-ITEMS.md) is the
+Updated 5 October 2026. **Not a launch approval.** [OPEN-ITEMS.md](OPEN-ITEMS.md) is the
 complete owner/acceptance register; [PERFORMANCE.md](PERFORMANCE.md) records unresolved memory
 retention and mobile measurement limits.
 
@@ -53,6 +53,22 @@ The unit/browser mocks do not prove real emails, payment settlement, stock concu
 provider OAuth or fulfilment. Tests must be extended against the selected staging services.
 
 ## Review evidence and limits
+
+5 October follow-up: added a DE/EN informational cookie/storage notice and documented the
+actual storage inventory in [COOKIES-AND-LEGAL.md](COOKIES-AND-LEGAL.md). Existing business
+terms and the inherited Wix privacy text still require approval/update. The notice's
+dismissal is not tracking consent. Also replaced the wholesale camera's abrupt final gaze
+switch with a continuous scroll-based blend, covered by forward/reverse continuity checks.
+211 unit tests and 14 desktop/mobile browser cases passed, including persisted dismissal,
+restricted storage and working legal links. Production build, types, lint and styles passed.
+
+Social follow-up the same day: ten static DE/EN sharing banners (five designs), local original
+brand icons and route-specific Open Graph/Twitter metadata. Production build and source/script
+lint passed; 14 existing browser cases remained green and the two added crawler/asset checks
+passed after matching the PNG favicon convention (16 cases total). Whole-workspace ESLint
+currently also scans an unrelated in-progress `.prof.mjs` scratch file, which reports an unused
+variable; that file was left to its owner. See [SOCIAL-ASSETS.md](SOCIAL-ASSETS.md) for source
+prompts, export instructions and the live-site icon provenance.
 
 Handoff verification: 207 unit tests and 10 desktop/mobile browser cases pass locally, along
 with types, lint, stylelint, formatting, document-link checks and a production build.
