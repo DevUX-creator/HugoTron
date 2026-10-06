@@ -53,6 +53,7 @@ node scripts/profile-home-resources.mjs http://localhost:3213 15 mobile /tmp/hug
 node scripts/profile-home-resources.mjs http://localhost:3213 15 desktop /tmp/hugo-desktop-resources.json
 node scripts/check-world-lifecycle.mjs http://localhost:3213
 node scripts/check-mobile-home.mjs http://localhost:3213
+node scripts/check-mobile-cube.mjs http://localhost:3213
 node scripts/check-mobile-story.mjs http://localhost:3213 webkit
 node scripts/check-mobile-range.mjs http://localhost:3213 webkit
 node scripts/check-category-pages.mjs http://localhost:3213 webkit
@@ -73,6 +74,14 @@ fallbacks, one active film, decoded-frame-driven video uploads and renderer/mate
 are already part of the app. Desktop paper effects and phone story composition intentionally
 differ. Catalogue/commerce pages do not need Three.js. Original media masters live in
 `assets-src/`, outside served `public/`.
+
+Mobile cube quality update, 6 October: the home hero uses up to 2× DPR while the cube is
+visible, capped at 1.8 million drawing-buffer pixels. Product selection and the flight return
+to the 1.25× cap; desktop stays at 1.5×. The cube's surfaces are protected from the mobile
+depth blur and most haze; the entrance focus pull and background atmosphere remain. This
+increases hero pixel work relative to the 4 October measurements above, without adding a
+render pass. `check-mobile-cube.mjs` checks quality transitions, shader errors and a plateau
+in live GPU resources across repeat scrolls. Physical-device thermal/frame checks remain required.
 
 Phones (`width < 48rem`) deliberately skip the heaviest motion: the World → paper hand-off is a
 static torn sheet moved with `translate` (no full-screen shader); the home's video sheets swap

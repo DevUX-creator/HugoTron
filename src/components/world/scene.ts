@@ -78,6 +78,7 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
   }[options.presentation ?? "rice"];
   let width = mount.clientWidth;
   let height = mount.clientHeight;
+  let cubeDetail = false;
   const abort = new AbortController();
   const small = matchMedia("(max-width: 47.999rem)").matches;
   const renderer = new THREE.WebGLRenderer({
@@ -85,7 +86,17 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
     alpha: true,
     powerPreference: "high-performance",
   });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, small ? 1.25 : 1.5));
+  function renderRatio() {
+    if (!small) return Math.min(devicePixelRatio, 1.5);
+    // The readable hero mark needs more samples than the atmospheric journey. Bound the
+    // mobile buffer to 1.8 MP even on tall phones, and restore the lighter scale off the cube.
+    return Math.min(
+      devicePixelRatio,
+      cubeDetail ? 2 : 1.25,
+      Math.sqrt(1_800_000 / Math.max(1, width * height)),
+    );
+  }
+  renderer.setPixelRatio(renderRatio());
   // The cube's thin, polished panels need a sharp refraction buffer on desktop.
   renderer.transmissionResolutionScale = small ? 0.6 : 1;
   renderer.setSize(width, height);
@@ -366,6 +377,19 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
     treeLight.intensity = ready
       ? (dark ? 40 : 30) * (1 - chapter) * (options.presentation ? productLight.tree : 1)
       : 0;
+    const nextDetail =
+      small &&
+      ready &&
+      !options.presentation &&
+      chapter < 0.3 &&
+      (visibleCategory === null || installation.collapse < 0.8);
+    if (nextDetail !== cubeDetail) {
+      cubeDetail = nextDetail;
+      // Change quality under the arrival/flight blur or while the cube folds away.
+      // Reuse the same targets; there is no extra renderer, scene, or per-frame allocation.
+      renderer.setPixelRatio(renderRatio());
+      atmosphere.resize(width, height);
+    }
     atmosphere.render(scene, camera, focusDistance, motionTime, arrival);
     films.update(
       motionTime,
@@ -446,6 +470,7 @@ export function createWorldScene(mount: HTMLElement, options: Options): WorldSce
     if (!width || !height) return;
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
+    renderer.setPixelRatio(renderRatio());
     renderer.setSize(width, height);
     atmosphere.resize(width, height);
     wake();

@@ -28,6 +28,7 @@ export function createWorldAtmosphere(
     chapter: installation.uniforms.chapter,
     inverseProjection: { value: new THREE.Matrix4() },
     cameraWorld: { value: new THREE.Matrix4() },
+    cubeInverse: { value: new THREE.Matrix4() },
     backgroundColor: { value: new THREE.Color() },
     beamFromA: { value: new THREE.Vector2() },
     beamFromB: { value: new THREE.Vector2() },
@@ -62,7 +63,7 @@ export function createWorldAtmosphere(
       uniform vec2 resolution;
       uniform vec2 lensPointer;
       uniform float focus, nearClip, farClip, dark, time, arrival, chapter;
-      uniform mat4 inverseProjection, cameraWorld;
+      uniform mat4 inverseProjection, cameraWorld, cubeInverse;
       uniform vec3 backgroundColor;
       uniform vec2 beamFromA, beamFromB, beamToA, beamToB, beamPower;
       uniform vec3 treeBeamFrom, treeBeamTo;
@@ -109,7 +110,19 @@ export function createWorldAtmosphere(
       }
 
       void main() {
-        float distance = distanceAt(vUv);
+        float depth = texture2D(tDepth, vUv).x;
+        float distance = -perspectiveDepthToViewZ(depth, nearClip, farClip);
+        vec4 view = inverseProjection * vec4(vUv * 2.0 - 1.0, depth * 2.0 - 1.0, 1.0);
+        vec3 world = (cameraWorld * vec4(view.xyz / view.w, 1.0)).xyz;
+        // Protect the actual cube surfaces, not a circular clear patch over the background.
+        // The full-screen entrance blur still runs afterwards, so the focus pull is preserved.
+        ${
+          small
+            ? `vec3 cubeLocal = abs((cubeInverse * vec4(world, 1.0)).xyz);
+        float cubeFocus = (1.0 - smoothstep(0.54, 0.61, max(cubeLocal.x, max(cubeLocal.y, cubeLocal.z))))
+          * coreStrength * (1.0 - smoothstep(0.03, 0.23, chapter));`
+            : "float cubeFocus = 0.0;"
+        }
         // Rear depth blur plus a feathered near-field lens at the bottom of the viewport.
         float rearBlur = smoothstep(mix(0.4, 1.5, chapter), mix(4.8, 6.0, chapter), distance - focus) * 7.5;
         float nearField = 1.0 - smoothstep(focus - 1.5, focus + 0.1, distance);
@@ -119,7 +132,8 @@ export function createWorldAtmosphere(
           * (1.0 - smoothstep(focus - 3.0, focus - 1.5, distance)) * 32.0;
         float foregroundBlur = max(foregroundSoftness(vUv, aspect, lensPointer, time) * nearField * 15.0,
           flightForeground);
-        float blur = max(rearBlur, foregroundBlur);
+        float blur = max(rearBlur, foregroundBlur) * (1.0 - cubeFocus);
+        veil *= 1.0 - cubeFocus;
         vec3 color = texture2D(tColor, vUv).rgb;
         float weight = 1.0;
         if (blur > 0.15) {
@@ -140,9 +154,6 @@ export function createWorldAtmosphere(
         color = mix(color, color * vec3(0.88, 0.97, 1.08) + vec3(0.0015, 0.003, 0.006), veil * 0.35);
 
         // Dissolve the finite terrain in world space, independent of screen size and camera angle.
-        float depth = texture2D(tDepth, vUv).x;
-        vec4 view = inverseProjection * vec4(vUv * 2.0 - 1.0, depth * 2.0 - 1.0, 1.0);
-        vec3 world = (cameraWorld * vec4(view.xyz / view.w, 1.0)).xyz;
         float radius = length(world.xz);
         float lowGround = 1.0 - smoothstep(0.55, 1.6, world.y);
         float terrainFade = smoothstep(2.8, 5.65, radius) * lowGround;
@@ -164,7 +175,7 @@ export function createWorldAtmosphere(
         float pathLength = min(distance, focus + 7.0);
         float airDepth = 1.0 - exp(-max(pathLength - focus * 0.4, 0.0) * 0.045);
         // One shared air colour across surfaces and empty space removes the pasted-on silhouette.
-        color = mix(color, airColor, airDepth * haze * mix(0.16, 0.42, dark));
+        color = mix(color, airColor, airDepth * haze * mix(0.16, 0.42, dark) * mix(1.0, 0.15, cubeFocus));
         color = mix(airColor, color, presence);
         // Let unlit peripheral geometry merge into the navy air, without outlining the model's limits.
         float peripheral = smoothstep(0.38, 0.76, abs(p.x));
@@ -387,12 +398,13 @@ export function createWorldAtmosphere(
     },
     resize(width: number, height: number) {
       const ratio = renderer.getPixelRatio();
-      target.setSize(Math.round(width * ratio), Math.round(height * ratio));
+      renderer.getDrawingBufferSize(particleResolution.value);
+      target.setSize(particleResolution.value.x, particleResolution.value.y);
       openingTarget?.setSize(Math.round(width * 0.5), Math.round(height * 0.5));
       // Blur radius stays consistent in CSS pixels across displays.
       uniforms.resolution.value.set(width, height);
-      particleResolution.value.set(target.width, target.height);
       installation.uniforms.resolution.value.copy(particleResolution.value);
+      installation.uniforms.pixelRatio.value = ratio;
       pixelRatio.value = ratio;
     },
     setLeave(value: number) {
@@ -412,6 +424,7 @@ export function createWorldAtmosphere(
       uniforms.farClip.value = camera.far;
       uniforms.inverseProjection.value.copy(camera.projectionMatrixInverse);
       uniforms.cameraWorld.value.copy(camera.matrixWorld);
+      uniforms.cubeInverse.value.copy(installation.uniforms.cubeMatrix.value).invert();
       uniforms.backgroundColor.value.copy(scene.background as THREE.Color);
       // Keep air continuous throughout the forward flight along the light trails.
       dustOffset.value.set(camera.position.x * 0.25, 0, Math.min(0, camera.position.z - 7.13));
