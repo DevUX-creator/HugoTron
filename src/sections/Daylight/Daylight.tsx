@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { worldHandoff } from "@/sections/World/handoff";
 import { useReducedMotion } from "@/lib/useReducedMotion";
+import { usePaperTheme } from "@/components/rice/HomeTheme";
 import PaperStory from "./PaperStory";
 import { useToneFill } from "./useToneFill";
 import "./daylight.css";
@@ -15,18 +16,21 @@ export default function Daylight() {
   const root = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
+  const setPaper = usePaperTheme();
   const { canvas, draw } = useToneFill("--color-world-paper");
 
   useEffect(() => {
     const element = track.current;
     const wrapper = root.current;
     if (!element || !wrapper) return;
-    const html = document.documentElement;
     const journey = document.querySelector<HTMLElement>(".world-journey");
     let frame = 0;
     let lastProgress = -1;
     const update = () => {
       frame = 0;
+      // A frame scheduled just before navigating away can run after this page has left the
+      // document (the route's scroll-to-top fires one); it must not touch the next page.
+      if (!wrapper.isConnected) return;
       const enhanced = !reduced && journey?.dataset.enhanced === "true";
       if (wrapper.dataset.enhanced !== String(enhanced))
         wrapper.dataset.enhanced = String(enhanced);
@@ -42,14 +46,11 @@ export default function Daylight() {
       if (progress === lastProgress) return;
       lastProgress = progress;
       // Letter, film and material share the same start and finish, in either scroll direction.
-      html.style.setProperty("--leave", progress.toFixed(4));
+      setPaper(progress > 0.91, progress);
       worldHandoff.set(progress);
       draw.current(progress);
       wrapper.style.setProperty("--paper-enter", clamp((progress - 0.72) / 0.28).toFixed(4));
       wrapper.dataset.arrived = String(progress >= 0.98);
-      const light = progress > 0.91;
-      html.dataset.homeTheme = light ? "light" : "dark";
-      html.toggleAttribute("data-world-paper", light);
       wrapper.dataset.handoff = progress.toFixed(3);
     };
     const schedule = () => {
@@ -71,13 +72,10 @@ export default function Daylight() {
       readiness.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
-      // The theme belongs to the page's HomeThemeProvider. This cleanup runs after the next
-      // page has already set its own theme, so writing one here would override it.
-      html.removeAttribute("data-world-paper");
-      html.style.removeProperty("--leave");
+      setPaper(false);
       worldHandoff.set(0);
     };
-  }, [draw, reduced]);
+  }, [draw, reduced, setPaper]);
 
   return (
     <div ref={root} className="daylight">

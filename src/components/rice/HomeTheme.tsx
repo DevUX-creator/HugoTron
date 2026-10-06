@@ -4,12 +4,14 @@ import {
   createContext,
   useContext,
   useLayoutEffect,
+  useState,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
 import { useTranslations } from "next-intl";
 import { HOME_THEME_STORAGE_KEY } from "./themePreference";
-import "./homeTheme.css";
+import InlineScript from "@/components/providers/InlineScript";
+import { createPageThemes } from "./pageTheme";
 
 let selectedTheme: boolean | undefined;
 const listeners = new Set<() => void>();
@@ -41,7 +43,6 @@ function subscribeTheme(listener: () => void) {
 function setDark(dark: boolean) {
   selectedTheme = dark;
   const theme = dark ? "dark" : "light";
-  document.documentElement.dataset.homeTheme = theme;
   try {
     window.localStorage.setItem(HOME_THEME_STORAGE_KEY, theme);
   } catch {
@@ -50,27 +51,21 @@ function setDark(dark: boolean) {
   for (const listener of listeners) listener();
 }
 
-/**
- * Every mounted provider claims a theme; the newest claim owns `html[data-home-theme]`.
- * During a client navigation the page being left may unmount (or be hidden) after the next
- * page has set its theme. Deleting the attribute on unmount then left a paper page without a
- * theme, so headings, logo and footer fell back to the dark palette's light text until a
- * reload. With claims, unmount order no longer matters.
- */
-const themeClaims: { theme: string }[] = [];
-
-function applyThemeClaims() {
+const pageThemes = createPageThemes(({ theme, paper, leave }) => {
   const root = document.documentElement;
-  const top = themeClaims[themeClaims.length - 1];
-  if (!top) delete root.dataset.homeTheme;
-  // The home and category stories mark their paper with data-world-paper while it covers the
-  // screen; that page-level light state wins over the provider's resting dark claim.
-  else root.dataset.homeTheme = root.hasAttribute("data-world-paper") ? "light" : top.theme;
-}
+  if (!theme) delete root.dataset.homeTheme;
+  else if (root.dataset.homeTheme !== theme) root.dataset.homeTheme = theme;
+  if (root.hasAttribute("data-world-paper") !== paper)
+    root.toggleAttribute("data-world-paper", paper);
+  if (leave === null) root.style.removeProperty("--leave");
+  else root.style.setProperty("--leave", leave.toFixed(4));
+});
 
-const ThemeContext = createContext<{ dark: boolean; setDark: (dark: boolean) => void } | null>(
-  null,
-);
+const ThemeContext = createContext<{
+  dark: boolean;
+  setDark: (dark: boolean) => void;
+  setPaper: (paper: boolean, leave?: number | null) => void;
+} | null>(null);
 
 export function HomeThemeProvider({
   children,
@@ -81,18 +76,20 @@ export function HomeThemeProvider({
 }) {
   const preference = useSyncExternalStore(subscribeTheme, readTheme, serverTheme);
   const dark = forcedTheme ? forcedTheme === "dark" : preference;
+  const [scope] = useState(() => pageThemes.createScope());
   useLayoutEffect(() => {
     // Read the saved value even during the initial server-snapshot hydration pass.
-    const claim = { theme: forcedTheme ?? (readTheme() ? "dark" : "light") };
-    themeClaims.push(claim);
-    applyThemeClaims();
-    return () => {
-      themeClaims.splice(themeClaims.indexOf(claim), 1);
-      applyThemeClaims();
-    };
-  }, [dark, forcedTheme]);
+    return scope.activate(forcedTheme ?? (readTheme() ? "dark" : "light"));
+  }, [dark, forcedTheme, scope]);
   return (
-    <ThemeContext.Provider value={{ dark, setDark: forcedTheme ? () => {} : setDark }}>
+    <ThemeContext.Provider
+      value={{ dark, setDark: forcedTheme ? () => {} : setDark, setPaper: scope.setPaper }}
+    >
+      {/* Document loads use the page's actual theme before its content paints.
+          Soft navigations use the layout effect; InlineScript does not run there. */}
+      <InlineScript
+        html={`(function(){var t=${JSON.stringify(forcedTheme ?? "dark")};${forcedTheme ? "" : `try{if(localStorage.getItem('${HOME_THEME_STORAGE_KEY}')==='light')t='light'}catch(e){}`}document.documentElement.dataset.homeTheme=t})()`}
+      />
       {children}
     </ThemeContext.Provider>
   );
@@ -102,6 +99,11 @@ export function useHomeTheme() {
   const theme = useContext(ThemeContext);
   if (!theme) throw new Error("Home theme requires HomeThemeProvider");
   return theme;
+}
+
+/** Stable callback scoped to the page containing this story, never another route. */
+export function usePaperTheme() {
+  return useHomeTheme().setPaper;
 }
 
 export function HomeThemeSwitcher() {

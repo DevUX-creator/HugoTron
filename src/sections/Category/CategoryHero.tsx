@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useTranslations } from "next-intl";
 import { getCategory } from "@/commerce/catalogue";
 import { useReducedMotion } from "@/lib/useReducedMotion";
+import { usePaperTheme } from "@/components/rice/HomeTheme";
 import SplitWords, { flySeed } from "@/animations/SplitWords";
 import EnquireLink from "@/components/commerce/products/EnquireLink";
 import type { ProductChoice } from "@/components/commerce/products/useProductChoice";
@@ -36,6 +37,7 @@ export default function CategoryHero({ story }: { story: CategoryStory }) {
   const scene = useRef<CategoryHeroScene | null>(null);
   const motion = useRef({ explore: 0, leave: 0 });
   const reduced = useReducedMotion();
+  const setPaper = usePaperTheme();
   const preferences = useRef({ reduced });
   const [status, setStatus] = useState<"loading" | "ready" | "unavailable">("loading");
   const [choice, setChoice] = useState<ProductChoice>();
@@ -88,11 +90,13 @@ export default function CategoryHero({ story }: { story: CategoryStory }) {
     const first = intro.current;
     const second = quantity.current;
     if (!element || !first || !second) return;
-    const html = document.documentElement;
     let frame = 0;
     let last = -1;
     const update = () => {
       frame = 0;
+      // A frame scheduled just before navigating away can run after this page has left the
+      // document (the route's scroll-to-top fires one); it must not touch the next page.
+      if (!element.isConnected) return;
       const height = element.querySelector<HTMLElement>(".category-world__stage")!.clientHeight;
       const progress = clamp(-element.getBoundingClientRect().top / (height * RUNWAY));
       if (progress === last) return;
@@ -111,9 +115,7 @@ export default function CategoryHero({ story }: { story: CategoryStory }) {
       scene.current?.setExplore(explore);
       draw.current(handoff);
       scene.current?.setLeave(handoff);
-      const light = handoff > 0.91;
-      html.dataset.homeTheme = light ? "light" : "dark";
-      html.toggleAttribute("data-world-paper", light);
+      setPaper(handoff > 0.91);
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
@@ -125,11 +127,9 @@ export default function CategoryHero({ story }: { story: CategoryStory }) {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
-      // The theme belongs to the page's HomeThemeProvider. This cleanup runs after the next
-      // page has already set its own theme, so writing one here would override it.
-      html.removeAttribute("data-world-paper");
+      setPaper(false);
     };
-  }, [draw]);
+  }, [draw, setPaper]);
 
   const name = copy("name");
   return (

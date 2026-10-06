@@ -181,6 +181,13 @@ checks that tokens exist and key contrast pairs pass. Two type families: Geist (
 Mersad (titles, variable weight). The home and story use the "world" palette
 (`--color-world-*`): night navy, paper, ink.
 
+**Page themes.** `HomeThemeProvider` owns each page's dark/light state. Its inline script sets
+the same theme before initial content paints; shared theme CSS loads in the locale layout.
+Stories must use `usePaperTheme()` rather than writing document attributes directly.
+`rice/pageTheme.ts` keeps paper coverage and `--leave` scoped to the current page, so outgoing
+scroll callbacks and cleanup cannot recolour the next route. Regression coverage lives in
+`tests/pageTheme.test.ts` and `tests/e2e/pageTheme.spec.ts` (navigation, history and script failure).
+
 **Motion.** `Copy` (masked lines) and `Reveal` (blocks) wrap GSAP and wait for fonts and the
 page entrance. `SmoothScroll` owns Lenis and ScrollTrigger; `useScrollLock()` serves overlays.
 Every animation respects `prefers-reduced-motion`; content is visible without JavaScript

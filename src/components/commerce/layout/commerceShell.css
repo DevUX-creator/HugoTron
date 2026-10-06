@@ -4,7 +4,7 @@
    without competing with prices and forms.
    =========================================================================== */
 
-html:has(.commerce) body {
+html[data-home-theme="light"]:has(.commerce) body {
   background: var(--color-world-paper);
 }
 .commerce {
