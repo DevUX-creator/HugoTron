@@ -1,5 +1,7 @@
 html[data-home-theme="dark"] {
-  --color-bg-base: var(--color-stage-deep);
+  /* The document ground also colours the mobile browser's exposed edges.
+     Match the World scene and theme-color instead of the legacy green rice stage. */
+  --color-bg-base: var(--color-world-night);
   --color-bg-surface: var(--color-stage-surface);
   --color-bg-muted: var(--color-stage-muted);
   --color-home-claim-accent: var(--color-grain-light);
