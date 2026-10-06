@@ -120,8 +120,11 @@ export function createCoreInstallation(small: boolean, pixelRatio: number) {
         "#include <map_pars_fragment>",
         `#include <map_pars_fragment>
       float logoAt(vec2 uv) {
+        if (vLogoFace < 0.5) return 0.0;
         vec3 ink = texture2D(map, clamp(uv, 0.001, 0.999)).rgb;
-        return smoothstep(0.45, 0.9, min(ink.r, min(ink.g, ink.b))) * vLogoFace;
+        float coverage = min(ink.r, min(ink.g, ink.b));
+        // At phone scale, keep fractional letter coverage instead of cutting away thin strokes.
+        ${small ? "return smoothstep(0.3, 0.8, coverage) * vLogoFace;" : "return smoothstep(0.45, 0.9, coverage) * vLogoFace;"}
       }
       float metalHash(vec2 p) {
         return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
@@ -165,7 +168,10 @@ export function createCoreInstallation(small: boolean, pixelRatio: number) {
         "#include <normal_fragment_maps>",
         `#include <normal_fragment_maps>
       // Height derivatives turn the soft relief into real bevel normals that catch the studio light.
-      float inlayHeight = relief * 0.0025 + (brushed - 0.5) * 0.00004 * mark;
+      // A subpixel bevel produces unstable highlights at the mobile render scale. Keep its
+      // shallow relief, with a cleaner polished face, without raising the whole scene's DPR.
+      float inlayHeight = relief * ${small ? "0.00045" : "0.0025"}
+        + (brushed - 0.5) * ${small ? "0.000008" : "0.00004"} * mark;
       vec3 surfaceX = dFdx(-vViewPosition), surfaceY = dFdy(-vViewPosition);
       vec3 reliefX = cross(surfaceY, normal), reliefY = cross(normal, surfaceX);
       float determinant = dot(surfaceX, reliefX) * faceDirection;
@@ -210,7 +216,7 @@ export function createCoreInstallation(small: boolean, pixelRatio: number) {
         ),
       );
     };
-    material.customProgramCacheKey = () => `hugo-core-panels-v6-${PLATE}`;
+    material.customProgramCacheKey = () => `hugo-core-panels-v7-${PLATE}-${small}`;
     return material;
   }
   const glass = panelMaterial(false);
@@ -518,15 +524,17 @@ export function createCoreInstallation(small: boolean, pixelRatio: number) {
       glass.opacity = plate.opacity =
         THREE.MathUtils.smoothstep(age, 0.7, 1.7) * (1 - fold) * travelPresence;
 
-      // A brief breath opens the seams every few seconds, so the light inside reads at rest.
-      const cycle = reduced ? 1 : ((age - 4) % PULSE_EVERY) / PULSE_EVERY;
-      const pulse = age > 4 ? Math.exp(-(((cycle - 0.08) / 0.045) ** 2)) : 0;
+      // A full, slow inhale/exhale opens the glass seams, then lets them settle flush again.
+      // Suspend the resting breath during the scroll breakup and for reduced motion.
+      const cycle = Math.max(0, age - 4) / PULSE_EVERY;
+      const pulse = reduced ? 0 : ((1 - Math.cos(cycle * Math.PI * 2)) * 0.5) ** 2;
+      const breath = pulse * formed * (1 - travelOpen) * (1 - fold);
       energy.value = THREE.MathUtils.lerp(
         energy.value,
-        pulse * 0.9 + hover * 0.6 + flash * 1.6 + travelOpen * 0.55,
-        0.2,
+        breath * 0.6 + hover * 0.6 + flash * 1.6 + travelOpen * 0.55,
+        reduced ? 1 : 1 - Math.exp(-step * 8),
       );
-      const open = hover * 0.3 + pulse * 0.045 + Math.sin(time * 1.1) * 0.003 + travelOpen * 0.68;
+      const open = hover * 0.3 + breath * 0.085 + travelOpen * 0.68;
 
       for (const panel of panels) {
         const lock = THREE.MathUtils.smootherstep(age, 0.9 + panel.delay, 2.5 + panel.delay);
@@ -550,7 +558,8 @@ export function createCoreInstallation(small: boolean, pixelRatio: number) {
       const hx = (uniforms.glassPointer.value.x - 0.5) * 2 * hover;
       const hy = (uniforms.glassPointer.value.y - 0.5) * 2 * hover;
       group.position.x = px * 0.12;
-      group.position.y = 1.65 + Math.sin(time * 0.5) * 0.035 - py * 0.06 + hover * 0.06;
+      group.position.y =
+        1.65 + Math.sin(time * 0.5) * 0.035 - py * 0.06 + hover * 0.06 + breath * 0.022;
       group.position.z = py * 0.06 + Math.abs(px) * 0.035;
       group.position.add(travelOffset);
       group.scale.setScalar(travelScale);
