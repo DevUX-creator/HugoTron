@@ -1,0 +1,30 @@
+{
+  "provider": "OpenArt",
+  "model": "wan2-7",
+  "mode": "image2video",
+  "historyId": "Q9Fis69XKGRXaR7DfGZQ",
+  "params": {
+    "prompt": "Animate this exact antique copperplate engraving of Hamburg's Speicherstadt as a refined, almost still living illustration for a luxury food sourcing website. The start and end reference images are IDENTICAL: create ONE seamless six-second cyclic motion, returning exactly to the original composition, boat position, water pattern and crane position on the final frame. Keep the camera absolutely locked, no pan, no zoom, no reframing, no breathing lens. Every warehouse, roof, window and crane stays perfectly fixed and retains the reference's delicate engraved ink lines. The boat is moored in place: it only rocks almost imperceptibly with a gentle complete up-and-down cycle, never sails or translates across the canal. Only delicate cyclical water ripples and faint reflections move, finishing where they began; no splashes or wake. No flying birds crossing the frame; existing birds stay as etched marks. Preserve the warm ivory empty paper around all four edges, the monochrome dark graphite etching, the exact layout, delicate hatching and calm atmosphere. The first and last frames must match without a jump, dissolve, freeze or camera cut. Six seconds of continuous minimal natural movement, a seamless cinemagraph.",
+    "negativePrompt": "camera movement, zoom, pan, parallax, perspective changes, traveling boat, sailing, changing architecture, morphing windows, flicker, strobing, new objects, added birds, cut, dissolve, transition, full-frame scenery, saturated colors, photography, modern buildings, 3D, typography, logos, music",
+    "startFrame": {
+      "type": "image",
+      "id": "EoezNZJeQm1IaL4V3ToY",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-video/user_36QrwNv5phUPXrZjR2MjK0JOBbh/hugo-harbour-start_1791741760928_333877e2.png",
+      "label": "Hugo Tron harbour matching loop frames"
+    },
+    "endFrame": {
+      "type": "image",
+      "id": "EoezNZJeQm1IaL4V3ToY",
+      "url": "https://cdn.openart.ai/openart-uploads/production/2026-10/create-video/user_36QrwNv5phUPXrZjR2MjK0JOBbh/hugo-harbour-start_1791741760928_333877e2.png",
+      "label": "Hugo Tron harbour matching loop frames"
+    },
+    "resolution": "1080p",
+    "duration": 6,
+    "videoCount": 1,
+    "enablePromptExpansion": false
+  },
+  "source": "assets-src/video/hamburg-loop-openart.mp4",
+  "output": "public/videos/paper-hamburg.mp4",
+  "poster": "public/images/paper-world/hamburg-film.webp",
+  "processing": "python3 scripts/encode-harbour-loop.py; six seconds, 24fps, 1280×720, no audio, matching first and last decoded frames."
+}

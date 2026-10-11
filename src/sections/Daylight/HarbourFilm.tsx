@@ -21,7 +21,7 @@ export default function HarbourFilm({ ink }: { ink: string }) {
       !cancelled && group.dataset.active === "true" && !document.hidden && !reduced;
     const sync = () => {
       if (shouldPlay()) {
-        if (!media.getAttribute("src")) media.src = "/videos/paper-hamburg.mp4";
+        if (!media.getAttribute("src")) media.src = "/videos/paper-hamburg.mp4?v=loop-20261011";
         if (media.paused && !pending) {
           pending = true;
           void media.play().then(
@@ -50,7 +50,7 @@ export default function HarbourFilm({ ink }: { ink: string }) {
     };
   }, [reduced]);
   return (
-    <div className="story-harbour-film story-layer in-up out-left story-layer--depart-left">
+    <div className="story-harbour-film story-layer in-up out-left">
       <div ref={frame} className="story-layer__motion engraved-film">
         <video
           ref={video}
@@ -58,7 +58,7 @@ export default function HarbourFilm({ ink }: { ink: string }) {
           loop
           playsInline
           preload="none"
-          poster="/images/paper-world/hamburg-film.webp"
+          poster="/images/paper-world/hamburg-film.webp?v=loop-20261011"
           style={{ filter: `url(#${ink})` }}
         />
       </div>

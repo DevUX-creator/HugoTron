@@ -73,14 +73,14 @@ export default function PaperStory() {
         <section
           className="story-chapter paper-fields"
           data-story-chapter="fields"
-          data-line="24,0.1;13,0.36;50,0.78"
+          data-line="20,0.1;12,0.5;50,0.9"
           aria-labelledby="paper-fields-title"
         >
           <header className="story-text story-text--centre">
             <p className="paper-caption">{t("fields.eyebrow")}</p>
             <h2 id="paper-fields-title">{t("fields.title")}</h2>
           </header>
-          <div className="story-field-note story-text">
+          <div className="story-field-note story-text story-text--centre">
             <p className="paper-caption">{t("fields.place")}</p>
             <p className="story-text__note">{t("fields.note")}</p>
           </div>
@@ -89,15 +89,15 @@ export default function PaperStory() {
         <section
           className="story-chapter paper-pakistan"
           data-story-chapter="pakistan"
-          data-line="67,0.1;84,0.43;55,0.85"
+          data-line="80,0.1;88,0.5;50,0.9"
           aria-labelledby="paper-pakistan-title"
         >
-          <header className="story-text story-text--right">
+          <header className="story-text story-text--centre">
             <p className="paper-caption">{t("pakistan.eyebrow")}</p>
             <h2 id="paper-pakistan-title">{t("pakistan.title")}</h2>
             <p className="story-text__note">{t("pakistan.note")}</p>
           </header>
-          <p className="story-text story-text--right story-origin-note paper-caption">
+          <p className="story-text story-text--centre story-origin-note paper-caption">
             {t("pakistan.caption")}
           </p>
         </section>
@@ -105,14 +105,14 @@ export default function PaperStory() {
         <section
           className="story-chapter paper-hamburg"
           data-story-chapter="hamburg"
-          data-line="62,0.1;78,0.42;66,0.82"
+          data-line="20,0.1;12,0.5;50,0.95"
           aria-labelledby="paper-hamburg-title"
         >
-          <header className="story-text story-text--right">
+          <header className="story-text story-text--centre">
             <p className="paper-caption">{t("hamburg.eyebrow")}</p>
             <h2 id="paper-hamburg-title">{t("hamburg.title")}</h2>
           </header>
-          <div className="story-text story-text--right story-list paper-hamburg__facts">
+          <div className="story-text story-text--centre story-list paper-hamburg__facts">
             <p>
               <span className="paper-point" />
               {t("hamburg.stock")}

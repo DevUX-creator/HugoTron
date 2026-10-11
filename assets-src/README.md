@@ -16,6 +16,11 @@ commit the regenerated files in `public/`.
 `scripts/extract-room-stonework.py` cuts `public/models/private-label/courtyard-stonework.glb`
 from the already prepared home model, so it needs no master of its own.
 
+The Hamburg harbour loop uses `video/hamburg-loop-openart.mp4` and the generation settings
+in `video/hamburg-loop.json`. Run `python3 scripts/encode-harbour-loop.py` to rebuild
+`public/videos/paper-hamburg.mp4` and its `public/images/paper-world/hamburg-film.webp` poster.
+The encoder verifies 144 frames at 24 fps and identical first/last decoded frame hashes.
+
 The delivery sounds are an eight-second section of `drive.mp3` with a 400 ms wrap crossfade
 (7.6-second loop) and the starter from `CarStart.mp3`, both mono 44.1 kHz / 96 kbps MP3.
 

@@ -124,9 +124,44 @@
 .story-layer--sail img {
   translate: calc((1 - var(--in)) * 45%) 0;
 }
-/* The lorry arrives, then drives out of the frame as the chapter ends. */
-.story-layer--drive img {
-  translate: calc((1 - var(--in)) * -30% + var(--out) * 60%) 0;
+/* The dock recedes as one composition; its stock never drifts onto the lorry. */
+.story-harbour {
+  --walk: clamp(0, calc((var(--p, 0) - 0.55) / 0.24), 1);
+  position: absolute;
+  inset: 0;
+  transform: translateX(calc(var(--walk) * -32vw));
+}
+.story-harbour-film,
+.story-layer--dock,
+.story-layer--drive {
+  inset-block: auto max(17%, 7.5rem);
+}
+.story-layer--dock {
+  inline-size: clamp(4.5rem, var(--w), 9.5rem);
+}
+/* Move the complete loaded vehicle, rather than clipping a moving image inside a fixed box. */
+.story-layer--drive {
+  --drive-raw: clamp(0, calc((var(--p, 0) - 0.56) / 0.24), 1);
+  --drive: calc(var(--drive-raw) * var(--drive-raw) * (3 - 2 * var(--drive-raw)));
+  inline-size: clamp(11rem, var(--w), 25rem);
+  clip-path: none;
+  opacity: clamp(0, calc(var(--in) - var(--out)), 1);
+  transform: translateX(calc((1 - var(--in)) * -3vw + var(--drive) * var(--drive-distance, 52vw)));
+}
+
+@media (width >= 48rem) and (height <= 48rem) and (aspect-ratio >= 2/1) {
+  .paper-story .paper-hamburg .story-list.paper-hamburg__facts {
+    margin-block-start: calc(var(--home-vh, 1svh) * 12);
+  }
+  .story-layer--dock {
+    inset-inline-start: 25%;
+  }
+  .story-layer--drive {
+    --drive-raw: clamp(0, calc((var(--p, 0) - 0.62) / 0.2), 1);
+    --drive-distance: 72vw;
+    inset-inline-start: 37%;
+    inline-size: clamp(11rem, 17vw, calc(var(--home-vh, 1svh) * 45));
+  }
 }
 
 /* Timed layers wait for the chapter to settle, then join a few seconds apart. */
@@ -297,14 +332,18 @@
   margin-inline-start: auto;
 }
 
-/* Fields: copy on the left, past the rice; the list follows a screen later. */
+/* A shared centre line carries the origin story through to the buying paths. */
 .paper-story .paper-fields .story-text,
+.paper-story .paper-pakistan .story-text,
 .paper-story .paper-hamburg .story-text {
-  max-inline-size: min(32rem, 30vw);
+  margin-inline: auto;
+  max-inline-size: 55rem;
 }
 .paper-story .paper-fields h2,
+.paper-story .paper-pakistan h2,
 .paper-story .paper-hamburg h2 {
-  font-size: clamp(3rem, 5vw, 5.5rem);
+  max-inline-size: 14ch;
+  font-size: clamp(3.5rem, 6.6vw, 7rem);
 }
 .paper-story .paper-fields header {
   padding-block-start: calc(var(--home-vh, 1svh) * 55);
@@ -313,12 +352,13 @@
   margin-block-start: calc(var(--home-vh, 1svh) * 45);
 }
 
-/* Hamburg: copy on the right, over open water; the facts follow. */
+/* Hamburg follows the same centered heading and note rhythm as the land. */
 .paper-story .paper-hamburg header {
   padding-block-start: calc(var(--home-vh, 1svh) * 44);
 }
 .paper-story .paper-hamburg .story-list {
-  margin-block-start: calc(var(--home-vh, 1svh) * 43);
+  margin-block-start: calc(var(--home-vh, 1svh) * 34);
+  max-inline-size: 38rem;
 }
 
 /* Text kept legible where an engraving passes beneath it. */
@@ -419,6 +459,13 @@ html:not(.js) .story__line {
 .story-layer--mountains {
   opacity: 0.65;
 }
+.story-layer--island {
+  inset-inline-start: 50%;
+  inline-size: min(48%, calc(var(--home-vh, 1svh) * 68));
+  translate: -50% var(--lift);
+  clip-path: none;
+  opacity: clamp(0, calc(var(--in) - var(--out)), 1);
+}
 .story-layer--growers[data-timed] {
   --in: 1;
   --out: var(--out-raw);
@@ -455,26 +502,22 @@ html:not(.js) .story__line {
   font-size: clamp(3.5rem, 6.6vw, 7rem);
 }
 .paper-story .paper-fields .story-field-note {
-  margin: calc(var(--home-vh, 1svh) * 66) 0 0 12%;
-  max-inline-size: 23ch;
+  margin: calc(var(--home-vh, 1svh) * 66) auto 0;
+  max-inline-size: 38ch;
 }
 .story-field-note .story-text__note {
   margin-block-start: 0;
+  max-inline-size: none;
 }
 .paper-story .paper-pakistan {
   min-block-size: calc(var(--home-vh, 1svh) * 210);
 }
 .paper-story .paper-pakistan header {
-  padding-block-start: calc(var(--home-vh, 1svh) * 47);
-  max-inline-size: 28rem;
+  padding-block-start: calc(var(--home-vh, 1svh) * 34);
 }
-.paper-story .paper-pakistan h2 {
-  font-size: clamp(3.5rem, 5.8vw, 6rem);
-}
-.story-origin-note {
-  margin-inline-start: auto;
-  margin-block-start: calc(var(--home-vh, 1svh) * 50);
-  max-inline-size: 28rem;
+.paper-story .paper-pakistan .story-origin-note {
+  margin: calc(var(--home-vh, 1svh) * 44) auto 0;
+  max-inline-size: 38ch;
 }
 .paper-story .paper-hamburg {
   min-block-size: calc(var(--home-vh, 1svh) * 210);
@@ -487,6 +530,11 @@ html:not(.js) .story__line {
   --a: 0.15;
   --z: 0.76;
   --depth: 0.4;
+  --lift: 20%;
+  /* Keep the quay behind the stock on tall tablets and short, wide displays. */
+  inset-inline: 50% auto;
+  inline-size: min(76%, calc(var(--home-vh, 1svh) * 78));
+  translate: -50% var(--lift);
   mix-blend-mode: multiply;
 }
 .story-harbour-film video,
@@ -503,16 +551,22 @@ html:not(.js) .story__line {
   padding-block: calc(var(--home-vh, 1svh) * 14) calc(var(--home-vh, 1svh) * 20);
 }
 .paper-story .paper-buying__paths {
-  margin-block-start: 6rem;
-  gap: 1.5rem;
+  max-inline-size: 78rem;
+  margin: 4rem auto 0;
+  gap: clamp(1.5rem, 4vw, 4rem);
 }
 .paper-story .paper-buying__path {
   position: relative;
   padding: 1.5rem 2rem 2rem;
   border: 0;
   border-block: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .paper-story .paper-buying__path:first-child {
+  display: flex;
   padding-inline-start: 2rem;
   border-block: 1px solid color-mix(in srgb, currentColor 24%, transparent);
 }
@@ -526,20 +580,30 @@ html:not(.js) .story__line {
   border-inline-start: 1px solid currentColor;
 }
 .paper-story .paper-buying__path:nth-child(2) {
-  margin-block: 4rem -4rem;
+  margin-block: 0;
 }
 .paper-story .paper-buying__path:nth-child(3) {
-  margin-block: 8rem -8rem;
+  margin-block: 0;
 }
 .paper-story .paper-buying__path h3 {
   text-transform: uppercase;
   font-size: clamp(1.4rem, 2.3vw, 2.3rem);
 }
 .paper-story .paper-buying__path .buying-sketch {
-  translate: calc(var(--paper-pointer-x, 0) * 7px) calc(var(--paper-pointer-y, 0) * 5px);
+  margin-inline: auto;
 }
 .paper-story .paper-buying__path:hover .buying-sketch {
-  translate: calc(var(--paper-pointer-x, 0) * 7px) -10px;
+  translate: 0 -8px;
+}
+.paper-story .paper-buying__path p {
+  max-inline-size: 28ch;
+  text-wrap: balance;
+}
+.paper-story .paper-buying__action {
+  justify-content: center;
+  gap: 1rem;
+  margin-block-start: auto;
+  padding-block-start: 1.75rem;
 }
 .paper-story .paper-buying__path:hover {
   background: color-mix(in srgb, var(--color-world-paper-light) 15%, transparent);
@@ -874,11 +938,6 @@ html.js .paper-portal:not([data-ready="true"], [data-fallback="true"]) .paper-po
   visibility: hidden;
 }
 
-.paper-story .paper-hamburg .story-text,
-.paper-story .paper-pakistan header {
-  max-inline-size: min(38rem, 36vw);
-}
-
 html.js .story-chapter header h2 {
   --text-in: clamp(0, calc((var(--p, 0) - 0.12) / 0.13), 1);
   clip-path: inset(-0.16em -0.12em calc((1 - var(--text-in)) * 100% - 0.14em) -0.12em);
@@ -961,6 +1020,11 @@ html.js .paper-buying__path .buying-sketch {
   .paper-story .paper-buying__path:nth-child(3) {
     margin-block: 0;
   }
+  .paper-story .paper-buying__path .buying-sketch {
+    inline-size: 13rem;
+    block-size: 7rem;
+    margin-block-end: 1rem;
+  }
   .paper-story .paper-label {
     padding-block: 6rem 4rem;
   }
@@ -1038,6 +1102,8 @@ html.js .paper-buying__path .buying-sketch {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .story-harbour,
+  .story-layer--drive,
   .story-layer--depart-left,
   .story-layer--depart-right {
     transform: none;
@@ -1093,36 +1159,6 @@ html.js .paper-buying__path .buying-sketch {
     .story-layer--mountains
     .story-layer__motion {
     animation: none;
-  }
-}
-
-/* The three ways to buy drift past each other at their own pace, Son Daven style. */
-.paper-buying__path {
-  --drift: 0;
-  --turn: 0;
-  translate: calc(var(--paper-pointer-x, 0) * var(--turn) * 4px)
-    calc((var(--p, 0.5) - 0.5) * var(--drift) * 1px);
-  rotate: calc((var(--p, 0.5) - 0.5) * var(--turn) * 1deg);
-}
-.paper-buying__path:nth-child(1) {
-  --drift: -260;
-  --turn: -4;
-}
-.paper-buying__path:nth-child(2) {
-  --drift: 120;
-  --turn: 3;
-}
-.paper-buying__path:nth-child(3) {
-  --drift: -40;
-  --turn: -2;
-}
-.paper-buying__path .buying-sketch {
-  translate: calc(var(--paper-pointer-x, 0) * -10px) calc(var(--paper-pointer-y, 0) * -6px);
-}
-
-@media (width < 48rem) {
-  .paper-buying__path:nth-child(n) {
-    --drift: 0;
   }
 }
 

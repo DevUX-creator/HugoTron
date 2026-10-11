@@ -159,9 +159,9 @@ const CHAPTERS: Record<"source" | "fields" | "pakistan" | "hamburg", Layer[]> = 
       src: `${IMG}/mountains.webp`,
       width: 1400,
       height: 933,
-      x: -4,
-      y: -6,
-      w: 95,
+      x: 5,
+      y: 35,
+      w: 90,
       a: 0.16,
       z: 0.76,
       wipe: "in-left out-up",
@@ -172,22 +172,23 @@ const CHAPTERS: Record<"source" | "fields" | "pakistan" | "hamburg", Layer[]> = 
       src: `${IMG}/origins.webp`,
       width: 1280,
       height: 853,
-      x: -11,
-      y: 32,
-      w: 68,
-      a: 0.2,
+      x: 31,
+      y: 86,
+      w: 38,
+      a: 0.32,
       z: 0.76,
       wipe: "in-up out-left",
       depth: 0.5,
-      className: "story-layer--depart-left",
+      lift: 1,
+      className: "story-layer--island story-layer--depart-left",
     },
     {
       src: `${IMG}/rice.webp`,
       width: 744,
       height: 1256,
       x: 80,
-      y: 59,
-      w: 16,
+      y: 56,
+      w: 12,
       a: 0.35,
       z: 0.72,
       wipe: "in-up out-right",
@@ -198,9 +199,9 @@ const CHAPTERS: Record<"source" | "fields" | "pakistan" | "hamburg", Layer[]> = 
       src: `${IMG}/source-cloud.webp`,
       width: 1200,
       height: 480,
-      x: -12,
+      x: 4,
       y: 65,
-      w: 43,
+      w: 28,
       a: 0.34,
       z: 0.69,
       wipe: "in-right out-left",
@@ -213,14 +214,13 @@ const CHAPTERS: Record<"source" | "fields" | "pakistan" | "hamburg", Layer[]> = 
       src: `${IMG}/sacks.webp`,
       width: 974,
       height: 728,
-      x: 45,
+      x: 43,
       y: 69,
-      w: 14,
-      a: 0.36,
+      w: 8,
+      a: 0.3,
       z: 0.75,
-      wipe: "in-up out-right",
-      depth: 1.1,
-      className: "story-layer--depart-right",
+      wipe: "in-up out-left",
+      className: "story-layer--dock",
     },
     {
       src: `${IMG}/gulls.webp`,
@@ -236,20 +236,20 @@ const CHAPTERS: Record<"source" | "fields" | "pakistan" | "hamburg", Layer[]> = 
       className: "story-layer--flock",
       timed: true,
     },
-    {
-      src: `${IMG}/truck.webp`,
-      width: 1192,
-      height: 592,
-      x: 58,
-      y: 76,
-      w: 17,
-      a: 0.4,
-      z: 0.75,
-      wipe: "in-left out-right",
-      depth: 1.1,
-      className: "story-layer--drive",
-    },
   ],
+};
+
+const HAMBURG_TRUCK: Layer = {
+  src: `${IMG}/truck.webp`,
+  width: 1192,
+  height: 592,
+  x: 56,
+  y: 76,
+  w: 21,
+  a: 0.32,
+  z: 0.88,
+  wipe: "",
+  className: "story-layer--drive",
 };
 
 export type StoryChapter = keyof typeof CHAPTERS;
@@ -288,6 +288,20 @@ function Picture({
   );
 }
 
+function StoryLayer({ layer, ink }: { layer: Layer; ink: string }) {
+  return (
+    <div
+      className={["story-layer", layer.wipe, layer.className].filter(Boolean).join(" ")}
+      data-timed={layer.timed || undefined}
+      style={style(layer)}
+    >
+      <div className="story-layer__motion">
+        <Picture layer={layer} ink={ink} sizes={`${Math.round(layer.w * 1.2)}vw`} />
+      </div>
+    </div>
+  );
+}
+
 export default function StoryVisuals() {
   const ink = useId();
   return (
@@ -306,19 +320,22 @@ export default function StoryVisuals() {
       </svg>
       {VISUAL_CHAPTERS.map((chapter) => (
         <div key={chapter} className="story__group" data-story-group={chapter}>
-          {chapter === "hamburg" && <HarbourFilm ink={ink} />}
-          {CHAPTERS[chapter].map((layer, index) => (
-            <div
-              key={index}
-              className={["story-layer", layer.wipe, layer.className].filter(Boolean).join(" ")}
-              data-timed={layer.timed || undefined}
-              style={style(layer)}
-            >
-              <div className="story-layer__motion">
-                <Picture layer={layer} ink={ink} sizes={`${Math.round(layer.w * 1.2)}vw`} />
+          {chapter === "hamburg" ? (
+            <>
+              {/* Dock stock stays with the harbour. The lorry already carries its own load. */}
+              <div className="story-harbour">
+                <HarbourFilm ink={ink} />
+                {CHAPTERS.hamburg.map((layer) => (
+                  <StoryLayer key={layer.src} layer={layer} ink={ink} />
+                ))}
               </div>
-            </div>
-          ))}
+              <StoryLayer layer={HAMBURG_TRUCK} ink={ink} />
+            </>
+          ) : (
+            CHAPTERS[chapter].map((layer, index) => (
+              <StoryLayer key={index} layer={layer} ink={ink} />
+            ))
+          )}
         </div>
       ))}
     </div>
